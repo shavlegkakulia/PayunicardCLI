@@ -1,0 +1,14 @@
+com/payunicard/ReactNativeFlipper.java
+ com.payunicard.ReactNativeFlipper
+ com.payunicard.ReactNativeFlipper$1
+ com.payunicard.ReactNativeFlipper$2
+ com.payunicard.ReactNativeFlipper$2$1
+com/payunicard/MainActivity.java
+ com.payunicard.MainActivity
+com/payunicard/BuildConfig.java
+ com.payunicard.BuildConfig
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList
+com/payunicard/MainApplication.java
+ com.payunicard.MainApplication
+ com.payunicard.MainApplication$1
