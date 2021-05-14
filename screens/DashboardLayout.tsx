@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import Colors from './../constants/colors';
-import AsyncStorage from '@react-native-community/async-storage';
-import NavigationService from './../services/NavigationService';
+import Colors from '../constants/colors';
+import { useDispatch } from 'react-redux';
+import { Logout } from './../redux/actions/auth_actions';
 
-const DashboardLayout:React.FC = (props) => {
-    const logout = async() => {
-        await AsyncStorage.removeItem("userToken");
-        NavigationService.navigate("Main");
+const DashboardLayout: React.FC = (props) => {
+    const dispatch = useDispatch();
+    const logout = async () => {
+        await dispatch(Logout());
     }
     return (
         <View style={style.container}>

@@ -5,7 +5,7 @@ interface AuxProps {
     children: ReactChild | ReactChildren;
 }
 
-const MainLayout = ({children}: AuxProps) => {
+const LandingLayout = ({children}: AuxProps) => {
     return (
         <View style={style.container}>
             {children}
@@ -19,4 +19,4 @@ const style = StyleSheet.create({
     }
 })
 
-export default MainLayout;
+export default LandingLayout;

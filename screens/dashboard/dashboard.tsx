@@ -1,25 +1,27 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import NavigationService from '../../services/NavigationService';
-import AppLayout from '../AppLayout';
+import DashboardLayout from '../DashboardLayout';
 import Colors from '../../constants/colors';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
-const Dashboard: React.FC = (props) => {
-    const gotop = () => {
-        console.log('go')
-        NavigationService.navigate('Transfers');
-    }
+const Dashboard: React.FC = () => {
+    const navigation = useNavigation();
+    const state = useSelector((state: any) => state)
     return (
-        <AppLayout>
+        <DashboardLayout>
             <View style={styles.container}>
                 <Text>
                     Dashboard
                 </Text>
+                <Text>
+                    {state.AuthReducer.accesToken}
+                </Text>
                 <View style={styles.container}>
-                    <Button title="Transfers" onPress={() => gotop()} color={`${Colors.primary}`} />
+                    <Button title="Transfers" onPress={() => navigation.navigate("Transfers")} color={`${Colors.primary}`} />
                 </View>
             </View>
-        </AppLayout>
+        </DashboardLayout>
     )
 }
 
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.danger
     },
     title: {
-        color: Colors.danger, 
+        color: Colors.danger,
         fontFamily: 'FiraGO-Bold'
     }
 })

@@ -1,22 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import NavigationService from './../../services/NavigationService';
-import AppLayout from '../AppLayout';
+import DashboardLayout from '../DashboardLayout';
 import Colors from '../../constants/colors';
+import { useNavigation } from '@react-navigation/native';
 
 
-const Transfers:React.FC = (props) => {
+const Transfers:React.FC = () => {
+    const navigation = useNavigation();
+
     return (
-        <AppLayout>
+        <DashboardLayout>
             <View>
                 <Text>
                     Transfers
                 </Text>
                 <View>
-                    <Button title="Home" onPress={() => NavigationService.navigate('Dashboard')} color={`${Colors.primary}`} />
+                    <Button title="Home" onPress={() => navigation.navigate("Dashboard")} color={`${Colors.primary}`} />
                 </View>
             </View>
-        </AppLayout>
+        </DashboardLayout>
     )
 }
 

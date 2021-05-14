@@ -1,11 +1,10 @@
 import React from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-export interface ScreenProps {
-    onGo: () => void
-};
+const SignupForm: React.FC = () => {
+    const navigation = useNavigation();
 
-const SignupForm: React.FC<ScreenProps> = (props) => {
     return (
         <View>
             <Text>Signup</Text>
@@ -14,7 +13,7 @@ const SignupForm: React.FC<ScreenProps> = (props) => {
                 <TextInput value="" placeholder="password" onChangeText={() => {}} />
                 <TextInput value="" placeholder="Repeat password" onChangeText={() => {}} />
                 <Button title="SIGNUP" onPress={() => {console.log('signup')}} />
-                <Button title="LOGIN" onPress={props.onGo} />
+                <Button title="LOGIN" onPress={() => navigation.navigate("Login")} />
             </View>
         </View>
     )

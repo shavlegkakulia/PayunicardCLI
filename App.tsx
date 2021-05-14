@@ -1,14 +1,15 @@
 
  import React from 'react';
  import Navigation from './navigation/index';
- import NavigationService from './services/NavigationService';
+ import { Provider } from 'react-redux'
+ import store from './redux/store';
 
  const App = () => {
-   return ( <Navigation ref={navigatorRef => {
-      NavigationService.setTopLevelNavigator(navigatorRef);
-    }} />
-   );
+   return (
+     <Provider store={store} >
+        <Navigation />
+     </Provider>
+   )
  };
-
 
  export default App;
