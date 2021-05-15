@@ -6,7 +6,6 @@ import { ISignInResponse } from './../interfaces/responses/IAuthResponse';
 class AuthService {
     
   SignIn (username: string, password: string) {
-      console.log('aaaaaaaaaaa', (envs))
     const loginObj = new FormData();
     loginObj.append("username", username);
     loginObj.append("password", password);
@@ -14,13 +13,13 @@ class AuthService {
     loginObj.append("client_id", "WalletApi");
     loginObj.append("client_secret", "abcd123");
     loginObj.append("grant_type", "password");
-    const promise = axios.post<ISignInResponse>(`${envs.API_URL}connect/token`, loginObj);
+    const promise = axios.post<ISignInResponse>(`${envs.CONNECT_URL}connect/token`, loginObj);
     return from(promise);
   }
 
   SignOut (currentState: any) {
     const { token } = currentState.auth;
-    const promise = axios.post(`${envs.API_URL}/user/logout`, {}, { headers: { authorization: `Bearer ${token}`}});
+    const promise = axios.post(`${envs.CONNECT_URL}/user/logout`, {}, { headers: { authorization: `Bearer ${token}`}});
     return from(promise);
   }
 }

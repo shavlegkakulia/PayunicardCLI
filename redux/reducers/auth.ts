@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, START_LOGIN, IAuthState, IAuthAction } from './../action_types/auth_action_types';
+import { LOGIN, LOGOUT, START_LOGIN, IAuthState, IAuthAction } from '../action_types/auth_action_types';
 
 const initialState: IAuthState = {
     isAuthenticated: false,
