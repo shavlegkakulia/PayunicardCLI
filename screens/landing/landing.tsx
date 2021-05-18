@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Colors from '../../constants/colors';
 import LandingLayout from '../LandingLayout';
+import FirstLoad from './firstLoad';
 import { useNavigation } from '@react-navigation/native';
 
 const Main: React.FC = (props) => {
     const navigation = useNavigation();
+    const [firstLoad, setFirstsLoad] = useState(true);
+
+    if(firstLoad) {
+        return <View style={{flex: 1}}>
+            <FirstLoad />
+        </View>
+    }
 
     return (
         <LandingLayout>
@@ -13,6 +21,9 @@ const Main: React.FC = (props) => {
                 <Text style={styles.title}>
                     Landing Screen
                 </Text>
+              
+
+
                 <Button title="Login" onPress={() => navigation.navigate("Login")} />
                 <Button title="Signup" onPress={() => navigation.navigate("Signup")} />
             </View>

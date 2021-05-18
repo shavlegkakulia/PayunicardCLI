@@ -11,5 +11,5 @@ export default {
     darker: '#003366',
     muted: '#6c757d',
     white: '#fff',
-    black: '#000'
+    black: '#130D1E'
 }

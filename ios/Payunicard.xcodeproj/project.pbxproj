@@ -17,6 +17,7 @@
 		F8DB6F321726418298F7B4C0 /* FiraGO-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E21AB04F19204D9289558E3B /* FiraGO-Medium.ttf */; };
 		BE293CD5D9F9403A806E2086 /* FiraGO-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A3C5165F2814874A67A41BF /* FiraGO-Regular.ttf */; };
 		F471AEEFF3974648B3A90014 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 241091002DF34525B6504B56 /* Montserrat-Regular.ttf */; };
+		9CEAC814F9C24F2AA6803BB6 /* load_screen_1.svg in Resources */ = {isa = PBXBuildFile; fileRef = 93335815D9BC4CDFA844DB41 /* load_screen_1.svg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		E21AB04F19204D9289558E3B /* FiraGO-Medium.ttf */ = {isa = PBXFileReference; name = "FiraGO-Medium.ttf"; path = "../assets/fonts/FiraGO-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		5A3C5165F2814874A67A41BF /* FiraGO-Regular.ttf */ = {isa = PBXFileReference; name = "FiraGO-Regular.ttf"; path = "../assets/fonts/FiraGO-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		241091002DF34525B6504B56 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; name = "Montserrat-Regular.ttf"; path = "../assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		93335815D9BC4CDFA844DB41 /* load_screen_1.svg */ = {isa = PBXFileReference; name = "load_screen_1.svg"; path = "../assets/images/load_screen_1.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +145,7 @@
 				E21AB04F19204D9289558E3B /* FiraGO-Medium.ttf */,
 				5A3C5165F2814874A67A41BF /* FiraGO-Regular.ttf */,
 				241091002DF34525B6504B56 /* Montserrat-Regular.ttf */,
+				93335815D9BC4CDFA844DB41 /* load_screen_1.svg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 				F8DB6F321726418298F7B4C0 /* FiraGO-Medium.ttf in Resources */,
 				BE293CD5D9F9403A806E2086 /* FiraGO-Regular.ttf in Resources */,
 				F471AEEFF3974648B3A90014 /* Montserrat-Regular.ttf in Resources */,
+				9CEAC814F9C24F2AA6803BB6 /* load_screen_1.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
