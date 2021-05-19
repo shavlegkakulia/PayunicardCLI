@@ -7,10 +7,10 @@ export const Login = (username: string, password: string) => async(dispatch: any
     AuthService.SignIn(username, password).subscribe(async(response) => { 
         await AsyncStorage.setItem("access_token", response.data.access_token);
         dispatch({type: LOGIN, accesToken: response.data.access_token});
-    }, error => {
-        
+        dispatch({type: START_LOGIN, isLoading: false });
+    }, async (error) => {
+        dispatch({type: START_LOGIN, isLoading: false });
     });
-    dispatch({type: START_LOGIN, isLoading: false });
 }
 
 export const Logout = () => async(dispatch: any) => {

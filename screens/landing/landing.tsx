@@ -1,31 +1,50 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
 import Colors from '../../constants/colors';
 import LandingLayout from '../LandingLayout';
 import FirstLoad from './firstLoad';
+import Login from './login';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
+import colors from '../../constants/colors';
 
 const Main: React.FC = (props) => {
     const navigation = useNavigation();
     const [firstLoad, setFirstsLoad] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
-    if(firstLoad) {
-        return <View style={{flex: 1}}>
-            <FirstLoad />
+    const complateFirstLoad = async () => {
+        await AsyncStorage.setItem('isFirstLoad', '0');
+        setFirstsLoad(false);
+    }
+
+    const isFirstLoad = async () => {
+        return await AsyncStorage.getItem('isFirstLoad') === null;
+    }
+
+    useEffect(() => {
+        isFirstLoad().then(status => {
+            setFirstsLoad(status);
+            setIsLoading(false);
+        })
+    }, [])
+
+    if (isLoading) {
+        return <View>
+            <ActivityIndicator />
+        </View>
+    }
+
+    if (firstLoad) {
+        return <View style={{ flex: 1 }}>
+            <FirstLoad Complate={complateFirstLoad} />
         </View>
     }
 
     return (
         <LandingLayout>
             <View style={styles.container}>
-                <Text style={styles.title}>
-                    Landing Screen
-                </Text>
-              
-
-
-                <Button title="Login" onPress={() => navigation.navigate("Login")} />
-                <Button title="Signup" onPress={() => navigation.navigate("Signup")} />
+               <Login />
             </View>
         </LandingLayout>
     )
@@ -33,11 +52,8 @@ const Main: React.FC = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
-    },
-    title: {
-        color: Colors.danger,
-        fontFamily: 'FiraGO-Bold'
+        flex: 1,
+        backgroundColor: colors.white
     }
 })
 

@@ -13,3 +13,7 @@ export interface IAuthAction {
     accesToken: string,
     type: string
 }
+
+export interface IGlobalState {
+    AuthReducer: IAuthState
+}

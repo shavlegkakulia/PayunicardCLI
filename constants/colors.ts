@@ -7,9 +7,10 @@ export default {
     info: '#17a2b8',
     light: '#f8f9fa',
     lighter: '#65b2ff',
-    dark: '#343a40',
+    dark: '#B0B0B0',
     darker: '#003366',
     muted: '#6c757d',
     white: '#fff',
-    black: '#130D1E'
+    black: '#130D1E',
+    labelColor: '#6B6B6B'
 }

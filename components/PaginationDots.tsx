@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { View, StyleSheet } from 'react-native';
+import Colors from '../constants/colors';
 
 interface IPageProps {
-    length?: number
+    length?: number;
+    step: number
 }
 
 const PaginationDots: React.FC<IPageProps> = (props) => {
@@ -10,7 +12,7 @@ const PaginationDots: React.FC<IPageProps> = (props) => {
     useEffect(() => {
         setLength([...Array(props.length).keys()].map(() => 0))
     }, [])
-    const dots = length.map((_, i) => <View key={i} style={styles.dot}></View>)
+    const dots = length.map((_, i) => <View key={i} style={{...styles.dot, backgroundColor: i === props.step ? Colors.black : Colors.dark}}></View>)
     return (
         <View style={styles.container}>
             {dots}
@@ -29,7 +31,6 @@ const styles = StyleSheet.create({
         width: 5,
         height: 5,
         borderRadius: 50,
-        backgroundColor: '#000',
         marginHorizontal: 6
     }
 })
