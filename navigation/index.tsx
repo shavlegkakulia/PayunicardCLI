@@ -4,6 +4,8 @@ import DashboardNavigatorTab from './DashboardNavigation';
 import SplashScreen from './../components/SplashScreen';
 import { IAuthState, LOGIN } from './../redux/action_types/auth_action_types';
 import { Register } from './../utils/axios.interceptor';
+import { use } from './../redux/actions/translate_actions';
+import { LANG_KEY } from './../constants/defaults';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { useEffect, useState, FC } from 'react';
 import {
@@ -20,7 +22,9 @@ const DashboardStack = createStackNavigator();
 
 const DashboardNavigator = () => (
   <DashboardStack.Navigator>
-    <DashboardStack.Screen name="Dashboard" component={DashboardNavigatorTab} />
+    <DashboardStack.Screen 
+    name="Dashboard"
+    component={DashboardNavigatorTab} />
   </DashboardStack.Navigator>
 );
 
@@ -29,7 +33,10 @@ const AppContainer: FC = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState("");
-
+  
+  useEffect(() => {
+    dispatch(use(LANG_KEY))
+  }, [])
 
   useEffect(() => {
     AsyncStorage.getItem("access_token").then(data => {

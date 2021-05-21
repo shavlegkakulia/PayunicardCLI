@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
-import Colors from '../../constants/colors';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import LandingLayout from '../LandingLayout';
 import FirstLoad from './firstLoad';
 import Login from './login';
-import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import colors from '../../constants/colors';
 
-const Main: React.FC = (props) => {
-    const navigation = useNavigation();
+const Main: React.FC = () => {
     const [firstLoad, setFirstsLoad] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
 

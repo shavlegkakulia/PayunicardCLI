@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Landing from '../screens/landing/landing';
 import Login from '../screens/landing/login';
 import Signup from '../screens/landing/signup';

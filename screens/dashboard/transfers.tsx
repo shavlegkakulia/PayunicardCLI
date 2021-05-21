@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import DashboardLayout from '../DashboardLayout';
-import Colors from '../../constants/colors';
-import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { use } from './../../redux/actions/translate_actions';
 
 
 const Transfers:React.FC = () => {
-    const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     return (
         <DashboardLayout>
@@ -14,9 +14,9 @@ const Transfers:React.FC = () => {
                 <Text>
                     Transfers
                 </Text>
-                <View>
-                    <Button title="Home" onPress={() => navigation.navigate("Dashboard")} color={`${Colors.primary}`} />
-                </View>
+                <TouchableOpacity onPress={async () => { dispatch(use('en')) }}>
+                <Text style={{flexDirection: 'row'}}>Switch to ENG</Text>
+            </TouchableOpacity>
             </View>
         </DashboardLayout>
     )

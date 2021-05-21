@@ -3,18 +3,23 @@ import { View, Image, Text, StyleSheet } from 'react-native';
 import AppButton from './../../components/UI/AppButton';
 import PaginationDots from "./../../components/PaginationDots";
 import Colors from './../../constants/colors';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from './../../redux/action_types/translate_action_types';
+import { useSelector } from 'react-redux';
+
 
 interface IPageProps {
     Complate: () => void;
 }
 
 const FirstLoad: React.FC<IPageProps> = (props) => {
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState<number>(0);
+    const translate = useSelector<ITranslateGlobalState>(state => state.TranslateReduser) as ITranslateState;
+    
     const fragments = [
-        { desc: 'გახსენი საფულე დისტანციურად', imgUrl: require('../../assets/images/load_screen_1.png') },
-        { desc: 'მიიღე უფასო არასაბანკო VISA/MASTERCARD ბარათი ', imgUrl: require('../../assets/images/load_screen_2.png') },
-        { desc: 'კომუნალურები, სესხები, კონვერტაცია, გზავნილები', imgUrl: require('../../assets/images/load_screen_3.png') },
-        { desc: 'დაგროვების და ფასდაკლების ბარათები ერთ აპლიკაციაში', imgUrl: require('../../assets/images/load_screen_4.png') }
+        { desc: translate.t('onboard.firstScreenDesc'), imgUrl: require('../../assets/images/load_screen_1.png') },
+        { desc: translate.t('onboard.secondScreenDesc'), imgUrl: require('../../assets/images/load_screen_2.png') },
+        { desc: translate.t('onboard.thirdScreenDesc'), imgUrl: require('../../assets/images/load_screen_3.png') },
+        { desc: translate.t('onboard.fourthScreenDesc'), imgUrl: require('../../assets/images/load_screen_4.png') }
     ]
     const nextStep = useCallback(() => {
         setStep(s => {
@@ -38,7 +43,7 @@ const FirstLoad: React.FC<IPageProps> = (props) => {
                     <PaginationDots length={4} step={step} />
                 </View>
                 <View style={styles.nextButtonView}>
-                    <AppButton title="შემდეგი" onPress={nextStep} />
+                    <AppButton title={translate.t('common.next')} onPress={nextStep} />
                 </View>
             </View>
         </View>
@@ -69,9 +74,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     bottomContainer: {
-        // maxWidth: 327,
-        // width: '100%',
-        // alignSelf: 'center',
+     
     },
     dotsContainer: {
         padding: 28,
