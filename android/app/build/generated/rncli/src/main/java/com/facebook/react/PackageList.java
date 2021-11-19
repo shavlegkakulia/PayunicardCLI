@@ -11,10 +11,22 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.Arrays;
 import java.util.ArrayList;
 
+// @kvalifika/react-native-sdk
+import com.kvalifikareactnativesdk.ReactNativeSdkPackage;
 // @react-native-community/async-storage
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+// @react-native-community/clipboard
+import com.reactnativecommunity.clipboard.ClipboardPackage;
 // @react-native-community/masked-view
 import org.reactnative.maskedview.RNCMaskedViewPackage;
+// @react-native-community/netinfo
+import com.reactnativecommunity.netinfo.NetInfoPackage;
+// @sentry/react-native
+import io.sentry.react.RNSentryPackage;
+// react-native-date-picker
+import com.henninghall.date_picker.DatePickerPackage;
+// react-native-exception-handler
+import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-reanimated
@@ -23,6 +35,12 @@ import com.swmansion.reanimated.ReanimatedPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
+// react-native-splash-screen
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
+// react-native-webview
+import com.reactnativecommunity.webview.RNCWebViewPackage;
+// rn-fetch-blob
+import com.RNFetchBlob.RNFetchBlobPackage;
 
 public class PackageList {
   private Application application;
@@ -68,12 +86,21 @@ public class PackageList {
   public ArrayList<ReactPackage> getPackages() {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(mConfig),
+      new ReactNativeSdkPackage(),
       new AsyncStoragePackage(),
+      new ClipboardPackage(),
       new RNCMaskedViewPackage(),
+      new NetInfoPackage(),
+      new RNSentryPackage(),
+      new DatePickerPackage(),
+      new ReactNativeExceptionHandlerPackage(),
       new RNGestureHandlerPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),
-      new RNScreensPackage()
+      new RNScreensPackage(),
+      new SplashScreenReactPackage(),
+      new RNCWebViewPackage(),
+      new RNFetchBlobPackage()
     ));
   }
 }

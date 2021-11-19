@@ -31,6 +31,8 @@ allprojects {
             url("$rootDir/../node_modules/jsc-android/dist")
         }
 
+        maven { url 'https://s3.eu-central-1.amazonaws.com/com.kvalifika.sdk' }
+
         google()
         jcenter()
         maven { url 'https://www.jitpack.io' }

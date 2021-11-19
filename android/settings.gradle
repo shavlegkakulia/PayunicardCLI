@@ -1,3 +1,11 @@
 rootProject.name = 'Payunicard'
+include ':rn-fetch-blob'
+project(':rn-fetch-blob').projectDir = new File(rootProject.projectDir, '../node_modules/rn-fetch-blob/android')
+include ':@kvalifika_react-native-sdk'
+project(':@kvalifika_react-native-sdk').projectDir = new File(rootProject.projectDir, '../node_modules/@kvalifika/react-native-sdk/android')
+include ':react-native-exception-handler'
+project(':react-native-exception-handler').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-exception-handler/android')
+include ':react-native-gesture-handler'
+project(':react-native-gesture-handler').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-gesture-handler/android')
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'

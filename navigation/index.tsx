@@ -1,64 +1,142 @@
-
+import React, {useEffect, useState, FC, useCallback, useRef} from 'react';
+import { NavigationContainer, NavigationContainerRef} from '@react-navigation/native';
+import {useSelector, useDispatch} from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
+import FullScreenLoader from './../components/FullScreenLoading';
 import LandingNavigator from './LandingNavigation';
-import DashboardNavigatorTab from './DashboardNavigation';
-import SplashScreen from './../components/SplashScreen';
-import { IAuthState, LOGIN } from './../redux/action_types/auth_action_types';
-import { Register } from './../utils/axios.interceptor';
-import { use } from './../redux/actions/translate_actions';
-import { LANG_KEY } from './../constants/defaults';
-import AsyncStorage from '@react-native-community/async-storage';
-import React, { useEffect, useState, FC } from 'react';
 import {
-  NavigationContainer
-} from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useSelector, useDispatch } from 'react-redux';
+  IAuthState,
+  IGlobalState as AuthState,
+  LOGIN,
+} from './../redux/action_types/auth_action_types';
+import AuthService, {IInterceptop} from './../services/AuthService';
+import CommonService from './../services/CommonService';
+import {use} from './../redux/actions/translate_actions';
+import {LANG_KEY, LOCALE_IN_STORAGE} from './../constants/defaults';
+import ErrorWrapper from '../components/ErrorWrapper';
+import storage from './../services/StorageService';
+import {
+  setJSExceptionHandler,
+  setNativeExceptionHandler,
+} from 'react-native-exception-handler';
+import PresentationServive from '../services/PresentationServive';
+import AppStack from './AppStack';
+import NavigationService from '../services/NavigationService';
 
-interface IState {
-  AuthReducer: IAuthState
+interface ILoading {
+  locale: boolean;
+  translates: boolean;
 }
 
-const DashboardStack = createStackNavigator();
+const LogError = (error: string) => {
+  console.log('***********************************');
+  let _error = error + '*' + new Date().toLocaleDateString();
+  PresentationServive.LogError({error: _error}).subscribe({
+    next: () => {},
+    //error: (err) => {console.log(err)},
+    complete: () => {},
+  });
+};
 
-const DashboardNavigator = () => (
-  <DashboardStack.Navigator>
-    <DashboardStack.Screen 
-    name="Dashboard"
-    component={DashboardNavigatorTab} />
-  </DashboardStack.Navigator>
-);
+const handleError = (error: Error, isFatal: boolean) => {
+  //console.log(JSON.stringify(error), isFatal)
+};
+
+LogError('fdsfdsfdfdfds');
+
+setJSExceptionHandler((error, isFatal) => {
+  handleError(error, isFatal);
+}, true);
+
+//For most use cases:
+setNativeExceptionHandler(exceptionString => {
+  console.log('exceptionString', exceptionString);
+  // This is your custom global error handler
+  // You do stuff likehit google analytics to track crashes.
+  // or hit a custom api to inform the dev team.
+  //NOTE: alert or showing any UI change via JS
+  //WILL NOT WORK in case of NATIVE ERRORS.
+});
+//====================================================
+// ADVANCED use case:
+const exceptionhandler = (exceptionString: string) => {
+  // your exception handler code here
+  console.log('exceptionString', exceptionString);
+};
+setNativeExceptionHandler(exceptionhandler, false, true);
 
 const AppContainer: FC = () => {
-  const state = useSelector<IState>(state => state.AuthReducer) as IAuthState;
+  const state = useSelector<AuthState>(
+    state => state.AuthReducer,
+  ) as IAuthState;
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
-  const [userToken, setUserToken] = useState("");
-  
-  useEffect(() => {
-    dispatch(use(LANG_KEY))
-  }, [])
+  const [loading, setIsLoading] = useState<ILoading>({
+    locale: true,
+    translates: true,
+  });
+  const [userToken, setUserToken] = useState<string>('');
+  const AxiosInterceptorsSubscription = useRef<IInterceptop[]>([]);
 
   useEffect(() => {
-    AsyncStorage.getItem("access_token").then(data => {
-        setUserToken(data || "");
-        if(data) {
-          dispatch({ type: LOGIN, accesToken: data, isAuthenticated: true });
-        }
-        Register();
-        setIsLoading(false);
-    })
-  }, [userToken, state.accesToken])
+    storage
+      .getItem(LOCALE_IN_STORAGE)
+      .then(locale => {
+        dispatch(use(locale || LANG_KEY));
+      })
+      .finally(() =>
+        setIsLoading(loading => {
+          loading.locale = false;
+          return loading;
+        }),
+      );
+  }, []);
 
-  if (isLoading) {
-    return <SplashScreen />
+  useEffect(() => {
+    AxiosInterceptorsSubscription.current = [
+      CommonService.registerCommonInterceptor(),
+      AuthService.registerAuthInterceptor(signOut),
+    ];
+
+    return () => {
+      AxiosInterceptorsSubscription.current.forEach(sub => sub.unsubscribe());
+    };
+  }, []);
+
+  const signOut = useCallback(async () => {
+    await AuthService.SignOut();
+    setUserToken('');
+  }, [userToken]);
+
+  useEffect(() => {
+    AuthService.getToken().then(data => {
+      setUserToken(data || '');
+
+      if (data) {
+        dispatch({type: LOGIN, accesToken: data, isAuthenticated: true});
+      }
+
+      setIsLoading(loading => {
+        loading.translates = false;
+        return loading;
+      });
+      SplashScreen.hide();
+    });
+  }, [userToken, state.accesToken]);
+
+  if (loading.locale || loading.translates) {
+    return <FullScreenLoader />;
   }
 
   return (
-    <NavigationContainer >
-      {!userToken ? <LandingNavigator /> : <DashboardNavigator />}
-    </NavigationContainer>
-  )
-}
-
+    <ErrorWrapper>
+      <NavigationContainer
+        ref={(navigatorRef: NavigationContainerRef) => {
+          NavigationService.setTopLevelNavigator(navigatorRef);
+        }}>
+        {!userToken ? <LandingNavigator /> : <AppStack />}
+      </NavigationContainer>
+    </ErrorWrapper>
+  );
+};
 
 export default AppContainer;

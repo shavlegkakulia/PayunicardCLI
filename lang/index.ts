@@ -5,8 +5,15 @@ interface IKey {
     [key: string]: any;
 }
 
-const langs: IKey = {
+export const KA = 'ka-GE';
+export const EN = 'en-US';
+
+export const LANG_KEYS: IKey = {
+    ka: KA, en: EN
+}
+
+const translateList: IKey = {
      ka, en
 }
 
-export default langs
+export default translateList

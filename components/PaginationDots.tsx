@@ -1,38 +1,48 @@
 import React, {useEffect, useState} from 'react';
-import { View, StyleSheet } from 'react-native';
+import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
 import Colors from '../constants/colors';
 
 interface IPageProps {
-    length?: number;
-    step: number
+  length?: number;
+  step: number;
+  unactiveDotColor?: string | undefined;
+  activeDotColor?: string | undefined;
+  style?: StyleProp<ViewStyle>;
 }
 
-const PaginationDots: React.FC<IPageProps> = (props) => {
-    const [length, setLength] = useState<number[]>([]);
-    useEffect(() => {
-        setLength([...Array(props.length).keys()].map(() => 0))
-    }, [])
-    const dots = length.map((_, i) => <View key={i} style={{...styles.dot, backgroundColor: i === props.step ? Colors.black : Colors.dark}}></View>)
-    return (
-        <View style={styles.container}>
-            {dots}
-        </View>
-    )
-}
+const PaginationDots: React.FC<IPageProps> = props => {
+  const [length, setLength] = useState<number[]>([]);
+
+  useEffect(() => {
+    setLength([...Array(props.length).keys()].map(() => 0));
+  }, [props.length]);
+
+  const dots = length.map((_, i) => (
+    <View
+      key={i}
+      style={{
+        ...styles.dot,
+        backgroundColor:
+          i === props.step
+            ? props.activeDotColor || Colors.black
+            : props.unactiveDotColor || Colors.dark,
+      }}></View>
+  ));
+
+  return <View style={[styles.container, props.style]}>{dots}</View>;
+};
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'center'
-    },
-    dot: {
-        width: 5,
-        height: 5,
-        borderRadius: 50,
-        marginHorizontal: 6
-    }
-})
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  dot: {
+    width: 5,
+    height: 5,
+    borderRadius: 50,
+    marginHorizontal: 6,
+  },
+});
 
 export default PaginationDots;

@@ -1,0 +1,913 @@
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Text,
+  StyleProp,
+  ViewStyle,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import AccountSelect, {
+  AccountItem,
+} from '../../../components/AccountSelect/AccountSelect';
+import CurrencySelect, {
+  CurrencyItem,
+} from '../../../components/CurrencySelect/CurrencySelect';
+import FloatingLabelInput from '../../../containers/otp/Otp';
+import AppButton from '../../../components/UI/AppButton';
+import AppInput from '../../../components/UI/AppInput';
+import AppInputText from '../../../components/UI/AppInputText';
+import colors from '../../../constants/colors';
+import {GEL} from '../../../constants/currencies';
+import {PUSH} from '../../../redux/actions/error_action';
+import {
+  IUserState,
+  IGloablState as IUserGlobalState,
+} from '../../../redux/action_types/user_action_types';
+import NetworkService from '../../../services/NetworkService';
+import OTPService, {
+  GeneratePhoneOtpByUserRequest,
+} from '../../../services/OTPService';
+import TransactionService, {
+  IGetUserDataByAccountNumberRequest,
+  IP2PTransactionRequest,
+} from '../../../services/TransactionService';
+import {IAccountBallance, ICurrency} from '../../../services/UserService';
+import {
+  CurrencySimbolConverter,
+  getNumber,
+  getString,
+} from '../../../utils/Converter';
+import {
+  ITransfersState,
+  IGlobalState as ITRansferGlobalState,
+  TRANSFERS_ACTION_TYPES,
+} from '../../../redux/action_types/transfers_action_types';
+import Validation, {required} from '../../../components/UI/Validation';
+import {accountTpeCheckRegX} from '../../../utils/Regex';
+import opClassCodes from '../../../constants/opClassCodes';
+import {INavigationProps, TRANSFER_TYPES} from '.';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import Routes from '../../../navigation/routes';
+import {
+  addTransactionTemplate,
+  MakeTransaction,
+} from '../../../redux/actions/transfers_actions';
+import {IAddTransferTemplateRequest} from '../../../services/TemplatesService';
+import {TYPE_UNICARD} from '../../../constants/accountTypes';
+import {
+  INavigationState,
+  IGlobalState as INAVGlobalState,
+} from '../../../redux/action_types/navigation_action_types';
+import {tabHeight} from '../../../navigation/TabNav';
+import NavigationService from '../../../services/NavigationService';
+import {subscriptionService} from '../../../services/subscriptionService';
+import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
+import KvalificaServices from '../../../services/KvalificaServices';
+
+type RouteParamList = {
+  params: {
+    transferStep: string;
+    withTemplate: boolean;
+    newTemplate: boolean;
+  };
+};
+
+const ValidationContext = 'transferToUni';
+
+const TransferToUni: React.FC<INavigationProps> = props => {
+  const [fromAccountVisible, setFromAccountVisible] = useState(false);
+  const [fromCurrencyVisible, setFromCurrencyVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [fromAccountErrorStyle, setFromAccountErrorStyle] = useState<
+    StyleProp<ViewStyle>
+  >({});
+  const [benificarAccountErrorStyle, setBenificarAccountErrorStyle] = useState<
+    StyleProp<ViewStyle>
+  >({});
+  const [benificarNameErrorStyle, setBenificarNameErrorStyle] = useState<
+    StyleProp<ViewStyle>
+  >({});
+  const [fromCurrencyErrorStyle, setFromCurrencyErrorStyle] = useState<
+    StyleProp<ViewStyle>
+  >({});
+  const [amountErrorStyle, setAmountErrorStyle] = useState<
+    StyleProp<ViewStyle>
+  >({});
+  const [nominationErrorStyle, setNominationErrorStyle] = useState<
+    StyleProp<ViewStyle>
+  >({});
+  const [templateNameInputToggle, setTemplateNameInputToggle] = useState(false);
+  const [maskedNumber, setMaskedNumber] = useState<string | undefined>();
+
+  const [currenciesFrom, setCurrenciesFrom] = useState<ICurrency[] | undefined>(
+    undefined,
+  );
+
+  const navStore = useSelector<INAVGlobalState>(
+    state => state.NavigationReducer,
+  ) as INavigationState;
+
+  const userData = useSelector<IUserGlobalState>(
+    state => state.UserReducer,
+  ) as IUserState;
+
+  const TransfersStore = useSelector<ITRansferGlobalState>(
+    state => state.TransfersReducer,
+  ) as ITransfersState;
+  const [accounts, setAccounts] = useState<IAccountBallance[] | undefined>();
+  const [otp, setOtp] = useState<string | undefined>();
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
+
+  const dispatch = useDispatch();
+
+  const setTransferStep = (step: string) => {
+    const params = {
+      ...route.params,
+      transferStep: step,
+    };
+    NavigationService.navigate(`${step}`, params);
+  };
+
+  const setBenificarAccount = (account: string | undefined) => {
+    dispatch({
+      type: TRANSFERS_ACTION_TYPES.SET_BENIFICARY_ACCOUNT,
+      benificarAccount: account,
+    });
+  };
+
+  const setSelectedFromCurrency = (currency: ICurrency | undefined) => {
+    dispatch({
+      type: TRANSFERS_ACTION_TYPES.SET_SELECTED_FROM_CURRENCY,
+      selectedFromCurrency: currency,
+    });
+  };
+
+  const setBenificarName = (name: string | undefined) => {
+    dispatch({
+      type: TRANSFERS_ACTION_TYPES.SET_BENIFICARY_NAME,
+      benificarName: name,
+    });
+  };
+
+  const setAmount = (amount: string | undefined) => {
+    dispatch({
+      type: TRANSFERS_ACTION_TYPES.SET_AMOUNT,
+      amount: amount,
+    });
+  };
+
+  const setNomination = (nomination: string | undefined) => {
+    dispatch({type: TRANSFERS_ACTION_TYPES.SET_NOMINATION, nomination});
+  };
+
+  const setTemplateName = (name: string | undefined) => {
+    dispatch({
+      type: TRANSFERS_ACTION_TYPES.SET_TEMPLATE_NAME,
+      templateName: name,
+    });
+  };
+
+  /**************************/
+
+  const onFromAccountSelect = (account: IAccountBallance) => {
+    dispatch({
+      type: TRANSFERS_ACTION_TYPES.SET_SELECTED_FROM_ACCOUNT,
+      selectedFromAccount: account,
+    });
+    setFromAccountVisible(!fromAccountVisible);
+  };
+
+  useEffect(() => {
+    let _acount = {...TransfersStore.selectedFromAccount};
+    setCurrenciesFrom(_acount.currencies);
+  }, [TransfersStore.selectedFromAccount]);
+
+  const onToAccountSet = (account: string) => {
+    GetUserDataByAccountNumber(account);
+    setBenificarAccount(account);
+  };
+
+  const onFromCurrencySelect = (currency: ICurrency) => {
+    setSelectedFromCurrency(currency);
+    setFromCurrencyVisible(!fromCurrencyVisible);
+  };
+
+  const SendPhoneOTP = () => {
+    NetworkService.CheckConnection(() => {
+      setIsLoading(true);
+
+      let OTP: GeneratePhoneOtpByUserRequest = {
+        userName: userData.userDetails?.username,
+      };
+      OTPService.GeneratePhoneOtpByUser({OTP}).subscribe({
+        next: Response => {
+          if (Response.data.ok) {
+            setMaskedNumber(Response.data.data?.phoneMask);
+          }
+        },
+        error: _ => {
+          setIsLoading(false);
+        },
+        complete: () => {
+          setTransferStep(Routes.TransferToUni_SET_OTP);
+          setIsLoading(false);
+        },
+      });
+    });
+  };
+
+  const GetUserDataByAccountNumber = (account: string | undefined) => {
+    if (account && account.length < 20) {
+      return;
+    }
+
+    const isUNI = accountTpeCheckRegX.test(getString(account));
+   
+    if (isUNI) {
+      dispatch({
+        type: TRANSFERS_ACTION_TYPES.SET_TRASNSFER_TYPE,
+        transferType: opClassCodes.inWallet,
+      });
+    } else {
+      dispatch({
+        type: TRANSFERS_ACTION_TYPES.SET_TRASNSFER_TYPE,
+        transferType: opClassCodes.toBank,
+      });
+      return;
+    }
+
+    NetworkService.CheckConnection(() => {
+      setIsLoading(true);
+
+      let data: IGetUserDataByAccountNumberRequest = {
+        accountNumber: account,
+      };
+      TransactionService.GetUserDataByAccountNumber(data).subscribe({
+        next: Response => {
+          if (Response.data.ok) {
+            setBenificarName(Response.data.data?.fullName || '');
+          }
+        },
+        error: _ => {
+          setIsLoading(false);
+        },
+        complete: () => {
+          Validation.validate(ValidationContext);
+          setIsLoading(false);
+        },
+      });
+    });
+  };
+
+  const setTransferType = (type: string | undefined) => {
+    dispatch({
+      type: TRANSFERS_ACTION_TYPES.SET_TRASNSFER_TYPE,
+      transferType: type,
+    });
+  };
+
+  const AddTransactionTemplate = () => {
+    if (!route.params.withTemplate && !route.params.newTemplate) {
+      const data: IAddTransferTemplateRequest = {
+        longopId: TransfersStore.transactionResponse?.longOpId,
+        templName: TransfersStore.templateName,
+        isBetweenOwnAccounts: false,
+      };
+
+      dispatch(
+        addTransactionTemplate(data, () => {
+          setTransferStep(Routes.TransferToUni_TEMPLATE_IS_SAVED);
+        }),
+      );
+    } else {
+      const data: IAddTransferTemplateRequest = {
+        amount: TransfersStore.amount,
+        description: TransfersStore.nomination,
+        ccyTo: TransfersStore.selectedFromCurrency?.key,
+        beneficiaryName: TransfersStore.benificarName,
+        templName: TransfersStore.templateName,
+        opClassCode: TransfersStore.transferType,
+      };
+
+      if (TransfersStore.transferType === opClassCodes.toBank) {
+        data.forFromAccountId = TransfersStore.selectedFromAccount?.accountId;
+        data.senderAccountNumber =
+          TransfersStore.selectedFromAccount?.accountNumber;
+        data.beneficiaryAccountNumber = TransfersStore.benificarAccount;
+      } else {
+        data.forFromExternalAccountId =
+          TransfersStore.selectedFromAccount?.accountId;
+        data.forToExternalAccount = TransfersStore.benificarAccount;
+      }
+      console.log(data);
+      dispatch(
+        addTransactionTemplate(data, () => {
+          setTransferStep(Routes.TransferToUni_TEMPLATE_IS_SAVED);
+        }),
+      );
+    }
+  };
+
+  const makeTransaction = (toBank: boolean = false) => {
+    const data: IP2PTransactionRequest = {
+      toAccountNumber: TransfersStore.selectedToAccount?.accountNumber,
+      fromAccountNumber: TransfersStore.selectedFromAccount?.accountNumber,
+      nomination: TransfersStore.nomination,
+      ccy: TransfersStore.selectedToCurrency?.key,
+      ccyto: TransfersStore.selectedToCurrency?.key,
+      amount: getNumber(TransfersStore.amount),
+      otp: null,
+    };
+    if (TransfersStore.transferType === TRANSFER_TYPES.toBank) {
+      data.toAccountNumber = TransfersStore.benificarAccount;
+      data.beneficiaryName = TransfersStore.benificarName;
+      data.otp = otp;
+      data.ccy = GEL;
+      data.ccyto = GEL;
+    }
+    if (TransfersStore.transferType === TRANSFER_TYPES.toUni) {
+      data.toAccountNumber = TransfersStore.benificarAccount;
+      data.beneficiaryName = TransfersStore.benificarName;
+      data.otp = otp;
+      data.ccy = TransfersStore.selectedFromCurrency?.key;
+      data.ccyto = TransfersStore.selectedFromCurrency?.key;
+    }
+    if (TransfersStore.transferType === TRANSFER_TYPES.Convertation) {
+      data.toAccountNumber = TransfersStore.selectedToAccount?.accountNumber;
+      data.ccy = TransfersStore.selectedFromCurrency?.key;
+      data.ccyto = TransfersStore.selectedToCurrency?.key;
+    }
+
+    dispatch(MakeTransaction(toBank, data));
+  };
+
+  useEffect(() => {
+    setNomination('სხვასთან გადარიცხვა');
+    setTransferType(TRANSFER_TYPES.toUni);
+  }, []);
+
+  useEffect(() => {
+    if ((route.params.withTemplate || route.params.newTemplate) && TransfersStore.benificarAccount) {
+      GetUserDataByAccountNumber(TransfersStore.benificarAccount);
+    }
+  }, [route.params.withTemplate, route.params.newTemplate]);
+
+  useEffect(() => {
+    if (TransfersStore.isTemplate) {
+      setCurrenciesFrom(TransfersStore.selectedFromAccount?.currencies);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (
+      TransfersStore.transactionResponse &&
+      route.params.transferStep !== Routes.TransferToUni_TEMPLATE_IS_SAVED
+    ) {
+      if (route.params.withTemplate) {
+        setTransferStep(Routes.TransferToUni_TEMPLATE_IS_SAVED);
+        return;
+      }
+      setTransferStep(Routes.TransferToUni_SUCCES);
+    }
+  }, [TransfersStore.transactionResponse]);
+
+  useEffect(() => {
+    if (!TransfersStore.fullScreenLoading) {
+      setIsLoading(false);
+    }
+  }, [TransfersStore.fullScreenLoading]);
+
+  useEffect(() => {
+    if (userData.userAccounts && !userData.isAccountsLoading) {
+      let uac = [...(userData.userAccounts || [])];
+      if (route.params.withTemplate) {
+        uac = uac.filter(account => account.type !== TYPE_UNICARD);
+        setAccounts(uac);
+        return;
+      }
+      setAccounts(uac);
+    }
+  }, [userData.isAccountsLoading]);
+
+  useEffect(() => {
+    if (route.params.withTemplate) {
+      setCurrenciesFrom(TransfersStore.selectedFromAccount?.currencies);
+    }
+  }, []);
+
+  const onOperationHandle = () => {
+    setIsLoading(true);
+    if (route.params.transferStep === Routes.TransferToUni_CHOOSE_ACCOUNTS) {
+      if (!TransfersStore.selectedFromAccount) {
+        setFromAccountErrorStyle({borderColor: colors.danger, borderWidth: 1});
+        setIsLoading(false);
+        return;
+      }
+
+      if (Validation.validate(ValidationContext)) {
+        setIsLoading(false);
+        return;
+      }
+      setIsLoading(false);
+      setTransferStep(Routes.TransferToUni_SET_CURRENCY);
+    } else if (
+      route.params.transferStep === Routes.TransferToUni_SET_CURRENCY
+    ) {
+      if (!TransfersStore.amount || isNaN(parseInt(TransfersStore.amount))) {
+        setAmountErrorStyle({
+          borderBottomColor: colors.danger,
+          borderBottomWidth: 1,
+        });
+        setIsLoading(false);
+        return;
+      } else {
+        setAmountErrorStyle({});
+      }
+
+      if (!TransfersStore.selectedFromCurrency) {
+        setFromCurrencyErrorStyle({
+          borderBottomColor: colors.danger,
+          borderBottomWidth: 1,
+        });
+        setIsLoading(false);
+        return;
+      } else {
+        setFromCurrencyErrorStyle({});
+      }
+
+      if (!TransfersStore.nomination) {
+        setNominationErrorStyle({borderColor: colors.danger, borderWidth: 1});
+        setIsLoading(false);
+        return;
+      } else {
+        setNominationErrorStyle({});
+      }
+
+      if (getNumber(TransfersStore.amount) < 1) {
+        dispatch(
+          PUSH(
+            `მინიმალური გადასარიცხი თანხა 0.1 ${CurrencySimbolConverter(GEL)}`,
+          ),
+        );
+        setIsLoading(false);
+        setAmountErrorStyle({
+          borderBottomColor: colors.danger,
+          borderBottomWidth: 1,
+        });
+        return;
+      } else {
+        setAmountErrorStyle({});
+      }
+
+      if (route.params.newTemplate) {
+        setIsLoading(false);
+        AddTransactionTemplate();
+        return;
+      }
+
+      SendPhoneOTP();
+    } else if (route.params.transferStep === Routes.TransferToUni_SET_OTP) {
+      if (otp) {
+        makeTransaction();
+      }
+    } else if (route.params.transferStep === Routes.TransferToUni_SUCCES) {
+      if (TransfersStore.templateName) {
+        AddTransactionTemplate();
+        return;
+      }
+      subscriptionService.sendData(SUBSCRIBTION_KEYS.FETCH_USER_ACCOUNTS, true);
+      NavigationService.navigate(navStore.parentRoute);
+    } else if (
+      route.params.transferStep === Routes.TransferToUni_TEMPLATE_IS_SAVED
+    ) {
+      subscriptionService.sendData(SUBSCRIBTION_KEYS.FETCH_USER_ACCOUNTS, true);
+      NavigationService.navigate(navStore.parentRoute);
+    }
+  };
+
+  return (
+    <ScrollView contentContainerStyle={styles.avoid}>
+      <KeyboardAvoidingView
+        behavior="padding"
+        keyboardVerticalOffset={0}
+        style={styles.avoid}>
+        <View style={styles.container}>
+          <View
+            style={[
+              styles.contentContainer,
+              route.params.transferStep >= Routes.TransferToUni_SUCCES &&
+                styles.withSucces,
+            ]}>
+            {(route.params.transferStep ===
+              Routes.TransferToUni_CHOOSE_ACCOUNTS ||
+              route.params.transferStep ===
+                Routes.TransferToUni_SET_CURRENCY) && (
+              <>
+                <View style={styles.accountBox}>
+                  <Text style={styles.accountBoxTitle}>საიდან</Text>
+
+                  {TransfersStore.selectedFromAccount ? (
+                    <AccountItem
+                      account={TransfersStore.selectedFromAccount}
+                      onAccountSelect={() => setFromAccountVisible(true)}
+                      style={styles.accountItem}
+                    />
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => setFromAccountVisible(true)}
+                      style={[
+                        styles.accountSelectHandler,
+                        fromAccountErrorStyle,
+                      ]}>
+                      <Image
+                        style={styles.dropImg}
+                        source={require('./../../../assets/images/down-arrow.png')}
+                      />
+                    </TouchableOpacity>
+                  )}
+
+                  <AccountSelect
+                    accounts={accounts}
+                    selectedAccount={TransfersStore.selectedFromAccount}
+                    accountVisible={fromAccountVisible}
+                    onSelect={account => onFromAccountSelect(account)}
+                    onToggle={() => setFromAccountVisible(!fromAccountVisible)}
+                  />
+                </View>
+                {route.params.transferStep !==
+                  Routes.TransferToUni_SET_CURRENCY && (
+                  <>
+                    <View style={styles.accountBox}>
+                      <Text style={styles.accountBoxTitle}>სად</Text>
+
+                      <AppInput
+                        style={benificarAccountErrorStyle}
+                        value={TransfersStore.benificarAccount}
+                        onChange={onToAccountSet}
+                        placeholder="მიმღების ანგარიში"
+                        requireds={[required]}
+                        context={ValidationContext}
+                        customKey="benificarAccount"
+                      />
+                    </View>
+
+                    <View style={styles.accountBox}>
+                      <Text style={styles.accountBoxTitle}>
+                        მიმღების სახელი
+                      </Text>
+
+                      <AppInput
+                        style={benificarNameErrorStyle}
+                        value={TransfersStore.benificarName}
+                        onChange={setBenificarName}
+                        placeholder="მიმღების სახელი"
+                        context={ValidationContext}
+                        customKey="benificarName"
+                        requireds={[required]}
+                      />
+                    </View>
+                  </>
+                )}
+              </>
+            )}
+            {route.params.transferStep ===
+              Routes.TransferToUni_SET_CURRENCY && (
+              <>
+                <View style={styles.benificarBox}>
+                  <Text style={styles.benificarDetail}>
+                    სად: {TransfersStore.benificarAccount}
+                  </Text>
+                  <Text style={styles.benificarDetail}>
+                    მიმღები: {TransfersStore.benificarName}
+                  </Text>
+                </View>
+
+                <View style={styles.amountContainer}>
+                  <AppInputText
+                    label="თანხის ოდენობა"
+                    onChangeText={setAmount}
+                    Style={[styles.amountInput, amountErrorStyle]}
+                    autoFocus={TransfersStore.isTemplate}
+                    value={TransfersStore.amount}
+                  />
+
+                  <View style={styles.currencyBox}>
+                    {TransfersStore.selectedFromCurrency ? (
+                      <CurrencyItem
+                        defaultTitle="ვალუტა"
+                        currency={TransfersStore.selectedFromCurrency}
+                        onCurrencySelect={() => setFromCurrencyVisible(true)}
+                        style={styles.currencyItem}
+                      />
+                    ) : (
+                      <TouchableOpacity
+                        onPress={() => setFromCurrencyVisible(true)}
+                        style={[
+                          styles.currencySelectHandler,
+                          fromCurrencyErrorStyle,
+                        ]}>
+                        <Text style={styles.currencyPlaceholder}>ვალუტა</Text>
+                        <Image
+                          style={styles.dropImg}
+                          source={require('./../../../assets/images/down-arrow.png')}
+                        />
+                      </TouchableOpacity>
+                    )}
+
+                    <CurrencySelect
+                      currencies={currenciesFrom}
+                      selectedCurrency={TransfersStore.selectedFromCurrency}
+                      currencyVisible={fromCurrencyVisible}
+                      onSelect={currency => onFromCurrencySelect(currency)}
+                      onToggle={() =>
+                        setFromCurrencyVisible(!fromCurrencyVisible)
+                      }
+                    />
+                  </View>
+                </View>
+
+                <View style={styles.nominationBox}>
+                  <Text style={styles.accountBoxTitle}>დანიშნულება</Text>
+                  <AppInput
+                    customKey="nomination"
+                    context={ValidationContext}
+                    requireds={[required]}
+                    placeholder="დანიშნულება"
+                    value={TransfersStore.nomination}
+                    style={nominationErrorStyle}
+                    onChange={setNomination}
+                  />
+                </View>
+
+                {route.params.newTemplate && (
+                  <View style={styles.nominationBox}>
+                    <Text style={styles.accountBoxTitle}>შაბლონის სახელი</Text>
+                    <AppInput
+                      customKey="templateName"
+                      context={ValidationContext}
+                      placeholder="შაბლონის სახელი"
+                      requireds={[required]}
+                      value={TransfersStore.templateName}
+                      style={nominationErrorStyle}
+                      onChange={setTemplateName}
+                    />
+                  </View>
+                )}
+              </>
+            )}
+
+            {route.params.transferStep === Routes.TransferToUni_SET_OTP && (
+              <View style={styles.insertOtpSTep}>
+                <Text style={styles.insertOtpCode}>შეიყვანე სმს კოდი</Text>
+                <FloatingLabelInput
+                  Style={styles.otpBox}
+                  label="სმს კოდი"
+                  title={`სმს კოდი გამოგზავნილია ნომერზე ${maskedNumber}`}
+                  value={otp}
+                  onChangeText={setOtp}
+                  onRetry={SendPhoneOTP}
+                />
+              </View>
+            )}
+
+            {route.params.transferStep === Routes.TransferToUni_SUCCES && (
+              <View style={styles.succesInner}>
+                <Text style={styles.succesText}>
+                  გადარიცხვა წარმატებით დასრულდა
+                </Text>
+                <Image
+                  source={require('./../../../assets/images/succes_icon.png')}
+                  style={styles.succesImg}
+                />
+                {!TransfersStore.isTemplate && (
+                  <View>
+                    <Image
+                      source={require('./../../../assets/images/templateIcon.png')}
+                      style={styles.templateIcon}
+                    />
+                    <AppButton
+                      backgroundColor={colors.none}
+                      color={colors.labelColor}
+                      title="შაბლონად შენახვა"
+                      onPress={() => {
+                        setTemplateNameInputToggle(toggle => !toggle);
+                      }}
+                    />
+                    {templateNameInputToggle ? (
+                      <View style={styles.templateNameColumn}>
+                        <AppInput
+                          autoFocus={true}
+                          value={TransfersStore.templateName}
+                          onChange={name => {
+                            setTemplateName(name);
+                          }}
+                          context={ValidationContext}
+                          placeholder="შაბლონის სახელი"
+                          customKey="templateName"
+                          style={styles.templateNameInput}
+                        />
+                      </View>
+                    ) : null}
+                  </View>
+                )}
+              </View>
+            )}
+
+            {route.params.transferStep ===
+              Routes.TransferToUni_TEMPLATE_IS_SAVED && (
+              <View style={styles.succesInner}>
+                <Text style={styles.succesText}>
+                  {'გადარიცხვის შაბლონი\nწარმატებით შეიქმნა'}
+                </Text>
+                <Image
+                  source={require('./../../../assets/images/succes_icon.png')}
+                  style={styles.succesImg}
+                />
+              </View>
+            )}
+          </View>
+          <AppButton
+            isLoading={
+              TransfersStore.fullScreenLoading ||
+              TransfersStore.isLoading ||
+              isLoading
+            }
+            onPress={onOperationHandle}
+            title={
+              route.params.transferStep === Routes.TransferToUni_SUCCES ||
+              route.params.transferStep ===
+                Routes.TransferToUni_TEMPLATE_IS_SAVED
+                ? 'დახურვა'
+                : route.params.withTemplate
+                ? 'შენახვა'
+                : 'შემდეგი'
+            }
+            style={styles.handleButton}
+          />
+        </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.white,
+    flex: 1,
+    paddingHorizontal: 20,
+    justifyContent: 'space-between',
+    paddingBottom: tabHeight,
+  },
+  avoid: {
+    flexGrow: 1,
+    backgroundColor: colors.white,
+  },
+  contentContainer: {
+    paddingTop: 20,
+  },
+  handleButton: {
+    marginVertical: 40,
+  },
+  accountBox: {
+    marginTop: 20,
+  },
+  nominationBox: {
+    marginTop: 40,
+  },
+  accountBoxTitle: {
+    fontFamily: 'FiraGO-Regular',
+    fontSize: 14,
+    lineHeight: 17,
+    color: colors.labelColor,
+    marginBottom: 15,
+  },
+  accountItem: {
+    //paddingLeft: 0
+    backgroundColor: colors.inputBackGround,
+    borderRadius: 7,
+  },
+  accountSelectHandler: {
+    height: 54,
+    backgroundColor: colors.inputBackGround,
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  dropImg: {
+    marginRight: 12,
+  },
+  currencyBox: {
+    height: 50,
+    marginTop: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.baseBackgroundColor,
+  },
+  currencyItem: {
+    backgroundColor: colors.none,
+    borderTopColor: colors.none,
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    borderBottomColor: colors.none,
+  },
+  currencySelectHandler: {
+    height: 45,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  currencyPlaceholder: {
+    fontFamily: 'FiraGO-Regular',
+    fontSize: 14,
+    lineHeight: 17,
+    color: colors.placeholderColor,
+    marginRight: 7,
+  },
+  amountInput: {
+    paddingTop: 0,
+    marginHorizontal: 0,
+    marginLeft: 5,
+    flex: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.baseBackgroundColor,
+  },
+  amountContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+  },
+  templateNameColumn: {
+    width: 170,
+    alignSelf: 'center',
+    marginTop: 5,
+  },
+  templateNameInput: {
+    marginTop: 0,
+    backgroundColor: colors.none,
+    alignSelf: 'center',
+    borderRadius: 0,
+    borderWidth: 1,
+    borderBottomColor: colors.inputBackGround,
+  },
+  benificarBox: {
+    marginTop: 13,
+    paddingLeft: 7,
+  },
+  benificarDetail: {
+    fontFamily: 'FiraGO-Regular',
+    fontSize: 14,
+    lineHeight: 17,
+    color: colors.placeholderColor,
+  },
+  insertOtpSTep: {
+    marginTop: 25,
+  },
+  insertOtpCode: {
+    fontFamily: 'FiraGO-Bold',
+    fontWeight: '500',
+    color: colors.black,
+    fontSize: 24,
+    lineHeight: 29,
+    textAlign: 'left',
+  },
+  otpBox: {
+    marginTop: 40,
+  },
+  withSucces: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  succesText: {
+    textAlign: 'center',
+    justifyContent: 'space-between',
+    fontFamily: 'FiraGO-Medium',
+    fontSize: 16,
+    lineHeight: 19,
+    color: colors.black,
+    marginTop: 28,
+  },
+  succesInner: {
+    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'center',
+  },
+  succesImg: {
+    marginTop: 40,
+  },
+  templateIcon: {
+    width: 40,
+    height: 40,
+    alignSelf: 'center',
+    marginTop: 30,
+  },
+});
+
+export default TransferToUni;

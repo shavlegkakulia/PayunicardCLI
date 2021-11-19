@@ -1,0 +1,24 @@
+{
+  "name": "kvalifika-react-native-sdk",
+  "version": "0.6.3",
+  "summary": "Official React Native wrapper for Kvalifika SDK",
+  "homepage": "https://github.com/Kvalifika/kvalifika-react-native-sample#readme",
+  "license": "MIT",
+  "authors": "Kvalifika",
+  "platforms": {
+    "ios": "11.0"
+  },
+  "source": {
+    "git": "https://github.com/Kvalifika/kvalifika-react-native-sdk.git",
+    "tag": "0.6.3"
+  },
+  "source_files": "ios/**/*.{h,m,mm,swift}",
+  "dependencies": {
+    "React-Core": [
+
+    ],
+    "Kvalifika": [
+      "0.4.2"
+    ]
+  }
+}

@@ -1,14 +1,11 @@
-import React, { ReactChildren, ReactChild } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
-interface AuxProps {
-    children: ReactChild | ReactChildren;
-}
 
-const LandingLayout = ({children}: AuxProps) => {
+const LandingLayout:React.FC = (props) => {
     return (
         <View style={style.container}>
-            {children}
+            {props.children}
         </View>
     )
 }

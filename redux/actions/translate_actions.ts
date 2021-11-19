@@ -1,9 +1,13 @@
 import { FETCH_TRANSLATE, SET_LOADING } from './../action_types/translate_action_types';
-import Langs from './../../lang/index';
+import translateList from './../../lang/index';
+import storage from './../../services/StorageService';
+import { LOCALE_IN_STORAGE } from '../../constants/defaults';
 
-export const use = (key: string) => (dispatch: any) => {
+
+export const use = (key: string) => async(dispatch: any) => {
     dispatch({type: SET_LOADING, isLoading: true});
-    dispatch({type: FETCH_TRANSLATE, translates: Langs[key], key: key});
+    await storage.setItem(LOCALE_IN_STORAGE, key);
+    dispatch({type: FETCH_TRANSLATE, translates: translateList[key], key: key});
     dispatch({type: SET_LOADING, isLoading: false});
 }
 

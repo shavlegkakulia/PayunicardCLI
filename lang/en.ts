@@ -1,7 +1,8 @@
 export default {
     common: {
         next: 'Next',
-        logout: 'LogOut'
+        logout: 'LogOut',
+        back: 'back'
     },
     onboard: {
         firstScreenDesc: 'Open the wallet remotely',
@@ -10,13 +11,14 @@ export default {
         fourthScreenDesc: 'Accumulation and discount cards in one app'
     },
     login: {
-        authorize: 'Authorization',
+        authorization: 'Authorization',
         welcome: 'Welcome',
         forgotpassword: 'Forgot password?',
         email: 'email',
         password: 'password',
         remember: 'remember',
         login: 'login',
-        signup: 'signup'
+        signup: 'signup',
+        loginWithAnother: 'Log in with another account'
     }
 }
