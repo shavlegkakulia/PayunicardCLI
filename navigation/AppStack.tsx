@@ -1,5 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import React, { RefObject, useRef } from 'react';
+import React, { useRef } from 'react';
 import Routes from './routes';
 import Dashboard from '../screens/dashboard/dashboard';
 import Products from '../screens/dashboard/products';
