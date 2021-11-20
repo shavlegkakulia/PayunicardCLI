@@ -1,11 +1,11 @@
 import {NavigationContainerRef} from '@react-navigation/core';
 import {CommonActions} from '@react-navigation/routers';
+import { DrawerMovementOption } from 'react-native-gesture-handler/lib/typescript/components/DrawerLayout';
 import Routes from '../navigation/routes';
 
 let _navigator: NavigationContainerRef | undefined = undefined;
-export let OpenDrawer: Function[] = [() => {}, () => {}];
-export let CloseDrawer: Function[] = [() => {}, () => {}];
-export let ToggleDrawer: Function[] = [() => {}, () => {}];
+export let OpenDrawer: ((options?: DrawerMovementOption | undefined) => void)[] | undefined[] = [undefined, undefined];
+export let CloseDrawer: ((options?: DrawerMovementOption | undefined) => void)[] | undefined[] = [undefined, undefined];
 
 let backHandler = () => {}
 
@@ -19,16 +19,12 @@ function setCurrentRoute(routeName: string) {
   currentRoute = routeName;
 }
 
-function setDrawerOpen(ref: Function, index: number) {
+function setDrawerOpen(ref: ((options?: DrawerMovementOption | undefined) => void) | undefined, index: number) {
   OpenDrawer[index] = ref;
 }
 
-function setDrawerClose(ref: Function, index: number) {
+function setDrawerClose(ref: ((options?: DrawerMovementOption | undefined) => void) | undefined, index: number) {
   CloseDrawer[index] = ref;
-}
-
-function setDrawerToggle(ref: Function, index: number) {
-  ToggleDrawer[index] = ref;
 }
 
 function setTopLevelNavigator(navigatorRef: NavigationContainerRef) {
@@ -89,7 +85,6 @@ export default {
   setTopLevelNavigator,
   setDrawerOpen,
   setDrawerClose,
-  setDrawerToggle,
   setCurrentRoute,
   currentRoute,
   dispatch,

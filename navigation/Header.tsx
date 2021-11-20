@@ -5,8 +5,9 @@ import {Image, View, TouchableOpacity, StyleSheet, Text} from 'react-native';
 import colors from '../constants/colors';
 import {headerHeight} from '../constants/defaults';
 import  NavigationService, {
-  ToggleDrawer,
+  OpenDrawer,
 } from '../services/NavigationService';
+import AppStack from './AppStack';
 
 const DefaultOptions = ({
   navigation,
@@ -41,7 +42,7 @@ const DefaultOptions = ({
       <View>
         <TouchableOpacity
           style={styles.hamburger}
-          onPress={() => ToggleDrawer[0]()}>
+          onPress={() => OpenDrawer[0] && OpenDrawer[0]()}>
           <Image
             source={require('./../assets/images/hamburger.png')}
             style={styles.rightItem}
@@ -86,7 +87,7 @@ export const DefaultOptionsDrawer = ({
   ),
   headerRight: () => (
     <View>
-      <TouchableOpacity style={styles.hamburger} onPress={() => ToggleDrawer[0]()}>
+      <TouchableOpacity style={styles.hamburger} onPress={() => OpenDrawer[0] && OpenDrawer[0]()}>
         <Image
           source={require('./../assets/images/hamburger.png')}
           style={styles.rightItem}

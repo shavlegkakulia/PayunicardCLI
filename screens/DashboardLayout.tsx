@@ -1,10 +1,9 @@
-import React, {createRef, useEffect, useState} from 'react';
+import React, {createRef, useEffect, useRef, useState} from 'react';
 import {
   Dimensions,
   Image,
   NativeScrollEvent,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -17,14 +16,7 @@ import {
   IGlobalState,
 } from '../redux/action_types/auth_action_types';
 import NetworkService from '../services/NetworkService';
-import Routes from '../navigation/routes';
 import NavigationService from '../services/NavigationService';
-import {
-  createDrawerNavigator,
-  DrawerContentComponentProps,
-  DrawerContentOptions,
-} from '@react-navigation/drawer';
-import SideBarDrawer from '../navigation/SideBarDrawer';
 import {tabHeight} from '../navigation/TabNav';
 import CardService, {IGetBarcodeRequest} from '../services/CardService';
 import {
@@ -32,9 +24,10 @@ import {
   IGloablState as IUserGlobalState,
 } from '../redux/action_types/user_action_types';
 import {TYPE_UNICARD} from '../constants/accountTypes';
-import { getString} from '../utils/Converter';
+import {getString} from '../utils/Converter';
 import {IAccountBallance} from '../services/UserService';
 import PaginationDots from '../components/PaginationDots';
+import {DrawerLayout} from 'react-native-gesture-handler';
 
 const UnicardView = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -83,9 +76,9 @@ const UnicardView = () => {
   }, [unicards]);
 
   const fragmentStyle = {
-    height: Dimensions.get('window').height - (tabHeight),
+    height: Dimensions.get('window').height - tabHeight,
   };
- 
+
   useEffect(() => {
     setUnicards(userState.userAccounts?.filter(ua => ua.type === TYPE_UNICARD));
   }, [userState.userAccounts]);
@@ -103,12 +96,11 @@ const UnicardView = () => {
               style={{
                 ...style.unicardItem,
                 ...fragmentStyle,
-                paddingBottom: tabHeight
+                paddingBottom: tabHeight,
               }}
               key={uc.accountNumber}>
               <View>
-                <Text
-                  style={style.barCodeText}>
+                <Text style={style.barCodeText}>
                   {unicards[index]?.accountNumber?.replace(
                     /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
                     '$1  $2  $3  $4',
@@ -131,12 +123,14 @@ const UnicardView = () => {
           ))}
         </ScrollView>
         <View style={style.dotsContainer}>
-          {unicards && <PaginationDots
-            length={unicards?.length}
-            step={step}
-            unactiveDotColor={colors.black}
-            activeDotColor={colors.primary}
-          />}
+          {unicards && (
+            <PaginationDots
+              length={unicards?.length}
+              step={step}
+              unactiveDotColor={colors.black}
+              activeDotColor={colors.primary}
+            />
+          )}
         </View>
       </View>
     </View>
@@ -144,26 +138,22 @@ const UnicardView = () => {
 };
 
 const DashboardLayoutRightDarwer: React.FC = props => {
-  const DrawerRight = createDrawerNavigator();
-
+  const sideDraver = useRef<DrawerLayout | null>();
+  const screenWidth = Dimensions.get('window').width;
   return (
-    <DrawerRight.Navigator
-      initialRouteName={Routes.Home}
+    <DrawerLayout
+      drawerWidth={screenWidth}
+      drawerLockMode={'unlocked'}
       drawerPosition="right"
-      drawerStyle={style.drawerWidth}
-      drawerContent={(
-        props: DrawerContentComponentProps<DrawerContentOptions>,
-      ) => {
-        NavigationService.setDrawerClose(props.navigation.closeDrawer, 1);
-        NavigationService.setDrawerOpen(props.navigation.openDrawer, 1);
-        NavigationService.setDrawerToggle(props.navigation.toggleDrawer, 1);
-        return <UnicardView />;
-      }}>
-      <DrawerRight.Screen
-        name={Routes.Home}
-        children={() => <View style={style.container}>{props.children}</View>}
-      />
-    </DrawerRight.Navigator>
+      keyboardDismissMode="on-drag"
+      ref={drawer => {
+        sideDraver.current = drawer;
+        NavigationService.setDrawerClose(sideDraver.current?.closeDrawer, 1);
+        NavigationService.setDrawerOpen(sideDraver.current?.openDrawer, 1);
+      }}
+      renderNavigationView={() => <UnicardView />}>
+      <View style={style.container}>{props.children}</View>
+    </DrawerLayout>
   );
 };
 
@@ -179,34 +169,7 @@ const DashboardLayout: React.FC = props => {
     });
   }, []);
 
-  const Drawer = createDrawerNavigator();
-
-  return (
-    <Drawer.Navigator
-      initialRouteName={Routes.Home}
-      drawerStyle={{paddingBottom: tabHeight}}
-      drawerContent={(
-        props: DrawerContentComponentProps<DrawerContentOptions>,
-      ) => {
-        NavigationService.setDrawerClose(props.navigation.closeDrawer, 0);
-        NavigationService.setDrawerOpen(props.navigation.openDrawer, 0);
-        NavigationService.setDrawerToggle(props.navigation.toggleDrawer, 0);
-        return <SideBarDrawer props={props} />;
-      }}>
-      <Drawer.Screen
-        name={Routes.Home}
-        children={() => (
-          <>
-            <StatusBar
-              backgroundColor={colors.baseBackgroundColor}
-              barStyle="dark-content"
-            />
-            <DashboardLayoutRightDarwer children={props.children} />
-          </>
-        )}
-      />
-    </Drawer.Navigator>
-  );
+  return <DashboardLayoutRightDarwer children={props.children} />;
 };
 
 const style = StyleSheet.create({
@@ -240,7 +203,7 @@ const style = StyleSheet.create({
     height: 40,
   },
   drawerWidth: {
-    width: '100%'
+    width: '100%',
   },
   unicardItem: {
     position: 'relative',
@@ -249,23 +212,23 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   unicardCard: {
-    maxHeight: 500
+    maxHeight: 500,
   },
-barCode: {
-  height: 65,
-  width: 460,
-  transform: [{rotate: '90deg'}],
-  position: 'absolute',
-  top: 215,
-  left: -117,
-},
-barCodeText: {
-  transform: [{rotate: '90deg'}],
-  elevation: 555,
-  position: 'absolute',
-  top: 240,
-  left: 110,
-},
+  barCode: {
+    height: 65,
+    width: 460,
+    transform: [{rotate: '90deg'}],
+    position: 'absolute',
+    top: 215,
+    left: -117,
+  },
+  barCodeText: {
+    transform: [{rotate: '90deg'}],
+    elevation: 555,
+    position: 'absolute',
+    top: 240,
+    left: 110,
+  },
   screenContainer: {
     justifyContent: 'flex-end',
     width: '100%',
