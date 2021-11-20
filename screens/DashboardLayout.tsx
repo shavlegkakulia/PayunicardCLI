@@ -146,6 +146,7 @@ const DashboardLayoutRightDarwer: React.FC = props => {
       drawerLockMode={'unlocked'}
       drawerPosition="right"
       keyboardDismissMode="on-drag"
+      drawerBackgroundColor={colors.white}
       ref={drawer => {
         sideDraver.current = drawer;
         NavigationService.setDrawerClose(sideDraver.current?.closeDrawer, 1);
