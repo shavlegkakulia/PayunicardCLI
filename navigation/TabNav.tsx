@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
+    //paddingHorizontal: 20,
     shadowColor: colors.black,
     shadowOffset: {
       width: 2,
@@ -147,6 +147,9 @@ const styles = StyleSheet.create({
   },
   item: {
     alignItems: 'center',
+    flex: 5,
+    // borderColor: 'red',
+    // borderWidth: 1
   },
   title: {
     fontFamily: 'FiraGO-Book',
@@ -172,7 +175,7 @@ const NavItem: React.FC<ITabItemProps> = props => {
     props.action ? props.action() : NavigationService.navigate(props.to);
     props.to && props.callback(props.to);
   };
-  console.log('*', RouteIcons[getString(props.to || 'undefined')][0]);
+
   return (
     <TouchableOpacity onPress={onHandle} style={styles.item}>
       <Image
