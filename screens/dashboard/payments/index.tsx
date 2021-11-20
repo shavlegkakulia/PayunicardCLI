@@ -31,7 +31,6 @@ import {
   IGlobalPaymentState,
   PAYMENTS_ACTIONS,
 } from '../../../redux/action_types/payments_action_type';
-import {INavigationProps} from '../transfers';
 import Routes from '../../../navigation/routes';
 import {getNumber} from '../../../utils/Converter';
 import NavigationService from '../../../services/NavigationService';
@@ -42,7 +41,7 @@ export interface IGetPaymentDetailParams {
   onError?: Function;
 }
 
-interface IProps extends INavigationProps {
+interface IProps {
   exclude?: boolean;
   selectdeAccount?: IAccountBallance | undefined;
 }
