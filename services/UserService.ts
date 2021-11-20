@@ -538,6 +538,30 @@ export interface ICancelPackageWEBResponseData {
   data?: ICancelPackageWEBResponse | undefined;
 }
 
+export interface IGetUserBlockedBlockedFundslistRequest {
+  accountNumer?: string | undefined;
+}
+
+export interface IFund {
+  transactionDate?: string | undefined;
+  cardNumber?: string | undefined;
+  amountGel?: number;
+  merchantDescription?: string | undefined;
+  currency?: string | undefined;
+  terminalNumber?: string | undefined;
+  amount?: number;
+}
+
+export interface IGetUserBlockedBlockedFundslistResponse {
+  funds?: IFund[] | undefined;
+}
+
+export interface IGetUserBlockedBlockedFundslistResponseData {
+  ok: boolean;
+  errors?: IError[] | undefined;
+  data?: IGetUserBlockedBlockedFundslistResponse | undefined;
+}
+
 class UserService {
   GetUserDetails() {
     const promise = axios.get<IUserResponse>(
@@ -710,6 +734,17 @@ class UserService {
   exportUserAccountStatementsAsPdf(tranID: number | undefined) {
     const promise = axios.get<string>(
       `${envs.API_URL}User/ExportUserAccountStatementsAsPdf?TranID=${tranID}`,
+      {objectResponse: true},
+    );
+    return from(promise);
+  }
+
+  getUserBlockedFunds(
+    data?: IGetUserBlockedBlockedFundslistRequest | undefined,
+  ) {
+    const promise = axios.post<IGetUserBlockedBlockedFundslistResponseData>(
+      `${envs.API_URL}User/GetUserBlockedFunds`,
+      {data},
       {objectResponse: true},
     );
     return from(promise);

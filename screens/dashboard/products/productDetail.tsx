@@ -27,7 +27,11 @@ import {
 } from '@react-navigation/native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {AccountCard} from './index';
-import {IAccountBallance} from '../../../services/UserService';
+import UserService, {
+  IAccountBallance,
+  IFund,
+  IGetUserBlockedBlockedFundslistRequest,
+} from '../../../services/UserService';
 import PaginationDots from '../../../components/PaginationDots';
 import {getNumber, getString} from '../../../utils/Converter';
 import {TYPE_UNICARD} from '../../../constants/accountTypes';
@@ -45,7 +49,6 @@ import FloatingLabelInput from '../../../containers/otp/Otp';
 import OTPService, {
   GeneratePhoneOtpByUserRequest,
 } from '../../../services/OTPService';
-import {INavigationProps} from '../transfers';
 import {NAVIGATION_ACTIONS} from '../../../redux/action_types/navigation_action_types';
 import Routes from '../../../navigation/routes';
 import {TRANSFERS_ACTION_TYPES} from '../../../redux/action_types/transfers_action_types';
@@ -65,6 +68,7 @@ import {
 } from '../../../redux/actions/payments_actions';
 import PresentationService from './../../../services/PresentationServive';
 import CardService, {IGetBarcodeRequest} from '../../../services/CardService';
+import NavigationService from '../../../services/NavigationService';
 
 type RouteParamList = {
   Account: {
@@ -99,7 +103,7 @@ interface IActionSheetTypes {
   actionSheetType?: number | undefined;
 }
 
-const ProductDetail: React.FC<INavigationProps> = props => {
+const ProductDetail: React.FC = props => {
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
@@ -122,7 +126,8 @@ const ProductDetail: React.FC<INavigationProps> = props => {
   const [isBarCodeLoading, setIsBarCodeLoading] = useState<boolean>(true);
   const route = useRoute<RouteProp<RouteParamList, 'Account'>>();
   const carouselRef = createRef<ScrollView>();
-
+  const [isFundsLoading, setIsFundsLoading] = useState<boolean>(false);
+  const [funds, setFunds] = useState<IFund[] | undefined>();
   const [selectedFromAccount, setSelectedFromAccount] = useState<
     IAccountBallance | undefined
   >(undefined);
@@ -156,7 +161,9 @@ const ProductDetail: React.FC<INavigationProps> = props => {
 
   const fetchAccountStatements = () => {
     NetworkService.CheckConnection(() => {
-      dispatch(FetchUserAccountStatements({accountID: route.params.account.accountId}));
+      dispatch(
+        FetchUserAccountStatements({accountID: route.params.account.accountId}),
+      );
     });
   };
 
@@ -176,7 +183,7 @@ const ProductDetail: React.FC<INavigationProps> = props => {
       type: TRANSFERS_ACTION_TYPES.SET_SELECTED_FROM_ACCOUNT,
       selectedFromAccount: selectedFromAccount,
     });
-    props.navigation?.navigate(
+    NavigationService?.navigate(
       Routes.TransferBetweenAcctounts_CHOOSE_ACCOUNTS,
       {
         transferStep: Routes.TransferBetweenAcctounts_CHOOSE_ACCOUNTS,
@@ -194,7 +201,7 @@ const ProductDetail: React.FC<INavigationProps> = props => {
       type: TRANSFERS_ACTION_TYPES.SET_SELECTED_FROM_ACCOUNT,
       selectedFromAccount: selectedFromAccount,
     });
-    props.navigation?.navigate(Routes.TransferToBank_CHOOSE_ACCOUNTS, {
+    NavigationService?.navigate(Routes.TransferToBank_CHOOSE_ACCOUNTS, {
       transferStep: Routes.TransferToBank_CHOOSE_ACCOUNTS,
     });
   };
@@ -209,7 +216,7 @@ const ProductDetail: React.FC<INavigationProps> = props => {
       type: TRANSFERS_ACTION_TYPES.SET_SELECTED_FROM_ACCOUNT,
       selectedFromAccount: selectedFromAccount,
     });
-    props.navigation?.navigate(Routes.TransferToUni_CHOOSE_ACCOUNTS, {
+    NavigationService?.navigate(Routes.TransferToUni_CHOOSE_ACCOUNTS, {
       transferStep: Routes.TransferToUni_CHOOSE_ACCOUNTS,
     });
   };
@@ -224,7 +231,7 @@ const ProductDetail: React.FC<INavigationProps> = props => {
       type: TRANSFERS_ACTION_TYPES.SET_SELECTED_FROM_ACCOUNT,
       selectedFromAccount: selectedFromAccount,
     });
-    props.navigation?.navigate(Routes.TransferConvertation_CHOOSE_ACCOUNTS, {
+    NavigationService?.navigate(Routes.TransferConvertation_CHOOSE_ACCOUNTS, {
       transferStep: Routes.TransferConvertation_CHOOSE_ACCOUNTS,
     });
   };
@@ -291,6 +298,30 @@ const ProductDetail: React.FC<INavigationProps> = props => {
       ccyLogo = require('./../../../assets/images/uniLogo.png');
     }
     return ccyLogo;
+  };
+
+  const GetUserBlockedFunds = () => {
+    setIsFundsLoading(true);
+    let data: IGetUserBlockedBlockedFundslistRequest | undefined = {
+      accountNumer: route.params.account.accountNumber,
+    };
+    if (!route.params.account.accountNumber) {
+      data = undefined;
+    }
+    UserService.getUserBlockedFunds(data).subscribe({
+      next: Response => {
+        console.log(Response.data.data?.funds);
+        if (Response.data.ok) {
+          setFunds(Response.data.data?.funds);
+        }
+      },
+      complete: () => {
+        setIsFundsLoading(false);
+      },
+      error: err => {
+        setIsFundsLoading(false);
+      },
+    });
   };
 
   const cardBlock = () => {
@@ -429,7 +460,7 @@ const ProductDetail: React.FC<INavigationProps> = props => {
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
       parentRoute: Routes.Products,
     });
-    props.navigation?.navigate(url || Routes.Payments_STEP1, {
+    NavigationService?.navigate(url || Routes.Payments_STEP1, {
       paymentStep:
         getNumber(paymentStep) >= 0
           ? paymentStep
@@ -586,6 +617,12 @@ const ProductDetail: React.FC<INavigationProps> = props => {
   };
 
   useEffect(() => {
+    if (route.params.account.type !== TYPE_UNICARD) {
+      GetUserBlockedFunds();
+    }
+  }, []);
+
+  useEffect(() => {
     if (actionSheetStatus == ACTION_SHEET_STATUSES.otp) {
       SendPhoneOTP();
     }
@@ -610,7 +647,7 @@ const ProductDetail: React.FC<INavigationProps> = props => {
   const cardWidth = dimension.width - 40;
 
   const actionSheetHeight = 410;
-  
+
   return (
     <DashboardLayout>
       {actionLoading && (
@@ -663,19 +700,21 @@ const ProductDetail: React.FC<INavigationProps> = props => {
                 account={route.params.account}
                 cardContainerStyle={{width: cardWidth}}
               />
-              {route.params.account.type === PACKET_TYPE_IDS.unicard && (
-                isBarCodeLoading ? <ActivityIndicator
-                size="small"
-                color={colors.primary}
-                style={styles.loadingBox}
-              /> : 
-                <Image
-                  source={{
-                    uri: `data:image/png;base64,${barcode}`,
-                  }}
-                  style={styles.barCode}
-                />
-              )}
+              {route.params.account.type === PACKET_TYPE_IDS.unicard &&
+                (isBarCodeLoading ? (
+                  <ActivityIndicator
+                    size="small"
+                    color={colors.primary}
+                    style={styles.loadingBox}
+                  />
+                ) : (
+                  <Image
+                    source={{
+                      uri: `data:image/png;base64,${barcode}`,
+                    }}
+                    style={styles.barCode}
+                  />
+                ))}
             </View>
           )}
 
@@ -1010,8 +1049,9 @@ const ProductDetail: React.FC<INavigationProps> = props => {
         <View style={[screenStyles.wraper, styles.transactions]}>
           <TransactionsList
             statements={userData.useAccountStatements?.statements}
+            funds={funds}
             hideSeeMoreButton={true}
-            isLoading={userData.isStatementsLoading}
+            isLoading={userData.isStatementsLoading || isFundsLoading}
             containerStyle={styles.transactionContainer}
           />
         </View>
@@ -1325,7 +1365,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     flex: 1,
     marginTop: 10,
-  }
+  },
 });
 
 export default ProductDetail;

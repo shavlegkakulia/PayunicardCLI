@@ -50,7 +50,7 @@ import {
 import Validation, {required} from '../../../components/UI/Validation';
 import {accountTpeCheckRegX} from '../../../utils/Regex';
 import opClassCodes from '../../../constants/opClassCodes';
-import {INavigationProps, TRANSFER_TYPES} from '.';
+import { TRANSFER_TYPES } from './index';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import Routes from '../../../navigation/routes';
 import {
@@ -67,7 +67,6 @@ import {tabHeight} from '../../../navigation/TabNav';
 import NavigationService from '../../../services/NavigationService';
 import {subscriptionService} from '../../../services/subscriptionService';
 import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
-import KvalificaServices from '../../../services/KvalificaServices';
 
 type RouteParamList = {
   params: {
@@ -79,7 +78,7 @@ type RouteParamList = {
 
 const ValidationContext = 'transferToUni';
 
-const TransferToUni: React.FC<INavigationProps> = props => {
+const TransferToUni: React.FC = () => {
   const [fromAccountVisible, setFromAccountVisible] = useState(false);
   const [fromCurrencyVisible, setFromCurrencyVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

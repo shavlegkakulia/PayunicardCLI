@@ -11,7 +11,10 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 import colors from '../../../constants/colors';
-import {IGetTransactionDetailsResponse} from '../../../services/UserService';
+import {
+  IFund,
+  IGetTransactionDetailsResponse,
+} from '../../../services/UserService';
 import {
   CurrencyConverter,
   CurrencySimbolConverter,
@@ -23,6 +26,7 @@ import AuthService from '../../../services/AuthService';
 
 interface IProps {
   statement: IGetTransactionDetailsResponse | undefined;
+  fundStatement: IFund | undefined;
   onDownload?: (tranID: number | undefined) => void;
   sendHeader: (element: JSX.Element | null) => void;
 }
@@ -459,63 +463,51 @@ const ViewBlocked: React.FC<IProps> = props => {
         <View>
           <View style={styles.currencyColumn}>
             <Text style={[styles.amountccy, styles.blockedAmount]}>
-              {CurrencyConverter(props.statement?.amount)}{' '}
+              {CurrencyConverter(props.fundStatement?.amount)}{' '}
             </Text>
             <Text style={[styles.amountccy, styles.blockedAmount]}>
-              {CurrencySimbolConverter(props.statement?.ccy)}
+              {CurrencySimbolConverter(props.fundStatement?.currency)}
             </Text>
           </View>
 
-          {props.statement?.tranDate && (
+          {props.fundStatement?.transactionDate && (
             <View style={styles.tranDateColumn}>
               <Text style={styles.textDescStyle}>
-                {formatDate(props.statement?.tranDate)}
+                {formatDate(props.fundStatement?.transactionDate)}
               </Text>
             </View>
           )}
         </View>
       </View>
 
-      <Text style={styles.textDescStyle}>ბლოკირებული თანხა</Text>
-
       <View style={styles.splitter}></View>
 
       <View style={styles.detailBox}>
+      <Text style={[styles.textHeaderStyle, styles.bolder]}>ბლოკირებული თანხა</Text>
         <Text style={styles.textHeaderStyle}>მერჩანტის სახელი</Text>
-        {props.statement?.abvrName && (
+        {props.fundStatement?.merchantDescription && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>
-              {props.statement?.abvrName}
+              {props.fundStatement?.merchantDescription}
             </Text>
           </View>
         )}
-        {props.statement?.terminal && (
+        {props.fundStatement?.terminalNumber && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>ტერმინალის ნომერი</Text>
             <Text style={styles.textDescValueStyle}>
-              {props.statement?.terminal}
+              {props.fundStatement?.terminalNumber}
             </Text>
           </View>
         )}
-        {props.statement?.senderMaskedCardNumber && (
+        {props.fundStatement?.cardNumber && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>ბარათის ნომერი</Text>
             <Text style={styles.textDescValueStyle}>
-              {props.statement?.receiveraccount}
+              {props.fundStatement?.cardNumber}
             </Text>
           </View>
         )}
-      </View>
-      <View style={styles.download}>
-        <TouchableOpacity
-          style={styles.downloadBtn}
-          onPress={props.onDownload?.bind(this, props.statement?.tranid)}>
-          <View style={styles.downloadBg}>
-            <Image
-              source={require('./../../../assets/images/icon-download-primary.png')}
-            />
-          </View>
-        </TouchableOpacity>
       </View>
     </>
   );
@@ -585,7 +577,10 @@ const TransactionDetailView: React.FC<IProps> = props => {
   };
 
   useEffect(() => {
-    console.log(props.statement?.opClass);
+    if (props.fundStatement) {
+      setTransactionType(TRANSACTION_TYPES.BLOCKED);
+      return;
+    }
     if (
       props.statement?.opClass == 'CLIRING.C' ||
       props.statement?.opClass == 'CLIRING.C_EUR' ||
@@ -759,7 +754,7 @@ const styles = StyleSheet.create({
   download: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 30
+    marginBottom: 30,
   },
   downloadBtn: {
     width: 40,
@@ -774,6 +769,10 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
+  bolder: {
+    color: colors.black,
+    marginBottom: 10
+  }
 });
 
 export default TransactionDetailView;

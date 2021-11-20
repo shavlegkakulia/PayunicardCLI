@@ -38,7 +38,6 @@ import {CurrencyConverter} from '../../utils/Converter';
 import DashboardLayout from '../DashboardLayout';
 import CurrentMoney from './currentMoney';
 import TransactionsList from './transactions/TransactionsList';
-import {INavigationProps} from './transfers';
 import Verification from './Verification/Index';
 import Routes from '../../navigation/routes';
 import {subscriptionService} from '../../services/subscriptionService';
@@ -47,9 +46,11 @@ import SUBSCRIBTION_KEYS from '../../constants/subscribtionKeys';
 import {NAVIGATION_ACTIONS} from '../../redux/action_types/navigation_action_types';
 import {useNavigationState} from '@react-navigation/native';
 import {PAYMENTS_ACTIONS} from '../../redux/action_types/payments_action_type';
-import NavigationService, { OpenDrawer } from '../../services/NavigationService';
+import NavigationService, {OpenDrawer} from '../../services/NavigationService';
 import {TRANSFERS_ACTION_TYPES} from '../../redux/action_types/transfers_action_types';
 import {debounce} from '../../utils/utils';
+import UserService, {IFund} from '../../services/UserService';
+import { NavigationEventSubscription, NavigationScreenProp } from 'react-navigation';
 
 const offers = [
   {
@@ -69,7 +70,11 @@ const offers = [
   },
 ];
 
-const Dashboard: React.FC<INavigationProps> = props => {
+export interface IProps {
+  navigation: NavigationScreenProp<any,any>
+};
+
+const Dashboard: React.FC<IProps> = props => {
   const [offersStep, setOffersStep] = useState<number>(0);
   const [refreshing, setRefreshing] = useState(false);
   const [isVerificationStart, setIsVerificationStart] = useState(false);
@@ -79,6 +84,8 @@ const Dashboard: React.FC<INavigationProps> = props => {
   const [actionsSheetHeader, setActionsSheetHeader] =
     useState<JSX.Element | null>(null);
   const [actionsVisible, setActionsVisible] = useState(false);
+  const [isFundsLoading, setIsFundsLoading] = useState<boolean>(false);
+  const [funds, setFunds] = useState<IFund[] | undefined>();
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
@@ -108,7 +115,7 @@ const Dashboard: React.FC<INavigationProps> = props => {
 
   const openUnicardSidebar = () => {
     OpenDrawer[1]();
-  }
+  };
 
   const close_verification = () => {
     setIsVerificationStart(false);
@@ -210,7 +217,7 @@ const Dashboard: React.FC<INavigationProps> = props => {
       <View style={styles.productsViewHeader}>
         <Text style={styles.productsViewTitle}>ჩემი პროდუქტები</Text>
         <TouchableOpacity
-          onPress={() => props.navigation?.navigate(Routes.Products)}>
+          onPress={() => NavigationService.navigate(Routes.Products)}>
           <Text style={styles.productsViewSeeall}>ყველა</Text>
         </TouchableOpacity>
       </View>
@@ -249,7 +256,9 @@ const Dashboard: React.FC<INavigationProps> = props => {
   );
 
   const UnicardAction = (
-    <TouchableOpacity activeOpacity={0.8} onPress={openUnicardSidebar}
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={openUnicardSidebar}
       style={[styles.unicardActionContainer, screenStyles.shadowedCardbr15]}>
       <View style={styles.unicardActionInnerLeft}>
         <View style={styles.unicardLogoBox}>
@@ -330,7 +339,26 @@ const Dashboard: React.FC<INavigationProps> = props => {
     });
   };
 
+  const GetUserBlockedFunds = () => {
+    setIsFundsLoading(true);
+    UserService.getUserBlockedFunds().subscribe({
+      next: Response => {
+        console.log(Response.data.data?.funds);
+        if (Response.data.ok) {
+          setFunds(Response.data.data?.funds);
+        }
+      },
+      complete: () => {
+        setIsFundsLoading(false);
+      },
+      error: err => {
+        setIsFundsLoading(false);
+      },
+    });
+  };
+
   const GetRouteInfo = useCallback((e: any) => {
+    console.log('logging here route state')
     const {index, routes} = e.data.state;
     const currentRoute = routes[index]?.name;
 
@@ -352,15 +380,18 @@ const Dashboard: React.FC<INavigationProps> = props => {
     }
   }, []);
 
-  const RouteListener = useRef();
+  const RouteListener = useRef<NavigationEventSubscription>();
 
   useEffect(() => {
-    RouteListener.current = props.navigation?.addListener(
+    RouteListener.current = props.navigation.addListener(
       'state',
       GetRouteInfo,
     );
 
-    return RouteListener.current;
+    return () => {
+      console.log('unmount+++++++++++++++++++++++++++++++++++');
+      RouteListener.current?.remove();
+    }
   }, []);
 
   const onRefresh = () => {
@@ -390,6 +421,10 @@ const Dashboard: React.FC<INavigationProps> = props => {
     userData.isTotalBalanceLoading,
     userData.isUserProductsLoading,
   ]);
+
+  useEffect(() => {
+    GetUserBlockedFunds();
+  }, []);
 
   const actionSHeetCloseDelay = debounce((e: Function) => e(), 1000);
 
@@ -460,7 +495,8 @@ const Dashboard: React.FC<INavigationProps> = props => {
         <View style={screenStyles.wraper}>
           <TransactionsList
             statements={userData.useAccountStatements?.statements}
-            isLoading={userData.isStatementsLoading}
+            funds={funds}
+            isLoading={userData.isStatementsLoading || isFundsLoading}
             containerStyle={styles.transactionContainer}
           />
         </View>

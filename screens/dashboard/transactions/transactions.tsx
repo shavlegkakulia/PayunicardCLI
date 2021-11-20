@@ -16,10 +16,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../../components/UI/AppButton';
 import AppInput, {InputTypes} from '../../../components/UI/AppInput';
 import colors from '../../../constants/colors';
-import {
-  FetchUserAccountStatements,
-  FetchUserProducts,
-} from '../../../redux/actions/user_actions';
+import {FetchUserProducts} from '../../../redux/actions/user_actions';
 import {
   IUserState,
   IGloablState as IUserGlobalState,
@@ -32,7 +29,9 @@ import ActionSheetCustom from './../../../components/actionSheet';
 import AccountSelect from '../../../components/AccountSelect/AccountSelect';
 import UserService, {
   IAccountBallance,
+  IFund,
   IGetUserAccountsStatementResponse,
+  IGetUserBlockedBlockedFundslistRequest,
   IStatements,
   IUserAccountsStatementRequest,
 } from '../../../services/UserService';
@@ -86,10 +85,12 @@ const Transactions: React.FC = () => {
   const [dateVisible, setDateVisible] = useState(false);
   const [accountVisible, setAccountVisible] = useState(false);
   const [isUnicardsLoading, setIsUnicardsLoading] = useState<boolean>(false);
+  const [isFundsLoading, setIsFundsLoading] = useState<boolean>(false);
   const [useAccountStatements, setUseAccountStatements] = useState<
     IGetUserAccountsStatementResponse | undefined
   >();
   const [isStatementsLoading, setIsStatementsLoading] = useState<boolean>(true);
+  const [funds, setFunds] = useState<IFund[] | undefined>();
   const scrollRef = useRef<ScrollView | null>(null);
   const dispatch = useDispatch();
 
@@ -193,6 +194,31 @@ const Transactions: React.FC = () => {
     });
   };
 
+  const GetUserBlockedFunds = () => {
+    setIsFundsLoading(true);
+    let data: IGetUserBlockedBlockedFundslistRequest | undefined = {
+      accountNumer: selectedAccount?.accountNumber,
+    };
+    if (
+      !selectedAccount?.accountNumber
+    ) {
+      data = undefined;
+    }
+    UserService.getUserBlockedFunds(data).subscribe({
+      next: Response => {
+        if (Response.data.ok) {
+          setFunds(Response.data.data?.funds);
+        }
+      },
+      complete: () => {
+        setIsFundsLoading(false);
+      },
+      error: err => {
+        setIsFundsLoading(false);
+      },
+    });
+  };
+
   const refreshStatementDebounce = debounce((e: Function) => e(), 1000);
 
   const removeFilter = (stateKey: string) => {
@@ -227,7 +253,7 @@ const Transactions: React.FC = () => {
 
   const getLast = (monthCount: number) => {
     setSelectedStartDate(minusMonthFromDate(monthCount));
-  }
+  };
 
   const FetchUserData = () => {
     NetworkService.CheckConnection(() => {
@@ -247,6 +273,12 @@ const Transactions: React.FC = () => {
   const onRefresh = () => {
     FetchUserData();
   };
+
+  useEffect(() => {
+    if(selectedAccount?.type !== TYPE_UNICARD) {
+      GetUserBlockedFunds();
+    }
+  }, []);
 
   useEffect(() => {
     getStatements();
@@ -402,9 +434,12 @@ const Transactions: React.FC = () => {
           <TransactionsList
             statements={filteredStatements}
             unicards={filteredUnicardStatements}
+            funds={funds}
             hideSeeMoreButton={true}
             isLoading={
-              (isStatementsLoading && !fetchingMore) || isUnicardsLoading
+              (isStatementsLoading && !fetchingMore) ||
+              isUnicardsLoading ||
+              isFundsLoading
             }
             containerStyle={[
               styles.transactionContainer,
@@ -452,19 +487,27 @@ const Transactions: React.FC = () => {
 
             <View>
               <View style={styles.lastDatesContainer}>
-                <TouchableOpacity style={styles.lastDate} onPress={getLast.bind(this, 1)}>
+                <TouchableOpacity
+                  style={styles.lastDate}
+                  onPress={getLast.bind(this, 1)}>
                   <Text style={styles.lastDateText}>ბოლო თვე</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.lastDate} onPress={getLast.bind(this, 3)}>
+                <TouchableOpacity
+                  style={styles.lastDate}
+                  onPress={getLast.bind(this, 3)}>
                   <Text style={styles.lastDateText}>ბოლო სამი თვე</Text>
                 </TouchableOpacity>
               </View>
 
               <View style={styles.lastDatesContainer}>
-                <TouchableOpacity style={styles.lastDate} onPress={getLast.bind(this, 6)}>
+                <TouchableOpacity
+                  style={styles.lastDate}
+                  onPress={getLast.bind(this, 6)}>
                   <Text style={styles.lastDateText}>ბოლო ექვსი თვე</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.lastDate} onPress={getLast.bind(this, 12)}>
+                <TouchableOpacity
+                  style={styles.lastDate}
+                  onPress={getLast.bind(this, 12)}>
                   <Text style={styles.lastDateText}>ბოლო წელი</Text>
                 </TouchableOpacity>
               </View>
