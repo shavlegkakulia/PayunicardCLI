@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'space-between',
-    //paddingHorizontal: 20,
+    paddingHorizontal: 5,
     shadowColor: colors.black,
     shadowOffset: {
       width: 2,
