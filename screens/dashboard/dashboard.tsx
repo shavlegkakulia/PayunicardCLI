@@ -114,7 +114,7 @@ const Dashboard: React.FC<IProps> = props => {
   };
 
   const openUnicardSidebar = () => {
-    OpenDrawer[1] && OpenDrawer[1]();
+    OpenDrawer && OpenDrawer[1]();
   };
 
   const close_verification = () => {
@@ -382,17 +382,16 @@ const Dashboard: React.FC<IProps> = props => {
 
   const RouteListener = useRef<NavigationEventSubscription>();
 
-  // useEffect(() => {
-  //   RouteListener.current = props.navigation.addListener(
-  //     'state',
-  //     GetRouteInfo,
-  //   );
+  useEffect(() => {
+    RouteListener.current = props.navigation.addListener(
+      'state',
+      GetRouteInfo,
+    );
 
-  //   return () => {
-  //     console.log('unmount+++++++++++++++++++++++++++++++++++');
-  //     RouteListener.current?.remove();
-  //   }
-  // }, []);
+    return () => {
+      RouteListener.current?.remove();
+    }
+  }, []);
 
   const onRefresh = () => {
     FetchUserData();

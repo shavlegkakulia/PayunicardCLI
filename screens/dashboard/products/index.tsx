@@ -661,6 +661,7 @@ const Products: React.FC = props => {
                   </View>
                   {userBankCards?.bankCards?.map(bankCard => (
                     <View
+                      key={bankCard.cardId}
                       style={[styles.addedCardBox, {width: addedCardWidth}]}>
                       <View
                         style={[styles.addedCard, styles.addedCard1]}
@@ -840,7 +841,7 @@ const Products: React.FC = props => {
 
 const styles = StyleSheet.create({
   avoid: {
-    paddingBottom: tabHeight
+    paddingBottom: tabHeight,
   },
   currentMoneyBox: {
     marginTop: 35,

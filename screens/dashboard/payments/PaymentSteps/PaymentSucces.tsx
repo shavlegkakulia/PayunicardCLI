@@ -13,7 +13,10 @@ import AppInput from '../../../../components/UI/AppInput';
 import colors from '../../../../constants/colors';
 import Routes from '../../../../navigation/routes';
 import {tabHeight} from '../../../../navigation/TabNav';
-import {addPayTemplate} from '../../../../redux/actions/payments_actions';
+import {
+  addPayTemplate,
+  getPayTemplates,
+} from '../../../../redux/actions/payments_actions';
 import {NAVIGATION_ACTIONS} from '../../../../redux/action_types/navigation_action_types';
 import {
   IGlobalPaymentState,
@@ -22,7 +25,6 @@ import {
 } from '../../../../redux/action_types/payments_action_type';
 import NavigationService from '../../../../services/NavigationService';
 import screenStyles from '../../../../styles/screens';
-import {INavigationProps} from '../../transfers';
 
 type RouteParamList = {
   params: {
@@ -32,7 +34,7 @@ type RouteParamList = {
 
 const ValidationContext = 'payment4';
 
-const PaymentSucces: React.FC<INavigationProps> = props => {
+const PaymentSucces: React.FC = props => {
   const [templateNameInputToggle, setTemplateNameInputToggle] =
     useState<boolean>(false);
   const PaymentStore = useSelector<IGlobalPaymentState>(
@@ -54,7 +56,7 @@ const PaymentSucces: React.FC<INavigationProps> = props => {
         type: NAVIGATION_ACTIONS.SET_HIDER_VISIBLE,
         visible: true,
       });
-
+      dispatch(getPayTemplates());
       NavigationService.navigate(Routes.Payments);
     };
     const {op_id} = PaymentStore.paymentTransactionData || {};

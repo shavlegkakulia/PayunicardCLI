@@ -98,18 +98,16 @@ export const addPayTemplate =
         TemplatesService.addTemplate(data).subscribe({
           next: Response => {
             if (Response.data.ok) {
+              // dispatch({
+              //   type: PAYMENTS_ACTIONS.ADD_IN_PAY_TEMPLATE,
+              //   currentPayTemplate: data,
+              // });
               dispatch({
-                type: PAYMENTS_ACTIONS.ADD_IN_PAY_TEMPLATE,
-                currentPayTemplate: data,
+                type: PAYMENTS_ACTIONS.SET_IS_PAYMENT_ACTION_LOADING,
+                isActionLoading: false,
               });
+              callback(true);
             }
-          },
-          complete: () => {
-            dispatch({
-              type: PAYMENTS_ACTIONS.SET_IS_PAYMENT_ACTION_LOADING,
-              isActionLoading: false,
-            });
-            callback(true);
           },
           error: () => {
             dispatch({

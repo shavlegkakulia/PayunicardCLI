@@ -55,7 +55,6 @@ import {
   getNumber,
   getString,
 } from '../../../../utils/Converter';
-import {INavigationProps} from '../../transfers';
 import SetOtp from './SetOtp';
 
 type RouteParamList = {
@@ -69,7 +68,7 @@ type RouteParamList = {
 
 const ValidationContext = 'payment3';
 
-const InsertAccointAndAmount: React.FC<INavigationProps> = props => {
+const InsertAccointAndAmount: React.FC = props => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [accountVisible, setAccountVisible] = useState<boolean>(false);
   const [otpVisible, setOtpVisible] = useState<boolean>(false);
@@ -209,7 +208,9 @@ const InsertAccointAndAmount: React.FC<INavigationProps> = props => {
         },
         status => {
           if (status) {
-            NavigationService.navigate(Routes.Payments_SUCCES);
+            NavigationService.navigate(Routes.Payments_SUCCES, {
+              withTemplate: route.params.withTemplate,
+            });
           }
         },
       ),
@@ -446,7 +447,7 @@ const InsertAccointAndAmount: React.FC<INavigationProps> = props => {
                     {CurrencyConverter(
                       PaymentStore.isTemplate
                         ? PaymentStore.amount
-                        : PaymentStore.paymentDetails?.amount,
+                        : getNumber(PaymentStore.paymentDetails?.amount),
                     )}{' '}
                     {CurrencySimbolConverter(GEL)}
                   </Text>
