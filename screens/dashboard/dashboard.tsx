@@ -467,6 +467,8 @@ const Dashboard: React.FC<IProps> = props => {
   const sheetHeight = Dimensions.get('window').height - 20;
   const ActionsSheetHeight = 440;
 
+  const allStatements = [...(userData.useAccountStatements?.statements || [])]
+
   return (
     <DashboardLayout>
       <ScrollView
@@ -493,7 +495,7 @@ const Dashboard: React.FC<IProps> = props => {
         {offersView}
         <View style={screenStyles.wraper}>
           <TransactionsList
-            statements={userData.useAccountStatements?.statements}
+            statements={allStatements}
             funds={funds}
             isLoading={userData.isStatementsLoading || isFundsLoading}
             containerStyle={styles.transactionContainer}
