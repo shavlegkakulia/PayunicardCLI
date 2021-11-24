@@ -43,6 +43,7 @@ import {stringToObject} from '../../utils/utils';
 import {require_otp} from '../../constants/errorCodes';
 import FloatingLabelInput from '../../containers/otp/Otp';
 import screenStyles from '../../styles/screens';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const CONTEXT_TYPE = 'login';
 
@@ -260,6 +261,7 @@ const LoginForm: React.FC = () => {
   const imgHeight = dimension.height < 735 ? {height: 100} : {};
 
   return (
+    <SafeAreaView>
     <AppkeyboardAVoidScrollview>
       <View style={styles.container}>
         <Header />
@@ -379,6 +381,7 @@ const LoginForm: React.FC = () => {
         </ActionSheetCustom>
       </View>
     </AppkeyboardAVoidScrollview>
+    </SafeAreaView>
   );
 };
 

@@ -42,7 +42,7 @@ const DefaultOptions = ({
       <View>
         <TouchableOpacity
           style={styles.hamburger}
-          onPress={() => OpenDrawer[0] && OpenDrawer[0]()}>
+          onPress={() => OpenDrawer && OpenDrawer[0]()}>
           <Image
             source={require('./../assets/images/hamburger.png')}
             style={styles.rightItem}
@@ -87,7 +87,7 @@ export const DefaultOptionsDrawer = ({
   ),
   headerRight: () => (
     <View>
-      <TouchableOpacity style={styles.hamburger} onPress={() => OpenDrawer[0] && OpenDrawer[0]()}>
+      <TouchableOpacity style={styles.hamburger} onPress={() => OpenDrawer && OpenDrawer[0]()}>
         <Image
           source={require('./../assets/images/hamburger.png')}
           style={styles.rightItem}

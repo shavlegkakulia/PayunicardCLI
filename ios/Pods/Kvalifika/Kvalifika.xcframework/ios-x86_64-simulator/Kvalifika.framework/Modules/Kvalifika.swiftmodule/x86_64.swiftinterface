@@ -1,0 +1,42 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5.1 (swiftlang-1300.0.31.4 clang-1300.0.29.6)
+// swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name Kvalifika
+import AVFoundation
+import CoreGraphics
+import FaceTecSDK
+import Foundation
+@_exported import Kvalifika
+import Swift
+import UIKit
+import _Concurrency
+public class KvalifikaSDK {
+  public init()
+  public static func initialize(AppID: Swift.String, Locale: Swift.String, Logo: Swift.String, DocumentIcon: Swift.String, CancelIcon: Swift.String, ActiveFlashIcon: Swift.String, InactiveFlashIcon: Swift.String, onInitialize: @escaping () -> Swift.Void, onStart: @escaping (_ sessionId: Swift.String) -> Swift.Void, onFinish: @escaping (_ sessionId: Swift.String) -> Swift.Void, onError: @escaping (_ error: Kvalifika.KvalifikaSDKError) -> Swift.Void, Development: Swift.Bool? = false)
+  public static func startSession(onViewController: UIKit.UIViewController)
+  @objc deinit
+}
+public enum KvalifikaSDKError : Swift.String {
+  case INVALID_APP_ID, USER_CANCELLED, TIMEOUT, CAMERA_PERMISSION_DENIED, LANDSCAPE_MODE_NOT_ALLOWED, REVERSE_PORTRAIT_NOT_ALLOWED, FACE_IMAGES_UPLOAD_FAILED, NO_MORE_ATTEMPTS, UNKNOWN_INTERNAL_ERROR
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum KvalifikaSDKLocale : Swift.String {
+  case EN
+  case GE
+  case RU
+  case SP
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension Kvalifika.KvalifikaSDKError : Swift.Equatable {}
+extension Kvalifika.KvalifikaSDKError : Swift.Hashable {}
+extension Kvalifika.KvalifikaSDKError : Swift.RawRepresentable {}
+extension Kvalifika.KvalifikaSDKLocale : Swift.Equatable {}
+extension Kvalifika.KvalifikaSDKLocale : Swift.Hashable {}
+extension Kvalifika.KvalifikaSDKLocale : Swift.RawRepresentable {}

@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
+  Platform,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -262,6 +263,16 @@ const Transfers: React.FC<INavigationProps> = props => {
       );
   }, [userData.userAccounts]);
 
+  const shadowedCardConditionalClass = Platform.select({
+    ios: screenStyles.shadowedCardbr15IOS,
+    android: screenStyles.shadowedCardbr15
+  });
+
+  const transfersSectionContainerItemImageContainerConditionClass = Platform.select({
+    ios: styles.transfersSectionContainerItemImageContainerIOS,
+    android: styles.transfersSectionContainerItemImageContainer
+  });
+
   return (
     <>
       <DashboardLayout>
@@ -279,7 +290,7 @@ const Transfers: React.FC<INavigationProps> = props => {
             />
           }>
           <View style={[screenStyles.wraperWithShadow]}>
-            <View style={[styles.transfersSectionContainer, screenStyles.shadowedCardbr15]}>
+            <View style={[styles.transfersSectionContainer, shadowedCardConditionalClass]}>
               <View style={styles.transfersSectionContainerHeader}>
                 <Text style={styles.transfersSectionContainerTitle}>
                   გადარიცხვა
@@ -290,7 +301,7 @@ const Transfers: React.FC<INavigationProps> = props => {
                   style={styles.transfersSectionContainerItem}
                   onPress={transferBetweenAccounts}>
                   <View
-                    style={styles.transfersSectionContainerItemImageContainer}>
+                    style={transfersSectionContainerItemImageContainerConditionClass}>
                     <Image
                       source={require('./../../../assets/images/between_accounts.png')}
                       style={styles.transfersSectionContainerItemImage}
@@ -308,7 +319,7 @@ const Transfers: React.FC<INavigationProps> = props => {
                   style={styles.transfersSectionContainerItem}
                   onPress={transferConvertation}>
                   <View
-                    style={styles.transfersSectionContainerItemImageContainer}>
+                    style={transfersSectionContainerItemImageContainerConditionClass}>
                     <Image
                       source={require('./../../../assets/images/convertation.png')}
                       style={styles.transfersSectionContainerItemImage}
@@ -332,7 +343,7 @@ const Transfers: React.FC<INavigationProps> = props => {
                   style={styles.transfersSectionContainerItem}
                   onPress={transferToUni}>
                   <View
-                    style={styles.transfersSectionContainerItemImageContainer}>
+                    style={transfersSectionContainerItemImageContainerConditionClass}>
                     <Image
                       source={require('./../../../assets/images/to_wallet.png')}
                       style={styles.transfersSectionContainerItemImage}
@@ -350,7 +361,7 @@ const Transfers: React.FC<INavigationProps> = props => {
                   style={styles.transfersSectionContainerItem}
                   onPress={transferToBank}>
                   <View
-                    style={styles.transfersSectionContainerItemImageContainer}>
+                    style={transfersSectionContainerItemImageContainerConditionClass}>
                     <Image
                       source={require('./../../../assets/images/to_bank.png')}
                       style={styles.transfersSectionContainerItemImage}
@@ -427,6 +438,21 @@ const styles = StyleSheet.create({
       height: 1,
     },
     shadowRadius: 25,
+    borderRadius: 25,
+    backgroundColor: colors.white,
+  },
+  transfersSectionContainerItemImageContainerIOS: {
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 2,
+    shadowColor: '#00000060',
+    shadowOpacity: 0.3,
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
     borderRadius: 25,
     backgroundColor: colors.white,
   },

@@ -14,6 +14,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
   Dimensions,
+  Platform,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
@@ -76,6 +77,11 @@ const PACKET_TYPE_IDS = {
   uniUltra: 4,
   unicard: TYPE_UNICARD,
 };
+
+const shadowedCardConditionalClass = Platform.select({
+  ios: screenStyles.shadowedCardbr15IOS,
+  android: screenStyles.shadowedCardbr15
+})
 
 export const OrderedCard: React.FC<IOrderedCardProps> = props => {
   const userData = useSelector<IUserGlobalState>(
@@ -582,7 +588,7 @@ const Products: React.FC = props => {
           <View
             style={[
               styles.productsViewContainer,
-              screenStyles.shadowedCardbr15,
+              shadowedCardConditionalClass
             ]}>
             <View style={styles.productsViewHeader}>
               <Text style={styles.productsViewTitle}>
@@ -632,7 +638,7 @@ const Products: React.FC = props => {
 
         <View style={screenStyles.wraperWithShadow}>
           <View
-            style={[styles.addedCardsContainer, screenStyles.shadowedCardbr15]}>
+            style={[styles.addedCardsContainer, shadowedCardConditionalClass]}>
             <View style={styles.productsViewHeader}>
               <Text style={styles.productsViewTitle}>დამატებული ბარათები</Text>
             </View>

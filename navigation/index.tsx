@@ -1,6 +1,6 @@
-import React, {useEffect, useState, FC, useCallback, useRef} from 'react';
-import { NavigationContainer, NavigationContainerRef} from '@react-navigation/native';
-import {useSelector, useDispatch} from 'react-redux';
+import React, { useEffect, useState, FC, useCallback, useRef } from 'react';
+import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 import FullScreenLoader from './../components/FullScreenLoading';
 import LandingNavigator from './LandingNavigation';
@@ -9,10 +9,10 @@ import {
   IGlobalState as AuthState,
   LOGIN,
 } from './../redux/action_types/auth_action_types';
-import AuthService, {IInterceptop} from './../services/AuthService';
+import AuthService, { IInterceptop } from './../services/AuthService';
 import CommonService from './../services/CommonService';
-import {use} from './../redux/actions/translate_actions';
-import {LANG_KEY, LOCALE_IN_STORAGE} from './../constants/defaults';
+import { use } from './../redux/actions/translate_actions';
+import { LANG_KEY, LOCALE_IN_STORAGE } from './../constants/defaults';
 import ErrorWrapper from '../components/ErrorWrapper';
 import storage from './../services/StorageService';
 import {
@@ -22,6 +22,9 @@ import {
 import PresentationServive from '../services/PresentationServive';
 import AppStack from './AppStack';
 import NavigationService from '../services/NavigationService';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import colors from '../constants/colors';
+import { StyleSheet } from 'react-native';
 
 interface ILoading {
   locale: boolean;
@@ -31,10 +34,10 @@ interface ILoading {
 const LogError = (error: string) => {
   console.log('***********************************');
   let _error = error + '*' + new Date().toLocaleDateString();
-  PresentationServive.LogError({error: _error}).subscribe({
-    next: () => {},
+  PresentationServive.LogError({ error: _error }).subscribe({
+    next: () => { },
     //error: (err) => {console.log(err)},
-    complete: () => {},
+    complete: () => { },
   });
 };
 
@@ -112,7 +115,7 @@ const AppContainer: FC = () => {
       setUserToken(data || '');
 
       if (data) {
-        dispatch({type: LOGIN, accesToken: data, isAuthenticated: true});
+        dispatch({ type: LOGIN, accesToken: data, isAuthenticated: true });
       }
 
       setIsLoading(loading => {
@@ -133,10 +136,17 @@ const AppContainer: FC = () => {
         ref={(navigatorRef: NavigationContainerRef) => {
           NavigationService.setTopLevelNavigator(navigatorRef);
         }}>
-        {!userToken ? <LandingNavigator /> : <AppStack />}
+        {!userToken ? <LandingNavigator /> : <SafeAreaView style={styles.content}><AppStack /></SafeAreaView>}
       </NavigationContainer>
     </ErrorWrapper>
   );
 };
+
+const styles = StyleSheet.create({
+  content: {
+    lexGrow: 1, backgroundColor:
+      colors.baseBackgroundColor
+  }
+})
 
 export default AppContainer;

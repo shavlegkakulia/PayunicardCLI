@@ -28,6 +28,16 @@ const screenStyles = StyleSheet.create({
         shadowRadius: 15,
         borderRadius: 15,
     },
+    shadowedCardbr15IOS: {
+        margin: 4,
+        shadowColor: '#00000030',
+        shadowOpacity: 0.3,
+        shadowOffset: {
+            width: 1,
+            height: 1
+        },
+        borderRadius: 15,
+    },
     shadowedCardbr10: {
         margin: 4,
         elevation: 4,
