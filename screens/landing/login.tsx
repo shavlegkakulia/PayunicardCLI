@@ -7,7 +7,6 @@ import {
   Image,
   Keyboard,
   EmitterSubscription,
-  Dimensions,
   KeyboardAvoidingView,
 } from 'react-native';
 import AppInput, {autoCapitalize} from './../../components/UI/AppInput';
@@ -27,23 +26,21 @@ import {
 } from './../../redux/action_types/translate_action_types';
 import {use} from './../../redux/actions/translate_actions';
 import Validation, {required} from './../../components/UI/Validation';
-import Signup, {REG_STEPS} from './../landing/signup';
 import LoginWithPassword from './loginWithPassword';
 import storage from './../../services/StorageService';
 import {AUTH_USER_INFO} from '../../constants/defaults';
 import FullScreenLoader from '../../components/FullScreenLoading';
 import {IUserDetails} from '../../services/UserService';
-import ActionSheetCustom from './../../components/actionSheet/index';
 import {AppkeyboardAVoidScrollview} from '../../components/UI/AppkeyboardAVoidScrollview';
 import NetworkService from '../../services/NetworkService';
 import {useDimension} from '../../hooks/useDimension';
-import PasswordReset from './PasswordReset';
 import AuthService, {IAuthorizationRequest} from '../../services/AuthService';
 import {stringToObject} from '../../utils/utils';
 import {require_otp} from '../../constants/errorCodes';
 import FloatingLabelInput from '../../containers/otp/Otp';
 import screenStyles from '../../styles/screens';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import Routes from '../../navigation/routes';
+import { useNavigation } from '@react-navigation/native';
 
 const CONTEXT_TYPE = 'login';
 
@@ -63,16 +60,11 @@ const LoginForm: React.FC = () => {
   const [otp, setOtp] = useState<any>(null);
   const [focused, setFocused] = useState(false);
   const [otpVisible, setOtpVisible] = useState(false);
-  const [regStep, setRegStep] = useState(0);
-  const [registerVisible, setRegisterVisible] = useState<boolean>(false);
-  const [passwordResetVisible, setPasswordResetVisible] =
-    useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IUserDetails | null>({});
   const [isLoading, setIsLoading] = useState(true);
   const [isUserLoading, setIsUserLoading] = useState(false);
-  const [heightIsChanged, setHeightIsChanged] = useState(true);
-  const [asheetHeader, setAsheetHeader] = useState<JSX.Element | null>(null);
   const dimension = useDimension();
+  const navigation = useNavigation();
 
   const dismissLoginWIthPassword = () => {
     setUserInfo(null);
@@ -185,20 +177,6 @@ const LoginForm: React.FC = () => {
     }, 100);
   }, [focused]);
 
-  const registerStep = (step: number) => {
-    setRegStep(step);
-    if (step === REG_STEPS.STEP_FIVE) {
-      setRegisterVisible(false);
-    } else if (step === REG_STEPS.STEP_FOUR) {
-      Keyboard.dismiss();
-      setHeightIsChanged(prevValue => true);
-    }
-  };
-
-  const passwordResetStepClose = () => {
-    setPasswordResetVisible(false);
-  };
-
   const Header = () => {
     return (
       <View style={styles.headerContainer}>
@@ -245,23 +223,26 @@ const LoginForm: React.FC = () => {
     );
   }
 
-  const getHeader = (str: JSX.Element | null) => {
-    setAsheetHeader(str);
+  const NavigateToRegister = () => {
+    console.log('press')
+    navigation.navigate(Routes.Signup);
   };
 
-  if (isLoading) {
-    return <FullScreenLoader />;
-  }
+  const NavigateToResetPassword = () => {
+    navigation.navigate(Routes.ResetPassword);
+  };
 
+  // if (isLoading) {
+  //   return <FullScreenLoader />;
+  // }
+console.log('***********************')
   let buttonContainerStyle = focused
     ? {...styles.buttonContainer, marginBottom: 15}
     : {...styles.buttonContainer};
-  const actionSheetHeight =
-    regStep === REG_STEPS.STEP_FOUR ? dimension.height - 20 : 510;
+
   const imgHeight = dimension.height < 735 ? {height: 100} : {};
 
   return (
-    <SafeAreaView>
     <AppkeyboardAVoidScrollview>
       <View style={styles.container}>
         <Header />
@@ -333,7 +314,7 @@ const LoginForm: React.FC = () => {
                 style={styles.forgotPasswordHandler}
                 TextStyle={styles.forgotLabel}
                 title={translate.t('login.forgotpassword')}
-                onPress={() => setPasswordResetVisible(true)}
+                onPress={NavigateToResetPassword}
               />
             </View>
             <View style={buttonContainerStyle}>
@@ -348,40 +329,13 @@ const LoginForm: React.FC = () => {
                 color={`${colors.black}`}
                 style={styles.btnForgotPassword}
                 title={translate.t('login.signup')}
-                onPress={() => setRegisterVisible(true)}
+                onPress={NavigateToRegister}
               />
             </View>
           </View>
         )}
-
-        <ActionSheetCustom
-          header={asheetHeader}
-          scrollable={false}
-          hasDraggableIcon={true}
-          visible={registerVisible}
-          hasScroll={true}
-          height={actionSheetHeight}
-          heightIsChanged={heightIsChanged}
-          onPress={() => setRegisterVisible(false)}>
-          <Signup onComplate={registerStep} sendHeader={getHeader} />
-        </ActionSheetCustom>
-
-        <ActionSheetCustom
-          header={asheetHeader}
-          scrollable={false}
-          hasDraggableIcon={true}
-          visible={passwordResetVisible}
-          hasScroll={true}
-          height={actionSheetHeight}
-          onPress={passwordResetStepClose}>
-          <PasswordReset
-            onComplate={passwordResetStepClose}
-            sendHeader={getHeader}
-          />
-        </ActionSheetCustom>
       </View>
     </AppkeyboardAVoidScrollview>
-    </SafeAreaView>
   );
 };
 

@@ -10,7 +10,6 @@ import {
   ImageSourcePropType,
   Dimensions,
   ActivityIndicator,
-  Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
@@ -649,16 +648,6 @@ const ProductDetail: React.FC = props => {
 
   const actionSheetHeight = 410;
 
-  const transfersSectionContainerItemImageContainerConditionClass = Platform.select({
-    ios: styles.transfersSectionContainerItemImageContainerIOS,
-    android: styles.transfersSectionContainerItemImageContainer
-  });
-
-  const sectionContainerItemImageContainerConditionClass = Platform.select({
-    ios: styles.sectionContainerItemImageContainerIOS,
-    android: styles.sectionContainerItemImageContainer
-  });
-
   return (
     <DashboardLayout>
       {actionLoading && (
@@ -756,7 +745,7 @@ const ProductDetail: React.FC = props => {
                   onPress={() => {
                     getCategories(1, false, false, true, true, 'კომუნალურები');
                   }}>
-                  <View style={sectionContainerItemImageContainerConditionClass}>
+                  <View style={styles.sectionContainerItemImageContainer}>
                     <Image
                       source={{uri: `${envs.CDN_PATH}utility/home.png`}}
                       style={styles.toolsIcon}
@@ -782,7 +771,7 @@ const ProductDetail: React.FC = props => {
                           'ტელევიზია და ინტერნეტი',
                         );
                       }}>
-                      <View style={sectionContainerItemImageContainerConditionClass}>
+                      <View style={styles.sectionContainerItemImageContainer}>
                         <Image
                           source={{uri: `${envs.CDN_PATH}utility/internet.png`}}
                           style={styles.toolsIcon}
@@ -799,7 +788,7 @@ const ProductDetail: React.FC = props => {
                       onPress={() => {
                         getCategories(10, false, false, true, true, 'ტელეფონი');
                       }}>
-                      <View style={sectionContainerItemImageContainerConditionClass}>
+                      <View style={styles.sectionContainerItemImageContainer}>
                         <Image
                           source={{uri: `${envs.CDN_PATH}utility/phone.png`}}
                           style={styles.toolsIcon}
@@ -829,7 +818,7 @@ const ProductDetail: React.FC = props => {
                           'მობილური კავშირი',
                         );
                       }}>
-                      <View style={sectionContainerItemImageContainerConditionClass}>
+                      <View style={styles.sectionContainerItemImageContainer}>
                         <Image
                           source={{uri: `${envs.CDN_PATH}utility/mobile.png`}}
                           style={styles.toolsIcon}
@@ -853,7 +842,7 @@ const ProductDetail: React.FC = props => {
                           'პარკირება და ჯარიმები',
                         );
                       }}>
-                      <View style={sectionContainerItemImageContainerConditionClass}>
+                      <View style={styles.sectionContainerItemImageContainer}>
                         <Image
                           source={{uri: `${envs.CDN_PATH}utility/parking.png`}}
                           style={styles.toolsIcon}
@@ -877,7 +866,7 @@ const ProductDetail: React.FC = props => {
                           'აზარტული თამაშები',
                         );
                       }}>
-                      <View style={sectionContainerItemImageContainerConditionClass}>
+                      <View style={styles.sectionContainerItemImageContainer}>
                         <Image
                           source={{uri: `${envs.CDN_PATH}utility/game.png`}}
                           style={styles.toolsIcon}
@@ -924,7 +913,7 @@ const ProductDetail: React.FC = props => {
                     onPress={transferBetweenAccounts}>
                     <View
                       style={
-                        transfersSectionContainerItemImageContainerConditionClass
+                        styles.transfersSectionContainerItemImageContainer
                       }>
                       <Image
                         source={require('./../../../assets/images/between_accounts.png')}
@@ -941,7 +930,7 @@ const ProductDetail: React.FC = props => {
                     onPress={transferToUni}>
                     <View
                       style={
-                        transfersSectionContainerItemImageContainerConditionClass
+                        styles.transfersSectionContainerItemImageContainer
                       }>
                       <Image
                         source={require('./../../../assets/images/to_wallet.png')}
@@ -958,7 +947,7 @@ const ProductDetail: React.FC = props => {
                     onPress={transferConvertation}>
                     <View
                       style={
-                        transfersSectionContainerItemImageContainerConditionClass
+                        styles.transfersSectionContainerItemImageContainer
                       }>
                       <Image
                         source={require('./../../../assets/images/convertation.png')}
@@ -981,7 +970,7 @@ const ProductDetail: React.FC = props => {
                     onPress={transferToBank}>
                     <View
                       style={
-                        transfersSectionContainerItemImageContainerConditionClass
+                        styles.transfersSectionContainerItemImageContainer
                       }>
                       <Image
                         source={require('./../../../assets/images/to_bank.png')}
@@ -1011,7 +1000,7 @@ const ProductDetail: React.FC = props => {
                 <TouchableOpacity
                   style={styles.sectionContainerItem}
                   onPress={startCardBlock}>
-                  <View style={sectionContainerItemImageContainerConditionClass}>
+                  <View style={styles.sectionContainerItemImageContainer}>
                     <Image
                       source={require('./../../../assets/images/block-icon.png')}
                       style={styles.toolsIcon}
@@ -1026,7 +1015,7 @@ const ProductDetail: React.FC = props => {
                 <TouchableOpacity
                   style={styles.sectionContainerItem}
                   onPress={startPinChange}>
-                  <View style={sectionContainerItemImageContainerConditionClass}>
+                  <View style={styles.sectionContainerItemImageContainer}>
                     <Image
                       source={require('./../../../assets/images/pin-icon.png')}
                       style={styles.toolsIcon}
@@ -1041,7 +1030,7 @@ const ProductDetail: React.FC = props => {
                 <TouchableOpacity
                   style={styles.sectionContainerItem}
                   onPress={startAccountTopup}>
-                  <View style={sectionContainerItemImageContainerConditionClass}>
+                  <View style={styles.sectionContainerItemImageContainer}>
                     <Image
                       source={require('./../../../assets/images/plus_noBG.png')}
                       style={styles.toolsIcon}
@@ -1245,21 +1234,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: colors.white,
   },
-  transfersSectionContainerItemImageContainerIOS: {
-    width: 50,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 2,
-    shadowColor: '#00000030',
-    shadowOpacity: 0.3,
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
-    borderRadius: 25,
-    backgroundColor: colors.white,
-  },
   transfersSectionContainerItemImage: {
     width: 40,
     height: 40,
@@ -1305,21 +1279,6 @@ const styles = StyleSheet.create({
       height: 1,
     },
     shadowRadius: 25,
-    borderRadius: 25,
-    backgroundColor: colors.white,
-  },
-  sectionContainerItemImageContainerIOS: {
-    width: 50,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 2,
-    shadowColor: '#00000060',
-    shadowOpacity: 0.3,
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
     borderRadius: 25,
     backgroundColor: colors.white,
   },

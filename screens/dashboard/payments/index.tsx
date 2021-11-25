@@ -336,7 +336,7 @@ const Payments: FC<IProps> = props => {
       setRefreshing(false);
     }
   }, [PaymentStore.isActionLoading, PaymentStore.isCategoriesLoading,PaymentStore.isTemplatesFetching])
-  
+
   return (
     <DashboardLayout>
       {isActionLoading && (

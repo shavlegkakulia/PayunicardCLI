@@ -13,7 +13,6 @@ import {
   ActivityIndicator,
   RefreshControl,
   Dimensions,
-  Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import ActionSheetCustom from './../../components/actionSheet';
@@ -128,11 +127,6 @@ const Dashboard: React.FC<IProps> = props => {
 
   const refRBSheet = useRef<any>();
 
-  const shadowedCardConditionalClass = Platform.select({
-    ios: screenStyles.shadowedCardbr15IOS,
-    android: screenStyles.shadowedCardbr15
-  })
-
   const AccountStatusView = ({
     onStartVerification,
   }: {
@@ -198,7 +192,7 @@ const Dashboard: React.FC<IProps> = props => {
     }
 
     return (
-      <View style={[styles.accountStatusView, shadowedCardConditionalClass]}>
+      <View style={[styles.accountStatusView, screenStyles.shadowedCardbr15]}>
         <View style={styles.accountStatusViewInner}>
           <TouchableOpacity
             onPress={onStartVerification}
@@ -219,7 +213,7 @@ const Dashboard: React.FC<IProps> = props => {
   };
 
   const productsView = (
-    <View style={[styles.productsViewContainer, shadowedCardConditionalClass]}>
+    <View style={[styles.productsViewContainer, screenStyles.shadowedCardbr15]}>
       <View style={styles.productsViewHeader}>
         <Text style={styles.productsViewTitle}>ჩემი პროდუქტები</Text>
         <TouchableOpacity
@@ -265,7 +259,7 @@ const Dashboard: React.FC<IProps> = props => {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={openUnicardSidebar}
-      style={[styles.unicardActionContainer, shadowedCardConditionalClass]}>
+      style={[styles.unicardActionContainer, screenStyles.shadowedCardbr15]}>
       <View style={styles.unicardActionInnerLeft}>
         <View style={styles.unicardLogoBox}>
           <Image source={require('./../../assets/images/uniLogo.png')} />
@@ -293,7 +287,7 @@ const Dashboard: React.FC<IProps> = props => {
           <View
             style={[
               styles.offersContainerItem,
-              shadowedCardConditionalClass,
+              screenStyles.shadowedCardbr15,
               {width: screenSize.width - 90},
               index === 0 && {marginLeft: 15},
             ]}
@@ -486,7 +480,7 @@ const Dashboard: React.FC<IProps> = props => {
             onRefresh={onRefresh}
           />
         }>
-        <View style={[screenStyles.wraperWithShadow]}>
+        <View style={screenStyles.wraperWithShadow}>
           <AccountStatusView onStartVerification={start_verification} />
         </View>
         <View style={screenStyles.wraper}>

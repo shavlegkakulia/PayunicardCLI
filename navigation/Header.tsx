@@ -98,6 +98,40 @@ export const DefaultOptionsDrawer = ({
   ),
 });
 
+export const UnauthScreenOptionsDrawer = ({
+  navigation,
+  title,
+  hideHeader
+}: {
+  navigation: any;
+  title: string;
+  hideHeader?: boolean
+}): StackNavigationOptions => ({
+  headerTitleAlign: 'center',
+  headerStyle: styles.header,
+  headerShown: hideHeader ? false : true,
+  gestureEnabled: false,
+  headerLeft: () => (
+    <View style={styles.backButon}>
+      <TouchableOpacity style={styles.back} onPress={() => { navigation.goBack(); }}>
+        <Image
+          style={styles.backImg}
+          source={require('./../assets/images/back-arrow-primary.png')}
+        />
+        <Text style={styles.backText}>უკან</Text>
+      </TouchableOpacity>
+    </View>
+  ),
+  headerTitle: () => (
+   null
+  ),
+  headerRight: () => (
+    <Text numberOfLines={1} style={styles.rightTitle}>
+      {title}
+    </Text>
+  ),
+});
+
 const styles = StyleSheet.create({
   header: {
     height: headerHeight,
@@ -167,6 +201,14 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontSize: 14,
     maxWidth: '100%',
+  },
+  rightTitle: {
+    fontFamily: 'FiraGO-Bold',
+    fontWeight: '500',
+    color: colors.black,
+    fontSize: 14,
+    maxWidth: '100%',
+    marginRight: 20
   },
 });
 

@@ -73,7 +73,7 @@ const TemplatesContainer: React.FC<ITemplatesContainerProps> = props => {
     const breackWords = (text: string) => {
       const matchText = highLightWord(text, highlight);
       return (
-        <Text numberOfLines={2} >
+        <Text numberOfLines={2} style={styles.tempatesItemName}>
           {matchText.startString}
           <Text
             numberOfLines={1}

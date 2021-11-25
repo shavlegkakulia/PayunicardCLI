@@ -600,7 +600,7 @@ const sideDraver = useRef<DrawerLayout | null>();
                 })
               }
               component={AddBankCardSucces}
-            />
+            />FirstLoad
             <appStack.Screen
               name={Routes.CreatePayTemplate}
               options={props =>

@@ -36,7 +36,7 @@ import UserService, {
   IType2,
 } from '../../../services/UserService';
 import {getString} from '../../../utils/Converter';
-// cd
+import KvalifcaVerification from '../KvalifcaVerification';
 import Finish from './Finish';
 import StepEight from './StepEight';
 import StepFour from './StepFour';
@@ -646,10 +646,10 @@ const Verification: React.FC<IProps> = props => {
   
   return (
     <View style={[styles.container]}>
-      {/* <KvalifcaVerification
+      <KvalifcaVerification
         startSession={startVerification}
         onClose={closeKycSession}
-      /> */}
+      />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
           {verificationStep > VERIFICATION_STEPS.welcome &&

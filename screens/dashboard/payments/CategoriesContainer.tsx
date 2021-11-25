@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
-  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -100,13 +99,8 @@ const CategoriesContainer: React.FC<ICategoriesContainerProps> = props => {
   let categoryList = [...(props.categories || [])];
   let services = [...props.Services];
 
-  const shadowedCardConditionalClass = Platform.select({
-    ios: screenStyles.shadowedCardbr15IOS,
-    android: screenStyles.shadowedCardbr15
-  })
-
   return (
-    <View style={[styles.categoriesContainer, !props.notForTemplate && {...shadowedCardConditionalClass, marginTop: 30}]}>
+    <View style={[styles.categoriesContainer, !props.notForTemplate && {...screenStyles.shadowedCardbr15, marginTop: 30}]}>
       {!props.notForTemplate && <View style={styles.categoriesHeader}>
         <Text style={styles.categoriesTitle}>კატეგორიები</Text>
       </View>}
