@@ -45,6 +45,8 @@ import NavigationService from '../services/NavigationService';
 import Verification from '../screens/dashboard/Verification/Index';
 import StepOne from '../screens/dashboard/Verification/StepOne';
 import StepTwo from '../screens/dashboard/Verification/StepTwo';
+import StepThree from '../screens/dashboard/Verification/StepThree';
+import StepFour from '../screens/dashboard/Verification/StepFour';
 
 const appStack = createStackNavigator();
 
@@ -644,6 +646,28 @@ const AppStack: React.FC = () => {
               })
             }
             component={StepTwo}
+          />
+          <appStack.Screen
+            name={Routes.verificationStepThree}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'დამატებითი მონაცემები',
+              })
+            }
+            component={StepThree}
+          />
+          <appStack.Screen
+            name={Routes.verificationStepFour}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'დამატებითი მონაცემები',
+              })
+            }
+            component={StepFour}
           />
         </appStack.Navigator>
         <TabNav />

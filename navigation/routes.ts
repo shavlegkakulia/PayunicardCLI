@@ -68,7 +68,11 @@ const Routes = {
     AddBankCardSucces: 'AddBankCardSucces',
     verification: 'verification',
     verificationStepOne: 'verificationStepOne',
-    verificationStepTwo: 'verificationStepTwo'
+    verificationStepTwo: 'verificationStepTwo',
+    verificationStepThree: 'verificationStepThree',
+    verificationStepFour: 'verificationStepFour',
+    verificationStepFive: 'verificationStepFive',
+    verificationStepSix: 'verificationStepSix'
 }
 
 export default Routes;

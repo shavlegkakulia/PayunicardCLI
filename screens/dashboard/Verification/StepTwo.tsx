@@ -17,9 +17,11 @@ import AppInput from '../../../components/UI/AppInput';
 import AppSelect, {
   SelectItem,
 } from '../../../components/UI/AppSelect/AppSelect';
-import {required} from '../../../components/UI/Validation';
+import Validation, {required} from '../../../components/UI/Validation';
 import colors from '../../../constants/colors';
 import userStatuses from '../../../constants/userStatuses';
+import Routes from '../../../navigation/routes';
+import { tabHeight } from '../../../navigation/TabNav';
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
@@ -29,6 +31,7 @@ import {
   IGloablState as IUserGlobalState,
 } from '../../../redux/action_types/user_action_types';
 import {IKCData} from '../../../services/KvalificaServices';
+import NavigationService from '../../../services/NavigationService';
 import {ICitizenshipCountry} from '../../../services/PresentationServive';
 import UserService, {
   IExpectedType,
@@ -49,7 +52,7 @@ type RouteParamList = {
 };
 
 const skipEmployeStatuses = ['UnEmployed', 'Retired'];
-const ValidationContext = 'userVerification';
+const ValidationContext = 'Verification2';
 
 export interface ITransactionCategoryInterface {
   id: number;
@@ -69,9 +72,7 @@ const verificationStepCount = 9;
 
 const StepTwo: React.FC = () => {
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedEmploymentStatus, setSlectedEmploymentStatus] =
     useState<IStatus>();
@@ -81,16 +82,6 @@ const StepTwo: React.FC = () => {
 
   const [customerExpectedTurnoverTypes, setCustomerExpectedTurnoverTypes] =
     useState<IExpectedType[] | undefined>();
-  const [customerExpectedTurnoverType, setCustomerExpectedTurnoverType] =
-    useState<IExpectedType | undefined>();
-
-  const [transactionCategories, setTransactionCategories] = useState<
-    ITransactionCategoryInterface[]
-  >(TransactionCategories);
-  const [anotherTransactionCategory, setAnotherTransactionCategory] =
-    useState<string>();
-  const [startVerification, setStartVerification] = useState<boolean>(false);
-  const [userKYCData, setUserKYCData] = useState<IKCData | undefined>();
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
@@ -104,16 +95,27 @@ const StepTwo: React.FC = () => {
   const [jobTypeVisible, setJobTypesVisible] = useState(false);
 
   const stepThreeScreenAction = () => {
+    if (!selectedEmploymentStatus) {
+      setEmploymentStatusErrorStyle({ borderColor: colors.danger, borderWidth: 1 });
+      return;
+  } else {
+      setEmploymentStatusErrorStyle({});
+  }
+
+  if (!selectedJobType && !skipFields) {
+      setJobTypeErrorStyle({ borderColor: colors.danger, borderWidth: 1 });
+      return;
+  } else {
+      setJobTypeErrorStyle({});
+  }
+
+  if (Validation.validate(ValidationContext) && !skipFields) {
+      return;
+  }
     getCustomerExpectedTurnoverTypes();
   };
 
   const getCustomerExpectedTurnoverTypes = () => {
-    if (isLoading) return;
-
-    if (customerExpectedTurnoverTypes) {
-      //setVerificationStep(VERIFICATION_STEPS.step_three);
-      return;
-    }
 
     setIsLoading(true);
     UserService.GetCustomerExpectedTurnoverTypes().subscribe({
@@ -122,7 +124,19 @@ const StepTwo: React.FC = () => {
       },
       complete: () => {
         setIsLoading(false);
-        //setVerificationStep(VERIFICATION_STEPS.step_three);
+        NavigationService.navigate(Routes.verificationStepThree, {
+          customerExpectedTurnoverTypes,
+          selectedEmploymentStatus,
+          selectedJobType,
+          complimentary,
+          occupiedPosition,
+          country: route.params.country,
+          city: route.params.city,
+          address: route.params.address,
+          postCode: route.params.postCode,
+          employmentStatuses: route.params.employmentStatuses,
+          customerWorkTypes: route.params.customerWorkTypes,
+        });
       },
       error: () => {
         setIsLoading(false);
@@ -145,11 +159,12 @@ const StepTwo: React.FC = () => {
   );
 
   return (
-    <View style={[styles.container]}>
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
-          <StepsContent
-            currentStep={1}
+      <View style={styles.content}>
+       <View>
+       <StepsContent
+            currentStep={2}
             stepArray={Array.from(Array(verificationStepCount).keys())}
           />
           <View>
@@ -260,14 +275,17 @@ const StepTwo: React.FC = () => {
                 )}
               </View>
 
-              <AppButton
+             
+            </View>
+          </View>
+       </View>
+
+          <AppButton
                 isLoading={isLoading}
                 title={'შემდეგი'}
                 onPress={stepThreeScreenAction}
                 style={styles.button}
               />
-            </View>
-          </View>
         </View>
       </TouchableWithoutFeedback>
     </View>
@@ -276,9 +294,14 @@ const StepTwo: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    maxWidth: 327,
-    width: '100%',
-    alignSelf: 'center',
+    backgroundColor: colors.white,
+    flexGrow: 1,
+    paddingHorizontal: 20
+  },
+  content: {
+    justifyContent: 'space-between',
+    flex: 1,
+    paddingBottom: tabHeight + 40
   },
   sectionContainer: {
     marginTop: 40,
