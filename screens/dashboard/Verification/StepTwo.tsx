@@ -1,192 +1,327 @@
-import React, { useState } from "react"
-import { View, StyleSheet, Text, StyleProp, ViewStyle, TouchableOpacity, Image } from "react-native"
-import AppButton from "../../../components/UI/AppButton";
-import AppInput from "../../../components/UI/AppInput";
-import AppSelect, { SelectItem } from "../../../components/UI/AppSelect/AppSelect";
-import Validation, { required } from "../../../components/UI/Validation";
-import colors from "../../../constants/colors";
-import { IStatus, IType2 } from "../../../services/UserService";
+import {RouteProp, useRoute} from '@react-navigation/core';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+  TouchableOpacity,
+  Image,
+  Text,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
+import {useSelector} from 'react-redux';
+import AppButton from '../../../components/UI/AppButton';
+import AppInput from '../../../components/UI/AppInput';
+import AppSelect, {
+  SelectItem,
+} from '../../../components/UI/AppSelect/AppSelect';
+import {required} from '../../../components/UI/Validation';
+import colors from '../../../constants/colors';
+import userStatuses from '../../../constants/userStatuses';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
+import {
+  IUserState,
+  IGloablState as IUserGlobalState,
+} from '../../../redux/action_types/user_action_types';
+import {IKCData} from '../../../services/KvalificaServices';
+import {ICitizenshipCountry} from '../../../services/PresentationServive';
+import UserService, {
+  IExpectedType,
+  IStatus,
+  IType2,
+} from '../../../services/UserService';
+import StepsContent from './StepContent';
 
-interface IProps {
-    loading: boolean,
-    selectedEmploymentStatus: IStatus | undefined,
+type RouteParamList = {
+  params: {
+    country: ICitizenshipCountry;
+    city: string;
+    address: string;
+    postCode: string;
     employmentStatuses: IStatus[] | undefined;
-    onSetEmploymentStatus: (status: IStatus) => void,
-    selectedJobType: IType2 | undefined,
     customerWorkTypes: IType2[] | undefined;
-    onSetJobTypes: (type: IType2) => void,
-    complimentary: string | undefined,
-    onSetComplimentary: (complimentary: string) => void,
-    occupiedPosition: string | undefined,
-    onSetOccupiedPositios: (position: string) => void,
-    onComplate: () => void
-}
+  };
+};
 
 const skipEmployeStatuses = ['UnEmployed', 'Retired'];
 const ValidationContext = 'userVerification';
 
-const StepTwo: React.FC<IProps> = (props) => {
-    const [employmentStatusErrorStyle, setEmploymentStatusErrorStyle] = useState<StyleProp<ViewStyle>>({});
-    const [jobTypeErrorStyle, setJobTypeErrorStyle] = useState<StyleProp<ViewStyle>>({});
-    const [jobStatusVisible, setJobStatusVisible] = useState(false);
-    const [jobTypeVisible, setJobTypesVisible] = useState(false);
+export interface ITransactionCategoryInterface {
+  id: number;
+  value: string;
+  active: boolean;
+}
 
-    const skipFields = skipEmployeStatuses.some(employ => props.selectedEmploymentStatus?.employmentStatusCode === employ);
+const TransactionCategories: ITransactionCategoryInterface[] = [
+  {id: 1, value: 'კომუნალური და კომუნიკაციები', active: false},
+  {id: 2, value: 'ტრანსპორტი', active: false},
+  {id: 3, value: 'საერთაშორისო ტრანზაქციები', active: false},
+  {id: 4, value: 'ტოტალიზატორი, აზარტული ონლაინ თამაშები', active: false},
+  {id: 5, value: 'სხვა', active: false},
+];
 
-    const nextHandler = () => {
-        if (!props.selectedEmploymentStatus) {
-            setEmploymentStatusErrorStyle({ borderColor: colors.danger, borderWidth: 1 });
-            return;
-        } else {
-            setEmploymentStatusErrorStyle({});
-        }
+const verificationStepCount = 9;
 
-        if (!props.selectedJobType && !skipFields) {
-            setJobTypeErrorStyle({ borderColor: colors.danger, borderWidth: 1 });
-            return;
-        } else {
-            setJobTypeErrorStyle({});
-        }
+const StepTwo: React.FC = () => {
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [selectedEmploymentStatus, setSlectedEmploymentStatus] =
+    useState<IStatus>();
+  const [selectedJobType, setSelectedJobType] = useState<IType2>();
+  const [complimentary, setComplimentary] = useState<string>();
+  const [occupiedPosition, setOccupiedPosition] = useState<string>();
 
-        if (Validation.validate(ValidationContext) && !skipFields) {
-            return;
-        }
+  const [customerExpectedTurnoverTypes, setCustomerExpectedTurnoverTypes] =
+    useState<IExpectedType[] | undefined>();
+  const [customerExpectedTurnoverType, setCustomerExpectedTurnoverType] =
+    useState<IExpectedType | undefined>();
 
-        props.onComplate();
+  const [transactionCategories, setTransactionCategories] = useState<
+    ITransactionCategoryInterface[]
+  >(TransactionCategories);
+  const [anotherTransactionCategory, setAnotherTransactionCategory] =
+    useState<string>();
+  const [startVerification, setStartVerification] = useState<boolean>(false);
+  const [userKYCData, setUserKYCData] = useState<IKCData | undefined>();
+  const userData = useSelector<IUserGlobalState>(
+    state => state.UserReducer,
+  ) as IUserState;
+  const [employmentStatusErrorStyle, setEmploymentStatusErrorStyle] = useState<
+    StyleProp<ViewStyle>
+  >({});
+  const [jobTypeErrorStyle, setJobTypeErrorStyle] = useState<
+    StyleProp<ViewStyle>
+  >({});
+  const [jobStatusVisible, setJobStatusVisible] = useState(false);
+  const [jobTypeVisible, setJobTypesVisible] = useState(false);
+
+  const stepThreeScreenAction = () => {
+    getCustomerExpectedTurnoverTypes();
+  };
+
+  const getCustomerExpectedTurnoverTypes = () => {
+    if (isLoading) return;
+
+    if (customerExpectedTurnoverTypes) {
+      //setVerificationStep(VERIFICATION_STEPS.step_three);
+      return;
     }
-  
-    return (
-        <View style={styles.container}>
-            <View style={styles.sectionContainer}>
+
+    setIsLoading(true);
+    UserService.GetCustomerExpectedTurnoverTypes().subscribe({
+      next: Response => {
+        setCustomerExpectedTurnoverTypes(Response.data.data?.types);
+      },
+      complete: () => {
+        setIsLoading(false);
+        //setVerificationStep(VERIFICATION_STEPS.step_three);
+      },
+      error: () => {
+        setIsLoading(false);
+      },
+    });
+  };
+
+  const {documentVerificationStatusCode} = userData.userDetails || {};
+
+  useEffect(() => {
+    if (
+      documentVerificationStatusCode === userStatuses.Enum_PartiallyProcessed
+    ) {
+      //setVerificationStep(VERIFICATION_STEPS.step_four);
+    }
+  }, [documentVerificationStatusCode]);
+
+  const skipFields = skipEmployeStatuses.some(
+    employ => selectedEmploymentStatus?.employmentStatusCode === employ,
+  );
+
+  return (
+    <View style={[styles.container]}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View>
+          <StepsContent
+            currentStep={1}
+            stepArray={Array.from(Array(verificationStepCount).keys())}
+          />
+          <View>
+            <View style={styles.container}>
+              <View style={styles.sectionContainer}>
                 <Text style={styles.BoxTitle}>მიუთითეთ საქმიანობის სფერო</Text>
                 <View style={[styles.sectionBox, employmentStatusErrorStyle]}>
-                    {props.selectedEmploymentStatus ?
-                        <SelectItem
-                            itemKey='employmentStatus'
-                            defaultTitle='დასაქმებული'
-                            item={props.selectedEmploymentStatus}
-                            onItemSelect={() => setJobStatusVisible(true)}
-                            style={styles.typeItem} />
-                        :
-                        <TouchableOpacity
-                            onPress={() => setJobStatusVisible(true)}
-                            style={[styles.typeSelectHandler]}>
-                            <Text style={styles.typePlaceholder}>დასაქმებული</Text>
-                            <Image style={styles.dropImg} source={require('./../../../assets/images/down-arrow.png')} />
-                        </TouchableOpacity>}
+                  {selectedEmploymentStatus ? (
+                    <SelectItem
+                      itemKey="employmentStatus"
+                      defaultTitle="დასაქმებული"
+                      item={selectedEmploymentStatus}
+                      onItemSelect={() => setJobStatusVisible(true)}
+                      style={styles.typeItem}
+                    />
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => setJobStatusVisible(true)}
+                      style={[styles.typeSelectHandler]}>
+                      <Text style={styles.typePlaceholder}>დასაქმებული</Text>
+                      <Image
+                        style={styles.dropImg}
+                        source={require('./../../../assets/images/down-arrow.png')}
+                      />
+                    </TouchableOpacity>
+                  )}
 
-                    <AppSelect
-                        itemKey='employmentStatus'
-                        elements={props.employmentStatuses}
-                        selectedItem={props.selectedEmploymentStatus}
-                        itemVisible={jobStatusVisible}
-                        onSelect={(item) => { props.onSetEmploymentStatus(item); setJobStatusVisible(false) }}
-                        onToggle={() => setJobStatusVisible(!jobStatusVisible)} />
+                  <AppSelect
+                    itemKey="employmentStatus"
+                    elements={route.params.employmentStatuses}
+                    selectedItem={selectedEmploymentStatus}
+                    itemVisible={jobStatusVisible}
+                    onSelect={item => {
+                      setSlectedEmploymentStatus(item);
+                      setJobStatusVisible(false);
+                    }}
+                    onToggle={() => setJobStatusVisible(!jobStatusVisible)}
+                  />
                 </View>
 
-                {!skipFields && <>
-                    <View style={[styles.sectionBox, styles.input, jobTypeErrorStyle]}>
-                        {props.selectedJobType ?
-                            <SelectItem
-                                itemKey='customerEmploymentType'
-                                defaultTitle='აირჩიეთ საქმიანობის სფერო'
-                                item={props.selectedJobType}
-                                onItemSelect={() => setJobTypesVisible(true)}
-                                style={styles.typeItem} />
-                            :
-                            <TouchableOpacity
-                                onPress={() => setJobTypesVisible(true)}
-                                style={[styles.typeSelectHandler]}>
-                                <Text style={styles.typePlaceholder}>აირჩიეთ საქმიანობის სფერო</Text>
-                                <Image style={styles.dropImg} source={require('./../../../assets/images/down-arrow.png')} />
-                            </TouchableOpacity>}
+                {!skipFields && (
+                  <>
+                    <View
+                      style={[
+                        styles.sectionBox,
+                        styles.input,
+                        jobTypeErrorStyle,
+                      ]}>
+                      {selectedJobType ? (
+                        <SelectItem
+                          itemKey="customerEmploymentType"
+                          defaultTitle="აირჩიეთ საქმიანობის სფერო"
+                          item={selectedJobType}
+                          onItemSelect={() => setJobTypesVisible(true)}
+                          style={styles.typeItem}
+                        />
+                      ) : (
+                        <TouchableOpacity
+                          onPress={() => setJobTypesVisible(true)}
+                          style={[styles.typeSelectHandler]}>
+                          <Text style={styles.typePlaceholder}>
+                            აირჩიეთ საქმიანობის სფერო
+                          </Text>
+                          <Image
+                            style={styles.dropImg}
+                            source={require('./../../../assets/images/down-arrow.png')}
+                          />
+                        </TouchableOpacity>
+                      )}
 
-                        <AppSelect
-                            itemKey='customerEmploymentType'
-                            elements={props.customerWorkTypes}
-                            selectedItem={props.selectedJobType}
-                            itemVisible={jobTypeVisible}
-                            onSelect={(item) => { props.onSetJobTypes(item); setJobTypesVisible(false) }}
-                            onToggle={() => setJobTypesVisible(!jobTypeVisible)} />
+                      <AppSelect
+                        itemKey="customerEmploymentType"
+                        elements={route.params.customerWorkTypes}
+                        selectedItem={selectedJobType}
+                        itemVisible={jobTypeVisible}
+                        onSelect={item => {
+                          setSelectedJobType(item);
+                          setJobTypesVisible(false);
+                        }}
+                        onToggle={() => setJobTypesVisible(!jobTypeVisible)}
+                      />
                     </View>
 
                     <AppInput
-                        placeholder='დამსაქმებელი'
-                        onChange={(complimentary) => props.onSetComplimentary(complimentary)}
-                        value={props.complimentary}
-                        customKey='complimentary'
-                        requireds={[required]}
-                        style={styles.input}
-                        context={ValidationContext} />
+                      placeholder="დამსაქმებელი"
+                      onChange={complimentary =>
+                        setComplimentary(complimentary)
+                      }
+                      value={complimentary}
+                      customKey="complimentary"
+                      requireds={[required]}
+                      style={styles.input}
+                      context={ValidationContext}
+                    />
 
                     <AppInput
-                        placeholder='დაკავებული თანამდებობა'
-                        onChange={(occupiedPosition) => props.onSetOccupiedPositios(occupiedPosition)}
-                        value={props.occupiedPosition}
-                        customKey='occupiedPosition'
-                        requireds={[required]}
-                        style={styles.input}
-                        context={ValidationContext} />
-                </>}
-            </View>
+                      placeholder="დაკავებული თანამდებობა"
+                      onChange={occupiedPosition =>
+                        setOccupiedPosition(occupiedPosition)
+                      }
+                      value={occupiedPosition}
+                      customKey="occupiedPosition"
+                      requireds={[required]}
+                      style={styles.input}
+                      context={ValidationContext}
+                    />
+                  </>
+                )}
+              </View>
 
-            <AppButton
-                isLoading={props.loading}
+              <AppButton
+                isLoading={isLoading}
                 title={'შემდეგი'}
-                onPress={nextHandler}
-                style={styles.button} />
+                onPress={stepThreeScreenAction}
+                style={styles.button}
+              />
+            </View>
+          </View>
         </View>
-    )
-}
+      </TouchableWithoutFeedback>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-        maxWidth: 327,
-        width: '100%',
-        alignSelf: 'center'
-    },
-    sectionContainer: {
-        marginTop: 40
-    },
-    BoxTitle: {
-        fontFamily: 'FiraGO-Bold',
-        fontSize: 14,
-        lineHeight: 17,
-        color: colors.labelColor,
-        marginBottom: 15
-    },
-    sectionBox: {
-        backgroundColor: colors.inputBackGround,
-        borderRadius: 7
-    },
-    typeItem: {
-        backgroundColor: colors.inputBackGround,
-        borderRadius: 7
-    },
-    dropImg: {
-        marginRight: 12
-    },
-    typeSelectHandler: {
-        height: 54,
-        backgroundColor: colors.inputBackGround,
-        borderRadius: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    typePlaceholder: {
-        fontFamily: 'FiraGO-Regular',
-        fontSize: 14,
-        lineHeight: 17,
-        color: colors.placeholderColor,
-        marginLeft: 13
-    },
-    input: {
-        marginTop: 20
-    },
-    button: {
-        marginTop: 30
-    }
+  container: {
+    maxWidth: 327,
+    width: '100%',
+    alignSelf: 'center',
+  },
+  sectionContainer: {
+    marginTop: 40,
+  },
+  BoxTitle: {
+    fontFamily: 'FiraGO-Bold',
+    fontSize: 14,
+    lineHeight: 17,
+    color: colors.labelColor,
+    marginBottom: 15,
+  },
+  sectionBox: {
+    backgroundColor: colors.inputBackGround,
+    borderRadius: 7,
+  },
+  typeItem: {
+    backgroundColor: colors.inputBackGround,
+    borderRadius: 7,
+  },
+  dropImg: {
+    marginRight: 12,
+  },
+  typeSelectHandler: {
+    height: 54,
+    backgroundColor: colors.inputBackGround,
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  typePlaceholder: {
+    fontFamily: 'FiraGO-Regular',
+    fontSize: 14,
+    lineHeight: 17,
+    color: colors.placeholderColor,
+    marginLeft: 13,
+  },
+  input: {
+    marginTop: 20,
+  },
+  button: {
+    marginTop: 30,
+  },
 });
 
 export default StepTwo;

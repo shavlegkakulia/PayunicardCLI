@@ -38,7 +38,7 @@ import {CurrencyConverter} from '../../utils/Converter';
 import DashboardLayout from '../DashboardLayout';
 import CurrentMoney from './currentMoney';
 import TransactionsList from './transactions/TransactionsList';
-import Verification from './Verification/Index';
+import Verification from './Verification/Index_old';
 import Routes from '../../navigation/routes';
 import {subscriptionService} from '../../services/subscriptionService';
 import Actions from '../../containers/Actions';
@@ -108,8 +108,7 @@ const Dashboard: React.FC<IProps> = props => {
           userStatuses.Enum_PartiallyProcessed) &&
       customerVerificationStatusCode === userStatuses.Enum_NotVerified
     ) {
-      setIsVerificationStart(true);
-      refRBSheet.current.open();
+      NavigationService.navigate(Routes.verification);
     }
   };
 
@@ -502,21 +501,6 @@ const Dashboard: React.FC<IProps> = props => {
           />
         </View>
       </ScrollView>
-
-      <ActionSheetCustom
-        header={verifiSheetHeader}
-        scrollable={true}
-        hasDraggableIcon={false}
-        visible={isVerificationStart}
-        hasScroll={true}
-        height={sheetHeight}
-        onPress={() => close_verification()}>
-        <Verification
-          sendHeader={setVerifySheetHeader}
-          onReset={isVerificationStart}
-          onClose={close_verification}
-        />
-      </ActionSheetCustom>
 
       <ActionSheetCustom
         header={actionsSheetHeader}
