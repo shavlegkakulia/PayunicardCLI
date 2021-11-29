@@ -1,4 +1,6 @@
 rootProject.name = 'Payunicard'
+include ':@kvalifika_react-native-sdk'
+project(':@kvalifika_react-native-sdk').projectDir = new File(rootProject.projectDir, '../node_modules/@kvalifika/react-native-sdk/android')
 include ':rn-fetch-blob'
 project(':rn-fetch-blob').projectDir = new File(rootProject.projectDir, '../node_modules/rn-fetch-blob/android')
 include ':@kvalifika_react-native-sdk'
