@@ -7,7 +7,7 @@ import AppSelect, { SelectItem } from "../../../components/UI/AppSelect/AppSelec
 import Validation, { required } from "../../../components/UI/Validation";
 import colors from "../../../constants/colors";
 import { IExpectedType } from "../../../services/UserService";
-import { ITransactionCategoryInterface } from "./Index";
+import { ITransactionCategoryInterface } from "./Index_old";
 
 interface IProps {
     loading: boolean,

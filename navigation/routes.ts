@@ -65,7 +65,10 @@ const Routes = {
     TopupChooseAmountAndAccount: 'TopupChooseAmountAndAccount',
     TopupSucces: 'TopupSucces',
     addBankCard: 'addBankCard',
-    AddBankCardSucces: 'AddBankCardSucces'
+    AddBankCardSucces: 'AddBankCardSucces',
+    verification: 'verification',
+    verificationStepOne: 'verificationStepOne',
+    verificationStepTwo: 'verificationStepTwo'
 }
 
 export default Routes;
