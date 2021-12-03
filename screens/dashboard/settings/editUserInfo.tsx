@@ -219,7 +219,7 @@ const EditUserInfo: React.FC = () => {
               />
             </View>
           )}
-          {country && (
+          {country?.length && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>ქვეყანა</Text>
               <AppInput
