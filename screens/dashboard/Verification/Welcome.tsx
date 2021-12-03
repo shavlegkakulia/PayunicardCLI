@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-around',
-        paddingVertical: 30
+        paddingVertical: 30,
     },
     imageContainer: {
         justifyContent: 'center',

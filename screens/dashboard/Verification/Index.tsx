@@ -7,12 +7,17 @@ import {
   TouchableOpacity,
   Image,
   Text,
+  KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
 import userStatuses from '../../../constants/userStatuses';
 import {useDimension} from '../../../hooks/useDimension';
 import {useKeyboard} from '../../../hooks/useKeyboard';
+import Routes from '../../../navigation/routes';
+import { tabHeight } from '../../../navigation/TabNav';
+import {FetchUserDetail} from '../../../redux/actions/user_actions';
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
@@ -25,6 +30,8 @@ import KvalificaServices, {
   getKycFullYear,
   IKCData,
 } from '../../../services/KvalificaServices';
+import NavigationService from '../../../services/NavigationService';
+import NetworkService from '../../../services/NetworkService';
 import PresentationServive, {
   ICitizenshipCountry,
 } from '../../../services/PresentationServive';
@@ -47,12 +54,6 @@ import StepSix from './StepSix';
 import StepThree from './StepThree';
 import StepTwo from './StepTwo';
 import Welcome from './Welcome';
-
-interface IProps {
-  onReset: boolean;
-  onClose: () => void;
-  sendHeader: (element: JSX.Element | null) => void;
-}
 
 const VERIFICATION_STEPS = {
   welcome: 0,
@@ -124,7 +125,7 @@ const StepsContent: React.FC<IStepsProps> = props => {
   );
 };
 
-const Verification: React.FC<IProps> = props => {
+const Verification: React.FC = props => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
@@ -169,6 +170,7 @@ const Verification: React.FC<IProps> = props => {
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
+  const dispatch = useDispatch();
   const keyboard = useKeyboard();
 
   const onToggletransactionCategoryActive = (
@@ -300,7 +302,7 @@ const Verification: React.FC<IProps> = props => {
       },
       error: () => {
         setIsLoading(false);
-        props.onClose();
+        complate();
       },
     });
   };
@@ -472,68 +474,12 @@ const Verification: React.FC<IProps> = props => {
     setTtile(STEP_TITLES[verificationStep]);
   }, [verificationStep]);
 
-  useEffect(() => {
-    if (props.onReset) {
-      resetState();
-    }
-  }, [props.onReset]);
-
-  useEffect(() => {
-    const data = (
-      <View>
-        <View style={[styles.dragableIcon]} />
-        {verificationStep !== VERIFICATION_STEPS.step_four &&
-          verificationStep !== VERIFICATION_STEPS.step_five && (
-            <View
-              style={[
-                styles.paymentStepHeaderHeader,
-                (verificationStep === VERIFICATION_STEPS.welcome ||
-                  verificationStep === VERIFICATION_STEPS.step_six ||
-                  verificationStep === VERIFICATION_STEPS.step_seven ||
-                  verificationStep === VERIFICATION_STEPS.step_eight ||
-                  verificationStep === VERIFICATION_STEPS.step_nine) && {
-                  justifyContent: 'center',
-                },
-              ]}>
-              {verificationStep > VERIFICATION_STEPS.welcome &&
-                verificationStep !== VERIFICATION_STEPS.step_six &&
-                verificationStep !== VERIFICATION_STEPS.step_seven &&
-                verificationStep !== VERIFICATION_STEPS.step_eight &&
-                verificationStep !== VERIFICATION_STEPS.step_nine && (
-                  <TouchableOpacity style={styles.back} onPress={Back}>
-                    <Image
-                      style={styles.backImg}
-                      source={require('./../../../assets/images/back-arrow-primary.png')}
-                    />
-                    <Text style={styles.backText}>
-                      {translate.t('common.back')}
-                    </Text>
-                  </TouchableOpacity>
-                )}
-
-              <View style={styles.titleBox}>
-                <Text
-                  numberOfLines={1}
-                  style={[
-                    styles.titleText,
-                    (verificationStep === VERIFICATION_STEPS.welcome ||
-                      verificationStep === VERIFICATION_STEPS.step_six ||
-                      verificationStep === VERIFICATION_STEPS.step_seven ||
-                      verificationStep === VERIFICATION_STEPS.step_eight ||
-                      verificationStep === VERIFICATION_STEPS.step_nine) && {
-                      textAlign: 'center',
-                      alignSelf: 'center',
-                    },
-                  ]}>
-                  {title}
-                </Text>
-              </View>
-            </View>
-          )}
-      </View>
-    );
-    props.sendHeader(data);
-  }, [verificationStep]);
+  const complate = () => {
+    NetworkService.CheckConnection(() => {
+      dispatch(FetchUserDetail());
+    });
+    NavigationService.navigate(Routes.Dashboard);
+  };
 
   const {documentVerificationStatusCode} = userData.userDetails || {};
 
@@ -634,50 +580,91 @@ const Verification: React.FC<IProps> = props => {
       />
     );
   } else if (verificationStep === VERIFICATION_STEPS.step_nine) {
-    content = (
-      <Finish
-        loading={isLoading}
-        onComplate={() => {
-          props.onClose();
-        }}
-      />
-    );
+    content = <Finish loading={isLoading} onComplate={complate} />;
   }
-  
+
   return (
-    <View style={[styles.container]}>
-      <KvalifcaVerification
-        startSession={startVerification}
-        onClose={closeKycSession}
-      />
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
-          {verificationStep > VERIFICATION_STEPS.welcome &&
-            verificationStep !== VERIFICATION_STEPS.step_four &&
-            verificationStep !== VERIFICATION_STEPS.step_five &&
-            verificationStep !== VERIFICATION_STEPS.step_six &&
-            verificationStep !== VERIFICATION_STEPS.step_seven &&
-            verificationStep !== VERIFICATION_STEPS.step_eight &&
-            verificationStep !== VERIFICATION_STEPS.step_nine && (
-              <StepsContent currentStep={verificationStep} />
-            )}
-          <View
-            style={[
-              styles.verifyContainer,
-              isKeyboardVisible && {paddingBottom: 20},
-              {minHeight: dimension.height - 160},
-            ]}>
+    <ScrollView contentContainerStyle={styles.avoid}>
+      <KeyboardAvoidingView behavior="padding" style={styles.avoid}>
+        <KvalifcaVerification
+          startSession={startVerification}
+          onClose={closeKycSession}
+        />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          
+          <View style={{flex: 1}}>
+            {verificationStep > VERIFICATION_STEPS.welcome &&
+              verificationStep !== VERIFICATION_STEPS.step_four &&
+              verificationStep !== VERIFICATION_STEPS.step_five &&
+              verificationStep !== VERIFICATION_STEPS.step_six &&
+              verificationStep !== VERIFICATION_STEPS.step_seven &&
+              verificationStep !== VERIFICATION_STEPS.step_eight &&
+              verificationStep !== VERIFICATION_STEPS.step_nine && (
+                <StepsContent currentStep={verificationStep} />
+              )}
+ <View style={styles.header}>
+        {verificationStep !== VERIFICATION_STEPS.step_four &&
+          verificationStep !== VERIFICATION_STEPS.step_five && (
+            <View
+              style={[
+                styles.paymentStepHeaderHeader,
+                (verificationStep === VERIFICATION_STEPS.welcome ||
+                  verificationStep === VERIFICATION_STEPS.step_six ||
+                  verificationStep === VERIFICATION_STEPS.step_seven ||
+                  verificationStep === VERIFICATION_STEPS.step_eight ||
+                  verificationStep === VERIFICATION_STEPS.step_nine) && {
+                  justifyContent: 'center',
+                },
+              ]}>
+              {verificationStep > VERIFICATION_STEPS.welcome &&
+                verificationStep !== VERIFICATION_STEPS.step_six &&
+                verificationStep !== VERIFICATION_STEPS.step_seven &&
+                verificationStep !== VERIFICATION_STEPS.step_eight &&
+                verificationStep !== VERIFICATION_STEPS.step_nine && (
+                  <TouchableOpacity style={styles.back} onPress={Back}>
+                    <Image
+                      style={styles.backImg}
+                      source={require('./../../../assets/images/back-arrow-primary.png')}
+                    />
+                    <Text style={styles.backText}>
+                      {translate.t('common.back')}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+
+              <View style={styles.titleBox}>
+                <Text
+                  numberOfLines={1}
+                  style={[
+                    styles.titleText,
+                    (verificationStep === VERIFICATION_STEPS.welcome ||
+                      verificationStep === VERIFICATION_STEPS.step_six ||
+                      verificationStep === VERIFICATION_STEPS.step_seven ||
+                      verificationStep === VERIFICATION_STEPS.step_eight ||
+                      verificationStep === VERIFICATION_STEPS.step_nine) && {
+                      textAlign: 'center',
+                      alignSelf: 'center',
+                    },
+                  ]}>
+                  {title}
+                </Text>
+              </View>
+            </View>
+          )}
+      </View>
             {content}
           </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  avoid: {
     backgroundColor: colors.white,
+    flexGrow: 1,
+    paddingBottom: tabHeight
   },
   paymentStepHeaderHeader: {
     flexDirection: 'row',
@@ -720,7 +707,9 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     alignSelf: 'stretch',
   },
-  verifyContainer: {},
+  verifyContainer: {
+    flexGrow: 1,
+  },
   stepContainer: {
     marginTop: 17,
     flexDirection: 'row',
@@ -760,6 +749,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -10,
   },
+  header: {
+    marginTop: 20
+  }
 });
 
 export default Verification;

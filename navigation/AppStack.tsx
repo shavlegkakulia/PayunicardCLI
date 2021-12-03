@@ -49,6 +49,7 @@ import PasswordResetStepFour from '../screens/landing/password/PasswordResetStep
 import PasswordResetSucces from '../screens/landing/password/PasswordResetSucces';
 import SetPassCode from '../screens/dashboard/settings/setPassCode';
 import EditUserInfo from '../screens/dashboard/settings/editUserInfo';
+import Verification from '../screens/dashboard/Verification/Index';
 
 const appStack = createStackNavigator();
 
@@ -680,6 +681,18 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'პერსონალური ინფორმაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.Verification}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+                hideHeader: true
               })
             }
           />
