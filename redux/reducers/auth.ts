@@ -5,12 +5,14 @@ import {
   AUT_SET_IS_LOADING,
   IAuthState,
   IAuthAction,
+  REFRESH,
 } from '../action_types/auth_action_types';
 
 const initialState: IAuthState = {
   isAuthenticated: false,
   isLoading: false,
   accesToken: '',
+  refreshToken: '',
   remember: false,
 };
 
@@ -25,10 +27,18 @@ function AuthReduser(state: IAuthState = initialState, action: IAuthAction) {
         ...state,
         isAuthenticated: true,
         accesToken: action.accesToken,
+        refreshToken: action.refreshToken,
         remember: action.remember,
       };
+    case REFRESH:
+      return {
+        ...state,
+        isAuthenticated: true,
+        accesToken: action.accesToken,
+        refreshToken: action.refreshToken,
+      };
     case LOGOUT:
-      return {...state, isAuthenticated: false, accesToken: ''};
+      return {...state, isAuthenticated: false, accesToken: '', refreshToken: ''};
     default:
       return {...state};
   }

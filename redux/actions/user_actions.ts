@@ -29,13 +29,27 @@ import {
 } from '../../constants/accountTypes';
 
 export const FetchUserDetail =
-  (remember?: boolean) => async (dispatch: any) => {
+  (remember?: boolean, refetch?: boolean) => async (dispatch: any) => {
     await dispatch({type: USER_LOADING, isUserLoading: true});
     UserService.GetUserDetails().subscribe({
-      next: Response => {
+      next: async Response => {
         dispatch({type: FETCH_USER_DETAILS, userDetails: Response?.data?.data});
-        if (remember)
-          storage.setItem(AUTH_USER_INFO, JSON.stringify(Response?.data?.data));
+        if (remember) {
+          await storage.setItem(
+            AUTH_USER_INFO,
+            JSON.stringify(Response?.data?.data),
+          );
+        }
+
+        if (refetch) {
+          const info = await storage.getItem(AUTH_USER_INFO);
+          if (info !== null) {
+            storage.setItem(
+              AUTH_USER_INFO,
+              JSON.stringify(Response?.data?.data),
+            );
+          }
+        }
       },
       error: () => dispatch({type: USER_LOADING, isUserLoading: false}),
       complete: () => dispatch({type: USER_LOADING, isUserLoading: false}),
@@ -69,10 +83,10 @@ export const FetchUserAccountStatements =
     UserService.GetUserAccountStatements(params).subscribe({
       next: Response => {
         dispatch({
-            type: FETCH_ACCOUNT_STATEMENTS,
-            useAccountStatements: Response.data.data,
-            paging: paging,
-          });
+          type: FETCH_ACCOUNT_STATEMENTS,
+          useAccountStatements: Response.data.data,
+          paging: paging,
+        });
         // if (params?.opClass && params?.opExclude) {
         //   dispatch({
         //     type: FETCH_TRANSFER_ACCOUNT_STATEMENTS,

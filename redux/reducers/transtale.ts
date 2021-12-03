@@ -1,12 +1,13 @@
+
+import { en_us, ka_ge } from '../../lang';
 import { ITranslateState, ITranslateAction, FETCH_TRANSLATE, SET_LOADING, SET_KEY } from './../action_types/translate_action_types';
-import { LANG_KEY } from './../../constants/defaults';
 
 const initialState: ITranslateState = {
     translates: {},
-    key: LANG_KEY,
+    key: ka_ge,
     isLoading: false,
     next: function() {
-        return this.key === LANG_KEY ? 'en' : LANG_KEY
+        return this.key === ka_ge ? en_us : ka_ge
     },
     t: function(key: string) {
         let keys = key.split('.');

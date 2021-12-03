@@ -15,6 +15,7 @@ import PasswordResetStepThree from '../screens/landing/password/PasswordResetSte
 import ResetPasswordOtp from '../screens/landing/password/ResetPasswordOtp';
 import PasswordResetStepFour from '../screens/landing/password/PasswordResetStepFour';
 import PasswordResetSucces from '../screens/landing/password/PasswordResetSucces';
+import setLoginWithPassCode from '../screens/landing/setLoginWithPassCode';
 
 const LandingStack = createStackNavigator();
 
@@ -128,6 +129,10 @@ function LandingNavigator() {
             hideHeader: true,
           })
         }
+      />
+      <LandingStack.Screen
+        name={Routes.setLoginWithPassCode}
+        component={setLoginWithPassCode}
       />
     </LandingStack.Navigator>
   );

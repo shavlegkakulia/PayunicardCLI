@@ -562,6 +562,56 @@ export interface IGetUserBlockedBlockedFundslistResponseData {
   data?: IGetUserBlockedBlockedFundslistResponse | undefined;
 }
 
+export interface IUpdateUserProfileImageRequest {
+  imageUrl?: string | undefined;
+}
+
+export interface IUpdateUserProfileImageResponse {
+  imageUrl?: string | undefined;
+}
+
+export interface IIResponseOfUpdateUserProfileImageResponse {
+  ok: boolean;
+  errors?: IError[] | undefined;
+  data?: IUpdateUserProfileImageResponse | undefined;
+}
+
+export interface IGetUserKycIdResponse {
+  documentFrontSide?: string | undefined;
+  documentBackSide?: string | undefined;
+  documentType?: string | undefined;
+  status?: string | undefined;
+}
+
+export interface IGetUserKycSelfImages {
+  imageName?: string | undefined;
+  imagePath?: string | undefined;
+}
+
+export interface IGetUserProfileDataResponse {
+  userID?: number;
+  userName?: string | undefined;
+  email?: string | undefined;
+  emailVerificationStatus?: number;
+  phone?: string | undefined;
+  phoneVerificationStatus?: number;
+  factAddress?: string | undefined;
+  legalAddress?: string | undefined;
+  factCity?: string | undefined;
+  factCountryID?: number;
+  factPostalCode?: string | undefined;
+  name?: string | undefined;
+  surname?: string | undefined;
+  idPhotos?: IGetUserKycIdResponse | undefined;
+  selfies?: IGetUserKycSelfImages[] | undefined;
+}
+
+export interface IGetUserProfileDataResponseData {
+  ok: boolean;
+  errors?: IError[] | undefined;
+  data?: IGetUserProfileDataResponse | undefined;
+}
+
 class UserService {
   GetUserDetails() {
     const promise = axios.get<IUserResponse>(
@@ -748,6 +798,31 @@ class UserService {
       {objectResponse: true},
     );
     return from(promise);
+  }
+
+  updateUserProfileImage(data?: IUpdateUserProfileImageRequest | undefined) {
+    const promise = axios.post<IGetUserBlockedBlockedFundslistResponseData>(
+      `${envs.API_URL}User/UpdateUserProfileImage`,
+      {data},
+      {objectResponse: true},
+    );
+    return from(promise);
+  }
+
+  getUserProfileData() {
+    const promise = axios.get<IGetUserProfileDataResponseData>(
+      `${envs.API_URL}User/GetUserProfileData`,
+      {objectResponse: true},
+    );
+    return from(promise);
+  }
+
+  editUserProfileData() {
+    // const promise = axios.put<>(
+    //   `${envs.API_URL}User/EditUserProfileData`,
+    //   {objectResponse: true},
+    // );
+    // return from(promise);
   }
 }
 

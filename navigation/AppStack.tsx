@@ -42,11 +42,13 @@ import {StatusBar, View} from 'react-native';
 import SideBarDrawer from './SideBarDrawer';
 import colors from '../constants/colors';
 import NavigationService from '../services/NavigationService';
-import Verification from '../screens/dashboard/Verification/Index';
-import StepOne from '../screens/dashboard/Verification/StepOne';
-import StepTwo from '../screens/dashboard/Verification/StepTwo';
-import StepThree from '../screens/dashboard/Verification/StepThree';
-import StepFour from '../screens/dashboard/Verification/StepFour';
+import Settings from '../screens/dashboard/settings/settings';
+import PasswordReset from '../screens/landing/password/PasswordReset';
+import ResetPasswordOtp from '../screens/landing/password/ResetPasswordOtp';
+import PasswordResetStepFour from '../screens/landing/password/PasswordResetStepFour';
+import PasswordResetSucces from '../screens/landing/password/PasswordResetSucces';
+import SetPassCode from '../screens/dashboard/settings/setPassCode';
+import EditUserInfo from '../screens/dashboard/settings/editUserInfo';
 
 const appStack = createStackNavigator();
 
@@ -614,60 +616,72 @@ const AppStack: React.FC = () => {
             }
             component={CreatePayTemplate}
           />
+          <appStack.Screen name={Routes.Settings} component={Settings} />
           <appStack.Screen
-            name={Routes.verification}
+            name={Routes.ResetPassword}
+            component={PasswordReset}
             options={props =>
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'იდენტიფიკაცია',
+                title: 'პაროლის შეცვლა',
               })
             }
-            component={Verification}
           />
           <appStack.Screen
-            name={Routes.verificationStepOne}
+            name={Routes.ResetPasswordOtp}
+            component={ResetPasswordOtp}
             options={props =>
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'დამატებითი მონაცემები',
+                title: 'პაროლის შეცვლა',
               })
             }
-            component={StepOne}
           />
           <appStack.Screen
-            name={Routes.verificationStepTwo}
+            name={Routes.PasswordResetStepFour}
+            component={PasswordResetStepFour}
             options={props =>
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'დამატებითი მონაცემები',
+                title: 'პაროლის შეცვლა',
               })
             }
-            component={StepTwo}
           />
           <appStack.Screen
-            name={Routes.verificationStepThree}
+            name={Routes.PasswordResetSucces}
+            component={PasswordResetSucces}
             options={props =>
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'დამატებითი მონაცემები',
+                title: 'პაროლის შეცვლა',
               })
             }
-            component={StepThree}
           />
           <appStack.Screen
-            name={Routes.verificationStepFour}
+            name={Routes.setPassCode}
+            component={SetPassCode}
             options={props =>
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'დამატებითი მონაცემები',
+                title: 'პასკოდი',
               })
             }
-            component={StepFour}
+          />
+          <appStack.Screen
+            name={Routes.EditUserInfo}
+            component={EditUserInfo}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'პერსონალური ინფორმაცია',
+              })
+            }
           />
         </appStack.Navigator>
         <TabNav />
