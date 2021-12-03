@@ -69,7 +69,8 @@ const Routes = {
     Settings: 'Settings',
     setPassCode: 'setPassCode',
     setLoginWithPassCode: 'setLoginWithPassCode',
-    EditUserInfo: 'EditUserInfo'
+    EditUserInfo: 'EditUserInfo',
+    Verification: 'Verification'
 }
 
 export default Routes;

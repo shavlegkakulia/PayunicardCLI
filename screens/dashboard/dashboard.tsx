@@ -77,10 +77,10 @@ export interface IProps {
 const Dashboard: React.FC<IProps> = props => {
   const [offersStep, setOffersStep] = useState<number>(0);
   const [refreshing, setRefreshing] = useState(false);
-  const [isVerificationStart, setIsVerificationStart] = useState(false);
+  //const [isVerificationStart, setIsVerificationStart] = useState(false);
   const screenSize = useDimension();
-  const [verifiSheetHeader, setVerifySheetHeader] =
-    useState<JSX.Element | null>(null);
+  // const [verifiSheetHeader, setVerifySheetHeader] =
+  //   useState<JSX.Element | null>(null);
   const [actionsSheetHeader, setActionsSheetHeader] =
     useState<JSX.Element | null>(null);
   const [actionsVisible, setActionsVisible] = useState(false);
@@ -108,8 +108,9 @@ const Dashboard: React.FC<IProps> = props => {
           userStatuses.Enum_PartiallyProcessed) &&
       customerVerificationStatusCode === userStatuses.Enum_NotVerified
     ) {
-      setIsVerificationStart(true);
-      refRBSheet.current.open();
+      //setIsVerificationStart(true);
+      NavigationService.navigate(Routes.Verification);
+      //refRBSheet.current.open();
     }
   };
 
@@ -117,15 +118,15 @@ const Dashboard: React.FC<IProps> = props => {
     OpenDrawer && OpenDrawer[1]();
   };
 
-  const close_verification = () => {
-    setIsVerificationStart(false);
-    NetworkService.CheckConnection(() => {
-      dispatch(FetchUserDetail());
-    });
-    if (refRBSheet.current) refRBSheet.current?.close();
-  };
+  // const close_verification = () => {
+  //   setIsVerificationStart(false);
+  //   NetworkService.CheckConnection(() => {
+  //     dispatch(FetchUserDetail());
+  //   });
+  //   if (refRBSheet.current) refRBSheet.current?.close();
+  // };
 
-  const refRBSheet = useRef<any>();
+  //const refRBSheet = useRef<any>();
 
   const AccountStatusView = ({
     onStartVerification,
@@ -503,7 +504,7 @@ const Dashboard: React.FC<IProps> = props => {
         </View>
       </ScrollView>
 
-      <ActionSheetCustom
+      {/* <ActionSheetCustom
         header={verifiSheetHeader}
         scrollable={true}
         hasDraggableIcon={false}
@@ -516,7 +517,7 @@ const Dashboard: React.FC<IProps> = props => {
           onReset={isVerificationStart}
           onClose={close_verification}
         />
-      </ActionSheetCustom>
+      </ActionSheetCustom> */}
 
       <ActionSheetCustom
         header={actionsSheetHeader}
