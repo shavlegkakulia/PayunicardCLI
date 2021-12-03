@@ -9,6 +9,7 @@ import {
   Text,
   KeyboardAvoidingView,
   ScrollView,
+  BackHandler,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
@@ -16,7 +17,7 @@ import userStatuses from '../../../constants/userStatuses';
 import {useDimension} from '../../../hooks/useDimension';
 import {useKeyboard} from '../../../hooks/useKeyboard';
 import Routes from '../../../navigation/routes';
-import { tabHeight } from '../../../navigation/TabNav';
+import {tabHeight} from '../../../navigation/TabNav';
 import {FetchUserDetail} from '../../../redux/actions/user_actions';
 import {
   ITranslateState,
@@ -583,6 +584,34 @@ const Verification: React.FC = props => {
     content = <Finish loading={isLoading} onComplate={complate} />;
   }
 
+  function handleBackButtonClick() {
+    if (verificationStep === VERIFICATION_STEPS.welcome) {
+      return false;
+    }
+    if (
+      verificationStep > VERIFICATION_STEPS.welcome &&
+      verificationStep !== VERIFICATION_STEPS.step_six &&
+      verificationStep !== VERIFICATION_STEPS.step_seven &&
+      verificationStep !== VERIFICATION_STEPS.step_eight &&
+      verificationStep !== VERIFICATION_STEPS.step_nine
+    ) {
+      Back();
+      return true;
+    }
+
+    return true;
+  }
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
+
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
       <KeyboardAvoidingView behavior="padding" style={styles.avoid}>
@@ -591,7 +620,6 @@ const Verification: React.FC = props => {
           onClose={closeKycSession}
         />
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          
           <View style={{flex: 1}}>
             {verificationStep > VERIFICATION_STEPS.welcome &&
               verificationStep !== VERIFICATION_STEPS.step_four &&
@@ -602,56 +630,59 @@ const Verification: React.FC = props => {
               verificationStep !== VERIFICATION_STEPS.step_nine && (
                 <StepsContent currentStep={verificationStep} />
               )}
- <View style={styles.header}>
-        {verificationStep !== VERIFICATION_STEPS.step_four &&
-          verificationStep !== VERIFICATION_STEPS.step_five && (
-            <View
-              style={[
-                styles.paymentStepHeaderHeader,
-                (verificationStep === VERIFICATION_STEPS.welcome ||
-                  verificationStep === VERIFICATION_STEPS.step_six ||
-                  verificationStep === VERIFICATION_STEPS.step_seven ||
-                  verificationStep === VERIFICATION_STEPS.step_eight ||
-                  verificationStep === VERIFICATION_STEPS.step_nine) && {
-                  justifyContent: 'center',
-                },
-              ]}>
-              {verificationStep > VERIFICATION_STEPS.welcome &&
-                verificationStep !== VERIFICATION_STEPS.step_six &&
-                verificationStep !== VERIFICATION_STEPS.step_seven &&
-                verificationStep !== VERIFICATION_STEPS.step_eight &&
-                verificationStep !== VERIFICATION_STEPS.step_nine && (
-                  <TouchableOpacity style={styles.back} onPress={Back}>
-                    <Image
-                      style={styles.backImg}
-                      source={require('./../../../assets/images/back-arrow-primary.png')}
-                    />
-                    <Text style={styles.backText}>
-                      {translate.t('common.back')}
-                    </Text>
-                  </TouchableOpacity>
-                )}
+            <View style={styles.header}>
+              {verificationStep !== VERIFICATION_STEPS.step_four &&
+                verificationStep !== VERIFICATION_STEPS.step_five && (
+                  <View
+                    style={[
+                      styles.paymentStepHeaderHeader,
+                      (verificationStep === VERIFICATION_STEPS.welcome ||
+                        verificationStep === VERIFICATION_STEPS.step_six ||
+                        verificationStep === VERIFICATION_STEPS.step_seven ||
+                        verificationStep === VERIFICATION_STEPS.step_eight ||
+                        verificationStep === VERIFICATION_STEPS.step_nine) && {
+                        justifyContent: 'center',
+                      },
+                    ]}>
+                    {verificationStep > VERIFICATION_STEPS.welcome &&
+                      verificationStep !== VERIFICATION_STEPS.step_six &&
+                      verificationStep !== VERIFICATION_STEPS.step_seven &&
+                      verificationStep !== VERIFICATION_STEPS.step_eight &&
+                      verificationStep !== VERIFICATION_STEPS.step_nine && (
+                        <TouchableOpacity style={styles.back} onPress={Back}>
+                          <Image
+                            style={styles.backImg}
+                            source={require('./../../../assets/images/back-arrow-primary.png')}
+                          />
+                          <Text style={styles.backText}>
+                            {translate.t('common.back')}
+                          </Text>
+                        </TouchableOpacity>
+                      )}
 
-              <View style={styles.titleBox}>
-                <Text
-                  numberOfLines={1}
-                  style={[
-                    styles.titleText,
-                    (verificationStep === VERIFICATION_STEPS.welcome ||
-                      verificationStep === VERIFICATION_STEPS.step_six ||
-                      verificationStep === VERIFICATION_STEPS.step_seven ||
-                      verificationStep === VERIFICATION_STEPS.step_eight ||
-                      verificationStep === VERIFICATION_STEPS.step_nine) && {
-                      textAlign: 'center',
-                      alignSelf: 'center',
-                    },
-                  ]}>
-                  {title}
-                </Text>
-              </View>
+                    <View style={styles.titleBox}>
+                      <Text
+                        numberOfLines={1}
+                        style={[
+                          styles.titleText,
+                          (verificationStep === VERIFICATION_STEPS.welcome ||
+                            verificationStep === VERIFICATION_STEPS.step_six ||
+                            verificationStep ===
+                              VERIFICATION_STEPS.step_seven ||
+                            verificationStep ===
+                              VERIFICATION_STEPS.step_eight ||
+                            verificationStep ===
+                              VERIFICATION_STEPS.step_nine) && {
+                            textAlign: 'center',
+                            alignSelf: 'center',
+                          },
+                        ]}>
+                        {title}
+                      </Text>
+                    </View>
+                  </View>
+                )}
             </View>
-          )}
-      </View>
             {content}
           </View>
         </TouchableWithoutFeedback>
@@ -664,7 +695,7 @@ const styles = StyleSheet.create({
   avoid: {
     backgroundColor: colors.white,
     flexGrow: 1,
-    paddingBottom: tabHeight
+    paddingBottom: tabHeight,
   },
   paymentStepHeaderHeader: {
     flexDirection: 'row',
@@ -750,8 +781,8 @@ const styles = StyleSheet.create({
     top: -10,
   },
   header: {
-    marginTop: 20
-  }
+    marginTop: 20,
+  },
 });
 
 export default Verification;
