@@ -1,11 +1,14 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { from } from 'rxjs';
 import storage from './../services/StorageService';
-import store from './../redux/store';
 import { IErrorAction, PUSH_ERROR } from './../redux/action_types/error_action_types';
 import envs from './../config/env';
 import { stringToObject } from '../utils/utils';
 import { invalid_username_or_password, otp_not_valid, require_otp } from '../constants/errorCodes';
+import Store from './../redux/store';
+import { subscriptionService } from './subscriptionService';
+import SUBSCRIBTION_KEYS from '../constants/subscribtionKeys';
+import { IAuthAction, REFRESH } from '../redux/action_types/auth_action_types';
 
 declare module 'axios' {
   interface AxiosRequestConfig {
@@ -116,9 +119,10 @@ class AuthService {
   registerAuthInterceptor(callBack: () => void) {
     const setAuthToken = async (config: AxiosRequestConfig) => {
       config.headers = config.headers || {};
-      let token = await this.getToken();
-      if (token)
-        config.headers.Authorization = `Bearer ${token}`;
+      let { accesToken } = Store.getState().AuthReducer;
+  
+      if (accesToken)
+        config.headers.Authorization = `Bearer ${accesToken}`;
     };
 
     const waitForRefresh = (config?: AxiosRequestConfig) => {
@@ -135,11 +139,12 @@ class AuthService {
     //add auth header
     let requestInterceptor = axios.interceptors.request.use(
       async (config: AxiosRequestConfig) => {
-        if (await this.isAuthenticated() && !config.anonymous) {
+        let { accesToken, isAuthenticated } = Store.getState().AuthReducer;
+        if (isAuthenticated && !config.anonymous) {
           //if refreshStarted wait
           if (this.refreshStarted && !config.skipRefresh) {
             return waitForRefresh(config).then(async (config: any) => {
-              if (!(await this.getToken()))
+              if (!accesToken)
                 return Promise.reject({ status: 401 });
               await setAuthToken(config);
               return Promise.resolve(config);
@@ -159,6 +164,7 @@ class AuthService {
         return response;
       },
       async (error: any) => {
+        let { refreshToken } = Store.getState().AuthReducer;
         //  console.log('error', error);
         //console.log('+++++++++error in auth interceptor++++++++++', JSON.stringify(error.response), JSON.parse(JSON.stringify(error.response)).data.error)
         error.response = error.response || {};
@@ -182,17 +188,17 @@ class AuthService {
           }
 
           if (stringToObject(error.response).data.error_description === invalid_username_or_password) {
-            store.dispatch<IErrorAction>({ type: PUSH_ERROR, error: 'Invalid Username or Password' });
+            Store.dispatch<IErrorAction>({ type: PUSH_ERROR, error: 'Invalid Username or Password' });
             return Promise.reject(error);
           }
 
             if (stringToObject(error.response).data.error_description === otp_not_valid) {
-              store.dispatch<IErrorAction>({ type: PUSH_ERROR, error: otp_not_valid });
+              Store.dispatch<IErrorAction>({ type: PUSH_ERROR, error: otp_not_valid });
               return Promise.reject(error);
             }
         
           if (stringToObject(error.response).data.error !== require_otp) {
-            store.dispatch<IErrorAction>({ type: PUSH_ERROR, error: error.message || error.errorMessage });
+            Store.dispatch<IErrorAction>({ type: PUSH_ERROR, error: error.message || error.errorMessage });
           }
 
           return Promise.reject(error);
@@ -201,12 +207,14 @@ class AuthService {
         //if refresh already started wait and retry with new token
         if (this.refreshStarted) {
           return waitForRefresh().then(async _ => {
-            if (!(await this.getToken())) return Promise.reject({ status: 401 });
+            if (!refreshToken) return Promise.reject({ status: 401 });
             setAuthToken(originalRequest);
             return axios(originalRequest);
           });
         }
 
+        const isPassCodeEnabled = await storage.getItem('PassCodeEnbled');
+        
         //refresh token
         this.refreshStarted = true;
         const refreshObj = new FormData();
@@ -214,15 +222,24 @@ class AuthService {
         refreshObj.append('client_id', 'WalletApi');
         refreshObj.append('client_secret', 'abcd123');
         refreshObj.append('grant_type', 'refresh_token');
-        refreshObj.append('refresh_token', await this.getRefreshToken());
+        refreshObj.append('refresh_token', refreshToken);
         return axios
           .post<IAuthorizationResponse>(`${envs.CONNECT_URL}connect/token`, refreshObj, { anonymous: true })
           .then(async response => {
             if (!response.data.access_token) throw response;
-            await this.setToken(
-              response.data.access_token,
-              response.data.refresh_token,
-            );
+            if(isPassCodeEnabled !== null) {
+              await this.removeToken();
+              await this.setToken(
+                response.data.access_token,
+                response.data.refresh_token,
+              );
+            }
+
+            Store.dispatch<IAuthAction>({
+              type: REFRESH,
+              accesToken: response.data.access_token,
+              refreshToken: response.data.refresh_token,
+            });
 
             this.refreshStarted = false;
 

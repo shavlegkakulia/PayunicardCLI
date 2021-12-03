@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -32,7 +32,7 @@ export enum autoCapitalize {
   none = 'none',
   sentences = 'sentences',
   words = 'words',
-  characters = 'characters'
+  characters = 'characters',
 }
 
 interface IProps {
@@ -67,6 +67,7 @@ interface IInputeProps {
   keyboardType?: KeyboardTypeOptions | undefined;
   ref?: React.LegacyRef<TextInput> | undefined;
   autoFocus?: boolean;
+  editable?: boolean;
 }
 
 interface IPwdValidationProps {
@@ -205,7 +206,7 @@ const AppInput = React.forwardRef(
     }, [props.secureTextEntry]);
 
     const toggleSwitch = useCallback(() => {
-      if(!props.secureTextEntry) return;
+      if (!props.secureTextEntry) return;
       setShowPassword(showPassword => !showPassword);
     }, [props.secureTextEntry]);
     let inputRef = React.createRef<TextInput>();
@@ -234,6 +235,7 @@ const AppInput = React.forwardRef(
               autoCapitalize={props.autoCapitalize || undefined}
               placeholder={props.placeholder}
               placeholderTextColor={colors.placeholderColor}
+              editable={props.editable}
             />
             {props.secureTextEntry && (
               <TouchableOpacity

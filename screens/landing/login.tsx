@@ -40,7 +40,8 @@ import {require_otp} from '../../constants/errorCodes';
 import FloatingLabelInput from '../../containers/otp/Otp';
 import screenStyles from '../../styles/screens';
 import Routes from '../../navigation/routes';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import SetLoginWithPassCode from './setLoginWithPassCode';
 
 const CONTEXT_TYPE = 'login';
 
@@ -54,15 +55,20 @@ const LoginForm: React.FC = () => {
   ) as ITranslateState;
   const timeoutObject = useRef<any>(null);
   const keyboardVisible = useRef<EmitterSubscription>();
-  const [username, setUserName] = useState<string | undefined>('');
-  const [password, setPassword] = useState('');
+  const [username, setUserName] = useState<string | undefined>('Sh.kakulia');
+  const [password, setPassword] = useState('Shalva777*');
   const [remember, setRemember] = useState(0);
   const [otp, setOtp] = useState<any>(null);
   const [focused, setFocused] = useState(false);
   const [otpVisible, setOtpVisible] = useState(false);
   const [userInfo, setUserInfo] = useState<IUserDetails | null>({});
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
   const [isUserLoading, setIsUserLoading] = useState(false);
+  const [hasPasCode, setHasPasCode] = useState<boolean>(false);
+  const [{access_token, refresh_token}, setTokens] = useState({
+    access_token: '',
+    refresh_token: '',
+  });
   const dimension = useDimension();
   const navigation = useNavigation();
 
@@ -75,6 +81,26 @@ const LoginForm: React.FC = () => {
       .getItem(AUTH_USER_INFO)
       .then(user => {
         setUserInfo(user ? JSON.parse(user) : null);
+      })
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    storage
+      .getItem('PassCodeEnbled')
+      .then(async exists => {
+        if (exists !== null) {
+          const _access_token = await storage.getItem('access_token');
+          const _refresh_token = await storage.getItem('refresh_token');
+          if (_access_token && _refresh_token) {
+            setHasPasCode(true);
+            setTokens({
+              access_token: _access_token,
+              refresh_token: _refresh_token,
+            });
+          }
+        }
       })
       .finally(() => setIsLoading(false));
   }, []);
@@ -224,7 +250,6 @@ const LoginForm: React.FC = () => {
   }
 
   const NavigateToRegister = () => {
-    console.log('press')
     navigation.navigate(Routes.Signup);
   };
 
@@ -232,10 +257,10 @@ const LoginForm: React.FC = () => {
     navigation.navigate(Routes.ResetPassword);
   };
 
-  // if (isLoading) {
-  //   return <FullScreenLoader />;
-  // }
-console.log('***********************')
+  if (isLoading || hasPasCode === undefined) {
+    return <FullScreenLoader />;
+  }
+
   let buttonContainerStyle = focused
     ? {...styles.buttonContainer, marginBottom: 15}
     : {...styles.buttonContainer};
@@ -246,7 +271,13 @@ console.log('***********************')
     <AppkeyboardAVoidScrollview>
       <View style={styles.container}>
         <Header />
-        {userInfo ? (
+        {hasPasCode ? (
+          <SetLoginWithPassCode
+            UserData={userInfo}
+            access_token={access_token}
+            refresh_token={refresh_token}
+          />
+        ) : userInfo ? (
           <LoginWithPassword
             UserData={userInfo}
             userPassword={password}

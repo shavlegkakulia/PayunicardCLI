@@ -23,6 +23,7 @@ type RouteParamList = {
     email: string | undefined;
     phone: string | undefined;
     personalNumber: string | undefined;
+    backRoute: string | undefined;
   };
 };
 
@@ -51,6 +52,7 @@ const PasswordResetStepThree: React.FC = () => {
               email: route.params.email,
               phone,
               personalNumber: route.params.personalNumber,
+              backRoute: route.params.backRoute
             });
           } else {
             setIsLoading(false);

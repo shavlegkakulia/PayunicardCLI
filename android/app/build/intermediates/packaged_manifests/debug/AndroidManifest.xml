@@ -25,12 +25,15 @@
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
+        android:required="true" />
     <uses-feature
         android:name="android.hardware.camera.front"
         android:required="false" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.microphone"
         android:required="false" />
 
     <application
@@ -71,6 +74,15 @@
         </activity>
 
         <provider
+            android:name="com.imagepicker.ImagePickerProvider"
+            android:authorities="com.payunicard.imagepickerprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/imagepicker_provider_paths" />
+        </provider>
+        <provider
             android:name="com.reactnativecommunity.webview.RNCWebViewFileProvider"
             android:authorities="com.payunicard.fileprovider"
             android:exported="false"
@@ -87,7 +99,17 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-        </provider> <!-- 'android:authorities' must be unique in the device, across all apps -->
+        </provider>
+
+        <activity
+            android:name="com.kvalifika.sdk.ui.ResultActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.kvalifika.sdk.ui.DocumentSelectActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.kvalifika.sdk.ui.CaptureDocumentActivity"
+            android:exported="false" /> <!-- 'android:authorities' must be unique in the device, across all apps -->
         <provider
             android:name="io.sentry.android.core.SentryInitProvider"
             android:authorities="com.payunicard.SentryInitProvider"
@@ -109,7 +131,8 @@
             android:excludeFromRecents="true"
             android:resizeableActivity="false"
             android:supportsRtl="true"
-            android:theme="@style/Theme.AppCompat.Translucent" >
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
     </application>
 

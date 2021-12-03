@@ -31,6 +31,8 @@ type RouteParamList = {
     personalNumber: string | undefined;
     otpGuid: string | undefined;
     otp: string | undefined;
+    backRoute: string | undefined;
+    minimizedContent: boolean | undefined;
   };
 };
 
@@ -66,7 +68,9 @@ const PasswordResetStepFour: React.FC = () => {
       UserService.ResetPassword(User).subscribe({
         next: Response => {
           if (Response.data.ok) {
-            navigation.navigate(Routes.PasswordResetSucces);
+            navigation.navigate(Routes.PasswordResetSucces, {
+              backRoute: route.params.backRoute,
+            });
           } else {
             setIsLoading(false);
           }
@@ -87,12 +91,16 @@ const PasswordResetStepFour: React.FC = () => {
       keyboardVerticalOffset={0}
       style={styles.avoid}>
       <View style={styles.passwordResetContainer}>
-        <View style={styles.passwordResetHeader}>
-          <PaginationDots length={6} step={4} />
-        </View>
-        <Text style={styles.pwdResettext}>
-          {translate.t('login.forgotpassword')}
-        </Text>
+        {!route.params.minimizedContent && (
+          <>
+            <View style={styles.passwordResetHeader}>
+              <PaginationDots length={6} step={4} />
+            </View>
+            <Text style={styles.pwdResettext}>
+              {translate.t('login.forgotpassword')}
+            </Text>
+          </>
+        )}
         <View style={styles.inputsContainer}>
           <View style={styles.insertOtpSTep}>
             <Appinput

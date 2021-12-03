@@ -45,7 +45,7 @@ const SidebarTouchableItem: React.FC<ITouchableProps> = props => {
       type: NAVIGATION_ACTIONS.SET_CURRENT_ROUTE,
       currentRoute: currentRoute,
     });
-    CloseDrawer[0] && CloseDrawer[0]();
+    CloseDrawer && CloseDrawer[0]();
     NavigationService.navigate(props.route);
   };
   let imgUrl: ImageSourcePropType;
@@ -87,7 +87,7 @@ const SideBarDrawer: React.FC<any> = props => {
   }, [navStore.currentRoute]);
 
   const signOut = useCallback(async () => {
-    CloseDrawer[0] && CloseDrawer[0]();
+    CloseDrawer && CloseDrawer[0]();
     await sleep(dispatch(Logout()), 1500);
   }, []);
 
@@ -166,7 +166,7 @@ const SideBarDrawer: React.FC<any> = props => {
             <SidebarTouchableItem
               {...props}
               title="პარამეტრები"
-              route={''}
+              route={Routes.Settings}
               iconUrl={require('./../assets/images/settings.png')}
               activeIconUrl={require('./../assets/images/settings_active.png')}
               activeRoute={currentNav}

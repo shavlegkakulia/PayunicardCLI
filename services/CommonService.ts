@@ -5,8 +5,7 @@ import {
   IErrorAction,
   PUSH_ERROR,
 } from './../redux/action_types/error_action_types';
-import {LANG_KEY} from '../constants/defaults';
-import {LANG_KEYS} from '../lang';
+import {ka_ge, LANG_KEYS} from '../lang';
 import {stringToObject} from '../utils/utils';
 import {require_otp} from '../constants/errorCodes';
 
@@ -15,7 +14,7 @@ class CommonService {
   //when objectResponse is passed in config returns noly ObjectResponse
   registerCommonInterceptor() {
     let requestInterceptor = axios.interceptors.request.use(config => {
-      let langKey = store.getState().TranslateReduser.key || LANG_KEY;
+      let langKey = store.getState().TranslateReduser.key || ka_ge;
       config.headers['langcode'] = LANG_KEYS[langKey];
       return config;
     });

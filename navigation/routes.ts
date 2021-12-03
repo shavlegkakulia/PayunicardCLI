@@ -66,9 +66,10 @@ const Routes = {
     TopupSucces: 'TopupSucces',
     addBankCard: 'addBankCard',
     AddBankCardSucces: 'AddBankCardSucces',
-    verification: 'verification',
-    verificationStepOne: 'verificationStepOne',
-    verificationStepTwo: 'verificationStepTwo'
+    Settings: 'Settings',
+    setPassCode: 'setPassCode',
+    setLoginWithPassCode: 'setLoginWithPassCode',
+    EditUserInfo: 'EditUserInfo'
 }
 
 export default Routes;

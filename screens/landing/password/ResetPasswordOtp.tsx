@@ -23,6 +23,8 @@ type RouteParamList = {
     email: string | undefined;
     phone: string | undefined;
     personalNumber: string | undefined;
+    backRoute: string | undefined;
+    minimizedContent: boolean | undefined
   };
 };
 
@@ -70,7 +72,9 @@ const ResetPasswordOtp: React.FC = () => {
               phone: route.params.phone,
               personalNumber: route.params.personalNumber,
               otpGuid,
-              otp
+              otp,
+              backRoute: route.params.backRoute,
+              minimizedContent: route.params.minimizedContent,
             });
           }
         }
@@ -84,12 +88,12 @@ const ResetPasswordOtp: React.FC = () => {
       keyboardVerticalOffset={0}
       style={styles.avoid}>
       <View style={styles.passwordResetContainer}>
-        <View style={styles.passwordResetHeader}>
+        {!route.params.minimizedContent && <><View style={styles.passwordResetHeader}>
           <PaginationDots length={6} step={3} />
         </View>
         <Text style={styles.pwdResettext}>
           {translate.t('login.forgotpassword')}
-        </Text>
+        </Text></>}
         <View style={styles.inputsContainer}>
           <View style={styles.insertOtpSTep}>
             <Text style={styles.insertOtpCode}>შეიყვანე სმს კოდი</Text>

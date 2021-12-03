@@ -11,11 +11,12 @@ import {
   IAuthState,
   IGlobalState as AuthState,
   LOGIN,
+  REFRESH,
 } from './../redux/action_types/auth_action_types';
 import AuthService, {IInterceptop} from './../services/AuthService';
 import CommonService from './../services/CommonService';
 import {use} from './../redux/actions/translate_actions';
-import {LANG_KEY, LOCALE_IN_STORAGE} from './../constants/defaults';
+import {AUTH_USER_INFO, LOCALE_IN_STORAGE} from './../constants/defaults';
 import ErrorWrapper from '../components/ErrorWrapper';
 import storage from './../services/StorageService';
 import {
@@ -28,6 +29,12 @@ import NavigationService from '../services/NavigationService';
 import {SafeAreaView} from 'react-navigation';
 import {StyleSheet} from 'react-native';
 import colors from '../constants/colors';
+import {ka_ge} from '../lang';
+import {subscriptionService} from '../services/subscriptionService';
+import SUBSCRIBTION_KEYS from '../constants/subscribtionKeys';
+import Routes from './routes';
+import { Logout } from '../redux/actions/auth_actions';
+import { debounce, sleep } from '../utils/utils';
 
 interface ILoading {
   locale: boolean;
@@ -87,7 +94,7 @@ const AppContainer: FC = () => {
     storage
       .getItem(LOCALE_IN_STORAGE)
       .then(locale => {
-        dispatch(use(locale || LANG_KEY));
+        dispatch(use(locale || ka_ge));
       })
       .finally(() =>
         setIsLoading(loading => {
@@ -108,25 +115,28 @@ const AppContainer: FC = () => {
     };
   }, []);
 
+  const signoutDelay = debounce((e: Function) => e(), 1000);
+
   const signOut = useCallback(async () => {
+    signoutDelay(() => {
+      dispatch(Logout());
+    });
     await AuthService.SignOut();
-    setUserToken('');
+    await storage.removeItem("PassCode");
+    await storage.removeItem("PassCodeEnbled");
   }, [userToken]);
 
   useEffect(() => {
-    AuthService.getToken().then(data => {
-      setUserToken(data || '');
-
-      if (data) {
-        dispatch({type: LOGIN, accesToken: data, isAuthenticated: true});
-      }
-
-      setIsLoading(loading => {
-        loading.translates = false;
-        return loading;
-      });
-      SplashScreen.hide();
+    if (state.accesToken) {
+      setUserToken(state.accesToken);
+    } else {
+      setUserToken('');
+    }
+    setIsLoading(loading => {
+      loading.translates = false;
+      return loading;
     });
+    SplashScreen.hide();
   }, [userToken, state.accesToken]);
 
   if (loading.locale || loading.translates) {
