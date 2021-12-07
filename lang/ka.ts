@@ -21,6 +21,7 @@ export default {
         forgotpassword: 'დაგავიწყდა პაროლი?',
         email: 'ელ-ფოსტა',
         password: 'პაროლი',
+        oldPassword: 'ძველი პაროლი',
         repeatPassword: 'გაიმეორეთ პაროლი',
         remember: 'დამახსოვრება',
         login: 'შესვლა',

@@ -604,12 +604,23 @@ export interface IGetUserProfileDataResponse {
   surname?: string | undefined;
   idPhotos?: IGetUserKycIdResponse | undefined;
   selfies?: IGetUserKycSelfImages[] | undefined;
+  birthDate?: string | undefined | null;
+  personalID?: string | undefined | null;
 }
 
 export interface IGetUserProfileDataResponseData {
   ok: boolean;
   errors?: IError[] | undefined;
   data?: IGetUserProfileDataResponse | undefined;
+}
+
+export interface IChangeUserPasswordResponse {
+}
+
+export interface IChangeUserPasswordResponseData {
+  ok: boolean;
+  errors?: IError[] | undefined;
+  data?: IChangeUserPasswordResponse | undefined;
 }
 
 class UserService {
@@ -801,9 +812,9 @@ class UserService {
   }
 
   updateUserProfileImage(data?: IUpdateUserProfileImageRequest | undefined) {
-    const promise = axios.post<IGetUserBlockedBlockedFundslistResponseData>(
+    const promise = axios.post<IIResponseOfUpdateUserProfileImageResponse>(
       `${envs.API_URL}User/UpdateUserProfileImage`,
-      {data},
+      data,
       {objectResponse: true},
     );
     return from(promise);
@@ -823,6 +834,15 @@ class UserService {
     //   {objectResponse: true},
     // );
     // return from(promise);
+  }
+
+  ChangeUserPassword(data: IChangeUserPasswordRequest) {
+    const promise = axios.post<IChangeUserPasswordResponseData>(
+      `${envs.API_URL}User/ChangeUserPassword`,
+      data,
+      {objectResponse: true},
+    );
+    return from(promise);
   }
 }
 

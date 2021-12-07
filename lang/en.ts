@@ -16,6 +16,7 @@ export default {
         forgotpassword: 'Forgot password?',
         email: 'email',
         password: 'password',
+        oldPassword: 'old password',
         remember: 'remember',
         login: 'login',
         signup: 'signup',

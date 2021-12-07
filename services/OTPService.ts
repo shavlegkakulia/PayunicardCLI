@@ -20,7 +20,7 @@ export interface IResponse {
 }
 
 export class GeneratePhoneOtpByUserRequest {
-  otpOperationType?: string | undefined;
+  otpOperationType?: string | number | undefined;
   userName?: string | undefined;
 }
 
