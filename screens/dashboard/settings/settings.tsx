@@ -37,12 +37,23 @@ import Cover from '../../../components/Cover';
 import {FetchUserDetail} from '../../../redux/actions/user_actions';
 import ActionSheetCustom from './../../../components/actionSheet';
 import AppButton from '../../../components/UI/AppButton';
+import BiometricAuthScreen from './biometric';
+import FilesService, {
+  ImageType,
+  IUploadFileRequest,
+} from '../../../services/FilesService';
+import FingerprintScanner from 'react-native-fingerprint-scanner';
 
 const Settings: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [getPhoto, setGetPhoto] = useState<boolean>(false);
   const [isPassCodeEnabled, setIsPassCodeEnabled] = useState<boolean>(false);
+  const [biometricAvailable, setBiometricAvailable] = useState<boolean>(true);
   const [isFaceIdEnabled, setIsFaceIdEnabled] = useState<boolean>(false);
+  const [startBiometric, setStartBiometric] = useState<boolean>(false);
+  const [isSensorAvailable, setIsSensorAvailable] = useState<
+    boolean | undefined
+  >(undefined);
   const [{ka, en}, setLangActive] = useState({ka: false, en: false});
   const userState = useSelector<IGloablState>(
     state => state.UserReducer,
@@ -60,6 +71,7 @@ const Settings: React.FC = () => {
         const isEnabled = await storage.getItem('PassCodeEnbled');
         if (isEnabled !== null) {
           await storage.removeItem('PassCodeEnbled');
+          await storage.removeItem('Biometric');
           setIsPassCodeEnabled(false);
         } else {
           await storage.setItem('PassCodeEnbled', '1');
@@ -71,15 +83,48 @@ const Settings: React.FC = () => {
 
   const GoToPassCode = () => NavigationService.navigate(Routes.setPassCode);
 
-  const toggleFaceIdSwitch = () =>
-    setIsFaceIdEnabled(previousState => !previousState);
+  const GoToBiometric = () => {
+    setStartBiometric(true);
+  };
+
+  const toggleFaceIdSwitch = () => {
+    storage.getItem('Biometric').then(async isEnabled => {
+      if (isEnabled !== null) {
+        await storage.removeItem('Biometric');
+        setIsFaceIdEnabled(false);
+      } else {
+        await storage.setItem('Biometric', '*');
+        setIsFaceIdEnabled(true);
+      }
+    });
+  };
+
+  const uploadImage = (name: string, img: string) => {
+    if (!name || !img || isLoading) return;
+    setIsLoading(true);
+
+    const data: IUploadFileRequest = {
+      fileName: name,
+      getColor: false,
+      type: ImageType.UserProfileImage,
+      image: img,
+    };
+    console.log(data)
+    FilesService.uploadImage(data).subscribe({
+      next: Response => {
+        if (Response.data.ok) {console.log('*********************', Response.data.data);
+          updateUserProfileImage(getString(Response.data.data?.imageUrl));
+        }
+      },
+      error: () => setIsLoading(false),
+    });
+  };
 
   const updateUserProfileImage = (url: string) => {
-    if (!url || isLoading) return;
-    setIsLoading(true);
     const data: IUpdateUserProfileImageRequest | undefined = {
       imageUrl: url,
     };
+    //console.log(data);
     UserService.updateUserProfileImage(data).subscribe({
       next: Response => {
         if (Response.data.ok) {
@@ -90,7 +135,8 @@ const Settings: React.FC = () => {
         setIsLoading(false);
         closeChoosePhotos();
       },
-      error: () => {
+      error: err => {
+        console.log(err);
         setIsLoading(false);
         closeChoosePhotos();
       },
@@ -107,8 +153,10 @@ const Settings: React.FC = () => {
       maxHeight: 300,
     });
     if (result.assets) {
-      const {base64} = result.assets[0];
-      updateUserProfileImage(getString(base64).replace(/'/g, "'"));
+      const {base64, fileName} = result.assets[0];
+      //console.log(base64)
+      uploadImage(getString(fileName), getString(base64));
+      // updateUserProfileImage(getString(base64).replace(/'/g, "'"));
     }
   };
 
@@ -119,13 +167,15 @@ const Settings: React.FC = () => {
       quality: 0.2,
       maxWidth: 300,
       maxHeight: 300,
+    }, (r) => {
+      console.log(r)
     });
     if (result.assets) {
-      const {base64} = result.assets[0];
-      console.log(base64)
-      updateUserProfileImage(getString(base64).replace(/'/g, "'"));
+      const {base64, fileName} = result.assets[0];
+      uploadImage(getString(fileName), getString(base64));
+      //updateUserProfileImage(getString(base64).replace(/'/g, "'"));
     }
-  }
+  };
 
   const changeActiveLang = useCallback(
     (key: string) => {
@@ -147,10 +197,8 @@ const Settings: React.FC = () => {
   );
 
   const goPwdChange = () => {
-    NavigationService.navigate(Routes.ResetPasswordOtp, {
+    NavigationService.navigate(Routes.PasswordChangeStepFour, {
       email: userState.userDetails?.email || userState.userDetails?.username,
-      phone: userState.userDetails?.phone,
-      personalNumber: userState.userDetails?.personalId,
       backRoute: Routes.Settings,
       minimizedContent: true,
     });
@@ -160,12 +208,20 @@ const Settings: React.FC = () => {
     NavigationService.navigate(Routes.EditUserInfo);
   };
 
+  const goToVerification = () =>
+    NavigationService.navigate(Routes.Verification, {verificationStep: 0});
+
   const init = async () => {
     const PassCodeExists = await storage.getItem('PassCode');
     const PassCodeEnbledExists = await storage.getItem('PassCodeEnbled');
+    const BiometricExists = await storage.getItem('Biometric');
 
     if (PassCodeExists !== null && PassCodeEnbledExists !== null) {
       setIsPassCodeEnabled(true);
+
+      if (BiometricExists !== null) {
+        setIsFaceIdEnabled(true);
+      }
     }
   };
 
@@ -198,10 +254,35 @@ const Settings: React.FC = () => {
     });
   }, []);
 
+  const onBiometric = () => {
+    if (biometricAvailable) {
+      if (!isPassCodeEnabled) {
+        togglePassCodeSwitch();
+        return;
+      }
+
+      toggleFaceIdSwitch();
+    }
+  };
+
+  const getStatus = (status: boolean, available?: boolean | undefined) => {
+    if (available === false) setBiometricAvailable(false);
+    if (!status) setStartBiometric(false);
+  };
+
+  useEffect(() => {
+    FingerprintScanner.isSensorAvailable()
+      .then(() => {
+        setIsSensorAvailable(true);
+      })
+      .catch(() => setIsSensorAvailable(false));
+  }, []);
+
   const actionSheetHeight = 300;
 
   return (
     <DashboardLayout>
+      <BiometricAuthScreen start={startBiometric} returnStatus={getStatus} />
       <SafeAreaView style={styles.content}>
         <ScrollView style={screenStyles.screenContainer}>
           <View>
@@ -256,26 +337,30 @@ const Settings: React.FC = () => {
                 value={isPassCodeEnabled}
               />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.navItem}>
-              <View style={styles.navItemDetail}>
-                <Image
-                  source={require('./../../../assets/images/icon-face-id-primary-40x40.png')}
-                  style={styles.navItemIcon}
+            {isSensorAvailable !== undefined && isSensorAvailable !== false && (
+              <TouchableOpacity style={styles.navItem} onPress={GoToBiometric}>
+                <View style={styles.navItemDetail}>
+                  <Image
+                    source={require('./../../../assets/images/icon-finger-primary-40x40.png')}
+                    style={styles.navItemIcon}
+                  />
+                  <Text style={styles.navItemTitle}>
+                    თითის ანაბეჭდით შესვლა
+                  </Text>
+                </View>
+                <Switch
+                  style={styles.check}
+                  trackColor={{
+                    false: colors.inputBackGround,
+                    true: colors.primary,
+                  }}
+                  thumbColor={isFaceIdEnabled ? colors.white : colors.white}
+                  ios_backgroundColor={colors.inputBackGround}
+                  onValueChange={onBiometric}
+                  value={isFaceIdEnabled}
                 />
-                <Text style={styles.navItemTitle}>სახის ამოცნობით შესვლა</Text>
-              </View>
-              <Switch
-                style={styles.check}
-                trackColor={{
-                  false: colors.inputBackGround,
-                  true: colors.primary,
-                }}
-                thumbColor={isFaceIdEnabled ? colors.white : colors.white}
-                ios_backgroundColor={colors.inputBackGround}
-                onValueChange={toggleFaceIdSwitch}
-                value={isFaceIdEnabled}
-              />
-            </TouchableOpacity>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity style={styles.navItem} onPress={openChoosePhotos}>
               <View style={styles.navItemDetail}>
                 <Cover
@@ -286,7 +371,7 @@ const Settings: React.FC = () => {
                 <Text style={styles.navItemTitle}>ფოტო სურათის შეცვლა</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.navItem}>
+            <TouchableOpacity style={styles.navItem} onPress={goToVerification}>
               <View style={styles.navItemDetail}>
                 <Image
                   source={require('./../../../assets/images/icon-verification-40x40.png')}
@@ -331,9 +416,23 @@ const Settings: React.FC = () => {
           height={actionSheetHeight}
           onPress={closeChoosePhotos}>
           <View style={styles.actionContainer}>
-            <AppButton style={styles.action} title="სურათის გადაღება" onPress={ctakePhoto} />
-            <AppButton style={styles.action} title="ტელეფონის გალერეა" onPress={choosePhoto} />
-            <AppButton style={styles.action} title="გაუქმება" onPress={closeChoosePhotos} color={colors.black} backgroundColor={colors.inputBackGround} />
+            <AppButton
+              style={styles.action}
+              title="სურათის გადაღება"
+              onPress={ctakePhoto}
+            />
+            <AppButton
+              style={styles.action}
+              title="ტელეფონის გალერეა"
+              onPress={choosePhoto}
+            />
+            <AppButton
+              style={styles.action}
+              title="გაუქმება"
+              onPress={closeChoosePhotos}
+              color={colors.black}
+              backgroundColor={colors.inputBackGround}
+            />
           </View>
         </ActionSheetCustom>
       </SafeAreaView>
@@ -428,11 +527,11 @@ const styles = StyleSheet.create({
   },
   actionContainer: {
     paddingVertical: 20,
-    paddingHorizontal: 30
+    paddingHorizontal: 30,
   },
   action: {
-    marginBottom: 20
-  }
+    marginBottom: 20,
+  },
 });
 
 export default Settings;

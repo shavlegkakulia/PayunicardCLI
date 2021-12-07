@@ -11,10 +11,13 @@ import FullScreenLoader from '../../../components/FullScreenLoading';
 import AppInput from '../../../components/UI/AppInput';
 import colors from '../../../constants/colors';
 import {tabHeight} from '../../../navigation/TabNav';
-import PresentationServive, { ICitizenshipCountry } from '../../../services/PresentationServive';
+import PresentationServive, {
+  ICitizenshipCountry,
+} from '../../../services/PresentationServive';
 import UserService, {
   IGetUserProfileDataResponse,
 } from '../../../services/UserService';
+import {getString} from '../../../utils/Converter';
 
 const USERCONTEXT = 'USERCONTEXT';
 
@@ -46,13 +49,14 @@ const EditUserInfo: React.FC = () => {
       },
     });
   };
-  
+
   useEffect(() => {
     if (!profileData && !isLoading) {
       setIsLoading(true);
       UserService.getUserProfileData().subscribe({
         next: Response => {
           if (Response.data.ok) {
+            console.log(Response.data.data);
             setProfileData(Response.data.data);
             setProfileDataEdited(Response.data.data);
           }
@@ -75,7 +79,9 @@ const EditUserInfo: React.FC = () => {
     return <FullScreenLoader />;
   }
 
-  const country = countryes?.filter(c => c.countryID === profileDataEdited?.factCountryID);
+  const country = countryes?.filter(
+    c => c.countryID === profileDataEdited?.factCountryID,
+  );
 
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
@@ -84,7 +90,7 @@ const EditUserInfo: React.FC = () => {
         keyboardVerticalOffset={0}
         style={styles.avoid}>
         <View style={styles.container}>
-          {profileDataEdited?.phone && (
+          {profileDataEdited?.phone !== undefined && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>მობილურის ნომერი</Text>
               <AppInput
@@ -103,7 +109,7 @@ const EditUserInfo: React.FC = () => {
               />
             </View>
           )}
-          {profileDataEdited?.name && (
+          {profileDataEdited?.name !== undefined && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>სახელი</Text>
               <AppInput
@@ -122,7 +128,7 @@ const EditUserInfo: React.FC = () => {
               />
             </View>
           )}
-          {profileDataEdited?.surname && (
+          {profileDataEdited?.surname !== undefined && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>გვარი</Text>
               <AppInput
@@ -141,28 +147,34 @@ const EditUserInfo: React.FC = () => {
               />
             </View>
           )}
-          {/* <View style={styles.inputContainer}>
-            <Text style={styles.label}>დაბადების თარიღი</Text>
-            <AppInput
-              editable={false}
-              value=""
-              onChange={() => {}}
-              placeholder="00/00/00"
-              customKey="date"
-              context={USERCONTEXT}
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>პირადი ნომერი</Text>
-            <AppInput
-              value=""
-              onChange={() => {}}
-              placeholder="პირადი ნომერი"
-              customKey="pn"
-              context={USERCONTEXT}
-            />
-          </View> */}
-          {profileDataEdited?.email && (
+          {profileDataEdited?.birthDate !== undefined &&
+            profileDataEdited?.birthDate !== null && (
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>დაბადების თარიღი</Text>
+                <AppInput
+                  editable={false}
+                  value={profileDataEdited?.birthDate}
+                  onChange={() => {}}
+                  placeholder="00/00/00"
+                  customKey="date"
+                  context={USERCONTEXT}
+                />
+              </View>
+            )}
+          {profileDataEdited?.personalID !== undefined &&
+            profileDataEdited?.personalID !== null && (
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>პირადი ნომერი</Text>
+                <AppInput
+                  value={profileDataEdited?.personalID}
+                  onChange={() => {}}
+                  placeholder="პირადი ნომერი"
+                  customKey="pn"
+                  context={USERCONTEXT}
+                />
+              </View>
+            )}
+          {profileDataEdited?.email !== undefined && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>ელფოსტა</Text>
               <AppInput
@@ -181,7 +193,7 @@ const EditUserInfo: React.FC = () => {
               />
             </View>
           )}
-          {profileDataEdited?.factAddress && (
+          {profileDataEdited?.factAddress !== undefined && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>მისამართი</Text>
               <AppInput
@@ -200,7 +212,7 @@ const EditUserInfo: React.FC = () => {
               />
             </View>
           )}
-          {profileDataEdited?.legalAddress && (
+          {profileDataEdited?.legalAddress !== undefined && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>მისამართი</Text>
               <AppInput
@@ -219,7 +231,7 @@ const EditUserInfo: React.FC = () => {
               />
             </View>
           )}
-          {country?.length && (
+          {country !== undefined && country?.length && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>ქვეყანა</Text>
               <AppInput
@@ -232,7 +244,7 @@ const EditUserInfo: React.FC = () => {
               />
             </View>
           )}
-          {profileDataEdited?.factCity && (
+          {profileDataEdited?.factCity !== undefined && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>ქალაქი/მუნიციპალიტეტი </Text>
               <AppInput
@@ -251,7 +263,7 @@ const EditUserInfo: React.FC = () => {
               />
             </View>
           )}
-          {profileDataEdited?.factPostalCode && (
+          {profileDataEdited?.factPostalCode !== undefined && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>საფოსტო ინდექსი </Text>
               <AppInput
@@ -273,14 +285,14 @@ const EditUserInfo: React.FC = () => {
 
           <View>
             <ScrollView horizontal={true}>
-              {profileDataEdited?.idPhotos?.documentBackSide && (
+              {profileDataEdited?.idPhotos?.documentBackSide !== undefined && (
                 <Image
                   source={{uri: profileDataEdited?.idPhotos?.documentBackSide}}
                   resizeMode="contain"
                   style={styles.docImages}
                 />
               )}
-              {profileDataEdited?.idPhotos?.documentFrontSide && (
+              {profileDataEdited?.idPhotos?.documentFrontSide !== undefined && (
                 <Image
                   source={{uri: profileDataEdited?.idPhotos?.documentFrontSide}}
                   resizeMode="contain"

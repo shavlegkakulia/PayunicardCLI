@@ -1,31 +1,35 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import AppButton from '../../components/UI/AppButton';
 import colors from '../../constants/colors';
 import {tabHeight} from '../../navigation/TabNav';
 import {PUSH} from '../../redux/actions/error_action';
+import {LOGIN} from '../../redux/action_types/auth_action_types';
 import {
-  IAuthState,
-  IGlobalState as AuthState,
-  LOGIN,
-} from '../../redux/action_types/auth_action_types';
-import {
-  IGloablState,
-  IUserState,
-} from '../../redux/action_types/user_action_types';
-import { IUserDetails } from '../../services/UserService';
+  IGlobalState,
+  ITranslateState,
+} from '../../redux/action_types/translate_action_types';
+import {IUserDetails} from '../../services/UserService';
 import {getString} from '../../utils/Converter';
+import BiometricAuthScreen from '../dashboard/settings/biometric';
 import storage from './../../services/StorageService';
 
 interface IProps {
   access_token: string;
   refresh_token: string;
-  UserData: IUserDetails | null
+  UserData: IUserDetails | null;
+  onDismiss: () => void;
 }
 
-const setLoginWithPassCode: React.FC<IProps> = (props) => {
+const setLoginWithPassCode: React.FC<IProps> = props => {
   const [code, setCode] = useState<string>();
   const [baseCode, setBaseCode] = useState<string>();
+  const [startBiometric, setStartBiometric] = useState<boolean>(false);
+  const [biometricAvailable, setBiometricAvailable] = useState<boolean>(true);
+  const translate = useSelector<IGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const dispatch = useDispatch();
 
   const setNum = (num: string) => {
@@ -45,8 +49,6 @@ const setLoginWithPassCode: React.FC<IProps> = (props) => {
     }
   };
 
-  const GoToFaceId = () => {};
-
   const login = async (pascode: string) => {
     if (baseCode === pascode) {
       const {access_token, refresh_token} = props;
@@ -62,6 +64,17 @@ const setLoginWithPassCode: React.FC<IProps> = (props) => {
     }
   };
 
+  const onSuccesBiometric = () => {
+    console.log('modis');
+    const {access_token, refresh_token} = props;
+    dispatch({
+      type: LOGIN,
+      accesToken: access_token,
+      refreshToken: refresh_token,
+      isAuthenticated: true,
+    });
+  };
+
   useEffect(() => {
     storage.getItem('PassCode').then(async data => {
       if (data !== null) {
@@ -70,22 +83,49 @@ const setLoginWithPassCode: React.FC<IProps> = (props) => {
     });
   }, []);
 
+  const onBiometric = () => {
+    if (startBiometric) {
+      setStartBiometric(false);
+      //return;
+    }
+    storage.getItem('Biometric').then(async data => {
+      if (data !== null && biometricAvailable) {
+        setStartBiometric(true);
+      }
+    });
+  };
+
+  useEffect(() => {
+    onBiometric();
+  }, []);
+
+  const getStatus = (status: boolean, available?: boolean | undefined) => {
+    if (available === false) setBiometricAvailable(false);
+    if (!status) setStartBiometric(false);
+  };
+
   return (
     <View style={styles.container}>
+      <BiometricAuthScreen
+        start={startBiometric}
+        returnStatus={getStatus}
+        onSucces={onSuccesBiometric.bind(this)}
+      />
       <View style={styles.user}>
         <Image
           source={{uri: props.UserData?.imageUrl}}
           style={styles.image}
-          resizeMode="contain"
+          resizeMode="cover"
         />
         <Text style={styles.name}>
           {props.UserData?.name} {props.UserData?.surname}
         </Text>
-        {/* <Text style={styles.status}>
-          {getString(baseCode).length > 0
-            ? 'გაიმეორე პასკოდი'
-            : 'შეიყვანა ახალი პასკოდი'}
-        </Text> */}
+        <AppButton
+          TextStyle={styles.changeAccountText}
+          style={styles.changeAccount}
+          title={translate.t('login.loginWithAnother')}
+          onPress={props.onDismiss}
+        />
       </View>
       <View style={styles.dots}>
         <View
@@ -150,9 +190,10 @@ const setLoginWithPassCode: React.FC<IProps> = (props) => {
           </TouchableOpacity>
         </View>
         <View style={styles.tabs}>
-          <TouchableOpacity onPress={GoToFaceId} style={styles.keyNum}>
+          <TouchableOpacity onPress={onBiometric} style={styles.keyNum}>
             <Image
               source={require('./../../assets/images/icon-face-id-72x72.png')}
+              style={styles.otherImg}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -184,9 +225,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 72,
-    height: 72,
-    borderRadius: 35.5,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+  },
+  otherImg: {
+    width: 60,
+    height: 60,
   },
   name: {
     marginTop: 12,
@@ -226,8 +271,8 @@ const styles = StyleSheet.create({
   },
   keyNum: {
     backgroundColor: '#F1F1F1',
-    width: 72,
-    height: 72,
+    width: 60,
+    height: 60,
     borderRadius: 35.15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -240,9 +285,24 @@ const styles = StyleSheet.create({
   },
   del: {
     fontFamily: 'FiraGO-Book',
-    fontSize: 14,
+    fontSize: 12,
     lineHeight: 17,
     color: colors.black,
+  },
+  changeAccount: {
+    paddingHorizontal: 15,
+    paddingVertical: 11,
+    alignSelf: 'center',
+    backgroundColor: '#FF8F0020',
+    borderRadius: 10,
+    marginVertical: 10,
+  },
+  changeAccountText: {
+    fontFamily: 'FiraGO-Book',
+    fontWeight: '500',
+    fontSize: 12,
+    lineHeight: 14,
+    color: '#FF8F00',
   },
 });
 

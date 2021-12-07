@@ -50,6 +50,10 @@ import PasswordResetSucces from '../screens/landing/password/PasswordResetSucces
 import SetPassCode from '../screens/dashboard/settings/setPassCode';
 import EditUserInfo from '../screens/dashboard/settings/editUserInfo';
 import Verification from '../screens/dashboard/Verification/Index';
+import BiometricAuthScreen from '../screens/dashboard/settings/biometric';
+import PasswordChangeSucces from '../screens/landing/password/change/PasswordChangeSucces';
+import PasswordChangeStepFour from '../screens/landing/password/change/PasswordChangeStepFour';
+import ChangePasswordOtp from '../screens/landing/password/change/ChangePasswordOtp';
 
 const appStack = createStackNavigator();
 
@@ -692,7 +696,151 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ვერიფიკაცია',
-                hideHeader: true
+                hideHeader: true,
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep1}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep2}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep3}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep4}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep5}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep6}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep7}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep8}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep9}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.Biometric}
+            component={BiometricAuthScreen}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.PasswordChangeSucces}
+            component={PasswordChangeSucces}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'პაროლის შეცვლა',
+                hideHeader: true,
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.PasswordChangeStepFour}
+            component={PasswordChangeStepFour}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'პაროლის შეცვლა',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.ChangePasswordOtp}
+            component={ChangePasswordOtp}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'პაროლის შეცვლა',
               })
             }
           />

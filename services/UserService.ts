@@ -604,12 +604,40 @@ export interface IGetUserProfileDataResponse {
   surname?: string | undefined;
   idPhotos?: IGetUserKycIdResponse | undefined;
   selfies?: IGetUserKycSelfImages[] | undefined;
+  birthDate?: string | undefined | null;
+  personalID?: string | undefined | null;
 }
 
 export interface IGetUserProfileDataResponseData {
   ok: boolean;
   errors?: IError[] | undefined;
   data?: IGetUserProfileDataResponse | undefined;
+}
+
+export interface IChangeUserPasswordResponse {
+}
+
+export interface IChangeUserPasswordResponseData {
+  ok: boolean;
+  errors?: IError[] | undefined;
+  data?: IChangeUserPasswordResponse | undefined;
+}
+
+export interface IChangePassBySystemRequest {
+  userName?: string | undefined;
+  oldPassword?: string | undefined;
+  newPassword?: string | undefined;
+  confirmNewPassword?: string | undefined;
+}
+
+export interface IChangePassBySystemResponse {
+}
+
+
+export interface IChangePassBySystemResponseData {
+  ok: boolean;
+  errors?: IError[] | undefined;
+  data?: IChangePassBySystemResponse | undefined;
 }
 
 class UserService {
@@ -728,7 +756,7 @@ class UserService {
     const promise = axios.post<IIResponseOfCustomerRegistrationNewResponse>(
       `${envs.API_URL}User/Registration/CustomerRegistration`,
       data,
-      {objectResponse: true},
+      //{objectResponse: true},
     );
     return from(promise);
   }
@@ -801,9 +829,9 @@ class UserService {
   }
 
   updateUserProfileImage(data?: IUpdateUserProfileImageRequest | undefined) {
-    const promise = axios.post<IGetUserBlockedBlockedFundslistResponseData>(
+    const promise = axios.post<IIResponseOfUpdateUserProfileImageResponse>(
       `${envs.API_URL}User/UpdateUserProfileImage`,
-      {data},
+      data,
       {objectResponse: true},
     );
     return from(promise);
@@ -823,6 +851,24 @@ class UserService {
     //   {objectResponse: true},
     // );
     // return from(promise);
+  }
+
+  ChangeUserPassword(data: IChangeUserPasswordRequest) {
+    const promise = axios.post<IChangeUserPasswordResponseData>(
+      `${envs.API_URL}User/ChangeUserPassword`,
+      data,
+      {objectResponse: true},
+    );
+    return from(promise);
+  }
+
+  changePassBySystem(data: IChangePassBySystemRequest) {
+    const promise = axios.post<IChangePassBySystemResponseData>(
+      `${envs.API_URL}User/ChangePassBySystem`,
+      data,
+      {objectResponse: true},
+    );
+    return from(promise);
   }
 }
 

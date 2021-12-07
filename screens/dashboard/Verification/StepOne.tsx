@@ -8,6 +8,7 @@ import colors from "../../../constants/colors";
 import { ICitizenshipCountry } from "../../../services/PresentationServive";
 
 interface IProps {
+    loading: boolean
     selectedCountry: ICitizenshipCountry | undefined,
     countryes: ICitizenshipCountry[] | undefined;
     onSetCountry: (country: ICitizenshipCountry) => void,
@@ -101,7 +102,7 @@ const StepOne: React.FC<IProps> = (props) => {
             <AppButton
                 title={'შემდეგი'}
                 onPress={nextHandler}
-                style={styles.button} />
+                style={styles.button} isLoading={props.loading} />
         </View>
     )
 }

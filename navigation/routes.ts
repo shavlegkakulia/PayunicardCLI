@@ -33,6 +33,9 @@ const Routes = {
     ResetPasswordOtp: 'ResetPasswordOtp',
     PasswordResetStepFour: 'PasswordResetStepFour',
     PasswordResetSucces: 'PasswordResetSucces',
+    ChangePasswordOtp: 'ChangePasswordOtp',
+    PasswordChangeStepFour: 'PasswordChangeStepFour',
+    PasswordChangeSucces: 'PasswordChangeSucces',
     FirstLoad: 'FirstLoad',
     Transactions: 'Transactions',
     ProductDetail: 'ProductDetail',
@@ -70,7 +73,17 @@ const Routes = {
     setPassCode: 'setPassCode',
     setLoginWithPassCode: 'setLoginWithPassCode',
     EditUserInfo: 'EditUserInfo',
-    Verification: 'Verification'
+    Verification: 'Verification',
+    VerificationStep1: 'VerificationStep1',
+    VerificationStep2: 'VerificationStep2',
+    VerificationStep3: 'VerificationStep3',
+    VerificationStep4: 'VerificationStep4',
+    VerificationStep5: 'VerificationStep5',
+    VerificationStep6: 'VerificationStep6',
+    VerificationStep7: 'VerificationStep7',
+    VerificationStep8: 'VerificationStep8',
+    VerificationStep9: 'VerificationStep9',
+    Biometric: 'Biometric'
 }
 
 export default Routes;
