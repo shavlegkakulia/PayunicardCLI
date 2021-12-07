@@ -5,10 +5,11 @@ import AppButton from '../../components/UI/AppButton';
 import colors from '../../constants/colors';
 import {tabHeight} from '../../navigation/TabNav';
 import {PUSH} from '../../redux/actions/error_action';
+import {LOGIN} from '../../redux/action_types/auth_action_types';
 import {
-  LOGIN,
-} from '../../redux/action_types/auth_action_types';
-import { IGlobalState, ITranslateState } from '../../redux/action_types/translate_action_types';
+  IGlobalState,
+  ITranslateState,
+} from '../../redux/action_types/translate_action_types';
 import {IUserDetails} from '../../services/UserService';
 import {getString} from '../../utils/Converter';
 import BiometricAuthScreen from '../dashboard/settings/biometric';
@@ -192,6 +193,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
           <TouchableOpacity onPress={onBiometric} style={styles.keyNum}>
             <Image
               source={require('./../../assets/images/icon-face-id-72x72.png')}
+              style={styles.otherImg}
             />
           </TouchableOpacity>
           <TouchableOpacity

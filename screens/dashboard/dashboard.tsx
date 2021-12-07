@@ -108,7 +108,7 @@ const Dashboard: React.FC<IProps> = props => {
           userStatuses.Enum_PartiallyProcessed) &&
       customerVerificationStatusCode === userStatuses.Enum_NotVerified
     ) {
-      NavigationService.navigate(Routes.Verification);
+      NavigationService.navigate(Routes.Verification, {verificationStep: 0});
     }
   };
 

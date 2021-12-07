@@ -756,7 +756,7 @@ class UserService {
     const promise = axios.post<IIResponseOfCustomerRegistrationNewResponse>(
       `${envs.API_URL}User/Registration/CustomerRegistration`,
       data,
-      {objectResponse: true},
+      //{objectResponse: true},
     );
     return from(promise);
   }

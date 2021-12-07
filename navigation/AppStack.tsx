@@ -701,6 +701,105 @@ const AppStack: React.FC = () => {
             }
           />
           <appStack.Screen
+            name={Routes.VerificationStep1}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep2}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep3}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep4}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep5}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep6}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep7}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep8}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep9}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
             name={Routes.Biometric}
             component={BiometricAuthScreen}
             options={props =>

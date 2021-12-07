@@ -10,7 +10,7 @@ import {IKCData} from '../../../services/KvalificaServices';
 
 interface IProps {
   kycData: IKCData | undefined;
-  onUpdateData: React.Dispatch<React.SetStateAction<IKCData | undefined>>;
+  onUpdateData: (c: IKCData | undefined) => void;
   onComplate: () => void;
 }
 
@@ -26,35 +26,27 @@ const StepSeven: React.FC<IProps> = props => {
   };
 
   const setPersonalNumber = (value: string) => {
-    props.onUpdateData(prevData => {
-      let data = {...prevData};
-      data.personalNumber = value;
-      return data;
-    });
+    let data = {...props.kycData};
+    data.personalNumber = value;
+    props.onUpdateData(data);
   };
 
   const setFirstName = (value: string) => {
-    props.onUpdateData(prevData => {
-      let data = {...prevData};
-      data.firstName = value;
-      return data;
-    });
+    let data = {...props.kycData};
+    data.firstName = value;
+    props.onUpdateData(data);
   };
 
   const setLastName = (value: string) => {
-    props.onUpdateData(prevData => {
-      let data = {...prevData};
-      data.lastName = value;
-      return data;
-    });
+    let data = {...props.kycData};
+    data.lastName = value;
+    props.onUpdateData(data);
   };
 
   const setCountryName = (value: string) => {
-    props.onUpdateData(prevData => {
-      let data = {...prevData};
-      data.countryName = value;
-      return data;
-    });
+    let data = {...props.kycData};
+    data.countryName = value;
+    props.onUpdateData(data);
   };
   
   return (

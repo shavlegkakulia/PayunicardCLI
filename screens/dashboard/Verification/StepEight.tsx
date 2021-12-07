@@ -26,7 +26,7 @@ interface IProps {
   onSetCountry: (country: ICitizenshipCountry) => void;
   onSetCountry2: (country: ICitizenshipCountry | undefined) => void;
   kycData: IKCData | undefined;
-  onUpdateData: React.Dispatch<React.SetStateAction<IKCData | undefined>>;
+  onUpdateData: (c: IKCData | undefined) => void;
   onComplate: () => void;
 }
 
@@ -66,19 +66,15 @@ const StepEight: React.FC<IProps> = props => {
   };
 
   const setBirthDate = (value: string) => {
-    props.onUpdateData(prevData => {
-      let data = {...prevData};
-      data.birthDate = value;
-      return data;
-    });
+    let data = {...props.kycData};
+    data.birthDate = value;
+    props.onUpdateData(data);
   };
 
   const setSex = (value: string) => {
-    props.onUpdateData(prevData => {
-      let data = {...prevData};
-      data.sex = value;
-      return data;
-    });
+    let data = {...props.kycData};
+    data.sex = value;
+    props.onUpdateData(data);
   };
 
   useEffect(() => {
