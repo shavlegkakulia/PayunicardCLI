@@ -38,7 +38,6 @@ import {CurrencyConverter} from '../../utils/Converter';
 import DashboardLayout from '../DashboardLayout';
 import CurrentMoney from './currentMoney';
 import TransactionsList from './transactions/TransactionsList';
-import Verification from './Verification/Index';
 import Routes from '../../navigation/routes';
 import {subscriptionService} from '../../services/subscriptionService';
 import Actions from '../../containers/Actions';
@@ -51,6 +50,7 @@ import {TRANSFERS_ACTION_TYPES} from '../../redux/action_types/transfers_action_
 import {debounce} from '../../utils/utils';
 import UserService, {IFund} from '../../services/UserService';
 import { NavigationEventSubscription, NavigationScreenProp } from 'react-navigation';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../redux/action_types/translate_action_types';
 
 const offers = [
   {
@@ -75,12 +75,12 @@ export interface IProps {
 };
 
 const Dashboard: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [offersStep, setOffersStep] = useState<number>(0);
   const [refreshing, setRefreshing] = useState(false);
-  //const [isVerificationStart, setIsVerificationStart] = useState(false);
   const screenSize = useDimension();
-  // const [verifiSheetHeader, setVerifySheetHeader] =
-  //   useState<JSX.Element | null>(null);
   const [actionsSheetHeader, setActionsSheetHeader] =
     useState<JSX.Element | null>(null);
   const [actionsVisible, setActionsVisible] = useState(false);
@@ -108,25 +108,13 @@ const Dashboard: React.FC<IProps> = props => {
           userStatuses.Enum_PartiallyProcessed) &&
       customerVerificationStatusCode === userStatuses.Enum_NotVerified
     ) {
-      //setIsVerificationStart(true);
       NavigationService.navigate(Routes.Verification);
-      //refRBSheet.current.open();
     }
   };
 
   const openUnicardSidebar = () => {
     OpenDrawer && OpenDrawer[1]();
   };
-
-  // const close_verification = () => {
-  //   setIsVerificationStart(false);
-  //   NetworkService.CheckConnection(() => {
-  //     dispatch(FetchUserDetail());
-  //   });
-  //   if (refRBSheet.current) refRBSheet.current?.close();
-  // };
-
-  //const refRBSheet = useRef<any>();
 
   const AccountStatusView = ({
     onStartVerification,
@@ -145,7 +133,7 @@ const Dashboard: React.FC<IProps> = props => {
             style={styles.accountStatusViewSimbol}
           />
           <Text style={styles.accountStatusViewText}>
-            საფულით სრულფასოვნად სარგებლობისთვის გაიარეთ იდენტიფიკაცია
+          {translate.t('dashboard.userVerifyStatus1')}
           </Text>
         </>
       );
@@ -160,7 +148,7 @@ const Dashboard: React.FC<IProps> = props => {
             style={styles.accountStatusViewSimbol}
           />
           <Text style={styles.accountStatusViewText}>
-            ანგარიში ვერიფიცირებულია
+          {translate.t('dashboard.userVerifyStatus2')}
           </Text>
         </>
       );
@@ -174,7 +162,7 @@ const Dashboard: React.FC<IProps> = props => {
             style={styles.accountStatusViewSimbol}
           />
           <Text style={styles.accountStatusViewText}>
-            საფულით სრულფასოვნად სარგებლობისთვის გაიარეთ იდენტიფიკაცია
+          {translate.t('dashboard.userVerifyStatus1')}
           </Text>
         </>
       );
@@ -186,7 +174,7 @@ const Dashboard: React.FC<IProps> = props => {
             style={styles.accountStatusViewSimbol}
           />
           <Text style={styles.accountStatusViewText}>
-            ანგარიში ვერიფიკაციის მოლოდინშია
+          {translate.t('dashboard.userVerifyStatus3')}
           </Text>
         </>
       );
@@ -216,10 +204,10 @@ const Dashboard: React.FC<IProps> = props => {
   const productsView = (
     <View style={[styles.productsViewContainer, screenStyles.shadowedCardbr15]}>
       <View style={styles.productsViewHeader}>
-        <Text style={styles.productsViewTitle}>ჩემი პროდუქტები</Text>
+        <Text style={styles.productsViewTitle}>{translate.t('dashboard.myProducts')}</Text>
         <TouchableOpacity
           onPress={() => NavigationService.navigate(Routes.Products)}>
-          <Text style={styles.productsViewSeeall}>ყველა</Text>
+          <Text style={styles.productsViewSeeall}>{translate.t('dashboard.all')}</Text>
         </TouchableOpacity>
       </View>
       {userData.isUserProductsLoading ? (
@@ -265,7 +253,7 @@ const Dashboard: React.FC<IProps> = props => {
         <View style={styles.unicardLogoBox}>
           <Image source={require('./../../assets/images/uniLogo.png')} />
         </View>
-        <Text style={styles.unicardACtionText}>უნიქარდის ბარათი</Text>
+        <Text style={styles.unicardACtionText}>{translate.t('dashboard.unicardCard')}</Text>
       </View>
       <Image
         source={require('./../../assets/images/icon-right-arrow-green.png')}
@@ -276,7 +264,7 @@ const Dashboard: React.FC<IProps> = props => {
   const offersView = (
     <View style={styles.offersContainer}>
       <View style={styles.offersContainerHeader}>
-        <Text style={styles.offersContainerTitle}>ჩემი შეთავაზებები</Text>
+        <Text style={styles.offersContainerTitle}>{translate.t('dashboard.myQuotes')}</Text>
         <PaginationDots step={offersStep} length={offers.length} />
       </View>
       <ScrollView
@@ -503,21 +491,6 @@ const Dashboard: React.FC<IProps> = props => {
           />
         </View>
       </ScrollView>
-
-      {/* <ActionSheetCustom
-        header={verifiSheetHeader}
-        scrollable={true}
-        hasDraggableIcon={false}
-        visible={isVerificationStart}
-        hasScroll={true}
-        height={sheetHeight}
-        onPress={() => close_verification()}>
-        <Verification
-          sendHeader={setVerifySheetHeader}
-          onReset={isVerificationStart}
-          onClose={close_verification}
-        />
-      </ActionSheetCustom> */}
 
       <ActionSheetCustom
         header={actionsSheetHeader}

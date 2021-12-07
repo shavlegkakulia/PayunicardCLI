@@ -7,7 +7,8 @@ export default {
         lname: 'გვარი',
         personalNumber: 'პირადი ნომერი',
         agreeTerms: 'ვეთანხმები წესებს და პირობებს',
-        close: 'დახურვა'
+        close: 'დახურვა',
+        all: 'ყველა'
     },
     onboard: {
         firstScreenDesc: 'გახსენი საფულე დისტანციურად',
@@ -39,5 +40,13 @@ export default {
         passwordValidationSection6: 'ერთ სპეციალურ სიმბოლოს (გარდა წერტილისა და @ სიმბოლოსი)',
         simpleRegistrationComplate: 'მარტივი რეგისტრაცია დასრულებულია',
         addCardsToPoints: 'დაამატეთ ლოიალობის ბარათები და დააგროვეთ ქულები'
+    },
+    dashboard: {
+        userVerifyStatus1: 'საფულით სრულფასოვნად სარგებლობისთვის გაიარეთ იდენტიფიკაცია',
+        userVerifyStatus2: 'ანგარიში ვერიფიცირებულია',
+        userVerifyStatus3: 'ანგარიში ვერიფიკაციის მოლოდინშია',
+        myProducts: 'ჩემი პროდუქტები',
+        unicardCard: 'უნიქარდის ბარათი',
+        myQuotes: 'ჩემი შეთავაზებები'
     }
 }
