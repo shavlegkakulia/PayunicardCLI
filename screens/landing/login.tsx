@@ -36,7 +36,7 @@ import NetworkService from '../../services/NetworkService';
 import {useDimension} from '../../hooks/useDimension';
 import AuthService, {IAuthorizationRequest} from '../../services/AuthService';
 import {stringToObject} from '../../utils/utils';
-import {require_otp} from '../../constants/errorCodes';
+import {require_otp, require_password_change} from '../../constants/errorCodes';
 import FloatingLabelInput from '../../containers/otp/Otp';
 import screenStyles from '../../styles/screens';
 import Routes from '../../navigation/routes';
@@ -74,6 +74,10 @@ const LoginForm: React.FC = () => {
 
   const dismissLoginWIthPassword = () => {
     setUserInfo(null);
+  };
+
+  const hidePasscode = () => {
+    setHasPasCode(false);
   };
 
   useEffect(() => {
@@ -142,6 +146,7 @@ const LoginForm: React.FC = () => {
       };
       AuthService.SignIn({User}).subscribe({
         next: Response => {
+          console.log(Response.data);
           dispatch(
             Login(
               Response.data.access_token,
@@ -151,6 +156,18 @@ const LoginForm: React.FC = () => {
           );
         },
         error: error => {
+          if (
+            stringToObject(error.response).data.error ===
+            require_password_change
+          ) {
+            dispatch({type: AUT_SET_IS_LOADING, isLoading: false});
+            setIsUserLoading(false);
+            navigation.navigate(Routes.PasswordChangeStepFour, {
+              backRoute: Routes.Login,
+              minimizedContent: true,
+              systemRequired: true,
+            });
+          }
           if (stringToObject(error.response).data.error === require_otp) {
             setOtpVisible(true);
           }
@@ -276,6 +293,7 @@ const LoginForm: React.FC = () => {
             UserData={userInfo}
             access_token={access_token}
             refresh_token={refresh_token}
+            onDismiss={hidePasscode}
           />
         ) : userInfo ? (
           <LoginWithPassword

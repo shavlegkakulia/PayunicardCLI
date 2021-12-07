@@ -22,6 +22,7 @@ export default {
         forgotpassword: 'Forgot password?',
         email: 'email',
         password: 'password',
+        newPassword: 'New Password',
         oldPassword: 'old password',
         remember: 'remember',
         login: 'login',

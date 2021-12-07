@@ -623,6 +623,23 @@ export interface IChangeUserPasswordResponseData {
   data?: IChangeUserPasswordResponse | undefined;
 }
 
+export interface IChangePassBySystemRequest {
+  userName?: string | undefined;
+  oldPassword?: string | undefined;
+  newPassword?: string | undefined;
+  confirmNewPassword?: string | undefined;
+}
+
+export interface IChangePassBySystemResponse {
+}
+
+
+export interface IChangePassBySystemResponseData {
+  ok: boolean;
+  errors?: IError[] | undefined;
+  data?: IChangePassBySystemResponse | undefined;
+}
+
 class UserService {
   GetUserDetails() {
     const promise = axios.get<IUserResponse>(
@@ -839,6 +856,15 @@ class UserService {
   ChangeUserPassword(data: IChangeUserPasswordRequest) {
     const promise = axios.post<IChangeUserPasswordResponseData>(
       `${envs.API_URL}User/ChangeUserPassword`,
+      data,
+      {objectResponse: true},
+    );
+    return from(promise);
+  }
+
+  changePassBySystem(data: IChangePassBySystemRequest) {
+    const promise = axios.post<IChangePassBySystemResponseData>(
+      `${envs.API_URL}User/ChangePassBySystem`,
       data,
       {objectResponse: true},
     );

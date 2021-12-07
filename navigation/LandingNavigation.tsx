@@ -16,6 +16,8 @@ import ResetPasswordOtp from '../screens/landing/password/ResetPasswordOtp';
 import PasswordResetStepFour from '../screens/landing/password/PasswordResetStepFour';
 import PasswordResetSucces from '../screens/landing/password/PasswordResetSucces';
 import setLoginWithPassCode from '../screens/landing/setLoginWithPassCode';
+import PasswordChangeSucces from '../screens/landing/password/change/PasswordChangeSucces';
+import PasswordChangeStepFour from '../screens/landing/password/change/PasswordChangeStepFour';
 
 const LandingStack = createStackNavigator();
 
@@ -133,6 +135,27 @@ function LandingNavigator() {
       <LandingStack.Screen
         name={Routes.setLoginWithPassCode}
         component={setLoginWithPassCode}
+      />
+      <LandingStack.Screen
+        name={Routes.PasswordChangeSucces}
+        component={PasswordChangeSucces}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: 'პაროლის შეცვლა',
+            hideHeader: true,
+          })
+        }
+      />
+      <LandingStack.Screen
+        name={Routes.PasswordChangeStepFour}
+        component={PasswordChangeStepFour}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: 'პაროლის შეცვლა',
+          })
+        }
       />
     </LandingStack.Navigator>
   );
