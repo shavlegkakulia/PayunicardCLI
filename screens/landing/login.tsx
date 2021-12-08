@@ -78,6 +78,7 @@ const LoginForm: React.FC = () => {
 
   const hidePasscode = () => {
     setHasPasCode(false);
+    setUserInfo(null);
   };
 
   useEffect(() => {

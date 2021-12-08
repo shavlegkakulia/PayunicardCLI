@@ -989,7 +989,7 @@ const ProductDetail: React.FC = props => {
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
             <View style={styles.transfersSectionContainerHeader}>
               <Text style={styles.transfersSectionContainerTitle}>
-                მოსაფიქრებელია
+                ბარათის მართვა
               </Text>
             </View>
           )}
