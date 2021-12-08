@@ -226,7 +226,7 @@ const AppInput = React.forwardRef(
               ref={(ref = inputRef)}
               autoFocus={props.autoFocus}
               keyboardType={props.keyboardType}
-              secureTextEntry={showPassword}
+              secureTextEntry={showPassword || false}
               style={styles.defaultInputStyle}
               value={props.value}
               onChangeText={props.onChange}
