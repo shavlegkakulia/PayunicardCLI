@@ -23,7 +23,6 @@ type RouteParamList = {
     email: string | undefined;
     phone: string | undefined;
     personalNumber: string | undefined;
-    backRoute: string | undefined;
     minimizedContent: boolean | undefined
   };
 };
@@ -73,7 +72,6 @@ const ResetPasswordOtp: React.FC = () => {
               personalNumber: route.params.personalNumber,
               otpGuid,
               otp,
-              backRoute: route.params.backRoute,
               minimizedContent: route.params.minimizedContent,
             });
           }

@@ -31,7 +31,6 @@ type RouteParamList = {
     personalNumber: string | undefined;
     otpGuid: string | undefined;
     otp: string | undefined;
-    backRoute: string | undefined;
     minimizedContent: boolean | undefined;
   };
 };
@@ -68,9 +67,7 @@ const PasswordResetStepFour: React.FC = () => {
       UserService.ResetPassword(User).subscribe({
         next: Response => {
           if (Response.data.ok) {
-            navigation.navigate(Routes.PasswordResetSucces, {
-              backRoute: route.params.backRoute,
-            });
+            navigation.navigate(Routes.PasswordResetSucces);
           } else {
             setIsLoading(false);
           }

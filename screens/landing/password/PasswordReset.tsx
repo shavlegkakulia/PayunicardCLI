@@ -18,16 +18,9 @@ import {tabHeight} from '../../../navigation/TabNav';
 import { RouteProp, useNavigation, useRoute} from '@react-navigation/core';
 import Routes from '../../../navigation/routes';
 
-type RouteParamList = {
-  params: {
-    backRoute: string | undefined;
-  };
-};
-
 const VALIDATION_CONTEXT = 'PasswordReset';
 
 const PasswordReset: React.FC = () => {
-  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
@@ -42,11 +35,12 @@ const PasswordReset: React.FC = () => {
       let User: ICheckUserPersonalIdRequest = {userName: email};
       UserService.CheckUser(User).subscribe({
         next: Response => {
+        
           if (Response.data.ok) {
-            if (Response.data.data?.isRegistred == true) {
+            if (Response.data.data?.isRegistred === true) {
+              
               navigation.navigate(Routes.PasswordResetStepTwo, {
-                email,
-                backRoute: route.params.backRoute
+                email: email
               });
             } else {
               setIsLoading(false);

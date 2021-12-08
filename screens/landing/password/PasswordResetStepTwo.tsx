@@ -21,7 +21,6 @@ import Routes from '../../../navigation/routes';
 type RouteParamList = {
   params: {
     email: string | undefined;
-    backRoute: string | undefined;
   };
 };
 
@@ -49,7 +48,6 @@ const PasswordResetStepTwo: React.FC = () => {
                 email: route.params.email,
                 phone,
                 personalNumber,
-                backRoute: route.params.backRoute
               });
             } else {
               setIsLoading(false);

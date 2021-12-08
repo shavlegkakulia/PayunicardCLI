@@ -680,9 +680,11 @@ const styles = StyleSheet.create({
     fontFamily: 'FiraGO-Book',
     fontSize: 14,
     lineHeight: 17,
-    textAlign: 'center',
+    textAlign: 'right',
     color: colors.labelColor,
     marginBottom: 5,
+    flexWrap: 'wrap',
+    flex: 2
   },
   amountccy: {
     fontFamily: 'FiraGO-Bold',
@@ -739,7 +741,7 @@ const styles = StyleSheet.create({
   },
   directionRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
   cliringHeader: {
