@@ -10,6 +10,7 @@ export default {
         pay: 'გადახდა',
         email: 'ელ-ფოსტა',
         deails: 'დეტალები',
+        copied: 'დაკოპირდა',
         personalNumber: 'პირადი ნომერი',
         agreeTerms: 'ვეთანხმები წესებს და პირობებს',
         close: 'დახურვა',
@@ -20,6 +21,15 @@ export default {
         maxAmount: 'მაქსიმალური თანხა',
         saveTemplate: 'შაბლონად შენახვა',
         confirm: 'დადასტურება'
+    },
+
+    services: {
+        utility: 'კომუნალურები',
+        tvInternet: 'ტელევიზია და ინტერნეტი',
+        telephone: 'ტელეფონი',
+        mobile: 'მობილური კავშირი',
+        parking:' პარკირება და ჯარიმები',
+        gambling: 'აზარტული თამაშები'
     },
     forgotPassword: {
         resetPassword: 'პაროლის ცვლილება',
@@ -71,6 +81,7 @@ export default {
         addCardsToPoints: 'დაამატეთ ლოიალობის ბარათები და დააგროვეთ ქულები'
     },
     plusSign: {
+        chooseService: 'აირჩიეთ სერვისი',
         topUp: 'შევსება',
         addCard: 'ბარათის დამატება',
         orderCard: 'ბარათის შეკვეთა',
@@ -108,11 +119,11 @@ export default {
 
     },
     transaction: {
-        transactions: 'ტრანზაქციები'
+        transactions: 'ტრანზაქციები',
+        lastTransaction: 'ბოლო ტრანზაქციები'
     },
     transfer: {
         transferTemplates: 'გადარიცხვის შაბლონები',
-        transfers: 'გადარიცხვები',
         betweeenOwnAccounts: 'საკუთარ ანგარიშებს შორის',
         currencyExchange: 'კონვერტაცია',
         toUniWallet: "სხვის უნისაფულეზე",

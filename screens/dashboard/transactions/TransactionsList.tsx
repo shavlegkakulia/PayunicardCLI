@@ -12,8 +12,13 @@ import {
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import colors from '../../../constants/colors';
 import Routes from '../../../navigation/routes';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 import {ITransaction} from '../../../services/CardService';
 import NetworkService from '../../../services/NetworkService';
 import UserService, {
@@ -42,6 +47,9 @@ interface IProps {
 }
 
 const TransactionsList: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [transactionDetail, setTransactionDetail] = useState<
     IGetTransactionDetailsResponse | undefined
   >();
@@ -250,10 +258,10 @@ const TransactionsList: React.FC<IProps> = props => {
   return (
     <View style={containerStyle}>
       <View style={styles.transactionsViewHeader}>
-        <Text style={styles.transactionsViewTitle}>ბოლო ტრანზაქციები</Text>
+        <Text style={styles.transactionsViewTitle}>{translate.t('transaction.lastTransaction')}</Text>
         {!props.hideSeeMoreButton && (
           <TouchableOpacity onPress={() => nav.navigate(Routes.Transactions)}>
-            <Text style={styles.transactionsViewSeeall}>ყველა</Text>
+            <Text style={styles.transactionsViewSeeall}>{translate.t('common.all')}</Text>
           </TouchableOpacity>
         )}
       </View>

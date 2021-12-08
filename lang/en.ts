@@ -9,6 +9,7 @@ export default {
         deails: 'Details',
         pay: 'Pay',
         lname: 'Lastname',
+        copied: 'Copied',
         personalNumber: 'Personal Number',
         commission: 'Commission',
         agreeTerms: 'Agree to the terms  and conditions',
@@ -19,6 +20,14 @@ export default {
         saveTemplate: 'Save As Template',
         confirm: 'Confirm'
 
+    },
+    services: {
+        utility: 'Utility Payment',
+        tvInternet: 'Television And Internet',
+        telephone: 'Phone',
+        mobile: 'Mobile Network',
+        parking:'Parking And Fines',
+        gambling: 'Gambling'
     },
     tabNavigation: {
         home: "Home",
@@ -57,6 +66,7 @@ export default {
         loginWithAnother: 'Log in with another account'
     },
     plusSign: {
+        chooseService: 'Choose Service',
         topUp: 'Top Up',
         addCard: 'Link A Card',
         orderCard: 'Order a Card',
@@ -64,7 +74,8 @@ export default {
         crPaymentTemplate: 'Add Payment Template'
     },
     transaction: {
-        transactions: 'Transactions'
+        transactions: 'Transactions',
+        lastTransaction: 'Last Transactions'
     },
     dashboard: {
         userVerifyStatus1: 'In order to use all features of your wallet please complete identification.',
