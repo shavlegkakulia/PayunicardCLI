@@ -51,8 +51,12 @@ export const FetchUserDetail =
           }
         }
       },
-      error: () => dispatch({type: USER_LOADING, isUserLoading: false}),
-      complete: () => dispatch({type: USER_LOADING, isUserLoading: false}),
+      error: (err) => { 
+        dispatch({type: USER_LOADING, isUserLoading: false});
+      },
+      complete: () => {
+        dispatch({type: USER_LOADING, isUserLoading: false});
+      }
     });
   };
 

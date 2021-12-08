@@ -42,7 +42,7 @@ const SignupStepThree: React.FC = () => {
   ) as ITranslateState;
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [isApplyTerms, setIsApplyTerms] = useState<number>(1);
+  const [isApplyTerms, setIsApplyTerms] = useState<number>(0);
   const navigation = useNavigation();
 
   const setAgreement = (value: boolean) => {

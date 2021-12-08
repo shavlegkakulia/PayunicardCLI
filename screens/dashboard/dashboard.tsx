@@ -24,7 +24,6 @@ import {useDimension} from '../../hooks/useDimension';
 import {
   FetchUserAccounts,
   FetchUserAccountStatements,
-  FetchUserDetail,
   FetchUserProducts,
   FetchUserTotalBalance,
 } from '../../redux/actions/user_actions';

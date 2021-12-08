@@ -243,7 +243,7 @@ const AppInput = React.forwardRef(
                 onPress={toggleSwitch}>
                 <Image
                   style={styles.eye}
-                  source={require('./../../assets/images/eye.png')}
+                  source={showPassword ? require('./../../assets/images/eye.png') : require('./../../assets/images/eye_hidden.png')}
                 />
               </TouchableOpacity>
             )}
@@ -294,6 +294,8 @@ const styles = StyleSheet.create({
   passwordToggle: {
     paddingVertical: 10,
     paddingHorizontal: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   eye: {
     width: 22,

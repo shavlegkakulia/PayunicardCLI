@@ -5,18 +5,19 @@ import {
   IGlobalState as ITranslateGlobalState,
 } from '../../../redux/action_types/translate_action_types';
 import colors from '../../../constants/colors';
-import {
-  email as _email,
-} from '../../../components/UI/Validation';
+import {email as _email} from '../../../components/UI/Validation';
 import {useSelector} from 'react-redux';
 import {tabHeight} from '../../../navigation/TabNav';
 import Routes from '../../../navigation/routes';
 import NetworkService from '../../../services/NetworkService';
-import OTPService, { IOTPServiceRequest, ISubmitPhoneOTP } from '../../../services/OTPService';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/core';
+import OTPService, {
+  IOTPServiceRequest,
+  ISubmitPhoneOTP,
+} from '../../../services/OTPService';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/core';
 import FloatingLabelInput from '../../../containers/otp/Otp';
 import AppButton from '../../../components/UI/AppButton';
-import AuthService, { IRegisterRequest } from '../../../services/AuthService';
+import AuthService, {IRegisterRequest} from '../../../services/AuthService';
 
 type RouteParamList = {
   params: {
@@ -43,7 +44,10 @@ const SignupSteOtp: React.FC = () => {
 
   const SendPhoneOTP = () => {
     NetworkService.CheckConnection(() => {
-      let OTP: IOTPServiceRequest = {otpOperationType: 1, phone: route.params.phone};
+      let OTP: IOTPServiceRequest = {
+        otpOperationType: 1,
+        phone: route.params.phone,
+      };
       OTPService.SendPhoneOTP({OTP}).subscribe({});
     });
   };
@@ -53,7 +57,7 @@ const SignupSteOtp: React.FC = () => {
       let OTP: ISubmitPhoneOTP = {otp: otpGuid, phone: route.params.phone};
 
       OTPService.SubmitPhoneOTP({OTP}).subscribe({
-        next: Response => { 
+        next: Response => {
           if (Response.data.ok) {
             registerUser(Response.data.data.otpGuid);
           }
@@ -108,22 +112,23 @@ const SignupSteOtp: React.FC = () => {
       style={styles.avoid}>
       <View style={styles.content}>
         <View>
-          <Text style={styles.signupSignuptext}>
-            {translate.t('signup.startRegister')}
-          </Text>
           <View style={styles.insertOtpSTep}>
-        <Text style={styles.insertOtpCode}>შეიყვანე სმს კოდი</Text>
-        <FloatingLabelInput
-          Style={styles.otpBox}
-          label="სმს კოდი"
-          title="ავტორიზაციისთვის საჭირო სმს კოდი გამოგზავნილია"
-          value={otpGuid}
-          onChangeText={setOtpGuid}
-          onRetry={SendPhoneOTP}
-        />
-      </View>
+            <Text style={styles.insertOtpCode}>შეიყვანე სმს კოდი</Text>
+            <FloatingLabelInput
+              Style={styles.otpBox}
+              label="სმს კოდი"
+              title="ავტორიზაციისთვის საჭირო სმს კოდი გამოგზავნილია"
+              value={otpGuid}
+              onChangeText={setOtpGuid}
+              onRetry={SendPhoneOTP}
+            />
+          </View>
         </View>
-        <AppButton title={translate.t('common.next')} onPress={nextStep} isLoading={isLoading} />
+        <AppButton
+          title={translate.t('common.next')}
+          onPress={nextStep}
+          isLoading={isLoading}
+        />
       </View>
     </KeyboardAvoidingView>
   );
@@ -139,13 +144,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flex: 1,
     paddingBottom: tabHeight + 40,
-  },
-  signupSignuptext: {
-    fontFamily: 'FiraGO-Medium',
-    fontSize: 24,
-    lineHeight: 29,
-    color: colors.black,
-    marginVertical: 36,
   },
   insertOtpSTep: {
     marginTop: 25,

@@ -76,6 +76,11 @@ const LoginForm: React.FC = () => {
     setUserInfo(null);
   };
 
+  const hidePasscode = () => {
+    setHasPasCode(false);
+    setUserInfo(null);
+  };
+
   useEffect(() => {
     storage
       .getItem(AUTH_USER_INFO)
@@ -274,6 +279,7 @@ const LoginForm: React.FC = () => {
         {hasPasCode ? (
           <SetLoginWithPassCode
             UserData={userInfo}
+            
             access_token={access_token}
             refresh_token={refresh_token}
           />

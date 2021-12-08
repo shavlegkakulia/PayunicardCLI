@@ -1,22 +1,23 @@
+import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../constants/colors';
 import {tabHeight} from '../../navigation/TabNav';
 import {PUSH} from '../../redux/actions/error_action';
+import { FetchUserDetail } from '../../redux/actions/user_actions';
+import {IAuthState, LOGIN, IGlobalState as IGlobalStateAuth, REFRESH, IAuthAction} from '../../redux/action_types/auth_action_types';
 import {
-  IAuthState,
-  IGlobalState as AuthState,
-  LOGIN,
-} from '../../redux/action_types/auth_action_types';
-import {
-  IGloablState,
-  IUserState,
-} from '../../redux/action_types/user_action_types';
+  IGlobalState,
+  ITranslateState,
+} from '../../redux/action_types/translate_action_types';
+import AuthService, { IAuthorizationResponse } from '../../services/AuthService';
 import {IUserDetails} from '../../services/UserService';
 import {getString} from '../../utils/Converter';
 import BiometricAuthScreen from '../dashboard/settings/biometric';
 import storage from './../../services/StorageService';
+import envs from './../../config/env';
+import Store from './../../redux/store';
 
 interface IProps {
   access_token: string;
@@ -48,15 +49,55 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
     }
   };
 
+  const goRefreshToken = async() => {
+    const refreshToken = await AuthService.getRefreshToken();
+    const refreshObj = new FormData();
+    refreshObj.append('scope', 'Wallet_Api.Full offline_access');
+    refreshObj.append('client_id', 'WalletApi');
+    refreshObj.append('client_secret', 'abcd123');
+    refreshObj.append('grant_type', 'refresh_token');
+    refreshObj.append('refresh_token', refreshToken);
+    return axios
+      .post<IAuthorizationResponse>(`${envs.CONNECT_URL}connect/token`, refreshObj, { anonymous: true })
+      .then(async response => {
+        if (!response.data.access_token) throw response;
+       
+          await AuthService.removeToken();
+          await AuthService.setToken(
+            response.data.access_token,
+            response.data.refresh_token
+          );
+        
+
+        Store.dispatch<IAuthAction>({
+          type: REFRESH,
+          accesToken: response.data.access_token,
+          refreshToken: response.data.refresh_token,
+        });
+        return true;
+      })
+      .catch(err => {
+        return false;
+      });
+  }
+
   const login = async (pascode: string) => {
     if (baseCode === pascode) {
       const {access_token, refresh_token} = props;
-      dispatch({
-        type: LOGIN,
-        accesToken: access_token,
-        refreshToken: refresh_token,
-        isAuthenticated: true,
+      goRefreshToken().then(res => {
+        if(res) {
+          dispatch({
+            type: LOGIN,
+            accesToken: access_token,
+            refreshToken: refresh_token,
+            isAuthenticated: true,
+          });
+        } else {
+          dispatch(PUSH('დაფიქსირდა შეცდომა'));
+          setCode(undefined);
+        }
       });
+
     } else {
       dispatch(PUSH('არასწორი პას კოდი'));
       setCode(undefined);
@@ -66,11 +107,19 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
   const onSuccesBiometric = () => {
     console.log('modis');
     const {access_token, refresh_token} = props;
-    dispatch({
-      type: LOGIN,
-      accesToken: access_token,
-      refreshToken: refresh_token,
-      isAuthenticated: true,
+
+    goRefreshToken().then(res => {
+      if(res) {
+        dispatch({
+          type: LOGIN,
+          accesToken: access_token,
+          refreshToken: refresh_token,
+          isAuthenticated: true,
+        });
+      } else {
+        dispatch(PUSH('დაფიქსირდა შეცდომა'));
+        setCode(undefined);
+      }
     });
   };
 
