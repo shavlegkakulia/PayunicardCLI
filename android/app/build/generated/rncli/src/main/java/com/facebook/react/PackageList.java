@@ -27,8 +27,12 @@ import io.sentry.react.RNSentryPackage;
 import com.henninghall.date_picker.DatePickerPackage;
 // react-native-exception-handler
 import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;
+// react-native-fingerprint-scanner
+import com.hieuvp.fingerprint.ReactNativeFingerprintScannerPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+// react-native-image-picker
+import com.imagepicker.ImagePickerPackage;
 // react-native-reanimated
 import com.swmansion.reanimated.ReanimatedPackage;
 // react-native-safe-area-context
@@ -94,7 +98,9 @@ public class PackageList {
       new RNSentryPackage(),
       new DatePickerPackage(),
       new ReactNativeExceptionHandlerPackage(),
+      new ReactNativeFingerprintScannerPackage(),
       new RNGestureHandlerPackage(),
+      new ImagePickerPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),

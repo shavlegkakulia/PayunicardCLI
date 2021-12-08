@@ -9,207 +9,271 @@
 9        android:targetSdkVersion="29" />
 10
 11    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-11-->D:\Sources\Work\PayunicardCLI\android\app\src\debug\AndroidManifest.xml:5:5-77
-11-->D:\Sources\Work\PayunicardCLI\android\app\src\debug\AndroidManifest.xml:5:22-75
+11-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\debug\AndroidManifest.xml:5:5-77
+11-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\debug\AndroidManifest.xml:5:22-75
 12    <uses-permission android:name="android.permission.INTERNET" />
-12-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:4:5-67
-12-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:4:22-64
+12-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:4:5-67
+12-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:4:22-64
 13    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-13-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:5:5-80
-13-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:5:22-77
+13-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:5:5-80
+13-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:5:22-77
 14    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-14-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:6:5-81
-14-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:6:22-78
+14-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:6:5-81
+14-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:6:22-78
 15    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
-15-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:7:5-88
-15-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:7:22-85
+15-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:7:5-88
+15-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:7:22-85
 16    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-16-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:8:5-79
-16-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:8:22-76
-17    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Required to access Google Play Licensing -->
-17-->[com.facebook.flipper:flipper:0.75.1] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\a8f6015f96666ab8d93bfe5b64998bc8\jetified-flipper-0.75.1\AndroidManifest.xml:16:5-76
-17-->[com.facebook.flipper:flipper:0.75.1] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\a8f6015f96666ab8d93bfe5b64998bc8\jetified-flipper-0.75.1\AndroidManifest.xml:16:22-73
-18    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
-18-->[:rn-fetch-blob] D:\Sources\Work\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-73
-18-->[:rn-fetch-blob] D:\Sources\Work\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-70
-19    <!--
-20         Required to keep CPU alive while downloading files
-21        (NOT to keep screen awake)
-22    -->
-23    <uses-permission android:name="android.permission.WAKE_LOCK" />
-23-->[:rn-fetch-blob] D:\Sources\Work\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:5-68
-23-->[:rn-fetch-blob] D:\Sources\Work\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:22-65
-24    <uses-permission android:name="android.permission.CAMERA" />
-24-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:13:5-65
-24-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:13:22-62
-25
-26    <uses-feature
-26-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:17:5-19:36
-27        android:name="android.hardware.camera"
-27-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:18:9-47
-28        android:required="false" />
-28-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:19:9-33
-29    <uses-feature
-29-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:20:5-22:36
-30        android:name="android.hardware.camera.front"
-30-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:21:9-53
-31        android:required="false" />
-31-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:22:9-33
-32    <uses-feature
-32-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:23:5-25:36
-33        android:name="android.hardware.camera.autofocus"
-33-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:24:9-57
-34        android:required="false" />
-34-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:25:9-33
-35
-36    <application
-36-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:10:5-31:19
-37        android:name="com.payunicard.MainApplication"
-37-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:11:7-38
-38        android:allowBackup="false"
-38-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:15:7-34
-39        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-39-->[androidx.core:core:1.3.2] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\f03ec885b8fabdebb4f0d3bbade5009e\core-1.3.2\AndroidManifest.xml:24:18-86
-40        android:debuggable="true"
-41        android:hardwareAccelerated="true"
-41-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:28:9-43
-42        android:icon="@mipmap/ic_launcher"
-42-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:13:7-41
-43        android:label="@string/app_name"
-43-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:12:7-39
-44        android:largeHeap="true"
-44-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:29:9-33
-45        android:requestLegacyExternalStorage="true"
-45-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:16:7-50
-46        android:roundIcon="@mipmap/ic_launcher_round"
-46-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:14:7-52
-47        android:theme="@style/AppTheme"
-47-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:17:7-38
-48        android:usesCleartextTraffic="true" >
-48-->D:\Sources\Work\PayunicardCLI\android\app\src\debug\AndroidManifest.xml:8:9-44
-49        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-49-->D:\Sources\Work\PayunicardCLI\android\app\src\debug\AndroidManifest.xml:11:9-86
-49-->D:\Sources\Work\PayunicardCLI\android\app\src\debug\AndroidManifest.xml:11:19-83
-50        <activity
-50-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:18:7-30:18
-51            android:name="com.payunicard.MainActivity"
-51-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:19:9-37
-52            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-52-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:22:9-86
-53            android:label="@string/app_name"
-53-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:20:9-41
-54            android:launchMode="singleTask"
-54-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:23:9-40
-55            android:screenOrientation="portrait"
-55-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:21:9-45
-56            android:windowSoftInputMode="adjustPan" >
-56-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:24:9-48
-57            <intent-filter>
-57-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:25:9-29:25
-58                <action android:name="android.intent.action.MAIN" />
-58-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:26:13-65
-58-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:26:21-62
-59
-60                <category android:name="android.intent.category.LAUNCHER" />
-60-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:27:13-73
-60-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:27:23-70
-61
-62                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
-62-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:28:13-77
-62-->D:\Sources\Work\PayunicardCLI\android\app\src\main\AndroidManifest.xml:28:21-75
-63            </intent-filter>
-64        </activity>
-65
-66        <meta-data
-66-->[:sentry_react-native] D:\Sources\Work\PayunicardCLI\node_modules\@sentry\react-native\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:9-17:37
-67            android:name="io.sentry.auto-init"
-67-->[:sentry_react-native] D:\Sources\Work\PayunicardCLI\node_modules\@sentry\react-native\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-47
-68            android:value="false" />
-68-->[:sentry_react-native] D:\Sources\Work\PayunicardCLI\node_modules\@sentry\react-native\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-34
-69
-70        <activity android:name="com.masteratul.exceptionhandler.DefaultErrorScreen" >
-70-->[:react-native-exception-handler] D:\Sources\Work\PayunicardCLI\node_modules\react-native-exception-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:9-13:20
-70-->[:react-native-exception-handler] D:\Sources\Work\PayunicardCLI\node_modules\react-native-exception-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:19-84
+16-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:8:5-79
+16-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:8:22-76
+17    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+17-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:10:5-72
+17-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:10:22-69
+18    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+18-->[com.facebook.flipper:flipper:0.75.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\a8f6015f96666ab8d93bfe5b64998bc8\jetified-flipper-0.75.1\AndroidManifest.xml:16:5-76
+18-->[com.facebook.flipper:flipper:0.75.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\a8f6015f96666ab8d93bfe5b64998bc8\jetified-flipper-0.75.1\AndroidManifest.xml:16:22-73
+19    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+19-->[:react-native-fingerprint-scanner] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-fingerprint-scanner\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-74
+19-->[:react-native-fingerprint-scanner] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-fingerprint-scanner\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:22-71
+20    <uses-permission android:name="com.fingerprints.service.ACCESS_FINGERPRINT_MANAGER" />
+20-->[:react-native-fingerprint-scanner] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-fingerprint-scanner\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-91
+20-->[:react-native-fingerprint-scanner] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-fingerprint-scanner\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:22-88
+21    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" /> <!-- Required to access Google Play Licensing -->
+21-->[:react-native-fingerprint-scanner] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-fingerprint-scanner\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:5-117
+21-->[:react-native-fingerprint-scanner] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-fingerprint-scanner\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:22-114
+22    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
+22-->[:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-73
+22-->[:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-70
+23    <!--
+24         Required to keep CPU alive while downloading files
+25        (NOT to keep screen awake)
+26    -->
+27    <uses-permission android:name="android.permission.WAKE_LOCK" />
+27-->[:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:5-68
+27-->[:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:22-65
+28    <uses-permission android:name="android.permission.CAMERA" />
+28-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:13:5-65
+28-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:13:22-62
+29
+30    <uses-feature
+30-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:15:5-17:35
+31        android:name="android.hardware.camera"
+31-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:16:9-47
+32        android:required="true" />
+32-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:17:9-32
+33    <uses-feature
+33-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:20:5-22:36
+34        android:name="android.hardware.camera.front"
+34-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:21:9-53
+35        android:required="false" />
+35-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:22:9-33
+36    <uses-feature
+36-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:23:5-25:36
+37        android:name="android.hardware.camera.autofocus"
+37-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:24:9-57
+38        android:required="false" />
+38-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:25:9-33
+39    <uses-feature
+39-->[com.otaliastudios:cameraview:1.6.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\5c7ca332acfa5abd4f37da10c1563515\jetified-cameraview-1.6.0\AndroidManifest.xml:28:5-30:36
+40        android:name="android.hardware.microphone"
+40-->[com.otaliastudios:cameraview:1.6.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\5c7ca332acfa5abd4f37da10c1563515\jetified-cameraview-1.6.0\AndroidManifest.xml:29:9-51
+41        android:required="false" />
+41-->[com.otaliastudios:cameraview:1.6.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\5c7ca332acfa5abd4f37da10c1563515\jetified-cameraview-1.6.0\AndroidManifest.xml:30:9-33
+42
+43    <application
+43-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:12:5-33:19
+44        android:name="com.payunicard.MainApplication"
+44-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:13:7-38
+45        android:allowBackup="false"
+45-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:17:7-34
+46        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+46-->[androidx.core:core:1.3.2] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\f03ec885b8fabdebb4f0d3bbade5009e\core-1.3.2\AndroidManifest.xml:24:18-86
+47        android:debuggable="true"
+48        android:hardwareAccelerated="true"
+48-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:28:9-43
+49        android:icon="@mipmap/ic_launcher"
+49-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:15:7-41
+50        android:label="@string/app_name"
+50-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:14:7-39
+51        android:largeHeap="true"
+51-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:29:9-33
+52        android:requestLegacyExternalStorage="true"
+52-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:18:7-50
+53        android:roundIcon="@mipmap/ic_launcher_round"
+53-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:16:7-52
+54        android:theme="@style/AppTheme"
+54-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:19:7-38
+55        android:usesCleartextTraffic="true" >
+55-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\debug\AndroidManifest.xml:8:9-44
+56        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+56-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\debug\AndroidManifest.xml:11:9-86
+56-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\debug\AndroidManifest.xml:11:19-83
+57        <activity
+57-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:20:7-32:18
+58            android:name="com.payunicard.MainActivity"
+58-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:21:9-37
+59            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+59-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:24:9-86
+60            android:label="@string/app_name"
+60-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:22:9-41
+61            android:launchMode="singleTask"
+61-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:25:9-40
+62            android:screenOrientation="portrait"
+62-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:23:9-45
+63            android:windowSoftInputMode="adjustPan" >
+63-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:26:9-48
+64            <intent-filter>
+64-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:27:9-31:25
+65                <action android:name="android.intent.action.MAIN" />
+65-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:28:13-65
+65-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:28:21-62
+66
+67                <category android:name="android.intent.category.LAUNCHER" />
+67-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:29:13-73
+67-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:29:23-70
+68
+69                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+69-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:30:13-77
+69-->D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:30:21-75
+70            </intent-filter>
 71        </activity>
 72
-73        <provider
-73-->[:react-native-webview] D:\Sources\Work\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:9-20:20
-74            android:name="com.reactnativecommunity.webview.RNCWebViewFileProvider"
-74-->[:react-native-webview] D:\Sources\Work\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-83
-75            android:authorities="com.payunicard.fileprovider"
-75-->[:react-native-webview] D:\Sources\Work\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-64
-76            android:exported="false"
-76-->[:react-native-webview] D:\Sources\Work\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-37
-77            android:grantUriPermissions="true" >
-77-->[:react-native-webview] D:\Sources\Work\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-47
-78            <meta-data
-78-->[:react-native-webview] D:\Sources\Work\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:63
-79                android:name="android.support.FILE_PROVIDER_PATHS"
-79-->[:react-native-webview] D:\Sources\Work\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
-80                android:resource="@xml/file_provider_paths" />
-80-->[:react-native-webview] D:\Sources\Work\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-60
-81        </provider>
-82        <provider
-82-->[:rn-fetch-blob] D:\Sources\Work\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:9-44:20
-83            android:name="com.RNFetchBlob.Utils.FileProvider"
-83-->[:rn-fetch-blob] D:\Sources\Work\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:37:13-62
-84            android:authorities="com.payunicard.provider"
-84-->[:rn-fetch-blob] D:\Sources\Work\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:13-60
-85            android:exported="false"
-85-->[:rn-fetch-blob] D:\Sources\Work\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:13-37
-86            android:grantUriPermissions="true" >
-86-->[:rn-fetch-blob] D:\Sources\Work\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:13-47
-87            <meta-data
-87-->[:react-native-webview] D:\Sources\Work\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:63
-88                android:name="android.support.FILE_PROVIDER_PATHS"
-88-->[:react-native-webview] D:\Sources\Work\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
-89                android:resource="@xml/provider_paths" />
-89-->[:react-native-webview] D:\Sources\Work\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-60
-90        </provider> <!-- 'android:authorities' must be unique in the device, across all apps -->
-91        <provider
-91-->[io.sentry:sentry-android-core:5.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:14:9-17:40
-92            android:name="io.sentry.android.core.SentryInitProvider"
-92-->[io.sentry:sentry-android-core:5.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:15:13-69
-93            android:authorities="com.payunicard.SentryInitProvider"
-93-->[io.sentry:sentry-android-core:5.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:16:13-70
-94            android:exported="false" />
-94-->[io.sentry:sentry-android-core:5.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:17:13-37
-95        <provider
-95-->[io.sentry:sentry-android-core:5.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:18:9-22:39
-96            android:name="io.sentry.android.core.SentryPerformanceProvider"
-96-->[io.sentry:sentry-android-core:5.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:19:13-76
-97            android:authorities="com.payunicard.SentryPerformanceProvider"
-97-->[io.sentry:sentry-android-core:5.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:20:13-77
-98            android:exported="false"
-98-->[io.sentry:sentry-android-core:5.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:21:13-37
-99            android:initOrder="200" />
-99-->[io.sentry:sentry-android-core:5.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:22:13-36
-100        <provider
-100-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\d3bc5bda275628e07c4cddb45804d355\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:25:9-29:43
-101            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
-101-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\d3bc5bda275628e07c4cddb45804d355\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:26:13-79
-102            android:authorities="com.payunicard.lifecycle-process"
-102-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\d3bc5bda275628e07c4cddb45804d355\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:27:13-69
-103            android:exported="false"
-103-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\d3bc5bda275628e07c4cddb45804d355\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:28:13-37
-104            android:multiprocess="true" />
-104-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\d3bc5bda275628e07c4cddb45804d355\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:29:13-40
-105
-106        <activity
-106-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:30:9-37:20
-107            android:name="com.facetec.sdk.FaceTecSessionActivity"
-107-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:31:13-66
-108            android:configChanges="orientation|keyboardHidden|screenSize"
-108-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:32:13-74
-109            android:excludeFromRecents="true"
-109-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:33:13-46
-110            android:resizeableActivity="false"
-110-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:34:13-47
-111            android:supportsRtl="true"
-111-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:35:13-39
-112            android:theme="@style/Theme.AppCompat.Translucent" >
-112-->[com.kvalifika:facetec:9.0.4] C:\Users\shavleg\.gradle\caches\transforms-2\files-2.1\6fb4e8f466f19df83ae04b7a9588fb8e\jetified-facetec-9.0.4\AndroidManifest.xml:36:13-63
-113        </activity>
-114    </application>
-115
-116</manifest>
+73        <meta-data
+73-->[:sentry_react-native] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\@sentry\react-native\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:9-17:37
+74            android:name="io.sentry.auto-init"
+74-->[:sentry_react-native] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\@sentry\react-native\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-47
+75            android:value="false" />
+75-->[:sentry_react-native] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\@sentry\react-native\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-34
+76
+77        <activity android:name="com.masteratul.exceptionhandler.DefaultErrorScreen" >
+77-->[:react-native-exception-handler] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-exception-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:9-13:20
+77-->[:react-native-exception-handler] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-exception-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:19-84
+78        </activity>
+79
+80        <provider
+80-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:9-20:20
+81            android:name="com.imagepicker.ImagePickerProvider"
+81-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-63
+82            android:authorities="com.payunicard.imagepickerprovider"
+82-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-71
+83            android:exported="false"
+83-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-37
+84            android:grantUriPermissions="true" >
+84-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-47
+85            <meta-data
+85-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:70
+86                android:name="android.support.FILE_PROVIDER_PATHS"
+86-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
+87                android:resource="@xml/imagepicker_provider_paths" />
+87-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-67
+88        </provider>
+89        <provider
+89-->[:react-native-webview] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:9-20:20
+90            android:name="com.reactnativecommunity.webview.RNCWebViewFileProvider"
+90-->[:react-native-webview] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-83
+91            android:authorities="com.payunicard.fileprovider"
+91-->[:react-native-webview] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-64
+92            android:exported="false"
+92-->[:react-native-webview] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-37
+93            android:grantUriPermissions="true" >
+93-->[:react-native-webview] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-47
+94            <meta-data
+94-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:70
+95                android:name="android.support.FILE_PROVIDER_PATHS"
+95-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
+96                android:resource="@xml/file_provider_paths" />
+96-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-67
+97        </provider>
+98        <provider
+98-->[:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:9-44:20
+99            android:name="com.RNFetchBlob.Utils.FileProvider"
+99-->[:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:37:13-62
+100            android:authorities="com.payunicard.provider"
+100-->[:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:38:13-60
+101            android:exported="false"
+101-->[:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:39:13-37
+102            android:grantUriPermissions="true" >
+102-->[:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:13-47
+103            <meta-data
+103-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-19:70
+104                android:name="android.support.FILE_PROVIDER_PATHS"
+104-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-67
+105                android:resource="@xml/provider_paths" />
+105-->[:react-native-image-picker] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-image-picker\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:17-67
+106        </provider>
+107
+108        <activity
+108-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:23:9-25:40
+109            android:name="com.kvalifika.sdk.ui.ResultActivity"
+109-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:24:13-63
+110            android:exported="false" />
+110-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:25:13-37
+111        <activity
+111-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:26:9-28:40
+112            android:name="com.kvalifika.sdk.ui.DocumentSelectActivity"
+112-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:27:13-71
+113            android:exported="false" />
+113-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:28:13-37
+114        <activity
+114-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:29:9-31:40
+115            android:name="com.kvalifika.sdk.ui.CaptureDocumentActivity"
+115-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:30:13-72
+116            android:exported="false" />
+116-->[com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:31:13-37
+117        <activity
+117-->[androidx.biometric:biometric:1.0.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1378ed9a82b4ec55cda52ca5dca49579\biometric-1.0.1\AndroidManifest.xml:28:9-31:67
+118            android:name="androidx.biometric.DeviceCredentialHandlerActivity"
+118-->[androidx.biometric:biometric:1.0.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1378ed9a82b4ec55cda52ca5dca49579\biometric-1.0.1\AndroidManifest.xml:29:13-78
+119            android:exported="true"
+119-->[androidx.biometric:biometric:1.0.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1378ed9a82b4ec55cda52ca5dca49579\biometric-1.0.1\AndroidManifest.xml:30:13-36
+120            android:theme="@style/DeviceCredentialHandlerTheme" /> <!-- 'android:authorities' must be unique in the device, across all apps -->
+120-->[androidx.biometric:biometric:1.0.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1378ed9a82b4ec55cda52ca5dca49579\biometric-1.0.1\AndroidManifest.xml:31:13-64
+121        <provider
+121-->[io.sentry:sentry-android-core:5.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:14:9-17:40
+122            android:name="io.sentry.android.core.SentryInitProvider"
+122-->[io.sentry:sentry-android-core:5.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:15:13-69
+123            android:authorities="com.payunicard.SentryInitProvider"
+123-->[io.sentry:sentry-android-core:5.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:16:13-70
+124            android:exported="false" />
+124-->[io.sentry:sentry-android-core:5.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:17:13-37
+125        <provider
+125-->[io.sentry:sentry-android-core:5.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:18:9-22:39
+126            android:name="io.sentry.android.core.SentryPerformanceProvider"
+126-->[io.sentry:sentry-android-core:5.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:19:13-76
+127            android:authorities="com.payunicard.SentryPerformanceProvider"
+127-->[io.sentry:sentry-android-core:5.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:20:13-77
+128            android:exported="false"
+128-->[io.sentry:sentry-android-core:5.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:21:13-37
+129            android:initOrder="200" />
+129-->[io.sentry:sentry-android-core:5.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:22:13-36
+130        <provider
+130-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\d3bc5bda275628e07c4cddb45804d355\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:25:9-29:43
+131            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+131-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\d3bc5bda275628e07c4cddb45804d355\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:26:13-79
+132            android:authorities="com.payunicard.lifecycle-process"
+132-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\d3bc5bda275628e07c4cddb45804d355\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:27:13-69
+133            android:exported="false"
+133-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\d3bc5bda275628e07c4cddb45804d355\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:28:13-37
+134            android:multiprocess="true" />
+134-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\d3bc5bda275628e07c4cddb45804d355\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:29:13-40
+135
+136        <activity
+136-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:30:9-38:20
+137            android:name="com.facetec.sdk.FaceTecSessionActivity"
+137-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:31:13-66
+138            android:configChanges="orientation|keyboardHidden|screenSize"
+138-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:32:13-74
+139            android:excludeFromRecents="true"
+139-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:33:13-46
+140            android:resizeableActivity="false"
+140-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:34:13-47
+141            android:supportsRtl="true"
+141-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:35:13-39
+142            android:theme="@style/Theme.AppCompat.Translucent"
+142-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:36:13-63
+143            android:windowSoftInputMode="adjustPan" >
+143-->[com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:37:13-52
+144        </activity>
+145    </application>
+146
+147</manifest>
