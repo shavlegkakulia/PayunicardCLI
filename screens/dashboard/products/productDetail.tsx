@@ -1184,7 +1184,7 @@ const ProductDetail: React.FC = props => {
                 actionSheetStatus === ACTION_SHEET_STATUSES.start
                   ? 'დადასტურება'
                   : actionSheetStatus === ACTION_SHEET_STATUSES.otp
-                  ? 'შემდეგი'
+                  ? translate.t('common.next')
                   : 'დახურვა'
               }`}
               onPress={pinChangeActions}

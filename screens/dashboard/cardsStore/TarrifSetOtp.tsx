@@ -28,6 +28,10 @@ import UserService, {
 import {delyveryMethods} from './DelyveryMethods';
 import {StoreActionType} from '.';
 import {Periodes} from './choosePlane';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 
 type RouteParamList = {
   params: {
@@ -52,6 +56,9 @@ type RouteParamList = {
 };
 
 const TarrifSetOtp: React.FC = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [otp, setOtp] = useState<string | undefined>();
@@ -177,7 +184,7 @@ const TarrifSetOtp: React.FC = props => {
           style={styles.button}
           onPress={next}
           isLoading={isLoading}
-          title="შემდეგი"
+          title={translate.t('common.next')}
         />
       </View>
     </KeyboardAvoidingView>

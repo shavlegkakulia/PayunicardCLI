@@ -6,6 +6,11 @@ import AppSelect, { SelectItem } from "../../../components/UI/AppSelect/AppSelec
 import Validation, { required } from "../../../components/UI/Validation";
 import colors from "../../../constants/colors";
 import { ICitizenshipCountry } from "../../../services/PresentationServive";
+import {
+    ITranslateState,
+    IGlobalState as ITranslateGlobalState,
+  } from "../../../redux/action_types/translate_action_types";
+import { useSelector } from "react-redux";
 
 interface IProps {
     selectedCountry: ICitizenshipCountry | undefined,
@@ -23,6 +28,9 @@ interface IProps {
 const ValidationContext = 'userVerification';
 
 const StepOne: React.FC<IProps> = (props) => {
+    const translate = useSelector<ITranslateGlobalState>(
+        state => state.TranslateReduser,
+      ) as ITranslateState;
     const [countryErrorStyle, setCountryErrorStyle] = useState<StyleProp<ViewStyle>>({});
     const [countryVisible, setCountryVisible] = useState(false);
 
@@ -99,7 +107,7 @@ const StepOne: React.FC<IProps> = (props) => {
                     context={ValidationContext} />
             </View>
             <AppButton
-                title={'შემდეგი'}
+                title={translate.t('common.next')}
                 onPress={nextHandler}
                 style={styles.button} />
         </View>

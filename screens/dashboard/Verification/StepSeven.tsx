@@ -7,6 +7,11 @@ import AppButton from '../../../components/UI/AppButton';
 import AppInput from '../../../components/UI/AppInput';
 import Validation, {required} from '../../../components/UI/Validation';
 import {IKCData} from '../../../services/KvalificaServices';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from "../../../redux/action_types/translate_action_types";
+import { useSelector } from "react-redux";
 
 interface IProps {
   kycData: IKCData | undefined;
@@ -17,6 +22,9 @@ interface IProps {
 const ValidationContext = 'userVerification';
 
 const StepSeven: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const nextHandler = () => {
     if (Validation.validate(ValidationContext)) {
       return;
@@ -26,7 +34,7 @@ const StepSeven: React.FC<IProps> = props => {
   };
 
   const setPersonalNumber = (value: string) => {
-    props.onUpdateData(prevData => {
+    props.onUpdateData((prevData: any) => {
       let data = {...prevData};
       data.personalNumber = value;
       return data;
@@ -34,7 +42,7 @@ const StepSeven: React.FC<IProps> = props => {
   };
 
   const setFirstName = (value: string) => {
-    props.onUpdateData(prevData => {
+    props.onUpdateData((prevData: any) => {
       let data = {...prevData};
       data.firstName = value;
       return data;
@@ -42,7 +50,7 @@ const StepSeven: React.FC<IProps> = props => {
   };
 
   const setLastName = (value: string) => {
-    props.onUpdateData(prevData => {
+    props.onUpdateData((prevData: any) => {
       let data = {...prevData};
       data.lastName = value;
       return data;
@@ -50,7 +58,7 @@ const StepSeven: React.FC<IProps> = props => {
   };
 
   const setCountryName = (value: string) => {
-    props.onUpdateData(prevData => {
+    props.onUpdateData((prevData: any) => {
       let data = {...prevData};
       data.countryName = value;
       return data;
@@ -101,7 +109,7 @@ const StepSeven: React.FC<IProps> = props => {
         />
       </View>
       <AppButton
-        title={'შემდეგი'}
+        title={translate.t('common.next')}
         onPress={nextHandler}
         style={styles.button}
       />

@@ -6,6 +6,11 @@ import AppSelect, { SelectItem } from "../../../components/UI/AppSelect/AppSelec
 import Validation, { required } from "../../../components/UI/Validation";
 import colors from "../../../constants/colors";
 import { IStatus, IType2 } from "../../../services/UserService";
+import {
+    ITranslateState,
+    IGlobalState as ITranslateGlobalState,
+  } from "../../../redux/action_types/translate_action_types";
+  import { useSelector } from "react-redux";
 
 interface IProps {
     loading: boolean,
@@ -26,6 +31,9 @@ const skipEmployeStatuses = ['UnEmployed', 'Retired'];
 const ValidationContext = 'userVerification';
 
 const StepTwo: React.FC<IProps> = (props) => {
+    const translate = useSelector<ITranslateGlobalState>(
+        state => state.TranslateReduser,
+      ) as ITranslateState;
     const [employmentStatusErrorStyle, setEmploymentStatusErrorStyle] = useState<StyleProp<ViewStyle>>({});
     const [jobTypeErrorStyle, setJobTypeErrorStyle] = useState<StyleProp<ViewStyle>>({});
     const [jobStatusVisible, setJobStatusVisible] = useState(false);
@@ -132,7 +140,7 @@ const StepTwo: React.FC<IProps> = (props) => {
 
             <AppButton
                 isLoading={props.loading}
-                title={'შემდეგი'}
+                title={translate.t('common.next')}
                 onPress={nextHandler}
                 style={styles.button} />
         </View>

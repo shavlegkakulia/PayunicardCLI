@@ -289,7 +289,7 @@ const Transfers: React.FC<INavigationProps> = props => {
             <View style={[styles.transfersSectionContainer, screenStyles.shadowedCardbr15]}>
               <View style={styles.transfersSectionContainerHeader}>
                 <Text style={styles.transfersSectionContainerTitle}>
-                  გადარიცხვა
+                {translate.t('tabNavigation.transfers')}
                 </Text>
               </View>
               <View style={styles.transfersSectionContainerColumn}>
@@ -324,7 +324,7 @@ const Transfers: React.FC<INavigationProps> = props => {
                   <View style={styles.transfersSectionContainerItemDetails}>
                     <Text
                       style={styles.transfersSectionContainerItemDetailsTitle}>
-                      {translate.t('transfer.currencyexchange')}
+                      {translate.t('transfer.currencyExchange')}
                     </Text>
                   </View>
                 </TouchableOpacity>

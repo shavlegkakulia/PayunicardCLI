@@ -113,6 +113,7 @@ export default {
     payments: {
         categories: 'კატეგორიები',
         paymentTemplates: 'გადახდის შაბლონები',
+        abonent: 'აბონენტი',
         abonentNumber: 'აბონენტის ნომერი',
         totalDue: 'სულ გადასახდელი',
         paymentSuccessfull: 'გადახდა წარმატებით დასრულდა',

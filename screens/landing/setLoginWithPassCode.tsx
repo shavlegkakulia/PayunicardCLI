@@ -292,8 +292,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 72,
-    height: 72,
+    width: 60,
+    height: 60,
     borderRadius: 35.5,
   },
   name: {

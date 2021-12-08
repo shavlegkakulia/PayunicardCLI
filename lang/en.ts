@@ -4,7 +4,7 @@ export default {
         logout: 'Sign Out',
         back: 'Back',
         name: 'Name',
-        check: 'Check',
+        check: 'Select',
         search: 'Search',
         deails: 'Details',
         pay: 'Pay',
@@ -101,6 +101,7 @@ export default {
     payments: {
         categories: 'Categories',
         paymentTemplates: 'Payment Templates',
+        abonent: 'Subscriber',
         abonentNumber: 'Subscriber Number',
         totalDue: 'Total Due',
         paymentSuccessfull: 'Payment Successful'

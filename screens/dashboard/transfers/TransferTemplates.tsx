@@ -7,13 +7,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Cover from '../../../components/Cover';
 import AppInput, {InputTypes} from '../../../components/UI/AppInput';
 import colors from '../../../constants/colors';
 import SwipableListItem from '../../../containers/SwipableListItem/SwipableListItem';
 import Routes from '../../../navigation/routes';
 import {TRANSFERS_ACTION_TYPES} from '../../../redux/action_types/transfers_action_types';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+}  from '../../../redux/action_types/translate_action_types';
 import NavigationService from '../../../services/NavigationService';
 import TemplatesService, {
   IDeactivateUserTemplateRequest,
@@ -25,12 +29,16 @@ import {getString} from '../../../utils/Converter';
 import {highLightWord} from '../../../utils/utils';
 
 interface ITransferTemplatesProps {
+
   templates: ITransferTemplate[];
   isTemplatesFetching: boolean;
   onStartTransferFromTemplate: (template: ITransferTemplate) => void;
 }
 
 const TransferTemplates: React.FC<ITransferTemplatesProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const templateSearchTimeot = useRef<NodeJS.Timeout>();
   const [searchTemplateName, setSearchTemplateName] = useState<string>();
@@ -174,13 +182,13 @@ const TransferTemplates: React.FC<ITransferTemplatesProps> = props => {
   return (
     <View style={[styles.transfersContainer, screenStyles.shadowedCardbr15]}>
       <View style={styles.transfersHeader}>
-        <Text style={styles.transfersTitle}>შაბლონები</Text>
+        <Text style={styles.transfersTitle}>{translate.t('transfer.transferTemplates')}</Text>
       </View>
       <View style={styles.searchInputBox}>
         <AppInput
           customKey="search"
           context=""
-          placeholder="ძებნა"
+          placeholder={translate.t('common.search')}
           type={InputTypes.search}
           onChange={searchInTemplates}
         />
