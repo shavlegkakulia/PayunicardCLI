@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React from 'react';
 import {View, StyleSheet, Image, Text, ScrollView} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -5,11 +6,21 @@ import colors from '../../../constants/colors';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import NavigationService from '../../../services/NavigationService';
+import { IAccountBallance } from '../../../services/UserService';
 import screenStyles from '../../../styles/screens';
 
+type RouteParamList = {
+  params: {
+    currentAccount: IAccountBallance | undefined;
+  };
+};
+
 const TopupFlow: React.FC = () => {
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const topup = () => {
-    NavigationService.navigate(Routes.Topup);
+    NavigationService.navigate(Routes.Topup, {
+      currentAccount: route.params.currentAccount
+    });
   };
 
   return (

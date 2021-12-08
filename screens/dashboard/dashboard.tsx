@@ -49,8 +49,14 @@ import NavigationService, {OpenDrawer} from '../../services/NavigationService';
 import {TRANSFERS_ACTION_TYPES} from '../../redux/action_types/transfers_action_types';
 import {debounce} from '../../utils/utils';
 import UserService, {IFund} from '../../services/UserService';
-import { NavigationEventSubscription, NavigationScreenProp } from 'react-navigation';
-import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../redux/action_types/translate_action_types';
+import {
+  NavigationEventSubscription,
+  NavigationScreenProp,
+} from 'react-navigation';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../redux/action_types/translate_action_types';
 
 const offers = [
   {
@@ -71,8 +77,8 @@ const offers = [
 ];
 
 export interface IProps {
-  navigation: NavigationScreenProp<any,any>
-};
+  navigation: NavigationScreenProp<any, any>;
+}
 
 const Dashboard: React.FC<IProps> = props => {
   const translate = useSelector<ITranslateGlobalState>(
@@ -133,7 +139,7 @@ const Dashboard: React.FC<IProps> = props => {
             style={styles.accountStatusViewSimbol}
           />
           <Text style={styles.accountStatusViewText}>
-          {translate.t('dashboard.userVerifyStatus1')}
+            {translate.t('dashboard.userVerifyStatus1')}
           </Text>
         </>
       );
@@ -148,7 +154,7 @@ const Dashboard: React.FC<IProps> = props => {
             style={styles.accountStatusViewSimbol}
           />
           <Text style={styles.accountStatusViewText}>
-          {translate.t('dashboard.userVerifyStatus2')}
+            {translate.t('dashboard.userVerifyStatus2')}
           </Text>
         </>
       );
@@ -162,7 +168,7 @@ const Dashboard: React.FC<IProps> = props => {
             style={styles.accountStatusViewSimbol}
           />
           <Text style={styles.accountStatusViewText}>
-          {translate.t('dashboard.userVerifyStatus1')}
+            {translate.t('dashboard.userVerifyStatus1')}
           </Text>
         </>
       );
@@ -174,7 +180,7 @@ const Dashboard: React.FC<IProps> = props => {
             style={styles.accountStatusViewSimbol}
           />
           <Text style={styles.accountStatusViewText}>
-          {translate.t('dashboard.userVerifyStatus3')}
+            {translate.t('dashboard.userVerifyStatus3')}
           </Text>
         </>
       );
@@ -202,13 +208,19 @@ const Dashboard: React.FC<IProps> = props => {
   };
 
   const productsView = (
-    <View style={[styles.productsViewContainer, screenStyles.shadowedCardbr15]}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      onPress={() => NavigationService.navigate(Routes.Products)}
+      style={[styles.productsViewContainer, screenStyles.shadowedCardbr15]}>
       <View style={styles.productsViewHeader}>
-        <Text style={styles.productsViewTitle}>{translate.t('dashboard.myProducts')}</Text>
-        <TouchableOpacity
-          onPress={() => NavigationService.navigate(Routes.Products)}>
-          <Text style={styles.productsViewSeeall}>{translate.t('dashboard.all')}</Text>
-        </TouchableOpacity>
+        <Text style={styles.productsViewTitle}>
+          {translate.t('dashboard.myProducts')}
+        </Text>
+        <View>
+          <Text style={styles.productsViewSeeall}>
+            {translate.t('common.all')}
+          </Text>
+        </View>
       </View>
       {userData.isUserProductsLoading ? (
         <ActivityIndicator
@@ -241,7 +253,7 @@ const Dashboard: React.FC<IProps> = props => {
           </View>
         ))
       )}
-    </View>
+    </TouchableOpacity>
   );
 
   const UnicardAction = (
@@ -253,7 +265,9 @@ const Dashboard: React.FC<IProps> = props => {
         <View style={styles.unicardLogoBox}>
           <Image source={require('./../../assets/images/uniLogo.png')} />
         </View>
-        <Text style={styles.unicardACtionText}>{translate.t('dashboard.unicardCard')}</Text>
+        <Text style={styles.unicardACtionText}>
+          {translate.t('dashboard.unicardCard')}
+        </Text>
       </View>
       <Image
         source={require('./../../assets/images/icon-right-arrow-green.png')}
@@ -264,7 +278,9 @@ const Dashboard: React.FC<IProps> = props => {
   const offersView = (
     <View style={styles.offersContainer}>
       <View style={styles.offersContainerHeader}>
-        <Text style={styles.offersContainerTitle}>{translate.t('dashboard.myQuotes')}</Text>
+        <Text style={styles.offersContainerTitle}>
+          {translate.t('dashboard.myQuotes')}
+        </Text>
         <PaginationDots step={offersStep} length={offers.length} />
       </View>
       <ScrollView
@@ -304,6 +320,8 @@ const Dashboard: React.FC<IProps> = props => {
 
   const transferToUni = () => {
     const currentRoute = _routes[_routes.length - 1].name;
+    //cleare transfer global state
+    dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
       parentRoute: currentRoute,
@@ -347,9 +365,10 @@ const Dashboard: React.FC<IProps> = props => {
   };
 
   const GetRouteInfo = useCallback((e: any) => {
-    console.log('logging here route state')
     const {index, routes} = e.data.state;
     const currentRoute = routes[index]?.name;
+
+    console.log('*********logging here route state*********', currentRoute);
 
     dispatch({
       type: NAVIGATION_ACTIONS.SET_CURRENT_ROUTE,
@@ -372,14 +391,14 @@ const Dashboard: React.FC<IProps> = props => {
   const RouteListener = useRef<NavigationEventSubscription>();
 
   useEffect(() => {
-    RouteListener.current = props.navigation.addListener(
-      'state',
-      GetRouteInfo,
-    );
+    RouteListener.current = props.navigation.addListener('state', GetRouteInfo);
 
     return () => {
-      RouteListener.current?.remove();
-    }
+      if (RouteListener.current)
+        try {
+          RouteListener.current?.remove();
+        } catch (err) {}
+    };
   }, []);
 
   const onRefresh = () => {
@@ -418,7 +437,7 @@ const Dashboard: React.FC<IProps> = props => {
 
   useEffect(() => {
     subscriptionService.getData().subscribe(data => {
-      if (data?.key === SUBSCRIBTION_KEYS.OPEN_ACTIONS_ACTIONSHEET) {
+      if (data?.key === SUBSCRIBTION_KEYS.OPEN_ACTIONS_ACTIONSHEET && !actionsVisible) {
         setActionsVisible(true);
       } else if (
         data?.key === SUBSCRIBTION_KEYS.OPEN_CREATE_TRANSFER_TEMPLATE
@@ -453,10 +472,9 @@ const Dashboard: React.FC<IProps> = props => {
     return () => subscriptionService.clearData();
   }, []);
 
-  const sheetHeight = Dimensions.get('window').height - 20;
   const ActionsSheetHeight = 440;
 
-  const allStatements = [...(userData.useAccountStatements?.statements || [])]
+  const allStatements = [...(userData.useAccountStatements?.statements || [])];
 
   return (
     <DashboardLayout>

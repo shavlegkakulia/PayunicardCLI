@@ -16,6 +16,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import AccountSelect, {
   AccountItem,
 } from '../../../components/AccountSelect/AccountSelect';
+import CurrencySelect, {
+  CurrencyItem,
+} from '../../../components/CurrencySelect/CurrencySelect';
 import AppButton from '../../../components/UI/AppButton';
 import AppInput from '../../../components/UI/AppInput';
 import Validation, {
@@ -24,6 +27,7 @@ import Validation, {
 } from '../../../components/UI/Validation';
 import {TYPE_UNICARD} from '../../../constants/accountTypes';
 import colors from '../../../constants/colors';
+import currencies, {GEL} from '../../../constants/currencies';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import {PUSH} from '../../../redux/actions/error_action';
@@ -35,7 +39,11 @@ import NavigationService from '../../../services/NavigationService';
 import TransactionService, {
   ITopUpTransactionRequest,
 } from '../../../services/TransactionService';
-import {IAccountBallance, IBankCard} from '../../../services/UserService';
+import {
+  IAccountBallance,
+  IBankCard,
+  ICurrency,
+} from '../../../services/UserService';
 import screenStyles from '../../../styles/screens';
 import {getNumber, getString} from '../../../utils/Converter';
 import {parseUrlParamsegex} from '../../../utils/Regex';
@@ -43,6 +51,7 @@ import {parseUrlParamsegex} from '../../../utils/Regex';
 type RouteParamList = {
   params: {
     card: IBankCard | undefined;
+    currentAccount: IAccountBallance | undefined;
   };
 };
 
@@ -60,15 +69,27 @@ const ChooseAmountAndAccount: React.FC = () => {
   const [accountErrorStyle, setAccountErrorStyle] = useState<
     StyleProp<ViewStyle>
   >({});
+  const [toCurrencyVisible, setToCurrencyVisible] = useState(false);
+  const [toCurrencyErrorStyle, setToCurrencyErrorStyle] = useState<
+    StyleProp<ViewStyle>
+  >({});
+  const [selectedToCurrency, setSelectedToCurrency] = useState<
+    ICurrency | undefined
+  >();
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
   const dispatch = useDispatch();
   const payBillTimeout = useRef<NodeJS.Timeout>();
 
+  const onToCurrencySelect = (currency: ICurrency) => {
+    setSelectedToCurrency(currency);
+    setToCurrencyVisible(!toCurrencyVisible);
+  };
+
   const onAccountSelect = (account: IAccountBallance) => {
     setAccount(account);
-    setAccountVisible(!accountVisible);
+    setAccountVisible(false);
   };
 
   const GetPayBills = (op_id: number | undefined) => {
@@ -230,6 +251,28 @@ const ChooseAmountAndAccount: React.FC = () => {
     };
   }, [userData.userAccounts]);
 
+  useEffect(() => {
+    if (route.params.currentAccount) {
+      const accs = [...(accounts || [])];
+      const index = accs?.findIndex(
+        acc => acc.accountId === route.params.currentAccount?.accountId,
+      );
+      if (index >= 0) {
+        onAccountSelect(accs[index]);
+      }
+    }
+  }, [route.params.currentAccount, accounts]);
+
+  const _currency: ICurrency[] = [
+    {
+      key: GEL,
+      value: currencies.GEL,
+      balance: 0,
+      available: 0,
+      availableBal: 0,
+    },
+  ];
+
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
       <KeyboardAvoidingView behavior="padding" style={styles.avoid}>
@@ -253,6 +296,17 @@ const ChooseAmountAndAccount: React.FC = () => {
                   placeholder="თანხის ოდენობა"
                   requireds={[required, hasNumeric]}
                   style={styles.amountInput}
+                />
+              </View>
+
+              <View style={styles.accountBox}>
+                <Text style={styles.accountBoxTitle}>ვალუტა</Text>
+
+                <CurrencyItem
+                  defaultTitle="ვალუტა"
+                  currency={_currency[0]}
+                  onCurrencySelect={() => setToCurrencyVisible(true)}
+                  style={styles.currencyBox}
                 />
               </View>
 
@@ -356,6 +410,26 @@ const styles = StyleSheet.create({
     color: colors.labelColor,
     marginLeft: 15,
   },
+  currencyBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: colors.inputBackGround,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    paddingLeft: 20,
+    paddingRight: 30,
+    height: 54,
+    borderRadius: 10,
+  },
+  currencyItem: {
+    backgroundColor: colors.none,
+    borderTopColor: colors.none,
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    borderBottomColor: colors.none,
+  },
+
   button: {
     marginVertical: 40,
   },

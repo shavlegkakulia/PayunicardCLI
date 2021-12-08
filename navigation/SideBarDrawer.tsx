@@ -147,7 +147,7 @@ const SideBarDrawer: React.FC<any> = props => {
               activeIconUrl={require('./../assets/images/transactions_active.png')}
               activeRoute={currentNav}
             />
-            <SidebarTouchableItem
+            {/* <SidebarTouchableItem
               {...props}
               title="ჩემი ლოიალობა"
               route={''}
@@ -162,7 +162,7 @@ const SideBarDrawer: React.FC<any> = props => {
               iconUrl={require('./../assets/images/converter.png')}
               activeIconUrl={require('./../assets/images/converter_active.png')}
               activeRoute={currentNav}
-            />
+            /> */}
             <SidebarTouchableItem
               {...props}
               title="პარამეტრები"

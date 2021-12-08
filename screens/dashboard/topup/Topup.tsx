@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Image, Text, ScrollView} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -8,10 +9,17 @@ import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import NavigationService from '../../../services/NavigationService';
 import UserService, {
+  IAccountBallance,
   IGetUserBankCardsResponse,
 } from '../../../services/UserService';
 import screenStyles from '../../../styles/screens';
 import {getNumber} from '../../../utils/Converter';
+
+type RouteParamList = {
+  params: {
+    currentAccount: IAccountBallance | undefined;
+  };
+};
 
 const TopupActionTypes = {
   topup: 'topup',
@@ -19,6 +27,7 @@ const TopupActionTypes = {
 };
 
 const Topup: React.FC = () => {
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [actionType, setActionType] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [userBankCards, setUserBankCards] = useState<
@@ -42,7 +51,9 @@ const Topup: React.FC = () => {
       complete: () => setIsLoading(false),
       error: () => {
         setIsLoading(false);
-        NavigationService.navigate(Routes.TopupChooseAmountAndAccount);
+        NavigationService.navigate(Routes.TopupChooseAmountAndAccount, {
+          currentAccount: route.params.currentAccount
+        });
       },
     });
   };
@@ -50,7 +61,9 @@ const Topup: React.FC = () => {
   useEffect(() => {
     if (userBankCards) {
       if (getNumber(userBankCards.bankCards?.length) <= 0) {
-        NavigationService.navigate(Routes.TopupChooseAmountAndAccount);
+        NavigationService.navigate(Routes.TopupChooseAmountAndAccount, {
+          currentAccount: route.params.currentAccount
+        });
       } else {
         NavigationService.navigate(Routes.TopupChoosBankCard, {
           cards: userBankCards,

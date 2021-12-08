@@ -140,7 +140,7 @@ const Payments: FC<IProps> = props => {
     navigate: boolean = false,
     categoryTitle: string = '',
   ) => {
-    if (PaymentStore.isCategoriesLoading) return;
+    if (PaymentStore.isCategoriesLoading && !(!categories || !categories.length)) return;
 
     dispatch({
       type: PAYMENTS_ACTIONS.SET_PAYEMNT_ACTIVE_CATEGORY_TITLE,
@@ -353,13 +353,13 @@ const Payments: FC<IProps> = props => {
           />
         }>
         <View style={screenStyles.wraper}>
-          {categories ? (
+       
             <CategoriesContainer
               categories={categories}
               Services={PaymentStore.services}
               isLoading={PaymentStore.isCategoriesLoading}
               isCategoriesFetching={
-                PaymentStore.isCategoriesLoading && !categories.length
+                PaymentStore.isCategoriesLoading && (!categories || !categories.length)
               }
               onSearch={searchInPayCategories}
               onViewCategory={(
@@ -387,7 +387,7 @@ const Payments: FC<IProps> = props => {
                 );
               }}
             />
-          ) : null}
+         
         </View>
         <View style={[screenStyles.wraper, styles.endof]}>
           <TemplatesContainer

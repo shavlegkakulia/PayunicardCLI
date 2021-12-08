@@ -122,7 +122,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ტრანსაქციები',
+                title: 'ტრანზაქციები',
               })
             }
             component={Transactions}
