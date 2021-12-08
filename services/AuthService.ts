@@ -160,7 +160,7 @@ class AuthService {
     // if unauthorized refetch
     let responseInterceptor = axios.interceptors.response.use(
       response => {
-        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@', response)
+        //console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@', response)
         return response;
       },
       async (error: any) => {

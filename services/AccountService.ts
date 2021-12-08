@@ -27,30 +27,32 @@ export interface IGetPinResponse {
 }
 
 export interface IGetPinResponseData {
-    ok: boolean;
+    Ok: boolean;
     errors?: IError[] | undefined;
     data?: IGetPinResponse | undefined;
 }
 
 class AccountServise {
     Block(data: IBlockCardRequest) {
-        const form = new FormData();
-        form.append('cardId', data.cardId);
-        if(data.description) {
-            form.append('description', data.description);
+        let form: IBlockCardRequest = {
+            cardId: data.cardId
+        };
+        if (data.description) {
+            form = { ...form, description: data.description };
         }
         const promise = axios.post<IBlockCardResponseData>(`${envs.API_URL}Card/Block`, form);
         return from(promise);
-      }
+    }
 
-      pin(data: IGetPinRequest) {
-        const form = new FormData();
-        form.append('cardid', data.cardid);
-        form.append('otp', data.otp);
-        
+    pin(data: IGetPinRequest) {
+        const form: IGetPinRequest = {
+            cardid: data.cardid,
+            otp: data.otp
+        }
+
         const promise = axios.post<IGetPinResponseData>(`${envs.API_URL}Card/pin`, form);
         return from(promise);
-      }
+    }
 }
 
 export default new AccountServise();

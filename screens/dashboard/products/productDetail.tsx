@@ -330,25 +330,29 @@ const ProductDetail: React.FC = props => {
       },
     });
   };
+  console.log(route.params.account.cards)
 
   const cardBlock = () => {
     NetworkService.CheckConnection(() => {
-      if (route.params.account.cards?.length) {
+      
         setActionLoading(true);
         let cardId: number = getNumber(
-          route.params.account.cards[currentCardIndex]?.cardID,
+          route.params.account.cards![currentCardIndex]?.cardID,
         );
         AccountService.Block({cardId: cardId}).subscribe({
           next: Response => {
+            if(Response.data.ok){
+              setActionSheetStep({
+                actionSheetType,
+                actionSheetStatus: ACTION_SHEET_STATUSES.succes,
+                actionSheetTitle: 'ბარათი დაბლოკილია',
+              });
+            }
             console.log(Response);
           },
           complete: () => {
             setActionLoading(false);
-            setActionSheetStep({
-              actionSheetType,
-              actionSheetStatus: ACTION_SHEET_STATUSES.succes,
-              actionSheetTitle: 'ბარათი დაბლოკილია',
-            });
+            
           },
           error: err => {
             setActionLoading(false);
@@ -360,7 +364,6 @@ const ProductDetail: React.FC = props => {
             console.log(err);
           },
         });
-      }
     });
   };
 
@@ -431,16 +434,18 @@ const ProductDetail: React.FC = props => {
         otp: otp,
       }).subscribe({
         next: Response => {
-          console.log(Response);
-        },
-        complete: () => {
-          setActionLoading(false);
-          setOtp(undefined);
+          console.log(Response)
+          if(Response.data.Ok) {
+            setOtp(undefined);
           setActionSheetStep({
             actionSheetType,
             actionSheetStatus: ACTION_SHEET_STATUSES.succes,
             actionSheetTitle: 'პინ კოდი წარმატებით შეიცვალა!',
           });
+          }
+        },
+        complete: () => {
+          setActionLoading(false);
         },
         error: err => {
           setActionLoading(false);

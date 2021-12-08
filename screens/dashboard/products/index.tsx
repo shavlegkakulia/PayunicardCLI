@@ -665,7 +665,7 @@ const Products: React.FC = props => {
                           style={styles.addedCardIcon}
                         />
                         <Text style={styles.addedCardText}>
-                          ბარათის დამატება
+                          {translate.t('plusSign.addCard')}
                         </Text>
                       </TouchableOpacity>
                     </View>
