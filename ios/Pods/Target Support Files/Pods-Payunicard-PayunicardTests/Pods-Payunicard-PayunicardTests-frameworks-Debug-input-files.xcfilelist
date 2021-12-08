@@ -1,3 +1,4 @@
 ${PODS_ROOT}/Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests-frameworks.sh
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/FaceTecSDK/FaceTecSDK.framework/FaceTecSDK
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/Kvalifika/Kvalifika.framework/Kvalifika
+${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL

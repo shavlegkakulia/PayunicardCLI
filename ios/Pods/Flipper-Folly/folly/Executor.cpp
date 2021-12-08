@@ -15,97 +15,57 @@
  */
 
 #include <folly/Executor.h>
+#include <folly/SingletonThreadLocal.h>
 
 #include <stdexcept>
 
 #include <glog/logging.h>
 
-#include <folly/ExceptionString.h>
-#include <folly/Portability.h>
-#include <folly/lang/Exception.h>
-
 namespace folly {
-
-void Executor::invokeCatchingExnsLog(char const* const prefix) noexcept {
-  auto ep = std::current_exception();
-  LOG(ERROR) << prefix << " threw unhandled " << exceptionStr(ep);
-}
 
 void Executor::addWithPriority(Func, int8_t /* priority */) {
   throw std::runtime_error(
       "addWithPriority() is not implemented for this Executor");
 }
 
-bool Executor::keepAliveAcquire() noexcept {
+bool Executor::keepAliveAcquire() {
   return false;
 }
 
-void Executor::keepAliveRelease() noexcept {
+void Executor::keepAliveRelease() {
   LOG(FATAL) << __func__ << "() should not be called for folly::Executor types "
              << "which do not override keepAliveAcquire()";
 }
 
-// Base case of permitting with no termination to avoid nullptr tests
-static ExecutorBlockingList emptyList{nullptr, {false, false, nullptr, {}}};
+namespace {
+using BlockingContextSingletonT =
+    SingletonThreadLocal<folly::Optional<BlockingContext>>;
+} // namespace
 
-thread_local ExecutorBlockingList* executor_blocking_list = &emptyList;
-
-Optional<ExecutorBlockingContext> getExecutorBlockingContext() noexcept {
-  return //
-      kIsMobile || !executor_blocking_list->curr.forbid ? none : //
-      make_optional(executor_blocking_list->curr);
+folly::Optional<BlockingContext> getBlockingContext() {
+  return BlockingContextSingletonT::get();
 }
 
-ExecutorBlockingGuard::ExecutorBlockingGuard(PermitTag) noexcept {
-  if (!kIsMobile) {
-    list_ = *executor_blocking_list;
-    list_.prev = executor_blocking_list;
-    list_.curr.forbid = false;
-    // Do not overwrite tag or executor pointer
-    executor_blocking_list = &list_;
-  }
+BlockingGuard::BlockingGuard(folly::StringPiece executorName)
+    : previousContext_{BlockingContextSingletonT::get()} {
+  BlockingContextSingletonT::get() = BlockingContext{executorName};
 }
 
-ExecutorBlockingGuard::ExecutorBlockingGuard(
-    TrackTag, Executor* ex, StringPiece tag) noexcept {
-  if (!kIsMobile) {
-    list_ = *executor_blocking_list;
-    list_.prev = executor_blocking_list;
-    list_.curr.forbid = true;
-    list_.curr.ex = ex;
-    // If no string was provided, maintain the parent string to keep some
-    // information
-    if (!tag.empty()) {
-      list_.curr.tag = tag;
-    }
-    executor_blocking_list = &list_;
-  }
+BlockingGuard::BlockingGuard()
+    : previousContext_{BlockingContextSingletonT::get()} {
+  BlockingContextSingletonT::get() = folly::none;
 }
 
-ExecutorBlockingGuard::ExecutorBlockingGuard(
-    ProhibitTag, Executor* ex, StringPiece tag) noexcept {
-  if (!kIsMobile) {
-    list_ = *executor_blocking_list;
-    list_.prev = executor_blocking_list;
-    list_.curr.forbid = true;
-    list_.curr.ex = ex;
-    list_.curr.allowTerminationOnBlocking = true;
-    // If no string was provided, maintain the parent string to keep some
-    // information
-    if (!tag.empty()) {
-      list_.curr.tag = tag;
-    }
-    executor_blocking_list = &list_;
-  }
+BlockingGuard::~BlockingGuard() {
+  BlockingContextSingletonT::get() = std::move(previousContext_);
 }
 
-ExecutorBlockingGuard::~ExecutorBlockingGuard() {
-  if (!kIsMobile) {
-    if (executor_blocking_list != &list_) {
-      terminate_with<std::logic_error>("dtor mismatch");
-    }
-    executor_blocking_list = list_.prev;
-  }
+BlockingGuard makeBlockingDisallowedGuard(folly::StringPiece executorName) {
+  return BlockingGuard{executorName};
+}
+
+BlockingGuard makeBlockingAllowedGuard() {
+  return BlockingGuard{};
 }
 
 } // namespace folly

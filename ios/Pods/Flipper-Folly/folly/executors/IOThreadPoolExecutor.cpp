@@ -38,33 +38,24 @@ class MemoryIdlerTimeout : public AsyncTimeout, public EventBase::LoopCallback {
   explicit MemoryIdlerTimeout(EventBase* b) : AsyncTimeout(b), base_(b) {}
 
   void timeoutExpired() noexcept override {
-    idled_ = true;
-    timerRunning_ = false;
+    idled = true;
   }
 
   void runLoopCallback() noexcept override {
-    if (idled_) {
-      if (num_ == 0) {
-        MemoryIdler::flushLocalMallocCaches();
-        MemoryIdler::unmapUnusedStack(MemoryIdler::kDefaultStackToRetain);
-      }
+    if (idled) {
+      MemoryIdler::flushLocalMallocCaches();
+      MemoryIdler::unmapUnusedStack(MemoryIdler::kDefaultStackToRetain);
 
-      idled_ = false;
-      num_ = 0;
+      idled = false;
     } else {
-      if (!timerRunning_) {
-        timerRunning_ = true;
-        std::chrono::steady_clock::duration idleTimeout =
-            MemoryIdler::defaultIdleTimeout.load(std::memory_order_acquire);
+      std::chrono::steady_clock::duration idleTimeout =
+          MemoryIdler::defaultIdleTimeout.load(std::memory_order_acquire);
 
-        idleTimeout = MemoryIdler::getVariationTimeout(idleTimeout);
+      idleTimeout = MemoryIdler::getVariationTimeout(idleTimeout);
 
-        scheduleTimeout(static_cast<uint32_t>(
-            std::chrono::duration_cast<std::chrono::milliseconds>(idleTimeout)
-                .count()));
-      } else {
-        num_++;
-      }
+      scheduleTimeout(static_cast<uint32_t>(
+          std::chrono::duration_cast<std::chrono::milliseconds>(idleTimeout)
+              .count()));
     }
 
     // reschedule this callback for the next event loop.
@@ -73,9 +64,7 @@ class MemoryIdlerTimeout : public AsyncTimeout, public EventBase::LoopCallback {
 
  private:
   EventBase* base_;
-  bool idled_{false};
-  bool timerRunning_{false};
-  size_t num_{0};
+  bool idled{false};
 };
 
 IOThreadPoolExecutor::IOThreadPoolExecutor(
@@ -94,20 +83,6 @@ IOThreadPoolExecutor::IOThreadPoolExecutor(
   registerThreadPoolExecutor(this);
 }
 
-IOThreadPoolExecutor::IOThreadPoolExecutor(
-    size_t maxThreads,
-    size_t minThreads,
-    std::shared_ptr<ThreadFactory> threadFactory,
-    EventBaseManager* ebm,
-    bool waitForAll)
-    : ThreadPoolExecutor(
-          maxThreads, minThreads, std::move(threadFactory), waitForAll),
-      nextThread_(0),
-      eventBaseManager_(ebm) {
-  setNumThreads(maxThreads);
-  registerThreadPoolExecutor(this);
-}
-
 IOThreadPoolExecutor::~IOThreadPoolExecutor() {
   deregisterThreadPoolExecutor(this);
   stop();
@@ -118,7 +93,9 @@ void IOThreadPoolExecutor::add(Func func) {
 }
 
 void IOThreadPoolExecutor::add(
-    Func func, std::chrono::milliseconds expiration, Func expireCallback) {
+    Func func,
+    std::chrono::milliseconds expiration,
+    Func expireCallback) {
   ensureActiveThreads();
   SharedMutex::ReadHolder r{&threadListLock_};
   if (threadList_.get().empty()) {
@@ -127,7 +104,7 @@ void IOThreadPoolExecutor::add(
   auto ioThread = pickThread();
 
   auto task = Task(std::move(func), expiration, std::move(expireCallback));
-  auto wrappedFunc = [this, ioThread, task = std::move(task)]() mutable {
+  auto wrappedFunc = [ioThread, task = std::move(task)]() mutable {
     runTask(ioThread, std::move(task));
     ioThread->pendingTasks--;
   };
@@ -145,7 +122,7 @@ IOThreadPoolExecutor::pickThread() {
   // task is added by the clean up operations on thread destruction, thisThread_
   // is not an available thread anymore, thus, always check whether or not
   // thisThread_ is an available thread before choosing it.
-  if (me && threadList_.contains(me)) {
+  if (me && std::find(ths.cbegin(), ths.cend(), me) != ths.cend()) {
     return me;
   }
   auto n = ths.size();
@@ -203,23 +180,19 @@ void IOThreadPoolExecutor::threadRun(ThreadPtr thread) {
 
   ioThread->eventBase->runInEventBaseThread(
       [thread] { thread->startupBaton.post(); });
-  {
-    ExecutorBlockingGuard guard{
-        ExecutorBlockingGuard::TrackTag{}, this, namePrefix_};
-    while (ioThread->shouldRun) {
-      ioThread->eventBase->loopForever();
+  while (ioThread->shouldRun) {
+    ioThread->eventBase->loopForever();
+  }
+  if (isJoin_) {
+    while (ioThread->pendingTasks > 0) {
+      ioThread->eventBase->loopOnce();
     }
-    if (isJoin_) {
-      while (ioThread->pendingTasks > 0) {
-        ioThread->eventBase->loopOnce();
-      }
-    }
-    idler.reset();
-    if (isWaitForAll_) {
-      // some tasks, like thrift asynchronous calls, create additional
-      // event base hookups, let's wait till all of them complete.
-      ioThread->eventBase->loop();
-    }
+  }
+  idler.reset();
+  if (isWaitForAll_) {
+    // some tasks, like thrift asynchronous calls, create additional
+    // event base hookups, let's wait till all of them complete.
+    ioThread->eventBase->loop();
   }
 
   std::lock_guard<std::mutex> guard(ioThread->eventBaseShutdownMutex_);
@@ -256,7 +229,7 @@ size_t IOThreadPoolExecutor::getPendingTaskCountImpl() const {
   for (const auto& thread : threadList_.get()) {
     auto ioThread = std::static_pointer_cast<IOThread>(thread);
     size_t pendingTasks = ioThread->pendingTasks;
-    if (pendingTasks > 0 && !ioThread->idle.load(std::memory_order_relaxed)) {
+    if (pendingTasks > 0 && !ioThread->idle) {
       pendingTasks--;
     }
     count += pendingTasks;

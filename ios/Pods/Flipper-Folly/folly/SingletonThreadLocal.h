@@ -28,6 +28,13 @@
 #include <folly/detail/UniqueInstance.h>
 #include <folly/functional/Invoke.h>
 
+// we do not want to use FOLLY_TLS here for mobile
+#if !FOLLY_MOBILE && defined(FOLLY_TLS)
+#define FOLLY_STL_USE_FOLLY_TLS 1
+#else
+#undef FOLLY_STL_USE_FOLLY_TLS
+#endif
+
 namespace folly {
 
 /// SingletonThreadLocal
@@ -96,7 +103,9 @@ class SingletonThreadLocal {
     // per-lifetime cache tracking; 1-M lifetimes may track 1-N caches
     std::unordered_map<LocalLifetime*, LocalCacheSet> lifetimes;
 
-    /* implicit */ operator T&() { return object; }
+    /* implicit */ operator T&() {
+      return object;
+    }
 
     ~Wrapper() {
       for (auto& kvp : caches) {
@@ -140,6 +149,7 @@ class SingletonThreadLocal {
     return *getWrapperTL();
   }
 
+#ifdef FOLLY_STL_USE_FOLLY_TLS
   FOLLY_NOINLINE static Wrapper& getSlow(LocalCache& cache) {
     if (threadlocal_detail::StaticMetaBase::dying()) {
       return getWrapper();
@@ -148,14 +158,16 @@ class SingletonThreadLocal {
     lifetime.track(cache); // idempotent
     return FOLLY_LIKELY(!!cache.cache) ? *cache.cache : getWrapper();
   }
+#endif
 
  public:
   FOLLY_EXPORT FOLLY_ALWAYS_INLINE static T& get() {
-    if (kIsMobile) {
-      return getWrapper();
-    }
+#ifdef FOLLY_STL_USE_FOLLY_TLS
     static thread_local LocalCache cache;
     return FOLLY_LIKELY(!!cache.cache) ? *cache.cache : getSlow(cache);
+#else
+    return getWrapper();
+#endif
   }
 
   class Accessor {
@@ -186,9 +198,13 @@ class SingletonThreadLocal {
         return const_cast<Iterator*>(this)->base()->object;
       }
 
-      std::thread::id getThreadId() const { return this->base().getThreadId(); }
+      std::thread::id getThreadId() const {
+        return this->base().getThreadId();
+      }
 
-      uint64_t getOSThreadId() const { return this->base().getOSThreadId(); }
+      uint64_t getOSThreadId() const {
+        return this->base().getOSThreadId();
+      }
     };
 
     Accessor(const Accessor&) = delete;
@@ -196,9 +212,13 @@ class SingletonThreadLocal {
     Accessor(Accessor&&) = default;
     Accessor& operator=(Accessor&&) = default;
 
-    Iterator begin() const { return Iterator(inner_.begin()); }
+    Iterator begin() const {
+      return Iterator(inner_.begin());
+    }
 
-    Iterator end() const { return Iterator(inner_.end()); }
+    Iterator end() const {
+      return Iterator(inner_.end());
+    }
   };
 
   // Must use a unique Tag, takes a lock that is one per Tag
@@ -209,7 +229,9 @@ class SingletonThreadLocal {
 
 template <typename T, typename Tag, typename Make, typename TLTag>
 detail::UniqueInstance SingletonThreadLocal<T, Tag, Make, TLTag>::unique{
-    tag<SingletonThreadLocal>, tag<T, Tag>, tag<Make, TLTag>};
+    "folly::SingletonThreadLocal",
+    tag_t<T, Tag>{},
+    tag_t<Make, TLTag>{}};
 
 } // namespace folly
 

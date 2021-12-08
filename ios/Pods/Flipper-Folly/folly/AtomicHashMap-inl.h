@@ -163,8 +163,9 @@ beginInsertInternal:
   if (tryLockMap(nextMapIdx)) {
     // Alloc a new map and shove it in.  We can change whatever
     // we want because other threads are waiting on us...
-    size_t numCellsAllocated =
-        (size_t)(primarySubMap->capacity_ * std::pow(1.0 + kGrowthFrac_, nextMapIdx - 1));
+    size_t numCellsAllocated = (size_t)(
+        primarySubMap->capacity_ *
+        std::pow(1.0 + kGrowthFrac_, nextMapIdx - 1));
     size_t newSize = size_t(numCellsAllocated * kGrowthFrac_);
     DCHECK(
         subMaps_[nextMapIdx].load(std::memory_order_relaxed) ==
@@ -619,9 +620,13 @@ struct AtomicHashMap<
     return subMap_ == other.subMap_ && subIt_ == other.subIt_;
   }
 
-  IterVal& dereference() const { return *subIt_; }
+  IterVal& dereference() const {
+    return *subIt_;
+  }
 
-  bool isEnd() const { return ahm_ == nullptr; }
+  bool isEnd() const {
+    return ahm_ == nullptr;
+  }
 
   void checkAdvanceToNextSubmap() {
     if (isEnd()) {
