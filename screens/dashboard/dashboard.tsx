@@ -320,6 +320,8 @@ const Dashboard: React.FC<IProps> = props => {
 
   const transferToUni = () => {
     const currentRoute = _routes[_routes.length - 1].name;
+    //cleare transfer global state
+    dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
       parentRoute: currentRoute,
@@ -363,9 +365,10 @@ const Dashboard: React.FC<IProps> = props => {
   };
 
   const GetRouteInfo = useCallback((e: any) => {
-    console.log('logging here route state');
     const {index, routes} = e.data.state;
     const currentRoute = routes[index]?.name;
+
+    console.log('*********logging here route state*********', currentRoute);
 
     dispatch({
       type: NAVIGATION_ACTIONS.SET_CURRENT_ROUTE,
@@ -434,7 +437,7 @@ const Dashboard: React.FC<IProps> = props => {
 
   useEffect(() => {
     subscriptionService.getData().subscribe(data => {
-      if (data?.key === SUBSCRIBTION_KEYS.OPEN_ACTIONS_ACTIONSHEET) {
+      if (data?.key === SUBSCRIBTION_KEYS.OPEN_ACTIONS_ACTIONSHEET && !actionsVisible) {
         setActionsVisible(true);
       } else if (
         data?.key === SUBSCRIBTION_KEYS.OPEN_CREATE_TRANSFER_TEMPLATE
@@ -469,7 +472,6 @@ const Dashboard: React.FC<IProps> = props => {
     return () => subscriptionService.clearData();
   }, []);
 
-  const sheetHeight = Dimensions.get('window').height - 20;
   const ActionsSheetHeight = 440;
 
   const allStatements = [...(userData.useAccountStatements?.statements || [])];

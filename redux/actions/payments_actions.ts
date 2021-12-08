@@ -194,13 +194,18 @@ export const getPayCategoriesServices =
   (parentID: number = 0, onComplate?: Function, onError?: Function) =>
   (dispatch: any) => {
     NetworkService.CheckConnection(() => {
+      dispatch({type: PAYMENTS_ACTIONS.SET_IS_PAYMENT_CATEGORIES_LOADING, isCategoriesLoading: true});
       PresentationService.GetCategories(parentID).subscribe({
         next: Response => {
           onComplate && onComplate(Response.data.data.categories);
         },
         error: () => {
           onError && onError();
+          dispatch({type: PAYMENTS_ACTIONS.SET_IS_PAYMENT_CATEGORIES_LOADING, isCategoriesLoading: false});
         },
+        complete: () => {
+          dispatch({type: PAYMENTS_ACTIONS.SET_IS_PAYMENT_CATEGORIES_LOADING, isCategoriesLoading: false});
+        }
       });
     });
   };

@@ -12,7 +12,7 @@ const initialState: IPaymentState = {
   PayTemplates: [],
   currentPayTemplate: undefined,
   isActionLoading: false,
-  isCategoriesLoading: false,
+  isCategoriesLoading: true,
   isTemplatesFetching: false,
   isTemplate: false,
   isService: false,

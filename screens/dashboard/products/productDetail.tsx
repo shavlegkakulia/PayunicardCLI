@@ -366,10 +366,8 @@ const ProductDetail: React.FC = props => {
   };
 
   const startAccountTopup = () => {
-    setActionSheetStep({
-      actionSheetTitle: 'გთხოვთ დაადასტუროთ\nპინ კოდის ცვლილება',
-      actionSheetStatus: ACTION_SHEET_STATUSES.start,
-      actionSheetType: CARD_ACTIONS.account_totpup,
+    NavigationService.navigate(Routes.Topup, {
+      currentAccount: route.params.account
     });
   };
 
@@ -653,7 +651,7 @@ const ProductDetail: React.FC = props => {
       {actionLoading && (
         <FullScreenLoader background={colors.none} hideLoader />
       )}
-      <ReactScroll style={screenStyles.screenContainer}>
+      <ReactScroll style={[screenStyles.screenContainer, styles.container]}>
         <View style={styles.transfersSectionContainer}>
           {route.params.account.type !== PACKET_TYPE_IDS.wallet &&
             route.params.account.type !== PACKET_TYPE_IDS.unicard &&
@@ -675,7 +673,7 @@ const ProductDetail: React.FC = props => {
               {getNumber(route.params.account.cards?.length) > 0 ? (
                 route.params.account.cards?.map((card, index) => (
                   <View
-                    style={screenStyles.wraper}
+                    style={[screenStyles.wraper, styles.container]}
                     key={getNumber(card.cardID) + index}>
                     <AccountCard
                       account={route.params.account}
@@ -686,7 +684,7 @@ const ProductDetail: React.FC = props => {
                   </View>
                 ))
               ) : (
-                <View style={screenStyles.wraper}>
+                <View style={[screenStyles.wraper, styles.container]}>
                   <AccountCard
                     account={route.params.account}
                     cardContainerStyle={{width: cardWidth}}
@@ -695,7 +693,7 @@ const ProductDetail: React.FC = props => {
               )}
             </ScrollView>
           ) : (
-            <View style={screenStyles.wraper}>
+            <View style={[screenStyles.wraper, styles.container]}>
               <AccountCard
                 account={route.params.account}
                 cardContainerStyle={{width: cardWidth}}
@@ -726,7 +724,6 @@ const ProductDetail: React.FC = props => {
           </View>
 
           <ScrollView
-            style={{}}
             ref={carouselRef}
             onScroll={({nativeEvent}) =>
               onChangePaymentSectionStep(nativeEvent)
@@ -883,6 +880,8 @@ const ProductDetail: React.FC = props => {
             </View>
           </ScrollView>
 
+          <View style={styles.line}></View>
+
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
             <View style={styles.transfersSectionContainerHeader}>
               <Text style={styles.transfersSectionContainerTitle}>
@@ -894,7 +893,6 @@ const ProductDetail: React.FC = props => {
 
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
             <ScrollView
-              style={{}}
               ref={carouselRef}
               onScroll={({nativeEvent}) =>
                 onChangeTransferSectionStep(nativeEvent)
@@ -986,6 +984,8 @@ const ProductDetail: React.FC = props => {
             </ScrollView>
           )}
 
+          <View style={styles.line}></View>
+
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
             <View style={styles.transfersSectionContainerHeader}>
               <Text style={styles.transfersSectionContainerTitle}>
@@ -997,7 +997,7 @@ const ProductDetail: React.FC = props => {
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
             <View style={[screenStyles.wraper, styles.toolItemsWraper]}>
               <View style={[styles.sectionContainerColumn, {width: cardWidth}]}>
-                <TouchableOpacity
+                {route.params.account.type !== PACKET_TYPE_IDS.wallet && <TouchableOpacity
                   style={styles.sectionContainerItem}
                   onPress={startCardBlock}>
                   <View style={styles.sectionContainerItemImageContainer}>
@@ -1010,9 +1010,9 @@ const ProductDetail: React.FC = props => {
                   <View style={styles.sectionContainerItemDetails}>
                     {breackWords('ბარათის დაბლოკვა')}
                   </View>
-                </TouchableOpacity>
+                </TouchableOpacity>}
 
-                <TouchableOpacity
+                {route.params.account.type !== PACKET_TYPE_IDS.wallet && <TouchableOpacity
                   style={styles.sectionContainerItem}
                   onPress={startPinChange}>
                   <View style={styles.sectionContainerItemImageContainer}>
@@ -1025,7 +1025,7 @@ const ProductDetail: React.FC = props => {
                   <View style={styles.sectionContainerItemDetails}>
                     {breackWords('ბარათის PIN კოდის შეცვლა')}
                   </View>
-                </TouchableOpacity>
+                </TouchableOpacity>}
 
                 <TouchableOpacity
                   style={styles.sectionContainerItem}
@@ -1045,6 +1045,8 @@ const ProductDetail: React.FC = props => {
             </View>
           )}
         </View>
+
+        <View style={styles.line}></View>
 
         <View style={[screenStyles.wraper, styles.transactions]}>
           <TransactionsList
@@ -1180,7 +1182,7 @@ const ProductDetail: React.FC = props => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {backgroundColor: colors.white},
   cards: {
     marginTop: 32,
   },
@@ -1193,6 +1195,7 @@ const styles = StyleSheet.create({
   transfersSectionContainer: {
     flex: 1,
     marginTop: 33,
+    backgroundColor: colors.white
   },
   transfersSectionContainerHeader: {
     flexDirection: 'row',
@@ -1202,6 +1205,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22,
     marginBottom: 14,
     marginTop: 20,
+    backgroundColor: colors.white
   },
   transfersSectionContainerTitle: {
     fontFamily: 'FiraGO-Medium',
@@ -1211,6 +1215,7 @@ const styles = StyleSheet.create({
   },
   transfersSectionContainerColumn: {
     flexDirection: 'row',
+    backgroundColor: colors.white
   },
   transfersSectionContainerItem: {
     overflow: 'hidden',
@@ -1256,6 +1261,7 @@ const styles = StyleSheet.create({
   toolItemsWraper: {
     flexDirection: 'row',
     paddingTop: 10,
+    backgroundColor: colors.white
   },
   sectionContainerColumn: {
     flexDirection: 'row',
@@ -1288,6 +1294,7 @@ const styles = StyleSheet.create({
   },
   transactions: {
     marginTop: 40,
+    backgroundColor: colors.white
   },
   blockContainer: {
     flex: 1,
@@ -1366,6 +1373,13 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 10,
   },
+  line: {
+    backgroundColor: colors.inputBackGround,
+    height: 1,
+    flex: 1,
+    marginVertical: 10,
+    marginHorizontal: 30
+  }
 });
 
 export default ProductDetail;
