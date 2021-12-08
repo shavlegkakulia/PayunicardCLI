@@ -68,6 +68,10 @@ import {tabHeight} from '../../../navigation/TabNav';
 import Validation, {required} from '../../../components/UI/Validation';
 import {subscriptionService} from '../../../services/subscriptionService';
 import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 
 type RouteParamList = {
   params: {
@@ -329,7 +333,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
   }, [TransfersStore.fullScreenLoading]);
 
   useEffect(() => {
-    setNomination('ბანკში გადარიცხვა');
+    setNomination(translate.t('transfer.toBankTransfer'));
     setTransferType(TRANSFER_TYPES.toBank);
   }, []);
 
@@ -420,7 +424,9 @@ const TransferToBank: React.FC<INavigationProps> = props => {
       availableBal: 0,
     },
   ];
-
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
       <KeyboardAvoidingView

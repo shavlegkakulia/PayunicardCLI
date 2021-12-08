@@ -16,10 +16,18 @@ import ResetPasswordOtp from '../screens/landing/password/ResetPasswordOtp';
 import PasswordResetStepFour from '../screens/landing/password/PasswordResetStepFour';
 import PasswordResetSucces from '../screens/landing/password/PasswordResetSucces';
 import setLoginWithPassCode from '../screens/landing/setLoginWithPassCode';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../redux/action_types/translate_action_types';
+import { useSelector } from 'react-redux';
 
 const LandingStack = createStackNavigator();
 
 function LandingNavigator() {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   return (
     <LandingStack.Navigator
       initialRouteName={Routes.Landing}
@@ -34,7 +42,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'რეგისტრაცია',
+            title: translate.t('login.signup'),
           })
         }
       />
@@ -44,7 +52,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'რეგისტრაცია',
+            title: translate.t('login.signup'),
           })
         }
       />
@@ -54,7 +62,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'რეგისტრაცია',
+            title: translate.t('login.signup'),
           })
         }
       />
@@ -64,7 +72,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'რეგისტრაცია',
+            title: translate.t('login.signup'),
           })
         }
       />
@@ -75,7 +83,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის დარესეტება',
+            title: translate.t('forgotPassword.resetPassword'),
           })
         }
       />
@@ -85,7 +93,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის დარესეტება',
+            title: translate.t('forgotPassword.resetPassword'),
           })
         }
       />
@@ -95,7 +103,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის დარესეტება',
+            title: translate.t('forgotPassword.resetPassword'),
           })
         }
       />
@@ -105,7 +113,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის დარესეტება',
+            title: translate.t('forgotPassword.resetPassword'),
           })
         }
       />
@@ -115,7 +123,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის დარესეტება',
+            title: translate.t('forgotPassword.resetPassword'),
           })
         }
       />
@@ -125,7 +133,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის დარესეტება',
+            title: translate.t('forgotPassword.resetPassword'),
             hideHeader: true,
           })
         }

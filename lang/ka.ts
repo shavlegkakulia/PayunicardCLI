@@ -9,6 +9,7 @@ export default {
         search: 'ძებნა',
         pay: 'გადახდა',
         email: 'ელ-ფოსტა',
+        deails: 'დეტალები',
         personalNumber: 'პირადი ნომერი',
         agreeTerms: 'ვეთანხმები წესებს და პირობებს',
         close: 'დახურვა',
@@ -30,7 +31,12 @@ export default {
         home: "მთავარი",
         products: "პროდუქტები",
         payments: "გადახდები",
-        transfers: "გადარიცხვები"
+        transfers: "გადარიცხვები",
+        settings: 'პატამეტრები',
+        myProducts: "ჩემი პროდუქტები",
+        myPayments: "ჩემი გადახდები",
+        myTransfers: "ჩემი გადარიცხვები",
+        myTransactions: 'ჩემი ტრანზაქციები',
     },
     onboard: {
         firstScreenDesc: 'გახსენი საფულე დისტანციურად',
@@ -101,13 +107,17 @@ export default {
         paymentSuccessfull: 'გადახდა წარმატებით დასრულდა',
 
     },
+    transaction: {
+        transactions: 'ტრანზაქციები'
+    },
     transfer: {
-        transferTemplates: 'Transfer Templates',
-        transfers: 'Transfers',
+        transferTemplates: 'გადარიცხვის შაბლონები',
+        transfers: 'გადარიცხვები',
         betweeenOwnAccounts: 'საკუთარ ანგარიშებს შორის',
         currencyExchange: 'კონვერტაცია',
         toUniWallet: "სხვის უნისაფულეზე",
         toBank: 'ბანკში',
+        toBankTransfer: 'ბანკში გადარიცხვა',
         from: 'საიდან',
         to: 'სად',
         beneficiaryName: 'მიმღების სახელი',

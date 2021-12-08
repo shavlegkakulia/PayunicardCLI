@@ -302,7 +302,7 @@ const LoginForm: React.FC = () => {
             )}
             <View style={styles.inputsContainer}>
               <AppInput
-                placeholder={translate.t('login.email')}
+                placeholder={translate.t('login.usernameEmail')}
                 onBlur={onBlur}
                 onFocus={onFocus}
                 value={username}

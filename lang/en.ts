@@ -6,6 +6,7 @@ export default {
         name: 'Name',
         check: 'Check',
         search: 'Search',
+        deails: 'Details',
         pay: 'Pay',
         lname: 'Lastname',
         personalNumber: 'Personal Number',
@@ -23,7 +24,12 @@ export default {
         home: "Home",
         products: "Products",
         payments: "Payments",
-        transfers: "Transfers"
+        transfers: "Transfers",
+        settings: 'Settings',
+        myProducts: "My Products",
+        myPayments: "My Payments",
+        myTransfers: "My Transfers",
+        myTransactions: 'My Transactions',
     },
     forgotPassword: {
         resetPassword: 'Reset Password',
@@ -56,6 +62,9 @@ export default {
         orderCard: 'Order a Card',
         crTransferTemplate: 'Add Transfer Template',
         crPaymentTemplate: 'Add Payment Template'
+    },
+    transaction: {
+        transactions: 'Transactions'
     },
     dashboard: {
         userVerifyStatus1: 'In order to use all features of your wallet please complete identification.',
@@ -91,7 +100,8 @@ export default {
         betweeenOwnAccounts: 'Between Own Accounts',
         currencyExchange: 'Currency Exchange',
         toUniWallet: "To Someone's UniWallet",
-        toBank: 'Transfer To Bank',
+        toBank: 'To Bank',
+        toBankTransfer: 'Transfer To Bank',
         from: 'From',
         to: 'To',
         beneficiaryName: 'Recipient Name',
