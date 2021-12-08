@@ -7,17 +7,10 @@ import colors from '../../../constants/colors';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 
-type RouteParamList = {
-  params: {
-    backRoute: string | undefined;
-  };
-};
-
 const PasswordResetSucces: React.FC = () => {
-  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const navigation = useNavigation();
   const complate = () => {
-    navigation.navigate(route.params.backRoute || Routes.Landing);
+    navigation.navigate(Routes.Landing);
   };
 
   return (

@@ -164,7 +164,8 @@ class AuthService {
         return response;
       },
       async (error: any) => {
-        let { refreshToken } = Store.getState().AuthReducer;
+        let { refreshToken } = Store.getState().AuthReducer || await this.getRefreshToken();
+       
         //  console.log('error', error);
         console.log('+++++++++error in auth interceptor++++++++++', JSON.stringify(error.response), JSON.parse(JSON.stringify(error.response)).data.error)
         error.response = error.response || {};

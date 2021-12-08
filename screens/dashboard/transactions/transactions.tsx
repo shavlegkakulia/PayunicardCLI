@@ -166,9 +166,9 @@ const Transactions: React.FC = () => {
     UserService.GetUserAccountStatements(data).subscribe({
       next: Response => {
         if (Response.data.ok) {
-          const _useAccountStatements = {...useAccountStatements};
+        //  const _useAccountStatements = {...useAccountStatements};
           const _statements = [
-            ...(_useAccountStatements?.statements || []),
+            //...(_useAccountStatements?.statements || []),
             ...(Response.data.data?.statements || []),
           ];
           const UseAccountStatements = {

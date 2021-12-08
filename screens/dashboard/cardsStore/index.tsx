@@ -105,6 +105,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 18,
     color: colors.labelColor,
+    flexWrap: 'wrap',
+    maxWidth: '99%'
   },
 });
 

@@ -5,19 +5,26 @@ import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../constants/colors';
 import {tabHeight} from '../../navigation/TabNav';
 import {PUSH} from '../../redux/actions/error_action';
-import { FetchUserDetail } from '../../redux/actions/user_actions';
-import {IAuthState, LOGIN, IGlobalState as IGlobalStateAuth, REFRESH, IAuthAction} from '../../redux/action_types/auth_action_types';
+import {FetchUserDetail} from '../../redux/actions/user_actions';
+import {
+  IAuthState,
+  LOGIN,
+  IGlobalState as IGlobalStateAuth,
+  REFRESH,
+  IAuthAction,
+} from '../../redux/action_types/auth_action_types';
 import {
   IGlobalState,
   ITranslateState,
 } from '../../redux/action_types/translate_action_types';
-import AuthService, { IAuthorizationResponse } from '../../services/AuthService';
+import AuthService, {IAuthorizationResponse} from '../../services/AuthService';
 import {IUserDetails} from '../../services/UserService';
 import {getString} from '../../utils/Converter';
 import BiometricAuthScreen from '../dashboard/settings/biometric';
 import storage from './../../services/StorageService';
 import envs from './../../config/env';
 import Store from './../../redux/store';
+import FullScreenLoader from '../../components/FullScreenLoading';
 
 interface IProps {
   access_token: string;
@@ -30,9 +37,18 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
   const [baseCode, setBaseCode] = useState<string>();
   const [startBiometric, setStartBiometric] = useState<boolean>(false);
   const [biometricAvailable, setBiometricAvailable] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const translate = useSelector<IGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
+  const state = useSelector<IGlobalStateAuth>(
+    state => state.AuthReducer,
+  ) as IAuthState;
   const dispatch = useDispatch();
 
   const setNum = (num: string) => {
+    if (isLoading) return;
+
     if (num === '-') {
       if (!code || code.length <= 0) return;
       setCode(prev => prev?.slice(0, prev.length - 1));
@@ -49,7 +65,8 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
     }
   };
 
-  const goRefreshToken = async() => {
+  const goRefreshToken = async () => {
+    setIsLoading(true);
     const refreshToken = await AuthService.getRefreshToken();
     const refreshObj = new FormData();
     refreshObj.append('scope', 'Wallet_Api.Full offline_access');
@@ -58,16 +75,19 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
     refreshObj.append('grant_type', 'refresh_token');
     refreshObj.append('refresh_token', refreshToken);
     return axios
-      .post<IAuthorizationResponse>(`${envs.CONNECT_URL}connect/token`, refreshObj, { anonymous: true })
+      .post<IAuthorizationResponse>(
+        `${envs.CONNECT_URL}connect/token`,
+        refreshObj,
+        {anonymous: true},
+      )
       .then(async response => {
         if (!response.data.access_token) throw response;
-       
-          await AuthService.removeToken();
-          await AuthService.setToken(
-            response.data.access_token,
-            response.data.refresh_token
-          );
-        
+
+        await AuthService.removeToken();
+        await AuthService.setToken(
+          response.data.access_token,
+          response.data.refresh_token,
+        );
 
         Store.dispatch<IAuthAction>({
           type: REFRESH,
@@ -76,16 +96,17 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
         });
         return true;
       })
-      .catch(err => {
+      .catch(() => {
         return false;
-      });
-  }
+      })
+      .finally(() => setIsLoading(false));
+  };
 
   const login = async (pascode: string) => {
     if (baseCode === pascode) {
       const {access_token, refresh_token} = props;
       goRefreshToken().then(res => {
-        if(res) {
+        if (res) {
           dispatch({
             type: LOGIN,
             accesToken: access_token,
@@ -97,7 +118,6 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
           setCode(undefined);
         }
       });
-
     } else {
       dispatch(PUSH('არასწორი პას კოდი'));
       setCode(undefined);
@@ -109,7 +129,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
     const {access_token, refresh_token} = props;
 
     goRefreshToken().then(res => {
-      if(res) {
+      if (res) {
         dispatch({
           type: LOGIN,
           accesToken: access_token,
@@ -154,6 +174,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
 
   return (
     <View style={styles.container}>
+      {isLoading && <FullScreenLoader />}
       <BiometricAuthScreen
         start={startBiometric}
         returnStatus={getStatus}

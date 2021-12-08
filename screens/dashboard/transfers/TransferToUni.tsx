@@ -55,6 +55,7 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import Routes from '../../../navigation/routes';
 import {
   addTransactionTemplate,
+  getTransferTemplates,
   MakeTransaction,
 } from '../../../redux/actions/transfers_actions';
 import {IAddTransferTemplateRequest} from '../../../services/TemplatesService';
@@ -481,11 +482,13 @@ const TransferToUni: React.FC = () => {
         return;
       }
       subscriptionService.sendData(SUBSCRIBTION_KEYS.FETCH_USER_ACCOUNTS, true);
+      dispatch(getTransferTemplates());
       NavigationService.navigate(navStore.parentRoute);
     } else if (
       route.params.transferStep === Routes.TransferToUni_TEMPLATE_IS_SAVED
     ) {
       subscriptionService.sendData(SUBSCRIBTION_KEYS.FETCH_USER_ACCOUNTS, true);
+      dispatch(getTransferTemplates());
       NavigationService.navigate(navStore.parentRoute);
     }
   };
