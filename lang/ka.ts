@@ -8,6 +8,7 @@ export default {
         check: 'მონიშვნა',
         search: 'ძებნა',
         pay: 'გადახდა',
+        email: 'ელ-ფოსტა',
         personalNumber: 'პირადი ნომერი',
         agreeTerms: 'ვეთანხმები წესებს და პირობებს',
         close: 'დახურვა',
@@ -16,7 +17,14 @@ export default {
         commission: 'საკომისიო',
         minAmount: 'მინიმალური თანხა',
         maxAmount: 'მაქსიმალური თანხა',
-        saveTemplate: 'შაბლონად შენახვა'
+        saveTemplate: 'შაბლონად შენახვა',
+        confirm: 'დადასტურება'
+    },
+    forgotPassword: {
+        resetPassword: 'პაროლის ცვლილება',
+        fPasswordTitle: 'პაროლის შესაცვლელად გთხოვთ, მიუთითოთ მომხმარებლის სახელი/ელ-ფოსტა და პირადი ნომერი',
+        newPasswordTitle: 'ჩაწერეთ ახალი პაროლი',
+        newPassword: 'ახალი პაროლი'
     },
     tabNavigation: {
         home: "მთავარი",
@@ -34,8 +42,9 @@ export default {
         authorization: 'ავტორიზაცია',
         welcome: 'მოგესალმებით',
         forgotpassword: 'დაგავიწყდა პაროლი?',
-        email: 'ელ-ფოსტა',
+        usernameEmail: 'მომხმარებლის სახელი/ელ-ფოსტა',
         password: 'პაროლი',
+        newPassword: 'ახალი პაროლი',
         oldPassword: 'ძველი პაროლი',
         repeatPassword: 'გაიმეორეთ პაროლი',
         remember: 'დამახსოვრება',
@@ -199,7 +208,7 @@ export default {
         deliveryAddress: 'მიწოდების მისამართი',
         orderReceived: 'თქვენი შეკვეთა მიღებულია',
         preOrderReceived: 'თქვენი წინასწარი შეკვეთა მიღებულია',
-        checkCardStatus: '*თქვენი ბარათების სტატუსის შესამოწმებლად, გთხოვთ, ეწვიოთ გვერდს - '
+        checkCardStatus: '*თქვენი ბარათების სტატუსის შესამოწმებლად, გთხოვთ, ეწვიოთ გვერდს'
     }
 
 
