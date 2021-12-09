@@ -1,6 +1,6 @@
 /*Author shavleg kakulia*/
 
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, memo} from 'react';
 
 import {
   View,
@@ -15,7 +15,7 @@ import {
 import {AppkeyboardAVoidScrollview} from '../UI/AppkeyboardAVoidScrollview';
 import styles from './styles';
 
-export const closingDuration: number = 600;
+export const closingDuration: number = 400;
 
 export interface IProps {
   onPress?: (index: number) => void;
@@ -82,7 +82,7 @@ const ActionSheetAndroid: React.FC<IProps> = props => {
     const {onPress} = props;
     Animated.timing(animatedHeight.current, {
       toValue: 0,
-      duration: 600,
+      duration: 400,
       useNativeDriver: false,
     }).start(() => {
       setModalvisible(false);
@@ -96,7 +96,7 @@ const ActionSheetAndroid: React.FC<IProps> = props => {
     setTimeout(() => {
       Animated.timing(animatedHeight.current, {
         toValue: props.height,
-        duration: 600,
+        duration: 400,
         useNativeDriver: false,
       }).start();
     }, 500);
@@ -144,17 +144,17 @@ const ActionSheetAndroid: React.FC<IProps> = props => {
     }
   }, [props.visible]);
 
-  useEffect(() => {
-    if (props.visible) {
-      Animated.timing(animatedHeight.current, {
-        toValue: props.height,
-        duration: 600,
-        useNativeDriver: false,
-      }).start();
-    }
-  }, [props.heightIsChanged]);
+  // useEffect(() => {
+  //   if (props.visible) {
+  //     Animated.timing(animatedHeight.current, {
+  //       toValue: props.height,
+  //       duration: 400,
+  //       useNativeDriver: false,
+  //     }).start();
+  //   }
+  // }, [props.heightIsChanged]);
 
-  //console.log('actionsheet', props.height, props.heightIsChanged, props.from);
+  //console.log('actionsheet', props.height);
   const {
     children,
     hasDraggableIcon,

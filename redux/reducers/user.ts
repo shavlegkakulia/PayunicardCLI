@@ -13,6 +13,7 @@ import {
   FETCH_TOTAL_BALANCE,
   FETCH_USER_PRODUCTS,
   USER_PRODUCTS_LOADING,
+  RESET_USER_STATES,
 } from './../action_types/user_action_types';
 
 const initalState: IUserState = {
@@ -32,6 +33,21 @@ const initalState: IUserState = {
 
 function UserReducer(state = initalState, action: IUserAction) {
   switch (action.type) {
+    case RESET_USER_STATES:
+      return {
+        userDetails: undefined,
+        userAccounts: undefined,
+        useAccountStatements: undefined,
+        usePaymentsAccountStatements: undefined,
+        useTransferAccountStatements: undefined,
+        userTotalBalance: undefined,
+        userProducts: undefined,
+        isUserLoading: false,
+        isAccountsLoading: false,
+        isStatementsLoading: false,
+        isTotalBalanceLoading: false,
+        isUserProductsLoading: false,
+      };
     case USER_LOADING:
       return {...state, isUserLoading: action.isUserLoading};
     case ACCOUNTS_LOADING:
@@ -59,11 +75,11 @@ function UserReducer(state = initalState, action: IUserAction) {
           ...(statements || []),
         ];
         useAccountStatements = {
-            statements: statements,
-            statementBallances: useAccountStatements.statementBallances
-        }
+          statements: statements,
+          statementBallances: useAccountStatements.statementBallances,
+        };
       }
-      
+
       return {...state, useAccountStatements: useAccountStatements};
     case FETCH_PAYMENT_ACCOUNT_STATEMENTS:
       return {

@@ -68,10 +68,7 @@ import {tabHeight} from '../../../navigation/TabNav';
 import NavigationService from '../../../services/NavigationService';
 import {subscriptionService} from '../../../services/subscriptionService';
 import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
-import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-} from '../../../redux/action_types/translate_action_types';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 
 type RouteParamList = {
   params: {
@@ -84,14 +81,13 @@ type RouteParamList = {
 const ValidationContext = 'transferToUni';
 
 const TransferToUni: React.FC = () => {
-  const [fromAccountVisible, setFromAccountVisible] = useState(false);
-  const [fromCurrencyVisible, setFromCurrencyVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
-
+  
+  const [fromAccountVisible, setFromAccountVisible] = useState(false);
+  const [fromCurrencyVisible, setFromCurrencyVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [fromAccountErrorStyle, setFromAccountErrorStyle] = useState<
     StyleProp<ViewStyle>
@@ -521,7 +517,7 @@ const TransferToUni: React.FC = () => {
                 Routes.TransferToUni_SET_CURRENCY) && (
               <>
                 <View style={styles.accountBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.from')}</Text>
+                  <Text style={styles.accountBoxTitle}>საიდან</Text>
 
                   {TransfersStore.selectedFromAccount ? (
                     <AccountItem
@@ -555,7 +551,7 @@ const TransferToUni: React.FC = () => {
                   Routes.TransferToUni_SET_CURRENCY && (
                   <>
                     <View style={styles.accountBox}>
-                      <Text style={styles.accountBoxTitle}>{translate.t('transfer.to')}</Text>
+                      <Text style={styles.accountBoxTitle}>სად</Text>
 
                       <AppInput
                         style={benificarAccountErrorStyle}
@@ -592,7 +588,7 @@ const TransferToUni: React.FC = () => {
               <>
                 <View style={styles.benificarBox}>
                   <Text style={styles.benificarDetail}>
-                    {translate.t('transfer.to')}: {TransfersStore.benificarAccount}
+                    სად: {TransfersStore.benificarAccount}
                   </Text>
                   <Text style={styles.benificarDetail}>
                   {translate.t('transfer.beneficiary')}: {TransfersStore.benificarName}
@@ -601,7 +597,7 @@ const TransferToUni: React.FC = () => {
 
                 <View style={styles.amountContainer}>
                   <AppInputText
-                    label={translate.t('transfer.amount')}
+                    label="თანხის ოდენობა"
                     onChangeText={setAmount}
                     Style={[styles.amountInput, amountErrorStyle]}
                     autoFocus={TransfersStore.isTemplate}
@@ -611,7 +607,7 @@ const TransferToUni: React.FC = () => {
                   <View style={styles.currencyBox}>
                     {TransfersStore.selectedFromCurrency ? (
                       <CurrencyItem
-                        defaultTitle={translate.t('transfer.currency')}
+                        defaultTitle="ვალუტა"
                         currency={TransfersStore.selectedFromCurrency}
                         onCurrencySelect={() => setFromCurrencyVisible(true)}
                         style={styles.currencyItem}
@@ -623,7 +619,7 @@ const TransferToUni: React.FC = () => {
                           styles.currencySelectHandler,
                           fromCurrencyErrorStyle,
                         ]}>
-                        <Text style={styles.currencyPlaceholder}>{translate.t('transfer.currency')}</Text>
+                        <Text style={styles.currencyPlaceholder}>ვალუტა</Text>
                         <Image
                           style={styles.dropImg}
                           source={require('./../../../assets/images/down-arrow.png')}
@@ -644,12 +640,12 @@ const TransferToUni: React.FC = () => {
                 </View>
 
                 <View style={styles.nominationBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.nomination')}</Text>
+                  <Text style={styles.accountBoxTitle}>დანიშნულება</Text>
                   <AppInput
                     customKey="nomination"
                     context={ValidationContext}
                     requireds={[required]}
-                    placeholder={translate.t('transfer.nomination')}
+                    placeholder="დანიშნულება"
                     value={TransfersStore.nomination}
                     style={nominationErrorStyle}
                     onChange={setNomination}

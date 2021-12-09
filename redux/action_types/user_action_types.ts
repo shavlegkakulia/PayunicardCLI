@@ -11,6 +11,7 @@ export const FETCH_TOTAL_BALANCE = 'FETCH_TOTAL_BALANCE';
 export const TOTAL_BALANCE_LOADING = 'TOTAL_BALANCE_LOADING';
 export const USER_PRODUCTS_LOADING = 'USER_PRODUCTS_LOADING';
 export const FETCH_USER_PRODUCTS = 'FETCH_USER_PRODUCTS';
+export const RESET_USER_STATES = 'RESET_USER_STATES';
 
 export interface IUserState {
     userDetails?: IUserDetails | undefined

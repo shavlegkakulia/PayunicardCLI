@@ -88,10 +88,7 @@ const ResetPasswordOtp: React.FC = () => {
       <View style={styles.passwordResetContainer}>
         {!route.params.minimizedContent && <><View style={styles.passwordResetHeader}>
           <PaginationDots length={6} step={3} />
-        </View>
-        <Text style={styles.pwdResettext}>
-          {translate.t('login.forgotpassword')}
-        </Text></>}
+        </View></>}
         <View style={styles.inputsContainer}>
           <View style={styles.insertOtpSTep}>
             <Text style={styles.insertOtpCode}>შეიყვანე სმს კოდი</Text>
@@ -143,13 +140,6 @@ const styles = StyleSheet.create({
   inputsContainer: {
     justifyContent: 'space-between',
     flex: 1,
-  },
-  pwdResettext: {
-    fontFamily: 'FiraGO-Medium',
-    fontSize: 24,
-    lineHeight: 29,
-    color: colors.black,
-    marginBottom: 36,
   },
   insertOtpSTep: {
     marginTop: 25,

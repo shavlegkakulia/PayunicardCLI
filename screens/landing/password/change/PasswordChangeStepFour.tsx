@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import PaginationDots from '../../../../components/PaginationDots';
 import AppButton from '../../../../components/UI/AppButton';
 import Validation, {
+  email as emailRequiredd,
   hasLower,
   hasNumeric,
   hasSpecial,
@@ -17,15 +18,20 @@ import {
 } from '../../../../redux/action_types/translate_action_types';
 import Appinput, {PasswordValidation} from '../../../../components/UI/AppInput';
 import {tabHeight} from '../../../../navigation/TabNav';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import Routes from '../../../../navigation/routes';
 import NavigationService from '../../../../services/NavigationService';
+import NetworkService from '../../../../services/NetworkService';
+import UserService, {
+  IChangePassBySystemRequest,
+} from '../../../../services/UserService';
 
 type RouteParamList = {
   params: {
     email: string | undefined;
     backRoute: string | undefined;
     minimizedContent: boolean | undefined;
+    systemRequired: boolean | undefined;
   };
 };
 
@@ -41,11 +47,52 @@ const PasswordChangeStepFour: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState<string | undefined>(
     '',
   );
+  const [email, setEmail] = useState<string | undefined>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const navigation = useNavigation();
+
+  const changePassBySystem = () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    NetworkService.CheckConnection(() => {
+      setIsLoading(true);
+      let User: IChangePassBySystemRequest = {
+        oldPassword,
+        newPassword: password,
+        confirmNewPassword: confirmPassword,
+        userName: email,
+      };
+      console.log(User);
+      UserService.changePassBySystem(User).subscribe({
+        next: Response => {
+          if (Response.data.ok) {
+            navigation.navigate(Routes.PasswordChangeSucces, {
+              backRoute: route.params.backRoute,
+            });
+          } else {
+            setIsLoading(false);
+          }
+        },
+        error: () => {
+          setIsLoading(false);
+        },
+        complete: () => {
+          setIsLoading(false);
+        },
+      });
+    });
+  };
 
   const next = () => {
     if (Validation.validate(VALIDATION_CONTEXT)) {
       return;
     }
+
+    if (route.params.systemRequired) {
+      changePassBySystem();
+      return;
+    }
+
     NavigationService.navigate(Routes.ChangePasswordOtp, {
       email: route.params.email,
       backRoute: route.params.backRoute,
@@ -74,6 +121,19 @@ const PasswordChangeStepFour: React.FC = () => {
         )}
         <View style={styles.inputsContainer}>
           <View style={styles.insertOtpSTep}>
+            {route.params.systemRequired === true && (
+              <Appinput
+                requireds={[required]}
+                minLength={1}
+                customKey="email"
+                context={VALIDATION_CONTEXT}
+                style={styles.formInput}
+                value={email}
+                onChange={input => setEmail(input)}
+                placeholder={translate.t('login.email')}
+              />
+            )}
+
             <Appinput
               requireds={[required, hasLower, hasUpper, hasNumeric, hasSpecial]}
               minLength={8}
@@ -95,7 +155,7 @@ const PasswordChangeStepFour: React.FC = () => {
               value={password}
               onChange={input => setPassword(input)}
               secureTextEntry={true}
-              placeholder={translate.t('login.password')}
+              placeholder={translate.t('login.newPassword')}
             />
 
             <PasswordValidation value={password || ''} />
@@ -112,7 +172,11 @@ const PasswordChangeStepFour: React.FC = () => {
               placeholder={translate.t('login.repeatPassword')}
             />
           </View>
-          <AppButton title={translate.t('common.next')} onPress={next} />
+          <AppButton
+            title={translate.t('common.next')}
+            onPress={next}
+            isLoading={isLoading}
+          />
         </View>
       </View>
     </KeyboardAvoidingView>

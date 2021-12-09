@@ -21,10 +21,6 @@ import {
   IPaymentState,
   PAYMENTS_ACTIONS,
 } from '../../../../redux/action_types/payments_action_type';
-import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-} from '../../../../redux/action_types/translate_action_types';
 import {IAccountBallance} from '../../../../services/UserService';
 import screenStyles from '../../../../styles/screens';
 import {CurrencySimbolConverter} from '../../../../utils/Converter';
@@ -43,9 +39,6 @@ const ValidationContext = 'payment2';
 const servicePatrolsMerchantServiceId = 99;
 
 const CheckDebt: React.FC<INavigationProps> = props => {
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const PaymentStore = useSelector<IGlobalPaymentState>(
     state => state.PaymentsReducer,
@@ -199,7 +192,7 @@ const CheckDebt: React.FC<INavigationProps> = props => {
           <AppButton
             isLoading={PaymentStore.isActionLoading || isLoading}
             onPress={next}
-            title={translate.t('common.next')}
+            title={'შემდეგი'}
             style={styles.button}
           />
         </View>

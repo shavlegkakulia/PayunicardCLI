@@ -51,10 +51,7 @@ import {tabHeight} from '../../../navigation/TabNav';
 import NavigationService from '../../../services/NavigationService';
 import { subscriptionService } from '../../../services/subscriptionService';
 import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
-import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-} from '../../../redux/action_types/translate_action_types';
+import { ITranslateState, IGlobalState as ITranslateGlobalState }  from '../../../redux/action_types/translate_action_types';
 
 const ValidationContext = 'convertation';
 
@@ -281,8 +278,6 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
     }, 10);
   };
 
-   
-
   useEffect(() => {
     if (isToDefault) return;
     if (!TransfersStore.selectedFromCurrency) {
@@ -488,7 +483,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
                 Routes.TransferConvertation_SET_CURRENCY) && (
               <View>
                 <View style={styles.accountBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.from')}</Text>
+                  <Text style={styles.accountBoxTitle}>საიდან</Text>
 
                   {TransfersStore.selectedFromAccount ? (
                     <AccountItem
@@ -520,7 +515,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
                 </View>
 
                 <View style={styles.accountBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.to')}</Text>
+                  <Text style={styles.accountBoxTitle}>სად</Text>
 
                   {TransfersStore.selectedToAccount ? (
                     <AccountItem
@@ -588,7 +583,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
                           {baseCcyFromView}
                         </Text>
                       </View>
-                      <Text style={styles.currencyPlaceholder}>{translate.t('transfer.from')}</Text>
+                      <Text style={styles.currencyPlaceholder}>საიდან</Text>
                     </TouchableOpacity>
                     <CurrencySelect
                       currencies={currenciesFrom}
@@ -615,7 +610,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
                         styles.currencySelectHandler,
                         toCurrencyErrorStyle,
                       ]}>
-                      <Text style={styles.currencyPlaceholder}>{translate.t('transfer.to')}</Text>
+                      <Text style={styles.currencyPlaceholder}>სად</Text>
 
                       <View
                         style={{
@@ -689,7 +684,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
                 </View>
 
                 <View style={styles.nominationBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.nomination')}</Text>
+                  <Text style={styles.accountBoxTitle}>დანიშნულება</Text>
                   <AppInput
                     customKey="transfer"
                     context={ValidationContext}

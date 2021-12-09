@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, StyleSheet, Text, View} from 'react-native';
+import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import PaginationDots from '../../../components/PaginationDots';
 import AppButton from '../../../components/UI/AppButton';
@@ -65,6 +65,7 @@ const PasswordReset: React.FC = () => {
   };
 
   return (
+    <ScrollView contentContainerStyle={styles.avoid}  keyboardShouldPersistTaps='handled'>
     <KeyboardAvoidingView
       behavior="padding"
       keyboardVerticalOffset={0}
@@ -96,6 +97,7 @@ const PasswordReset: React.FC = () => {
         </View>
       </View>
     </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 

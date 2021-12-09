@@ -16,18 +16,13 @@ import ResetPasswordOtp from '../screens/landing/password/ResetPasswordOtp';
 import PasswordResetStepFour from '../screens/landing/password/PasswordResetStepFour';
 import PasswordResetSucces from '../screens/landing/password/PasswordResetSucces';
 import setLoginWithPassCode from '../screens/landing/setLoginWithPassCode';
-import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-} from '../redux/action_types/translate_action_types';
-import { useSelector } from 'react-redux';
+import PasswordChangeSucces from '../screens/landing/password/change/PasswordChangeSucces';
+import PasswordChangeStepFour from '../screens/landing/password/change/PasswordChangeStepFour';
+import AgreeTerm from '../screens/landing/signup/signup-agree';
 
 const LandingStack = createStackNavigator();
 
 function LandingNavigator() {
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
   return (
     <LandingStack.Navigator
       initialRouteName={Routes.Landing}
@@ -42,7 +37,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: translate.t('login.signup'),
+            title: 'რეგისტრაცია',
           })
         }
       />
@@ -52,7 +47,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: translate.t('login.signup'),
+            title: 'რეგისტრაცია',
           })
         }
       />
@@ -62,7 +57,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: translate.t('login.signup'),
+            title: 'რეგისტრაცია',
           })
         }
       />
@@ -72,7 +67,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: translate.t('login.signup'),
+            title: 'რეგისტრაცია',
           })
         }
       />
@@ -83,7 +78,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: translate.t('forgotPassword.resetPassword'),
+            title: 'პაროლის დარესეტება',
           })
         }
       />
@@ -93,7 +88,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: translate.t('forgotPassword.resetPassword'),
+            title: 'პაროლის დარესეტება',
           })
         }
       />
@@ -103,7 +98,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: translate.t('forgotPassword.resetPassword'),
+            title: 'პაროლის დარესეტება',
           })
         }
       />
@@ -113,7 +108,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: translate.t('forgotPassword.resetPassword'),
+            title: 'პაროლის დარესეტება',
           })
         }
       />
@@ -123,7 +118,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: translate.t('forgotPassword.resetPassword'),
+            title: 'პაროლის დარესეტება',
           })
         }
       />
@@ -133,7 +128,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: translate.t('forgotPassword.resetPassword'),
+            title: 'პაროლის დარესეტება',
             hideHeader: true,
           })
         }
@@ -141,6 +136,37 @@ function LandingNavigator() {
       <LandingStack.Screen
         name={Routes.setLoginWithPassCode}
         component={setLoginWithPassCode}
+      />
+      <LandingStack.Screen
+        name={Routes.PasswordChangeSucces}
+        component={PasswordChangeSucces}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: 'პაროლის შეცვლა',
+            hideHeader: true,
+          })
+        }
+      />
+      <LandingStack.Screen
+        name={Routes.PasswordChangeStepFour}
+        component={PasswordChangeStepFour}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: 'პაროლის შეცვლა',
+          })
+        }
+      />
+       <LandingStack.Screen
+        name={Routes.AgreeTerm}
+        component={AgreeTerm}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: 'წესები და პირობები',
+          })
+        }
       />
     </LandingStack.Navigator>
   );

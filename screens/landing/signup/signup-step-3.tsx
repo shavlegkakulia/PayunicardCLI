@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, KeyboardAvoidingView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from 'react-native';
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
@@ -21,6 +27,7 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/core';
 import {tabHeight} from '../../../navigation/TabNav';
 import Routes from '../../../navigation/routes';
 import AppCheckbox from '../../../components/UI/AppCheckbox';
+import {useKeyboard} from '../../../hooks/useKeyboard';
 
 type RouteParamList = {
   params: {
@@ -44,9 +51,14 @@ const SignupStepThree: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [isApplyTerms, setIsApplyTerms] = useState<number>(0);
   const navigation = useNavigation();
+  const keyboard = useKeyboard();
 
   const setAgreement = (value: boolean) => {
     setIsApplyTerms(value ? 1 : 0);
+  };
+
+  const GoToTerms = () => {
+    navigation.navigate(Routes.AgreeTerm);
   };
 
   const nextStep = () => {
@@ -66,6 +78,8 @@ const SignupStepThree: React.FC = () => {
     });
   };
 
+  const isKeyboardOpen = keyboard.height > 0;
+
   return (
     <KeyboardAvoidingView
       behavior="padding"
@@ -73,7 +87,11 @@ const SignupStepThree: React.FC = () => {
       style={styles.avoid}>
       <View style={styles.content}>
         <View>
-          <Text style={styles.signupSignuptext}>
+          <Text
+            style={[
+              styles.signupSignuptext,
+              isKeyboardOpen && {marginTop: 0, fontSize: 18},
+            ]}>
             {translate.t('signup.startRegister')}
           </Text>
           <Appinput
@@ -102,16 +120,23 @@ const SignupStepThree: React.FC = () => {
             placeholder={translate.t('login.repeatPassword')}
           />
 
-          <AppCheckbox
-            customKey="agree"
-            requireds={[checked]}
-            context={VALIDATION_CONTEXT}
-            value={isApplyTerms != 0}
-            style={styles.termCheckBox}
-            activeColor={colors.primary}
-            label={translate.t('common.agreeTerms')}
-            clicked={setAgreement}
-          />
+          <View style={styles.agree}>
+            <AppCheckbox
+              customKey="agree"
+              requireds={[checked]}
+              context={VALIDATION_CONTEXT}
+              value={isApplyTerms != 0}
+              style={styles.termCheckBox}
+              activeColor={colors.primary}
+              label=""
+              clicked={setAgreement}
+            />
+            <TouchableOpacity onPress={GoToTerms}>
+              <Text style={styles.agreeText}>
+                {translate.t('common.agreeTerms')}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <AppButton title={translate.t('common.next')} onPress={nextStep} />
       </View>
@@ -168,6 +193,17 @@ const styles = StyleSheet.create({
   termCheckBox: {
     alignSelf: 'flex-start',
     marginBottom: 47,
+  },
+  agree: {
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  agreeText: {
+    paddingLeft: 8,
+    lineHeight: 17,
+    fontSize: 12,
+    color: colors.black,
+    fontFamily: 'FiraGO-Regular',
   },
 });
 

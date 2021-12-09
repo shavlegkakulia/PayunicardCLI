@@ -9,7 +9,6 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
-import { useSelector } from 'react-redux';
 import {StoreActionType} from '.';
 import CurrencyPrioritySelect, {
   CurrencyPriorityItem,
@@ -21,10 +20,6 @@ import AppButton from '../../../components/UI/AppButton';
 import colors from '../../../constants/colors';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
-import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-}from '../../../redux/action_types/translate_action_types';
 import NavigationService from '../../../services/NavigationService';
 import PresentationServive, {
   GetPackageTypeListResponse,
@@ -47,9 +42,6 @@ export const Periodes = {
 };
 
 const choosePlane: React.FC = props => {
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [packageVisible, setPackageVisible] = useState<boolean>(false);
   const [period, setPeriod] = useState<string>(Periodes.Year);
@@ -258,7 +250,7 @@ const choosePlane: React.FC = props => {
         style={styles.button}
         onPress={next}
         isLoading={isLoading}
-        title={translate.t('common.next')}
+        title="შემდეგი"
       />
     </View>
   );

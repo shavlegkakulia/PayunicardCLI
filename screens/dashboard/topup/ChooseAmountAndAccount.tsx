@@ -32,10 +32,6 @@ import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import {PUSH} from '../../../redux/actions/error_action';
 import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-}  from '../../../redux/action_types/translate_action_types';
-import {
   IUserState,
   IGloablState as IUserGlobalState,
 } from '../../../redux/action_types/user_action_types';
@@ -62,9 +58,6 @@ type RouteParamList = {
 const ValidationContext = 'Topup';
 
 const ChooseAmountAndAccount: React.FC = () => {
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [amount, setAmount] = useState<string | undefined>();
   const [tranId, setTranId] = useState<string | null | undefined>();
@@ -300,17 +293,17 @@ const ChooseAmountAndAccount: React.FC = () => {
                   onChange={amount => setAmount(amount)}
                   context={ValidationContext}
                   customKey="amount"
-                  placeholder={translate.t('transfer.amount')}
+                  placeholder="თანხის ოდენობა"
                   requireds={[required, hasNumeric]}
                   style={styles.amountInput}
                 />
               </View>
 
               <View style={styles.accountBox}>
-                <Text style={styles.accountBoxTitle}>{translate.t('transfer.currency')}</Text>
+                <Text style={styles.accountBoxTitle}>ვალუტა</Text>
 
                 <CurrencyItem
-                  defaultTitle={translate.t('transfer.currency')}
+                  defaultTitle="ვალუტა"
                   currency={_currency[0]}
                   onCurrencySelect={() => setToCurrencyVisible(true)}
                   style={styles.currencyBox}
