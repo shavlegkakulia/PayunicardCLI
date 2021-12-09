@@ -68,6 +68,7 @@ interface IInputeProps {
   ref?: React.LegacyRef<TextInput> | undefined;
   autoFocus?: boolean;
   editable?: boolean;
+  maxLength?: number;
 }
 
 interface IPwdValidationProps {
@@ -160,7 +161,7 @@ export const PasswordValidation: React.FC<IPwdValidationProps> = props => {
 
 const BaseInput: React.FC<IProps> = props => {
   let mounted = false;
-  const [style, setStyle] = useState({});
+  const [style, setStyle] = useState({borderColor: colors.none});
 
   useEffect(() => {
     mounted = true;
@@ -192,6 +193,8 @@ const BaseInput: React.FC<IProps> = props => {
       style={[styles.baseInput, props.style, {...style}]}
       onPress={() => props.refer?.current?.focus()}>
       {props.input}
+      {/* {style.borderColor === colors.danger && 
+      <Text style={styles.errorText}>შეავსეთ ველი</Text>} */}
     </TouchableOpacity>
   );
 };
@@ -236,6 +239,7 @@ const AppInput = React.forwardRef(
               placeholder={props.placeholder}
               placeholderTextColor={colors.placeholderColor}
               editable={props.editable}
+              maxLength={props.maxLength || 1000}
             />
             {props.secureTextEntry && (
               <TouchableOpacity
@@ -308,6 +312,14 @@ const styles = StyleSheet.create({
     height: 24,
     width: 24,
   },
+  errorText: {
+    position: 'absolute', 
+    fontFamily: 'FiraGO-Normal', 
+    fontSize: 10, 
+    color: colors.danger, 
+    left: 15, 
+    bottom: -14
+  }
 });
 
 export default AppInput;

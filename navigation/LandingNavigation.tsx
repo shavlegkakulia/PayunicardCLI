@@ -18,6 +18,7 @@ import PasswordResetSucces from '../screens/landing/password/PasswordResetSucces
 import setLoginWithPassCode from '../screens/landing/setLoginWithPassCode';
 import PasswordChangeSucces from '../screens/landing/password/change/PasswordChangeSucces';
 import PasswordChangeStepFour from '../screens/landing/password/change/PasswordChangeStepFour';
+import AgreeTerm from '../screens/landing/signup/signup-agree';
 
 const LandingStack = createStackNavigator();
 
@@ -154,6 +155,16 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'პაროლის შეცვლა',
+          })
+        }
+      />
+       <LandingStack.Screen
+        name={Routes.AgreeTerm}
+        component={AgreeTerm}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: 'წესები და პირობები',
           })
         }
       />

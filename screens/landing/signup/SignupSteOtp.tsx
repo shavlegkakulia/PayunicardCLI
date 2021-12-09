@@ -18,6 +18,7 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/core';
 import FloatingLabelInput from '../../../containers/otp/Otp';
 import AppButton from '../../../components/UI/AppButton';
 import AuthService, {IRegisterRequest} from '../../../services/AuthService';
+import { getString } from '../../../utils/Converter';
 
 type RouteParamList = {
   params: {
@@ -98,6 +99,7 @@ const SignupSteOtp: React.FC = () => {
   };
 
   const nextStep = () => {
+    if(getString(otpGuid).length < 4) return;
     SubmitPhoneOTP();
   };
 

@@ -23,6 +23,7 @@ import {formatDate} from '../../../utils/utils';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/core';
 import {tabHeight} from '../../../navigation/TabNav';
 import Routes from '../../../navigation/routes';
+import { useKeyboard } from '../../../hooks/useKeyboard';
 
 type RouteParamList = {
   params: {
@@ -44,6 +45,7 @@ const SignupStepTwo: React.FC = () => {
   const [userName, setUserName] = useState<string>('');
   const [chooseDate, setChooseDate] = useState<boolean>(false);
   const navigation = useNavigation();
+  const keyboard = useKeyboard();
 
   const nextStep = () => {
     if (Validation.validate(VALIDATION_CONTEXT)) {
@@ -59,6 +61,8 @@ const SignupStepTwo: React.FC = () => {
     });
   };
 
+  const isKeyboardOpen = keyboard.height > 0;
+
   return (
     <KeyboardAvoidingView
       behavior="padding"
@@ -66,7 +70,7 @@ const SignupStepTwo: React.FC = () => {
       style={styles.avoid}>
       <View style={styles.content}>
         <View>
-          <Text style={styles.signupSignuptext}>
+          <Text style={[styles.signupSignuptext, isKeyboardOpen && {marginTop: 0, fontSize: 18}]}>
             {translate.t('signup.startRegister')}
           </Text>
           <TouchableOpacity onPress={() => setChooseDate(true)}>
@@ -87,6 +91,7 @@ const SignupStepTwo: React.FC = () => {
             value={personalId}
             onChange={setPerosnalId}
             keyboardType={'numeric'}
+            maxLength={11}
             placeholder={translate.t('common.personalNumber')}
           />
 
