@@ -15,6 +15,10 @@ import {
   IPaymentState,
   PAYMENTS_ACTIONS,
 } from '../../../redux/action_types/payments_action_type';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 import {ICategory, IService} from '../../../services/PresentationServive';
 import screenStyles from '../../../styles/screens';
 import {getString} from '../../../utils/Converter';
@@ -49,6 +53,10 @@ const CategoriesContainer: React.FC<ICategoriesContainerProps> = props => {
   ) as IPaymentState;
 
   const dispatch = useDispatch();
+
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
 
   const matchText = (word?: string, highlight?: string) => {
     const breackWords = (text: string) => {
@@ -102,14 +110,14 @@ const CategoriesContainer: React.FC<ICategoriesContainerProps> = props => {
   return (
     <View style={[styles.categoriesContainer, !props.notForTemplate && {...screenStyles.shadowedCardbr15, marginTop: 30}]}>
       {!props.notForTemplate && <View style={styles.categoriesHeader}>
-        <Text style={styles.categoriesTitle}>კატეგორიები</Text>
+        <Text style={styles.categoriesTitle}>{translate.t('payments.categories')}</Text>
       </View>}
       {!props.hideSearchBox && (
         <View style={styles.searchInputBox}>
           <AppInput
             customKey="search"
             context=""
-            placeholder="ძებნა"
+            placeholder={translate.t('common.search')}
             type={InputTypes.search}
             value={PaymentStore.SearchServiceName}
             onChange={searchInCategories}

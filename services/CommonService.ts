@@ -7,7 +7,7 @@ import {
 } from './../redux/action_types/error_action_types';
 import {ka_ge, LANG_KEYS} from '../lang';
 import {stringToObject} from '../utils/utils';
-import {invalid_username_or_password, require_otp} from '../constants/errorCodes';
+import {require_otp} from '../constants/errorCodes';
 
 class CommonService {
   //register common interseptors for normalzing response
@@ -50,7 +50,7 @@ class CommonService {
           error.errorMessage = 'No internet connection';
         } else {
           //error.errorMessage = "error";
-          if (stringToObject(error.response).data.error !== require_otp && stringToObject(error.response).data.error !== invalid_username_or_password) {
+          if (stringToObject(error.response).data.error !== require_otp) {
             store.dispatch<IErrorAction>({
               type: PUSH_ERROR,
               error: error.message,

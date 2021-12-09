@@ -178,12 +178,10 @@ code_sign_if_enabled() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FaceTecSDK/FaceTecSDK.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/Kvalifika/Kvalifika.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FaceTecSDK/FaceTecSDK.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/Kvalifika/Kvalifika.framework"
-  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

@@ -1,27 +1,24 @@
-import {RouteProp, useRoute} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
+  TouchableOpacity,
+  Image,
   Text,
   KeyboardAvoidingView,
   ScrollView,
+  BackHandler,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
 import userStatuses from '../../../constants/userStatuses';
+import {useDimension} from '../../../hooks/useDimension';
 import {useKeyboard} from '../../../hooks/useKeyboard';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import {FetchUserDetail} from '../../../redux/actions/user_actions';
-import {
-  GetCitizenshipCountries,
-  GetCustomerEmploymentStatusTypes,
-  GetCustomerExpectedTurnoverTypes,
-  GetCustomerWorkTypes,
-} from '../../../redux/actions/verification_actions';
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
@@ -30,32 +27,15 @@ import {
   IUserState,
   IGloablState as IUserGlobalState,
 } from '../../../redux/action_types/user_action_types';
-import {
-  IVerficationState,
-  IGlobalState as IVERIFICATIONSTATE,
-  SET_VER_COUNTRY,
-  SET_VER_COUNTRY2,
-  SET_VER_CITY,
-  SET_VER_ADDRESS,
-  SET_VER_POSTCODE,
-  SET_VER_EPLOIMENTSTATUS,
-  SET_VER_JOBTYPE,
-  SET_VER_COMPLIMENTARY,
-  SET_VER_OCCUPIEDPOSITION,
-  SET_VER_CUSTOMEREXPECTEDTURNOVERTYPE,
-  SET_VER_TRANSACTIONCATREGORIES,
-  SET_VER_ANOTHERTRANSACTIONCATREGORIES,
-  SET_VER_STARTVERIFICATION,
-  SET_VER_USERKYCDATA,
-  SET_VER_RESETSTATE,
-} from '../../../redux/action_types/verification_action_types';
 import KvalificaServices, {
   getKycFullYear,
   IKCData,
 } from '../../../services/KvalificaServices';
 import NavigationService from '../../../services/NavigationService';
 import NetworkService from '../../../services/NetworkService';
-import {ICitizenshipCountry} from '../../../services/PresentationServive';
+import PresentationServive, {
+  ICitizenshipCountry,
+} from '../../../services/PresentationServive';
 import UserService, {
   ICustomerRegistrationNewRequest,
   IExpectedType,
@@ -90,11 +70,32 @@ const VERIFICATION_STEPS = {
   step_ten: 10,
 };
 
+const STEP_TITLES = [
+  'იდენტიფიკაცია',
+  'დამატებითი მონაცემები',
+  'დამატებითი მონაცემები',
+  'დამატებითი მონაცემები',
+  'დამატებითი მონაცემები',
+  '',
+  'დამატებითი მონაცემები',
+  'დამატებითი მონაცემები',
+  'ვერიფიკაცია',
+  'ვერიფიკაცია',
+];
+
 export interface ITransactionCategoryInterface {
   id: number;
   value: string;
   active: boolean;
 }
+
+const TransactionCategories: ITransactionCategoryInterface[] = [
+  {id: 1, value: 'კომუნალური და კომუნიკაციები', active: false},
+  {id: 2, value: 'ტრანსპორტი', active: false},
+  {id: 3, value: 'საერთაშორისო ტრანზაქციები', active: false},
+  {id: 4, value: 'ტოტალიზატორი, აზარტული ონლაინ თამაშები', active: false},
+  {id: 5, value: 'სხვა', active: false},
+];
 
 interface IStepsProps {
   currentStep: number;
@@ -125,91 +126,48 @@ const StepsContent: React.FC<IStepsProps> = props => {
   );
 };
 
-type RouteParamList = {
-  params: {
-    verificationStep: number;
-  };
-};
-
-const Verification: React.FC = () => {
-  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
-  const VerficationStore = useSelector<IVERIFICATIONSTATE>(
-    state => state.VerificationReducer,
-  ) as IVerficationState;
+const Verification: React.FC = props => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [verificationStep, setVerificationStep] = useState<number>(
+    VERIFICATION_STEPS.welcome,
+  );
+  const [title, setTtile] = useState<string>(STEP_TITLES[verificationStep]);
+  const [countryes, setCountries] = useState<
+    ICitizenshipCountry[] | undefined
+  >();
+  const [country, setCountry] = useState<ICitizenshipCountry>();
+  const [country2, setCountry2] = useState<ICitizenshipCountry | undefined>();
+  const [city, setCity] = useState<string>();
+  const [address, setAddress] = useState<string>();
+  const [postCode, setPostCode] = useState<string>();
 
-  const setVerificationStep = (route: string, step: number) => {
-    NavigationService.navigate(route, {
-      verificationStep: step,
-    });
-  };
+  const [selectedEmploymentStatus, setSlectedEmploymentStatus] =
+    useState<IStatus>();
+  const [employmentStatuses, setEmploymentStatuses] = useState<
+    IStatus[] | undefined
+  >();
+  const [customerWorkTypes, setCustomerWorkTypes] = useState<
+    IType2[] | undefined
+  >();
+  const [selectedJobType, setSelectedJobType] = useState<IType2>();
+  const [complimentary, setComplimentary] = useState<string>();
+  const [occupiedPosition, setOccupiedPosition] = useState<string>();
 
-  const setCountry = (c: ICitizenshipCountry) => {
-    dispatch({type: SET_VER_COUNTRY, country: c});
-  };
+  const [customerExpectedTurnoverTypes, setCustomerExpectedTurnoverTypes] =
+    useState<IExpectedType[] | undefined>();
+  const [customerExpectedTurnoverType, setCustomerExpectedTurnoverType] =
+    useState<IExpectedType | undefined>();
 
-  const setCountry2 = (c: ICitizenshipCountry | undefined) => {
-    dispatch({type: SET_VER_COUNTRY2, country2: c});
-  };
-
-  const setCity = (c: string) => {
-    dispatch({type: SET_VER_CITY, city: c});
-  };
-
-  const setAddress = (c: string) => {
-    dispatch({type: SET_VER_ADDRESS, address: c});
-  };
-
-  const setPostCode = (c: string) => {
-    dispatch({type: SET_VER_POSTCODE, postCode: c});
-  };
-
-  const setSlectedEmploymentStatus = (c: IStatus) => {
-    dispatch({type: SET_VER_EPLOIMENTSTATUS, selectedEmploymentStatus: c});
-  };
-
-  const setSelectedJobType = (c: IType2) => {
-    dispatch({type: SET_VER_JOBTYPE, selectedJobType: c});
-  };
-
-  const setComplimentary = (c: string) => {
-    dispatch({type: SET_VER_COMPLIMENTARY, complimentary: c});
-  };
-
-  const setOccupiedPosition = (c: string) => {
-    dispatch({type: SET_VER_OCCUPIEDPOSITION, occupiedPosition: c});
-  };
-
-  const setCustomerExpectedTurnoverType = (c: IExpectedType | undefined) => {
-    dispatch({
-      type: SET_VER_CUSTOMEREXPECTEDTURNOVERTYPE,
-      customerExpectedTurnoverType: c,
-    });
-  };
-
-  const setTransactionCategories = (c: ITransactionCategoryInterface[]) => {
-    dispatch({type: SET_VER_TRANSACTIONCATREGORIES, transactionCategories: c});
-  };
-
-  const setAnotherTransactionCategory = (c: string) => {
-    dispatch({
-      type: SET_VER_ANOTHERTRANSACTIONCATREGORIES,
-      anotherTransactionCategory: c,
-    });
-  };
-
-  const setStartVerification = (c: boolean) => {
-    dispatch({type: SET_VER_STARTVERIFICATION, startVerification: c});
-  };
-
-  const setUserKYCData = (c: IKCData | undefined) => {
-    dispatch({type: SET_VER_USERKYCDATA, userKYCData: c});
-  };
-
+  const [transactionCategories, setTransactionCategories] = useState<
+    ITransactionCategoryInterface[]
+  >(TransactionCategories);
+  const [anotherTransactionCategory, setAnotherTransactionCategory] =
+    useState<string>();
+  const [startVerification, setStartVerification] = useState<boolean>(false);
+  const [userKYCData, setUserKYCData] = useState<IKCData | undefined>();
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
@@ -219,14 +177,19 @@ const Verification: React.FC = () => {
   const onToggletransactionCategoryActive = (
     category: ITransactionCategoryInterface,
   ) => {
-    let _categoryes = [...VerficationStore.transactionCategories];
+    let _categoryes = [...transactionCategories];
     let categoryIndex = _categoryes.findIndex(
       transact => transact.value === category.value,
     );
     if (categoryIndex >= 0) {
       _categoryes[categoryIndex].active = !_categoryes[categoryIndex].active;
-      setTransactionCategories([..._categoryes]);
+      setTransactionCategories(_ => [..._categoryes]);
     }
+  };
+
+  const resetState = () => {
+    //setVerificationStep(VERIFICATION_STEPS.welcome);
+    setTtile(STEP_TITLES[verificationStep]);
   };
 
   const welcomeScreenAction = (action: number) => {
@@ -236,18 +199,12 @@ const Verification: React.FC = () => {
   };
 
   const stepTwoScreenAction = () => {
-    if (
-      VerficationStore.employmentStatuses &&
-      VerficationStore.customerWorkTypes
-    ) {
-      setVerificationStep(
-        Routes.VerificationStep2,
-        VERIFICATION_STEPS.step_two,
-      );
+    if (employmentStatuses && customerWorkTypes) {
+      setVerificationStep(VERIFICATION_STEPS.step_two);
       return;
     }
-    dispatch(GetCustomerEmploymentStatusTypes());
-    dispatch(GetCustomerWorkTypes());
+    getCustomerEmploymentStatusTypes();
+    getCustomerWorkTypes();
   };
 
   const stepThreeScreenAction = () => {
@@ -259,41 +216,74 @@ const Verification: React.FC = () => {
   };
 
   const getCitizenshipCountries = () => {
-    dispatch(
-      GetCitizenshipCountries(() => {
-        setVerificationStep(
-          Routes.VerificationStep1,
-          VERIFICATION_STEPS.step_one,
-        );
-      }),
-    );
+    if (isLoading) return;
+
+    setIsLoading(true);
+    PresentationServive.GetCitizenshipCountries().subscribe({
+      next: Response => {
+        setCountries(Response.data.data?.countries);
+      },
+      complete: () => {
+        setIsLoading(false);
+        setVerificationStep(VERIFICATION_STEPS.step_one);
+      },
+      error: () => {
+        setIsLoading(false);
+      },
+    });
+  };
+
+  const getCustomerEmploymentStatusTypes = () => {
+    UserService.GetCustomerEmploymentStatusTypes().subscribe({
+      next: Response => {
+        setEmploymentStatuses(Response.data.data?.statuses);
+      },
+      error: () => {
+        setIsLoading(false);
+      },
+    });
+  };
+
+  const getCustomerWorkTypes = () => {
+    if (isLoading) return;
+
+    setIsLoading(true);
+    UserService.GetCustomerWorkTypes().subscribe({
+      next: Response => {
+        setCustomerWorkTypes(Response.data.data?.types);
+      },
+      error: () => {
+        setIsLoading(false);
+      },
+    });
   };
 
   const getCustomerExpectedTurnoverTypes = () => {
-    if (VerficationStore.customerExpectedTurnoverTypes) {
-      setVerificationStep(
-        Routes.VerificationStep3,
-        VERIFICATION_STEPS.step_three,
-      );
+    if (isLoading) return;
+
+    if (customerExpectedTurnoverTypes) {
+      setVerificationStep(VERIFICATION_STEPS.step_three);
       return;
     }
 
-    dispatch(
-      GetCustomerExpectedTurnoverTypes(() => {
-        setVerificationStep(
-          Routes.VerificationStep3,
-          VERIFICATION_STEPS.step_three,
-        );
-      }),
-    );
+    setIsLoading(true);
+    UserService.GetCustomerExpectedTurnoverTypes().subscribe({
+      next: Response => {
+        setCustomerExpectedTurnoverTypes(Response.data.data?.types);
+      },
+      complete: () => {
+        setIsLoading(false);
+        setVerificationStep(VERIFICATION_STEPS.step_three);
+      },
+      error: () => {
+        setIsLoading(false);
+      },
+    });
   };
 
   const closeKvalificaVerification = () => {
     setStartVerification(false);
-    setVerificationStep(
-      Routes.VerificationStep7,
-      VERIFICATION_STEPS.step_seven,
-    );
+    setVerificationStep(VERIFICATION_STEPS.step_seven);
   };
 
   const checkKycSession = () => {
@@ -304,10 +294,7 @@ const Verification: React.FC = () => {
           if (Response.data.data?.skipKycSession) {
             getKycSessionData();
           } else {
-            setVerificationStep(
-              Routes.VerificationStep5,
-              VERIFICATION_STEPS.step_five,
-            );
+            setVerificationStep(VERIFICATION_STEPS.step_five);
           }
         }
       },
@@ -364,10 +351,7 @@ const Verification: React.FC = () => {
         parseAndSetKCdata(Response.data?.data?.data?.[0]);
       },
       complete: () => {
-        setVerificationStep(
-          Routes.VerificationStep6,
-          VERIFICATION_STEPS.step_six,
-        );
+        setVerificationStep(VERIFICATION_STEPS.step_six);
       },
     });
   };
@@ -388,141 +372,111 @@ const Verification: React.FC = () => {
   };
 
   const onCustomerRegistration = () => {
-    if(isLoading) return;
-
-    setIsLoading(true);
     const data: ICustomerRegistrationNewRequest = {
-      isResident: VerficationStore.country?.countryID == 79 ? true : false,
-      factCountryID: VerficationStore.country?.countryID,
-      factCity: VerficationStore.city,
+      isResident: country?.countryID == 79 ? true : false,
+      factCountryID: country?.countryID,
+      factCity: city,
       factCityID: 0,
-      factAddress: VerficationStore.address,
-      factPostalCode: VerficationStore.postCode,
-      legalCountryID: VerficationStore.country?.countryID,
-      legalCity: VerficationStore.city,
+      factAddress: address,
+      factPostalCode: postCode,
+      legalCountryID: country?.countryID,
+      legalCity: city,
       legalCityID: 0,
-      legalAddress: VerficationStore.address,
-      legalPostalCode: VerficationStore.postCode,
-      employmentStatusCode:
-        VerficationStore.selectedEmploymentStatus?.employmentStatusCode,
-      employmentTypeCode:
-        VerficationStore.selectedEmploymentStatus?.employmentStatus,
-      employer: VerficationStore.complimentary,
-      workPosition: VerficationStore.occupiedPosition,
-      expectedTurnoverCode:
-        VerficationStore.customerExpectedTurnoverType?.expectedTurnoverCode,
-      hasUtility: VerficationStore.transactionCategories.filter(
-        c => c.id === 1,
-      )[0].active,
-      hasTransport: VerficationStore.transactionCategories.filter(
-        c => c.id === 2,
-      )[0].active,
+      legalAddress: address,
+      legalPostalCode: postCode,
+      employmentStatusCode: selectedEmploymentStatus?.employmentStatusCode,
+      employmentTypeCode: selectedEmploymentStatus?.employmentStatus,
+      employer: complimentary,
+      workPosition: occupiedPosition,
+      expectedTurnoverCode: customerExpectedTurnoverType?.expectedTurnoverCode,
+      hasUtility: transactionCategories.filter(c => c.id === 1)[0].active,
+      hasTransport: transactionCategories.filter(c => c.id === 2)[0].active,
       hasTelecomunication: false,
-      hasInternatiolalTransactions:
-        VerficationStore.transactionCategories.filter(c => c.id === 3)[0]
-          .active,
-      hasGambling: VerficationStore.transactionCategories.filter(
-        c => c.id === 4,
+      hasInternatiolalTransactions: transactionCategories.filter(
+        c => c.id === 3,
       )[0].active,
-      hasOther: VerficationStore.transactionCategories.filter(
-        c => c.id === 5,
-      )[0].active,
-      otherDesctiption: VerficationStore.anotherTransactionCategory,
+      hasGambling: transactionCategories.filter(c => c.id === 4)[0].active,
+      hasOther: transactionCategories.filter(c => c.id === 5)[0].active,
+      otherDesctiption: anotherTransactionCategory,
       termID: 1,
     };
-    console.log(data)
     UserService.CustomerRegistration(data).subscribe({
-      // next: Response => {
-      //   if (Response.data.ok) {
-      //     setVerificationStep(
-      //       Routes.VerificationStep4,
-      //       VERIFICATION_STEPS.step_four,
-      //     );
-      //   }
-      // },
+      next: Response => {
+        if (Response.data.ok) {
+          setVerificationStep(VERIFICATION_STEPS.step_four);
+        }
+      },
       complete: () => {
-        setIsLoading(false);
-        setVerificationStep(
-          Routes.VerificationStep4,
-          VERIFICATION_STEPS.step_four,
-        );
+        setCountry(undefined);
+        setCity(undefined);
+        setAddress(undefined);
+        setPostCode(undefined);
+        setEmploymentStatuses(undefined);
+        setSelectedJobType(undefined);
+        setComplimentary(undefined);
+        setOccupiedPosition(undefined);
+        setCustomerExpectedTurnoverType(undefined);
+        setAnotherTransactionCategory(undefined);
       },
-      error: () => {
-        setIsLoading(false);
-      },
+      error: err => {},
     });
   };
 
   const onFinishCostumerRegistration = () => {
     let data: IFinishCustomerRegistrationRequest = {
-      customerSelfContent: VerficationStore.userKYCData?.customerSelfContent,
-      customerSelfName: VerficationStore.userKYCData?.customerSelfName,
-      customerSelf: VerficationStore.userKYCData?.customerSelf,
+      customerSelfContent: userKYCData?.customerSelfContent,
+      customerSelfName: userKYCData?.customerSelfName,
+      customerSelf: userKYCData?.customerSelf,
       documentType:
-        VerficationStore.userKYCData?.documetType === 'ID'
-          ? 'Enum_IDCard'
-          : 'Enum_Passport',
-      documentBackSideContent:
-        VerficationStore.userKYCData?.documentBackSideContent,
-      documentBackSide: VerficationStore.userKYCData?.documentBackSide,
-      documentBackSideName: VerficationStore.userKYCData?.documentBackSideName,
-      documentFrontSideContent:
-        VerficationStore.userKYCData?.documentFrontSideContent,
-      documentFrontSide: VerficationStore.userKYCData?.documentFrontSide,
-      documentFrontSideName:
-        VerficationStore.userKYCData?.documentFrontSideName,
-      birthDate: `${VerficationStore.userKYCData?.birthDate}-01-01`,
-      name: VerficationStore.userKYCData?.firstName,
-      surname: VerficationStore.userKYCData?.lastName,
+        userKYCData?.documetType === 'ID' ? 'Enum_IDCard' : 'Enum_Passport',
+      documentBackSideContent: userKYCData?.documentBackSideContent,
+      documentBackSide: userKYCData?.documentBackSide,
+      documentBackSideName: userKYCData?.documentBackSideName,
+      documentFrontSideContent: userKYCData?.documentFrontSideContent,
+      documentFrontSide: userKYCData?.documentFrontSide,
+      documentFrontSideName: userKYCData?.documentFrontSideName,
+      birthDate: `${userKYCData?.birthDate}-01-01`,
+      name: userKYCData?.firstName,
+      surname: userKYCData?.lastName,
       birthCityId: 0,
-      citizenshipCountryID: VerficationStore.country?.countryID,
-      secondaryCitizenshipCountryID:
-        VerficationStore.country2?.countryID || undefined,
+      citizenshipCountryID: country?.countryID,
+      secondaryCitizenshipCountryID: country2?.countryID || undefined,
     };
 
-    if (VerficationStore.userKYCData?.documetType === 'ID') {
-      data = {...data, personalID: VerficationStore.userKYCData.personalNumber};
+    if (userKYCData?.documetType === 'ID') {
+      data = {...data, personalID: userKYCData.personalNumber};
     } else {
-      data = {
-        ...data,
-        passportNumber: VerficationStore.userKYCData?.documentNumber,
-      };
+      data = {...data, passportNumber: userKYCData?.documentNumber};
     }
 
     UserService.FinishCostumerRegistration(data).subscribe({
       next: Response => {
         if (Response.data.ok) {
-          setVerificationStep(
-            Routes.VerificationStep9,
-            VERIFICATION_STEPS.step_nine,
-          );
+          setVerificationStep(VERIFICATION_STEPS.step_nine);
         }
       },
       error: () => {},
     });
   };
-  console.log(
-    '***',
-    VerficationStore.employmentStatuses?.length,
-    VerficationStore.customerWorkTypes?.length,
-  );
+
+  const Back = () => {
+    Keyboard.dismiss();
+    setVerificationStep(step => (step = step - 1));
+  };
+
   useEffect(() => {
-    if (
-      VerficationStore.employmentStatuses &&
-      VerficationStore.customerWorkTypes &&
-      route.params.verificationStep <= VERIFICATION_STEPS.step_one
-    ) {
+    if (employmentStatuses && customerWorkTypes) {
       setIsLoading(false);
-      setVerificationStep(
-        Routes.VerificationStep2,
-        VERIFICATION_STEPS.step_two,
-      );
+      setVerificationStep(VERIFICATION_STEPS.step_two);
     }
-  }, [VerficationStore.employmentStatuses, VerficationStore.customerWorkTypes]);
+  }, [employmentStatuses, customerWorkTypes]);
+
+  useEffect(() => {
+    setTtile(STEP_TITLES[verificationStep]);
+  }, [verificationStep]);
 
   const complate = () => {
     NetworkService.CheckConnection(() => {
-      dispatch({type: SET_VER_RESETSTATE});
       dispatch(FetchUserDetail());
     });
     NavigationService.navigate(Routes.Dashboard);
@@ -533,139 +487,202 @@ const Verification: React.FC = () => {
   useEffect(() => {
     if (
       documentVerificationStatusCode === userStatuses.Enum_PartiallyProcessed &&
-      route.params.verificationStep > VERIFICATION_STEPS.welcome &&
-      route.params.verificationStep < VERIFICATION_STEPS.step_four
+      verificationStep > VERIFICATION_STEPS.welcome &&
+      verificationStep < VERIFICATION_STEPS.step_four
     ) {
-      setVerificationStep(
-        Routes.VerificationStep4,
-        VERIFICATION_STEPS.step_four,
-      );
+      setVerificationStep(VERIFICATION_STEPS.step_four);
     }
-  }, [documentVerificationStatusCode, route.params.verificationStep]);
+  }, [documentVerificationStatusCode, verificationStep]);
 
-
+  const dimension = useDimension();
+  let isKeyboardVisible = keyboard.height > 0;
   let content: JSX.Element = (
-    <Welcome
-      onActionClick={welcomeScreenAction}
-      loading={VerficationStore.isLoading || isLoading}
-    />
+    <Welcome onActionClick={welcomeScreenAction} loading={isLoading} />
   );
-  if (route.params.verificationStep === VERIFICATION_STEPS.step_one) {
+  if (verificationStep === VERIFICATION_STEPS.step_one) {
     content = (
       <StepOne
-        loading={VerficationStore.isLoading || isLoading}
-        countryes={VerficationStore.countryes}
-        selectedCountry={VerficationStore.country}
+        countryes={countryes}
+        selectedCountry={country}
         onSetCountry={setCountry}
-        city={VerficationStore.city}
+        city={city}
         onSetCity={setCity}
-        address={VerficationStore.address}
+        address={address}
         onSetAddress={setAddress}
-        postCode={VerficationStore.postCode}
+        postCode={postCode}
         onSetPostCode={setPostCode}
         onComplate={stepTwoScreenAction}
       />
     );
-  } else if (route.params.verificationStep === VERIFICATION_STEPS.step_two) {
+  } else if (verificationStep === VERIFICATION_STEPS.step_two) {
     content = (
       <StepTwo
-        loading={VerficationStore.isLoading || isLoading}
-        employmentStatuses={VerficationStore.employmentStatuses}
-        customerWorkTypes={VerficationStore.customerWorkTypes}
+        loading={isLoading}
+        employmentStatuses={employmentStatuses}
+        customerWorkTypes={customerWorkTypes}
         onSetEmploymentStatus={setSlectedEmploymentStatus}
-        selectedEmploymentStatus={VerficationStore.selectedEmploymentStatus}
-        selectedJobType={VerficationStore.selectedJobType}
+        selectedEmploymentStatus={selectedEmploymentStatus}
+        selectedJobType={selectedJobType}
         onSetJobTypes={setSelectedJobType}
-        occupiedPosition={VerficationStore.occupiedPosition}
+        occupiedPosition={occupiedPosition}
         onSetOccupiedPositios={setOccupiedPosition}
         onSetComplimentary={setComplimentary}
-        complimentary={VerficationStore.complimentary}
+        complimentary={complimentary}
         onComplate={stepThreeScreenAction}
       />
     );
-  } else if (route.params.verificationStep === VERIFICATION_STEPS.step_three) {
+  } else if (verificationStep === VERIFICATION_STEPS.step_three) {
     content = (
       <StepThree
-        loading={VerficationStore.isLoading || isLoading}
+        loading={isLoading}
         setAnotherTransactionCategory={setAnotherTransactionCategory}
-        anotherTransactionCategory={VerficationStore.anotherTransactionCategory}
-        transactionCategories={VerficationStore.transactionCategories}
-        expectedTurnovers={VerficationStore.customerExpectedTurnoverTypes}
+        anotherTransactionCategory={anotherTransactionCategory}
+        transactionCategories={transactionCategories}
+        expectedTurnovers={customerExpectedTurnoverTypes}
         onToggleTransactionCategory={onToggletransactionCategoryActive}
-        selectedExpectedTurnover={VerficationStore.customerExpectedTurnoverType}
+        selectedExpectedTurnover={customerExpectedTurnoverType}
         onSetExpectedTurnover={setCustomerExpectedTurnoverType}
         onComplate={() => onCustomerRegistration()}
       />
     );
-  } else if (route.params.verificationStep === VERIFICATION_STEPS.step_four) {
+  } else if (verificationStep === VERIFICATION_STEPS.step_four) {
     content = (
-      <StepFour loading={VerficationStore.isLoading || isLoading} onComplate={() => checkKycSession()} />
+      <StepFour loading={isLoading} onComplate={() => checkKycSession()} />
     );
-  } else if (route.params.verificationStep === VERIFICATION_STEPS.step_five) {
-    content = <StepSix loading={VerficationStore.isLoading || isLoading} onComplate={onStartVerification} />;
-  } else if (route.params.verificationStep === VERIFICATION_STEPS.step_six) {
+  } else if (verificationStep === VERIFICATION_STEPS.step_five) {
+    content = <StepSix loading={isLoading} onComplate={onStartVerification} />;
+  } else if (verificationStep === VERIFICATION_STEPS.step_six) {
     content = (
       <StepSeven
-        kycData={VerficationStore.userKYCData}
+        kycData={userKYCData}
         onUpdateData={setUserKYCData}
-        onComplate={() =>
-          setVerificationStep(
-            Routes.VerificationStep7,
-            VERIFICATION_STEPS.step_seven,
-          )
-        }
+        onComplate={() => setVerificationStep(VERIFICATION_STEPS.step_seven)}
       />
     );
-  } else if (route.params.verificationStep === VERIFICATION_STEPS.step_seven) {
+  } else if (verificationStep === VERIFICATION_STEPS.step_seven) {
     content = (
       <StepEight
-        countryes={VerficationStore.countryes}
-        selectedCountry={VerficationStore.country}
+        countryes={countryes}
+        selectedCountry={country}
         onSetCountry={setCountry}
-        selectedCountry2={VerficationStore.country2}
+        selectedCountry2={country2}
         onSetCountry2={setCountry2}
-        kycData={VerficationStore.userKYCData}
+        kycData={userKYCData}
         onUpdateData={setUserKYCData}
-        onComplate={() =>
-          setVerificationStep(
-            Routes.VerificationStep8,
-            VERIFICATION_STEPS.step_eight,
-          )
-        }
+        onComplate={() => setVerificationStep(VERIFICATION_STEPS.step_eight)}
       />
     );
-  } else if (route.params.verificationStep === VERIFICATION_STEPS.step_eight) {
+  } else if (verificationStep === VERIFICATION_STEPS.step_eight) {
     content = (
       <StepNine
-      loading={VerficationStore.isLoading || isLoading}
+        loading={isLoading}
         onComplate={() => onFinishCostumerRegistration()}
-        kycData={VerficationStore.userKYCData}
+        kycData={userKYCData}
       />
     );
-  } else if (route.params.verificationStep === VERIFICATION_STEPS.step_nine) {
-    content = <Finish loading={VerficationStore.isLoading || isLoading} onComplate={complate} />;
+  } else if (verificationStep === VERIFICATION_STEPS.step_nine) {
+    content = <Finish loading={isLoading} onComplate={complate} />;
   }
+
+  function handleBackButtonClick() {
+    if (verificationStep === VERIFICATION_STEPS.welcome) {
+      return false;
+    }
+    if (
+      verificationStep > VERIFICATION_STEPS.welcome &&
+      verificationStep !== VERIFICATION_STEPS.step_six &&
+      verificationStep !== VERIFICATION_STEPS.step_seven &&
+      verificationStep !== VERIFICATION_STEPS.step_eight &&
+      verificationStep !== VERIFICATION_STEPS.step_nine
+    ) {
+      Back();
+      return true;
+    }
+
+    return true;
+  }
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
 
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
       <KeyboardAvoidingView behavior="padding" style={styles.avoid}>
         <KvalifcaVerification
-          startSession={VerficationStore.startVerification}
+          startSession={startVerification}
           onClose={closeKycSession}
         />
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={{flex: 1}}>
-            {route.params.verificationStep > VERIFICATION_STEPS.welcome &&
-              route.params.verificationStep !== VERIFICATION_STEPS.step_four &&
-              route.params.verificationStep !== VERIFICATION_STEPS.step_five &&
-              route.params.verificationStep !== VERIFICATION_STEPS.step_six &&
-              route.params.verificationStep !== VERIFICATION_STEPS.step_seven &&
-              route.params.verificationStep !== VERIFICATION_STEPS.step_eight &&
-              route.params.verificationStep !==
-                VERIFICATION_STEPS.step_nine && (
-                <StepsContent currentStep={route.params.verificationStep} />
+            {verificationStep > VERIFICATION_STEPS.welcome &&
+              verificationStep !== VERIFICATION_STEPS.step_four &&
+              verificationStep !== VERIFICATION_STEPS.step_five &&
+              verificationStep !== VERIFICATION_STEPS.step_six &&
+              verificationStep !== VERIFICATION_STEPS.step_seven &&
+              verificationStep !== VERIFICATION_STEPS.step_eight &&
+              verificationStep !== VERIFICATION_STEPS.step_nine && (
+                <StepsContent currentStep={verificationStep} />
               )}
+            <View style={styles.header}>
+              {verificationStep !== VERIFICATION_STEPS.step_four &&
+                verificationStep !== VERIFICATION_STEPS.step_five && (
+                  <View
+                    style={[
+                      styles.paymentStepHeaderHeader,
+                      (verificationStep === VERIFICATION_STEPS.welcome ||
+                        verificationStep === VERIFICATION_STEPS.step_six ||
+                        verificationStep === VERIFICATION_STEPS.step_seven ||
+                        verificationStep === VERIFICATION_STEPS.step_eight ||
+                        verificationStep === VERIFICATION_STEPS.step_nine) && {
+                        justifyContent: 'center',
+                      },
+                    ]}>
+                    {verificationStep > VERIFICATION_STEPS.welcome &&
+                      verificationStep !== VERIFICATION_STEPS.step_six &&
+                      verificationStep !== VERIFICATION_STEPS.step_seven &&
+                      verificationStep !== VERIFICATION_STEPS.step_eight &&
+                      verificationStep !== VERIFICATION_STEPS.step_nine && (
+                        <TouchableOpacity style={styles.back} onPress={Back}>
+                          <Image
+                            style={styles.backImg}
+                            source={require('./../../../assets/images/back-arrow-primary.png')}
+                          />
+                          <Text style={styles.backText}>
+                            {translate.t('common.back')}
+                          </Text>
+                        </TouchableOpacity>
+                      )}
 
+                    <View style={styles.titleBox}>
+                      <Text
+                        numberOfLines={1}
+                        style={[
+                          styles.titleText,
+                          (verificationStep === VERIFICATION_STEPS.welcome ||
+                            verificationStep === VERIFICATION_STEPS.step_six ||
+                            verificationStep ===
+                              VERIFICATION_STEPS.step_seven ||
+                            verificationStep ===
+                              VERIFICATION_STEPS.step_eight ||
+                            verificationStep ===
+                              VERIFICATION_STEPS.step_nine) && {
+                            textAlign: 'center',
+                            alignSelf: 'center',
+                          },
+                        ]}>
+                        {title}
+                      </Text>
+                    </View>
+                  </View>
+                )}
+            </View>
             {content}
           </View>
         </TouchableWithoutFeedback>

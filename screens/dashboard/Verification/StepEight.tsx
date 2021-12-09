@@ -8,6 +8,7 @@ import {
   Text,
   Image,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import AppButton from '../../../components/UI/AppButton';
 import AppCheckbox from '../../../components/UI/AppCheckbox';
 import AppInput from '../../../components/UI/AppInput';
@@ -16,6 +17,10 @@ import AppSelect, {
 } from '../../../components/UI/AppSelect/AppSelect';
 import Validation, {required} from '../../../components/UI/Validation';
 import colors from '../../../constants/colors';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+}  from '../../../redux/action_types/translate_action_types';
 import {IKCData} from '../../../services/KvalificaServices';
 import {ICitizenshipCountry} from '../../../services/PresentationServive';
 
@@ -26,13 +31,16 @@ interface IProps {
   onSetCountry: (country: ICitizenshipCountry) => void;
   onSetCountry2: (country: ICitizenshipCountry | undefined) => void;
   kycData: IKCData | undefined;
-  onUpdateData: (c: IKCData | undefined) => void;
+  onUpdateData: React.Dispatch<React.SetStateAction<IKCData | undefined>>;
   onComplate: () => void;
 }
 
 const ValidationContext = 'userVerification';
 
 const StepEight: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [countryErrorStyle, setCountryErrorStyle] = useState<
     StyleProp<ViewStyle>
   >({});
@@ -66,15 +74,19 @@ const StepEight: React.FC<IProps> = props => {
   };
 
   const setBirthDate = (value: string) => {
-    let data = {...props.kycData};
-    data.birthDate = value;
-    props.onUpdateData(data);
+    props.onUpdateData((prevData: any) => {
+      let data = {...prevData};
+      data.birthDate = value;
+      return data;
+    });
   };
 
   const setSex = (value: string) => {
-    let data = {...props.kycData};
-    data.sex = value;
-    props.onUpdateData(data);
+    props.onUpdateData((prevData: any) => {
+      let data = {...prevData};
+      data.sex = value;
+      return data;
+    });
   };
 
   useEffect(() => {
@@ -186,7 +198,7 @@ const StepEight: React.FC<IProps> = props => {
         )}
       </View>
       <AppButton
-        title={'შემდეგი'}
+        title={translate.t('common.next')}
         onPress={nextHandler}
         style={styles.button}
       />

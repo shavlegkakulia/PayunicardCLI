@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* PayunicardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PayunicardTests.m */; };
-		04D4E1B82755144900916989 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04D4E1B72755144900916989 /* LaunchScreen.storyboard */; };
-		04FDCD14275507C000899BB5 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDCD13275507C000899BB5 /* File.swift */; };
+		04041812274BA26B00B47263 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04041811274BA26B00B47263 /* File.swift */; };
+		11FF7AF5E1C70DB5277C542C /* libPods-Payunicard-PayunicardTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5346E9A3E5984C2C0B286604 /* libPods-Payunicard-PayunicardTests.a */; };
 		13443784BAEC4A9597F95CB3 /* FiraGO-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D49C9A031304CB4B1A6D4D9 /* FiraGO-Bold.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1A9918771CA915591E280B9B /* libPods-Payunicard-PayunicardTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6565080171C8A0A1D5D10D78 /* libPods-Payunicard-PayunicardTests.a */; };
 		344FF2DE0AF845F19EE114A9 /* FiraGO-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F276A076F24481391FA3D95 /* FiraGO-Book.ttf */; };
+		3910B26AE389629B6ED59F31 /* libPods-Payunicard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C3C352043D48D777F17CA12 /* libPods-Payunicard.a */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9CEAC814F9C24F2AA6803BB6 /* load_screen_1.svg in Resources */ = {isa = PBXBuildFile; fileRef = 93335815D9BC4CDFA844DB41 /* load_screen_1.svg */; };
 		BE293CD5D9F9403A806E2086 /* FiraGO-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A3C5165F2814874A67A41BF /* FiraGO-Regular.ttf */; };
-		E4D4F8D643893BF3B5FD9F41 /* libPods-Payunicard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEC9A8D7095AFA6DD38074F5 /* libPods-Payunicard.a */; };
 		F471AEEFF3974648B3A90014 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 241091002DF34525B6504B56 /* Montserrat-Regular.ttf */; };
 		F8DB6F321726418298F7B4C0 /* FiraGO-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E21AB04F19204D9289558E3B /* FiraGO-Medium.ttf */; };
 /* End PBXBuildFile section */
@@ -37,9 +37,8 @@
 		00E356EE1AD99517003FC87E /* PayunicardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PayunicardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* PayunicardTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PayunicardTests.m; sourceTree = "<group>"; };
-		04D4E1B72755144900916989 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		04FDCD12275507C000899BB5 /* Payunicard-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Payunicard-Bridging-Header.h"; sourceTree = "<group>"; };
-		04FDCD13275507C000899BB5 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		04041810274BA26B00B47263 /* Payunicard-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Payunicard-Bridging-Header.h"; sourceTree = "<group>"; };
+		04041811274BA26B00B47263 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Payunicard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Payunicard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Payunicard/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Payunicard/AppDelegate.m; sourceTree = "<group>"; };
@@ -47,17 +46,18 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Payunicard/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Payunicard/main.m; sourceTree = "<group>"; };
 		241091002DF34525B6504B56 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		3C3C352043D48D777F17CA12 /* libPods-Payunicard.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Payunicard.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		49ED760E68861C65A5640062 /* Pods-Payunicard-PayunicardTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Payunicard-PayunicardTests.release.xcconfig"; path = "Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests.release.xcconfig"; sourceTree = "<group>"; };
+		5346E9A3E5984C2C0B286604 /* libPods-Payunicard-PayunicardTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Payunicard-PayunicardTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A3C5165F2814874A67A41BF /* FiraGO-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FiraGO-Regular.ttf"; path = "../assets/fonts/FiraGO-Regular.ttf"; sourceTree = "<group>"; };
 		5F276A076F24481391FA3D95 /* FiraGO-Book.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FiraGO-Book.ttf"; path = "../assets/fonts/FiraGO-Book.ttf"; sourceTree = "<group>"; };
-		6565080171C8A0A1D5D10D78 /* libPods-Payunicard-PayunicardTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Payunicard-PayunicardTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D49C9A031304CB4B1A6D4D9 /* FiraGO-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FiraGO-Bold.ttf"; path = "../assets/fonts/FiraGO-Bold.ttf"; sourceTree = "<group>"; };
+		735CAFD5DEA88A040F5903C1 /* Pods-Payunicard-PayunicardTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Payunicard-PayunicardTests.debug.xcconfig"; path = "Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests.debug.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Payunicard/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		93335815D9BC4CDFA844DB41 /* load_screen_1.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = load_screen_1.svg; path = ../assets/images/load_screen_1.svg; sourceTree = "<group>"; };
-		A56A3006F266FE67D138F8E6 /* Pods-Payunicard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Payunicard.release.xcconfig"; path = "Target Support Files/Pods-Payunicard/Pods-Payunicard.release.xcconfig"; sourceTree = "<group>"; };
-		A889EBBDAAE072EED2ECFD89 /* Pods-Payunicard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Payunicard.debug.xcconfig"; path = "Target Support Files/Pods-Payunicard/Pods-Payunicard.debug.xcconfig"; sourceTree = "<group>"; };
-		D188B1695EEF305EDFE69555 /* Pods-Payunicard-PayunicardTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Payunicard-PayunicardTests.release.xcconfig"; path = "Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests.release.xcconfig"; sourceTree = "<group>"; };
-		DEC9A8D7095AFA6DD38074F5 /* libPods-Payunicard.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Payunicard.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A328EA94C201B835BE719A3A /* Pods-Payunicard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Payunicard.debug.xcconfig"; path = "Target Support Files/Pods-Payunicard/Pods-Payunicard.debug.xcconfig"; sourceTree = "<group>"; };
+		A4259E3816E6192758A92913 /* Pods-Payunicard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Payunicard.release.xcconfig"; path = "Target Support Files/Pods-Payunicard/Pods-Payunicard.release.xcconfig"; sourceTree = "<group>"; };
 		E21AB04F19204D9289558E3B /* FiraGO-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FiraGO-Medium.ttf"; path = "../assets/fonts/FiraGO-Medium.ttf"; sourceTree = "<group>"; };
-		E57C3F47191EA66A0FFAC84F /* Pods-Payunicard-PayunicardTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Payunicard-PayunicardTests.debug.xcconfig"; path = "Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -66,7 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A9918771CA915591E280B9B /* libPods-Payunicard-PayunicardTests.a in Frameworks */,
+				11FF7AF5E1C70DB5277C542C /* libPods-Payunicard-PayunicardTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,7 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4D4F8D643893BF3B5FD9F41 /* libPods-Payunicard.a in Frameworks */,
+				3910B26AE389629B6ED59F31 /* libPods-Payunicard.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,10 +105,10 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				04FDCD13275507C000899BB5 /* File.swift */,
-				04D4E1B72755144900916989 /* LaunchScreen.storyboard */,
-				04FDCD12275507C000899BB5 /* Payunicard-Bridging-Header.h */,
+				04041811274BA26B00B47263 /* File.swift */,
+				04041810274BA26B00B47263 /* Payunicard-Bridging-Header.h */,
 			);
 			name = Payunicard;
 			sourceTree = "<group>";
@@ -117,8 +117,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				DEC9A8D7095AFA6DD38074F5 /* libPods-Payunicard.a */,
-				6565080171C8A0A1D5D10D78 /* libPods-Payunicard-PayunicardTests.a */,
+				3C3C352043D48D777F17CA12 /* libPods-Payunicard.a */,
+				5346E9A3E5984C2C0B286604 /* libPods-Payunicard-PayunicardTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -126,10 +126,10 @@
 		46C9673488EC1B0ADC5066A9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A889EBBDAAE072EED2ECFD89 /* Pods-Payunicard.debug.xcconfig */,
-				A56A3006F266FE67D138F8E6 /* Pods-Payunicard.release.xcconfig */,
-				E57C3F47191EA66A0FFAC84F /* Pods-Payunicard-PayunicardTests.debug.xcconfig */,
-				D188B1695EEF305EDFE69555 /* Pods-Payunicard-PayunicardTests.release.xcconfig */,
+				A328EA94C201B835BE719A3A /* Pods-Payunicard.debug.xcconfig */,
+				A4259E3816E6192758A92913 /* Pods-Payunicard.release.xcconfig */,
+				735CAFD5DEA88A040F5903C1 /* Pods-Payunicard-PayunicardTests.debug.xcconfig */,
+				49ED760E68861C65A5640062 /* Pods-Payunicard-PayunicardTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -186,12 +186,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "PayunicardTests" */;
 			buildPhases = (
-				0E0DE84F487F2E3C9715DC64 /* [CP] Check Pods Manifest.lock */,
+				3D941E989D644795F170E7B3 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				3F80A2E70D924EF1519ECC04 /* [CP] Embed Pods Frameworks */,
-				DE30274B265D2E566D773134 /* [CP] Copy Pods Resources */,
+				857279B914899DF436A6B9C8 /* [CP] Embed Pods Frameworks */,
+				7586B7BFAC6435667B1B2DF5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -207,14 +207,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Payunicard" */;
 			buildPhases = (
-				12746B794068022492259E56 /* [CP] Check Pods Manifest.lock */,
+				DE1237F658BFA4F24400C7B7 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				85FD8F1C8DA8B072CE8E7F4A /* [CP] Embed Pods Frameworks */,
-				AC0453D9BEE6DAC42832A25B /* [CP] Copy Pods Resources */,
+				B95908195260BEB5C8244392 /* [CP] Embed Pods Frameworks */,
+				BA8EA5EA12EDA7E091914A1D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -231,7 +231,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -273,7 +273,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04D4E1B82755144900916989 /* LaunchScreen.storyboard in Resources */,
+				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13443784BAEC4A9597F95CB3 /* FiraGO-Bold.ttf in Resources */,
 				344FF2DE0AF845F19EE114A9 /* FiraGO-Book.ttf in Resources */,
@@ -301,7 +301,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		0E0DE84F487F2E3C9715DC64 /* [CP] Check Pods Manifest.lock */ = {
+		3D941E989D644795F170E7B3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -323,7 +323,75 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		12746B794068022492259E56 /* [CP] Check Pods Manifest.lock */ = {
+		7586B7BFAC6435667B1B2DF5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		857279B914899DF436A6B9C8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B95908195260BEB5C8244392 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Payunicard/Pods-Payunicard-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Payunicard/Pods-Payunicard-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Payunicard/Pods-Payunicard-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BA8EA5EA12EDA7E091914A1D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Payunicard/Pods-Payunicard-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Payunicard/Pods-Payunicard-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Payunicard/Pods-Payunicard-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DE1237F658BFA4F24400C7B7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -343,74 +411,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3F80A2E70D924EF1519ECC04 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		85FD8F1C8DA8B072CE8E7F4A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Payunicard/Pods-Payunicard-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Payunicard/Pods-Payunicard-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Payunicard/Pods-Payunicard-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AC0453D9BEE6DAC42832A25B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Payunicard/Pods-Payunicard-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Payunicard/Pods-Payunicard-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Payunicard/Pods-Payunicard-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DE30274B265D2E566D773134 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Payunicard-PayunicardTests/Pods-Payunicard-PayunicardTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -448,7 +448,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				04FDCD14275507C000899BB5 /* File.swift in Sources */,
+				04041812274BA26B00B47263 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -466,7 +466,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E57C3F47191EA66A0FFAC84F /* Pods-Payunicard-PayunicardTests.debug.xcconfig */;
+			baseConfigurationReference = 735CAFD5DEA88A040F5903C1 /* Pods-Payunicard-PayunicardTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -475,7 +475,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = PayunicardTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -494,13 +494,13 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D188B1695EEF305EDFE69555 /* Pods-Payunicard-PayunicardTests.release.xcconfig */;
+			baseConfigurationReference = 49ED760E68861C65A5640062 /* Pods-Payunicard-PayunicardTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = PayunicardTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -519,7 +519,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A889EBBDAAE072EED2ECFD89 /* Pods-Payunicard.debug.xcconfig */;
+			baseConfigurationReference = A328EA94C201B835BE719A3A /* Pods-Payunicard.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -527,7 +527,6 @@
 				DEVELOPMENT_TEAM = 8J42C4RH4D;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Payunicard/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -548,14 +547,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A56A3006F266FE67D138F8E6 /* Pods-Payunicard.release.xcconfig */;
+			baseConfigurationReference = A4259E3816E6192758A92913 /* Pods-Payunicard.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8J42C4RH4D;
 				INFOPLIST_FILE = Payunicard/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -606,7 +604,6 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -622,7 +619,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -671,7 +668,6 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -680,7 +676,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -692,7 +688,6 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

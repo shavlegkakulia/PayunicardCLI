@@ -59,7 +59,7 @@
 		<string>FiraGO-Regular.ttf</string>
 		<string>Montserrat-Regular.ttf</string>
 	</array>
-<!-- permission strings to be include in info.plist -->
+	<!-- permission strings to be include in info.plist -->
 <key>NSCameraUsageDescription</key>
 <string>Please give us access to your camera, to complete the verification.</string>
 <key>NSPhotoLibraryUsageDescription</key>

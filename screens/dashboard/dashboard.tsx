@@ -113,7 +113,7 @@ const Dashboard: React.FC<IProps> = props => {
           userStatuses.Enum_PartiallyProcessed) &&
       customerVerificationStatusCode === userStatuses.Enum_NotVerified
     ) {
-      NavigationService.navigate(Routes.Verification, {verificationStep: 0});
+      NavigationService.navigate(Routes.Verification);
     }
   };
 
@@ -517,7 +517,7 @@ const Dashboard: React.FC<IProps> = props => {
         hasScroll={true}
         height={ActionsSheetHeight}
         onPress={closeActionSheet}>
-        <Actions title="აირჩიეთ სერვისი" sendHeader={setActionsSheetHeader} />
+        <Actions title={translate.t('plusSign.chooseService')} sendHeader={setActionsSheetHeader} />
       </ActionSheetCustom>
     </DashboardLayout>
   );

@@ -69,6 +69,10 @@ import {
 import PresentationService from './../../../services/PresentationServive';
 import CardService, {IGetBarcodeRequest} from '../../../services/CardService';
 import NavigationService from '../../../services/NavigationService';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+}  from '../../../redux/action_types/translate_action_types';
 
 type RouteParamList = {
   Account: {
@@ -104,6 +108,9 @@ interface IActionSheetTypes {
 }
 
 const ProductDetail: React.FC = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
@@ -323,28 +330,29 @@ const ProductDetail: React.FC = props => {
       },
     });
   };
+  console.log(route.params.account.cards)
 
   const cardBlock = () => {
     NetworkService.CheckConnection(() => {
-      if (route.params.account.cards?.length) {
+      
         setActionLoading(true);
         let cardId: number = getNumber(
-          route.params.account.cards[currentCardIndex]?.cardID,
+          route.params.account.cards![currentCardIndex]?.cardID,
         );
         AccountService.Block({cardId: cardId}).subscribe({
           next: Response => {
-            console.log(Response.data)
-            if(Response.data.ok) {
+            if(Response.data.ok){
               setActionSheetStep({
                 actionSheetType,
                 actionSheetStatus: ACTION_SHEET_STATUSES.succes,
                 actionSheetTitle: 'ბარათი დაბლოკილია',
               });
             }
+            console.log(Response);
           },
           complete: () => {
             setActionLoading(false);
-           
+            
           },
           error: err => {
             setActionLoading(false);
@@ -356,7 +364,6 @@ const ProductDetail: React.FC = props => {
             console.log(err);
           },
         });
-      }
     });
   };
 
@@ -427,18 +434,18 @@ const ProductDetail: React.FC = props => {
         otp: otp,
       }).subscribe({
         next: Response => {
-          if(Response.data.ok) {
+          console.log(Response)
+          if(Response.data.Ok) {
             setOtp(undefined);
-            setActionSheetStep({
-              actionSheetType,
-              actionSheetStatus: ACTION_SHEET_STATUSES.succes,
-              actionSheetTitle: 'პინ კოდი წარმატებით შეიცვალა!',
-            });
+          setActionSheetStep({
+            actionSheetType,
+            actionSheetStatus: ACTION_SHEET_STATUSES.succes,
+            actionSheetTitle: 'პინ კოდი წარმატებით შეიცვალა!',
+          });
           }
         },
         complete: () => {
           setActionLoading(false);
-         
         },
         error: err => {
           setActionLoading(false);
@@ -722,7 +729,7 @@ const ProductDetail: React.FC = props => {
           )}
 
           <View style={styles.transfersSectionContainerHeader}>
-            <Text style={styles.transfersSectionContainerTitle}>გადახდა</Text>
+            <Text style={styles.transfersSectionContainerTitle}>{translate.t('tabNavigation.payments')}</Text>
             {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
               <PaginationDots step={paymentSectionStep} length={2} />
             )}
@@ -745,7 +752,7 @@ const ProductDetail: React.FC = props => {
                 <TouchableOpacity
                   style={styles.sectionContainerItem}
                   onPress={() => {
-                    getCategories(1, false, false, true, true, 'კომუნალურები');
+                    getCategories(1, false, false, true, true, translate.t('services.utility'));
                   }}>
                   <View style={styles.sectionContainerItemImageContainer}>
                     <Image
@@ -755,7 +762,7 @@ const ProductDetail: React.FC = props => {
                     />
                   </View>
                   <View style={styles.sectionContainerItemDetails}>
-                    {breackWords('კომუნალურები')}
+                  {breackWords(translate.t('services.utility'))}
                   </View>
                 </TouchableOpacity>
 
@@ -770,7 +777,7 @@ const ProductDetail: React.FC = props => {
                           false,
                           true,
                           true,
-                          'ტელევიზია და ინტერნეტი',
+                          translate.t('services.tvInternet'),
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
@@ -781,14 +788,14 @@ const ProductDetail: React.FC = props => {
                         />
                       </View>
                       <View style={styles.sectionContainerItemDetails}>
-                        {breackWords('ტელევიზია და ინტერნეტი')}
+                      {breackWords(translate.t('services.tvInternet'))}
                       </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                       style={styles.sectionContainerItem}
                       onPress={() => {
-                        getCategories(10, false, false, true, true, 'ტელეფონი');
+                        getCategories(10, false, false, true, true, translate.t('services.telephone'));
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
@@ -798,7 +805,7 @@ const ProductDetail: React.FC = props => {
                         />
                       </View>
                       <View style={styles.sectionContainerItemDetails}>
-                        {breackWords('ტელეფონი')}
+                      {breackWords(translate.t('services.telephone'))}
                       </View>
                     </TouchableOpacity>
                   </>
@@ -817,7 +824,7 @@ const ProductDetail: React.FC = props => {
                           false,
                           true,
                           true,
-                          'მობილური კავშირი',
+                          translate.t('services.mobile'),
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
@@ -828,7 +835,7 @@ const ProductDetail: React.FC = props => {
                         />
                       </View>
                       <View style={styles.sectionContainerItemDetails}>
-                        {breackWords('მობილური კავშირი')}
+                      {breackWords(translate.t('services.mobile'))}
                       </View>
                     </TouchableOpacity>
 
@@ -841,7 +848,7 @@ const ProductDetail: React.FC = props => {
                           false,
                           true,
                           true,
-                          'პარკირება და ჯარიმები',
+                          translate.t('services.parking'),
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
@@ -852,7 +859,7 @@ const ProductDetail: React.FC = props => {
                         />
                       </View>
                       <View style={styles.sectionContainerItemDetails}>
-                        {breackWords('პარკირება და ჯარიმები')}
+                      {breackWords(translate.t('services.parking'))}
                       </View>
                     </TouchableOpacity>
 
@@ -865,7 +872,7 @@ const ProductDetail: React.FC = props => {
                           false,
                           true,
                           true,
-                          'აზარტული თამაშები',
+                          translate.t('services.gambling'),
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
@@ -876,7 +883,7 @@ const ProductDetail: React.FC = props => {
                         />
                       </View>
                       <View style={styles.sectionContainerItemDetails}>
-                        {breackWords('აზარტული თამაშები')}
+                        {breackWords(translate.t('services.gambling'))}
                       </View>
                     </TouchableOpacity>
                   </>
@@ -890,7 +897,7 @@ const ProductDetail: React.FC = props => {
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
             <View style={styles.transfersSectionContainerHeader}>
               <Text style={styles.transfersSectionContainerTitle}>
-                გადარიცხვა
+                {translate.t('tabNavigation.transfers')}
               </Text>
               <PaginationDots step={transferSectionStep} length={2} />
             </View>
@@ -924,7 +931,7 @@ const ProductDetail: React.FC = props => {
                       />
                     </View>
                     <View style={styles.transfersSectionContainerItemDetails}>
-                      {breackWords('საკუთარ ანგარიშებს შორის')}
+                      {breackWords(translate.t('transfer.betweeenOwnAccounts'))}
                     </View>
                   </TouchableOpacity>
 
@@ -941,7 +948,7 @@ const ProductDetail: React.FC = props => {
                       />
                     </View>
                     <View style={styles.transfersSectionContainerItemDetails}>
-                      {breackWords('სხვის უნისაფულეზე')}
+                      {breackWords(translate.t('transfer.toUniWallet'))}
                     </View>
                   </TouchableOpacity>
 
@@ -958,7 +965,7 @@ const ProductDetail: React.FC = props => {
                       />
                     </View>
                     <View style={styles.transfersSectionContainerItemDetails}>
-                      {breackWords('კონვერტაცია')}
+                      {breackWords(translate.t('transfer.currencyExchange'))}
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -981,7 +988,7 @@ const ProductDetail: React.FC = props => {
                       />
                     </View>
                     <View style={styles.transfersSectionContainerItemDetails}>
-                      {breackWords('ბანკში')}
+                      {breackWords(translate.t('transfer.toBank'))}
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -994,7 +1001,7 @@ const ProductDetail: React.FC = props => {
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
             <View style={styles.transfersSectionContainerHeader}>
               <Text style={styles.transfersSectionContainerTitle}>
-                ბარათის მართვა
+                {translate.t('products.manageCard')}
               </Text>
             </View>
           )}
@@ -1013,7 +1020,7 @@ const ProductDetail: React.FC = props => {
                     />
                   </View>
                   <View style={styles.sectionContainerItemDetails}>
-                    {breackWords('ბარათის დაბლოკვა')}
+                    {breackWords(translate.t('products.blockCard'))}
                   </View>
                 </TouchableOpacity>}
 
@@ -1028,7 +1035,7 @@ const ProductDetail: React.FC = props => {
                     />
                   </View>
                   <View style={styles.sectionContainerItemDetails}>
-                    {breackWords('ბარათის PIN კოდის შეცვლა')}
+                    {breackWords(translate.t('products.changeCardPin'))}
                   </View>
                 </TouchableOpacity>}
 
@@ -1043,7 +1050,11 @@ const ProductDetail: React.FC = props => {
                     />
                   </View>
                   <View style={styles.sectionContainerItemDetails}>
-                    {breackWords('შევსება')}
+                  <Text
+            style={styles.sectionContainerItemDetailsTitle}
+           >
+            {translate.t('plusSign.topUp')}
+          </Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -1173,7 +1184,7 @@ const ProductDetail: React.FC = props => {
                 actionSheetStatus === ACTION_SHEET_STATUSES.start
                   ? 'დადასტურება'
                   : actionSheetStatus === ACTION_SHEET_STATUSES.otp
-                  ? 'შემდეგი'
+                  ? translate.t('common.next')
                   : 'დახურვა'
               }`}
               onPress={pinChangeActions}

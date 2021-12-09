@@ -24,6 +24,10 @@ import {
   IGlobalState as INavGlobalState,
   NAVIGATION_ACTIONS,
 } from '../redux/action_types/navigation_action_types';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../redux/action_types/translate_action_types';
 
 interface ITouchableProps {
   navigation: any;
@@ -73,6 +77,9 @@ const SidebarTouchableItem: React.FC<ITouchableProps> = props => {
 };
 
 const SideBarDrawer: React.FC<any> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const dispatch = useDispatch();
   const [currentNav, setCurrentNav] = useState<string | undefined>(Routes.Home);
   const userState = useSelector<IGloablState>(
@@ -90,6 +97,7 @@ const SideBarDrawer: React.FC<any> = props => {
     CloseDrawer && CloseDrawer[0]();
     await sleep(dispatch(Logout()), 1500);
   }, []);
+
 
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
@@ -109,7 +117,7 @@ const SideBarDrawer: React.FC<any> = props => {
           <View style={styles.navs}>
             <SidebarTouchableItem
               {...props}
-              title="მთავარი"
+              title={translate.t('tabNavigation.home')}
               route={Routes.Dashboard}
               iconUrl={require('./../assets/images/home.png')}
               activeIconUrl={require('./../assets/images/home_active.png')}
@@ -117,7 +125,7 @@ const SideBarDrawer: React.FC<any> = props => {
             />
             <SidebarTouchableItem
               {...props}
-              title="ჩემი პროდუქტები"
+              title={translate.t('tabNavigation.myProducts')}
               route={Routes.Products}
               iconUrl={require('./../assets/images/products.png')}
               activeIconUrl={require('./../assets/images/products_active.png')}
@@ -125,7 +133,7 @@ const SideBarDrawer: React.FC<any> = props => {
             />
             <SidebarTouchableItem
               {...props}
-              title="ჩემი გადახდები"
+              title={translate.t('tabNavigation.myPayments')}
               route={Routes.Payments}
               iconUrl={require('./../assets/images/payments.png')}
               activeIconUrl={require('./../assets/images/payments_active.png')}
@@ -133,7 +141,7 @@ const SideBarDrawer: React.FC<any> = props => {
             />
             <SidebarTouchableItem
               {...props}
-              title="ჩემი გადარიცხვები"
+              title={translate.t('tabNavigation.myTransfers')}
               route={Routes.Transfers}
               iconUrl={require('./../assets/images/transfers.png')}
               activeIconUrl={require('./../assets/images/transfers_active.png')}
@@ -141,7 +149,7 @@ const SideBarDrawer: React.FC<any> = props => {
             />
             <SidebarTouchableItem
               {...props}
-              title="ჩემი ტრანზაქციები"
+              title={translate.t('tabNavigation.myTransactions')}
               route={Routes.Transactions}
               iconUrl={require('./../assets/images/transactions.png')}
               activeIconUrl={require('./../assets/images/transactions_active.png')}
@@ -165,7 +173,7 @@ const SideBarDrawer: React.FC<any> = props => {
             /> */}
             <SidebarTouchableItem
               {...props}
-              title="პარამეტრები"
+              title={translate.t('tabNavigation.settings')}
               route={Routes.Settings}
               iconUrl={require('./../assets/images/settings.png')}
               activeIconUrl={require('./../assets/images/settings_active.png')}
@@ -176,7 +184,7 @@ const SideBarDrawer: React.FC<any> = props => {
         <AppButton
           style={styles.logout}
           TextStyle={styles.logoutTitle}
-          title="გამოსვლა"
+          title={translate.t('common.logout')}
           onPress={signOut}
           backgroundColor={colors.primary}
         />

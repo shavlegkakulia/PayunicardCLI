@@ -8,6 +8,11 @@ import Validation, { required } from "../../../components/UI/Validation";
 import colors from "../../../constants/colors";
 import { IExpectedType } from "../../../services/UserService";
 import { ITransactionCategoryInterface } from "./Index";
+import {
+    ITranslateState,
+    IGlobalState as ITranslateGlobalState,
+  } from "../../../redux/action_types/translate_action_types";
+  import { useSelector } from "react-redux";
 
 interface IProps {
     loading: boolean,
@@ -24,6 +29,9 @@ interface IProps {
 const ValidationContext = 'userVerification';
 
 const StepThree: React.FC<IProps> = (props) => {
+    const translate = useSelector<ITranslateGlobalState>(
+        state => state.TranslateReduser,
+      ) as ITranslateState;
     const [expectedTurnoverErrorStyle, setExpectedTurnoverErrorStyle] = useState<StyleProp<ViewStyle>>({});
     const [expectedTurnoverVisible, setExpectedTurnoverVisible] = useState(false);
 
@@ -107,7 +115,7 @@ const StepThree: React.FC<IProps> = (props) => {
 
             <AppButton
                 isLoading={props.loading}
-                title={'შემდეგი'}
+                title={translate.t('common.next')}
                 onPress={nextHandler}
                 style={styles.button} />
         </View>

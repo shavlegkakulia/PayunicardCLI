@@ -83,27 +83,27 @@ const Actions: React.FC<IProps> = props => {
         <View style={styles.actions}>
           <TouchableOpacity style={styles.action} onPress={TopUp.bind(this)}>
             <Cover localImage={require('./../assets/images/topup.png')} />
-            <Text style={styles.actionTitle}>შევსება</Text>
+            <Text style={styles.actionTitle}>{translate.t('plusSign.topUp')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.action}
             onPress={AddBankCard.bind(this)}>
             <Cover localImage={require('./../assets/images/add_card.png')} />
-            <Text style={styles.actionTitle}>ბარათის დამატება</Text>
+            <Text style={styles.actionTitle}>{translate.t('plusSign.addCard')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.action} onPress={openCardsStore}>
             <Cover localImage={require('./../assets/images/order_card.png')} />
-            <Text style={styles.actionTitle}>ბარათის შეკვეთა</Text>
+            <Text style={styles.actionTitle}>{translate.t('plusSign.orderCard')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.action} onPress={openCreateTransfer}>
             <Cover localImage={require('./../assets/images/plus.png')} />
-            <Text style={styles.actionTitle}>გადარიცხვის შაბლონის შექმნა</Text>
+            <Text style={styles.actionTitle}>{translate.t('plusSign.crTransferTemplate')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.action} onPress={openCreatePayment}>
             <Cover
               localImage={require('./../assets/images/transaction_template.png')}
             />
-            <Text style={styles.actionTitle}>გადახდის შაბლონის შექმნა</Text>
+            <Text style={styles.actionTitle}>{translate.t('plusSign.crPaymentTemplate')}</Text>
           </TouchableOpacity>
         </View>
       </View>

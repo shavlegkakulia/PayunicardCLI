@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.kvalifikareactnativesdk.ReactNativeSdkPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.kvalifikareactnativesdk.ReactNativeSdkPackage;
 import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;

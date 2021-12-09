@@ -1,9 +1,11 @@
 import {
   KvalifikaSDK,
   KvalifikaSDKLocale,
+  KvalifikaSDKError,
 } from '@kvalifika/react-native-sdk';
 import React, {useEffect} from 'react';
 import FullScreenLoader from '../../components/FullScreenLoading';
+import KvalificaServices from '../../services/KvalificaServices';
 
 interface IProps {
   startSession?: boolean;

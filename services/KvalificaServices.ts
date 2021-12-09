@@ -48,7 +48,7 @@ export interface IKCData {
   documentBackSideName?: string | undefined;
   documentFrontSideContent?: string | undefined;
   documentFrontSideName?: string | undefined;
-  birthCityId?: number | undefined;
+  birthCityId: number;
 }
 
 export interface IGetUserKycDataResponse {

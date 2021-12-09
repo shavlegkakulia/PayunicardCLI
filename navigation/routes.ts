@@ -74,6 +74,7 @@ const Routes = {
     setLoginWithPassCode: 'setLoginWithPassCode',
     EditUserInfo: 'EditUserInfo',
     Verification: 'Verification',
+    Biometric: 'Biometric'
     VerificationStep1: 'VerificationStep1',
     VerificationStep2: 'VerificationStep2',
     VerificationStep3: 'VerificationStep3',
