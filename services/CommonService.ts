@@ -8,6 +8,7 @@ import {
 import {ka_ge, LANG_KEYS} from '../lang';
 import {stringToObject} from '../utils/utils';
 import {invalid_username_or_password, require_otp} from '../constants/errorCodes';
+import Store from './../redux/store';
 
 class CommonService {
   //register common interseptors for normalzing response
@@ -40,20 +41,21 @@ class CommonService {
       },
       async error => {
         console.log('*****error in common interceptor******', error);
+        const stringTranslator = Store.getState().TranslateReduser;
         let netInfo = await NetInfo.fetch();
         if (!netInfo.isConnected) {
           if (!error.config.skipCustomErrorHandling)
             store.dispatch<IErrorAction>({
               type: PUSH_ERROR,
-              error: 'no internet connection',
+              error: stringTranslator.t("generalErrors.netError"),
             });
-          error.errorMessage = 'No internet connection';
+          error.errorMessage = stringTranslator.t("generalErrors.netError");
         } else {
           //error.errorMessage = "error";
           if (stringToObject(error.response).data.error !== require_otp && stringToObject(error.response).data.error !== invalid_username_or_password) {
             store.dispatch<IErrorAction>({
               type: PUSH_ERROR,
-              error: error.message,
+              error: stringTranslator.t("generalErrors.errorOccurred")
             });
           }
         }

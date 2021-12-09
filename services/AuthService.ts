@@ -165,27 +165,20 @@ class AuthService {
       },
       async (error: any) => {
         let { refreshToken } = Store.getState().AuthReducer || await this.getRefreshToken();
-       
-        //  console.log('error', error);
-        console.log('+++++++++error in auth interceptor++++++++++', JSON.stringify(error.response), JSON.parse(JSON.stringify(error.response)).data.error)
+        const stringTranslator = Store.getState().TranslateReduser;
+        //console.log('+++++++++error in auth interceptor++++++++++', JSON.stringify(error.response), JSON.parse(JSON.stringify(error.response)).data.error)
         error.response = error.response || {};
 
         //Reject promise if usual error
         if (
           (error?.response?.status !== 401 &&
             error?.response?.status !== 403
-            // &&
-            //error?.response?.status !== 400
             ) ||
           error.config.anonymous ||
           error.config.skipRefresh
         ) {
-          if (error?.response?.status === 500){
-            error.message = 'Something went wrong';
-          }
-
-          if (error?.response?.status === 400){
-            error.message = 'Something not found';
+          if (error?.response?.status === 500 || error?.response?.status === 400){
+            error.message = stringTranslator.t("generalErrors.errorOccurred");
           }
 
           if (stringToObject(error.response).data.error_description === invalid_username_or_password) {
