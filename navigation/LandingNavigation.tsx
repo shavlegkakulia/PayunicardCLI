@@ -19,10 +19,16 @@ import setLoginWithPassCode from '../screens/landing/setLoginWithPassCode';
 import PasswordChangeSucces from '../screens/landing/password/change/PasswordChangeSucces';
 import PasswordChangeStepFour from '../screens/landing/password/change/PasswordChangeStepFour';
 import AgreeTerm from '../screens/landing/signup/signup-agree';
+import { useSelector } from 'react-redux';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../redux/action_types/translate_action_types';
 
 const LandingStack = createStackNavigator();
 
 function LandingNavigator() {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
+
   return (
     <LandingStack.Navigator
       initialRouteName={Routes.Landing}
@@ -37,7 +43,8 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'რეგისტრაცია',
+            title: translate.t("signup.title"),
+            backText: translate.t("common.back")
           })
         }
       />
@@ -48,6 +55,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'რეგისტრაცია',
+            backText: translate.t("common.back")
           })
         }
       />
@@ -58,6 +66,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'რეგისტრაცია',
+            backText: translate.t("common.back")
           })
         }
       />
@@ -68,6 +77,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'რეგისტრაცია',
+            backText: translate.t("common.back")
           })
         }
       />
@@ -79,6 +89,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'პაროლის დარესეტება',
+            backText: translate.t("common.back")
           })
         }
       />
@@ -89,6 +100,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'პაროლის დარესეტება',
+            backText: translate.t("common.back")
           })
         }
       />
@@ -99,6 +111,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'პაროლის დარესეტება',
+            backText: translate.t("common.back")
           })
         }
       />
@@ -109,6 +122,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'პაროლის დარესეტება',
+            backText: translate.t("common.back")
           })
         }
       />
@@ -119,6 +133,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'პაროლის დარესეტება',
+            backText: translate.t("common.back")
           })
         }
       />
@@ -130,6 +145,7 @@ function LandingNavigator() {
             navigation: props.navigation,
             title: 'პაროლის დარესეტება',
             hideHeader: true,
+            backText: translate.t("common.back")
           })
         }
       />
@@ -145,6 +161,7 @@ function LandingNavigator() {
             navigation: props.navigation,
             title: 'პაროლის შეცვლა',
             hideHeader: true,
+            backText: translate.t("common.back")
           })
         }
       />
@@ -155,6 +172,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'პაროლის შეცვლა',
+            backText: translate.t("common.back")
           })
         }
       />
@@ -165,6 +183,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'წესები და პირობები',
+            backText: translate.t("common.back")
           })
         }
       />

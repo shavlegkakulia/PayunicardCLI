@@ -54,12 +54,17 @@ import BiometricAuthScreen from '../screens/dashboard/settings/biometric';
 import PasswordChangeSucces from '../screens/landing/password/change/PasswordChangeSucces';
 import PasswordChangeStepFour from '../screens/landing/password/change/PasswordChangeStepFour';
 import ChangePasswordOtp from '../screens/landing/password/change/ChangePasswordOtp';
+import { useSelector } from 'react-redux';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../redux/action_types/translate_action_types';
 
 const appStack = createStackNavigator();
 
 const AppStack: React.FC = () => {
   const sideDraver = useRef<DrawerLayout | null>();
-
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
+  
   return (
     <DrawerLayout
       drawerWidth={300}
@@ -112,6 +117,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'დეტალები',
+                backText: translate.t("common.back")
               })
             }
             component={ProductDetail}
@@ -123,6 +129,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ტრანზაქციები',
+                backText: translate.t("common.back")
               })
             }
             component={Transactions}
@@ -134,6 +141,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბანკში გადარიცხვა',
+                backText: translate.t("common.back")
               })
             }
             component={TransferToBank}
@@ -145,6 +153,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბანკში გადარიცხვა',
+                backText: translate.t("common.back")
               })
             }
             component={TransferToBank}
@@ -156,6 +165,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბანკში გადარიცხვა',
+                backText: translate.t("common.back")
               })
             }
             component={TransferToBank}
@@ -168,6 +178,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: 'ბანკში გადარიცხვა',
                 hideHeader: true,
+                backText: translate.t("common.back")
               })
             }
             component={TransferToBank}
@@ -179,6 +190,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'სხვასთან გადარიცხვა',
+                backText: translate.t("common.back")
               })
             }
             component={TransferToUni}
@@ -190,6 +202,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'სხვასთან გადარიცხვა',
+                backText: translate.t("common.back")
               })
             }
             component={TransferToUni}
@@ -201,6 +214,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'სხვასთან გადარიცხვა',
+                backText: translate.t("common.back")
               })
             }
             component={TransferToUni}
@@ -213,6 +227,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: 'სხვასთან გადარიცხვა',
                 hideHeader: true,
+                backText: translate.t("common.back")
               })
             }
             component={TransferToUni}
@@ -225,6 +240,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: 'სხვასთან გადარიცხვა',
                 hideHeader: true,
+                backText: translate.t("common.back")
               })
             }
             component={TransferToUni}
@@ -236,6 +252,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'საკუთარ ანგარიშებს შორის',
+                backText: translate.t("common.back")
               })
             }
             component={TransferBetweenAccounts}
@@ -247,6 +264,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'საკუთარ ანგარიშებს შორის',
+                backText: translate.t("common.back")
               })
             }
             component={TransferBetweenAccounts}
@@ -259,6 +277,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: 'საკუთარ ანგარიშებს შორის',
                 hideHeader: true,
+                backText: translate.t("common.back")
               })
             }
             component={TransferBetweenAccounts}
@@ -270,6 +289,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'კონვერტაცია',
+                backText: translate.t("common.back")
               })
             }
             component={TransferConvertation}
@@ -281,6 +301,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'კონვერტაცია',
+                backText: translate.t("common.back")
               })
             }
             component={TransferConvertation}
@@ -293,6 +314,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: 'კონვერტაცია',
                 hideHeader: true,
+                backText: translate.t("common.back")
               })
             }
             component={TransferConvertation}
@@ -304,6 +326,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
+                backText: translate.t("common.back")
               })
             }
             component={PaymentSteps}
@@ -315,6 +338,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
+                backText: translate.t("common.back")
               })
             }
             component={PaymentSteps}
@@ -326,6 +350,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
+                backText: translate.t("common.back")
               })
             }
             component={PaymentSteps}
@@ -337,6 +362,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
+                backText: translate.t("common.back")
               })
             }
             component={PaymentSteps}
@@ -348,6 +374,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
+                backText: translate.t("common.back")
               })
             }
             component={InsertAbonentCode}
@@ -359,6 +386,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
+                backText: translate.t("common.back")
               })
             }
             component={InsertAccointAndAmount}
@@ -370,6 +398,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
+                backText: translate.t("common.back")
               })
             }
             component={CheckDebt}
@@ -382,6 +411,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: translate.t('products.payment'),
                 hideHeader: true,
+                backText: translate.t("common.back")
               })
             }
             component={PaymentSucces}
@@ -393,6 +423,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'შაბლონის რედაქტირება',
+                backText: translate.t("common.back")
               })
             }
             component={EditTemplate}
@@ -404,6 +435,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბევრის გადახდა',
+                backText: translate.t("common.back")
               })
             }
             component={PayAll}
@@ -415,6 +447,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბევრის გადახდა',
+                backText: translate.t("common.back")
               })
             }
             component={PayAll}
@@ -427,6 +460,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: 'ბევრის გადახდა',
                 hideHeader: true,
+                backText: translate.t("common.back")
               })
             }
             component={PayAllSucces}
@@ -438,6 +472,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბევრის გადახდა',
+                backText: translate.t("common.back")
               })
             }
             component={PayAll}
@@ -449,6 +484,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბარათის შეკვეთა',
+                backText: translate.t("common.back")
               })
             }
             component={CardsStore}
@@ -460,6 +496,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბარათის შეკვეთა',
+                backText: translate.t("common.back")
               })
             }
             component={choosePlane}
@@ -471,6 +508,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბარათის შეკვეთა',
+                backText: translate.t("common.back")
               })
             }
             component={TarriffCalculator}
@@ -482,6 +520,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბარათის მიღების მეთოდის არჩევა',
+                backText: translate.t("common.back")
               })
             }
             component={DelyveryMethods}
@@ -493,6 +532,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბარათის შეკვეთა',
+                backText: translate.t("common.back")
               })
             }
             component={TarrifSetOtp}
@@ -504,6 +544,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'წინასწარი შეკვეთა',
+                backText: translate.t("common.back")
               })
             }
             component={PreOrder}
@@ -516,6 +557,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: 'ქვითარი',
                 hideHeader: true,
+                backText: translate.t("common.back")
               })
             }
             component={PrintInfo}
@@ -527,6 +569,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'შაბლონის რედაქტირება',
+                backText: translate.t("common.back")
               })
             }
             component={TransferTemplateEdit}
@@ -538,6 +581,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბალანსის შევსება',
+                backText: translate.t("common.back")
               })
             }
             component={TopupFlow}
@@ -549,6 +593,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბალანსის შევსება',
+                backText: translate.t("common.back")
               })
             }
             component={Topup}
@@ -560,6 +605,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბალანსის შევსება',
+                backText: translate.t("common.back")
               })
             }
             component={ChoosBankCard}
@@ -571,6 +617,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბალანსის შევსება',
+                backText: translate.t("common.back")
               })
             }
             component={ChooseAmountAndAccount}
@@ -583,6 +630,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: 'ბალანსის შევსება',
                 hideHeader: true,
+                backText: translate.t("common.back")
               })
             }
             component={TopupSucces}
@@ -594,6 +642,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბარათის დამატება',
+                backText: translate.t("common.back")
               })
             }
             component={addBankCard}
@@ -606,6 +655,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: 'ბარათის დამატება',
                 hideHeader: true,
+                backText: translate.t("common.back")
               })
             }
             component={AddBankCardSucces}
@@ -617,6 +667,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'გადახდის შაბლონი',
+                backText: translate.t("common.back")
               })
             }
             component={CreatePayTemplate}
@@ -630,6 +681,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'პაროლის შეცვლა',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -641,6 +693,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'პაროლის შეცვლა',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -652,6 +705,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'პაროლის შეცვლა',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -663,6 +717,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'პაროლის შეცვლა',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -674,6 +729,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'პასკოდი',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -685,6 +741,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'პერსონალური ინფორმაცია',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -697,6 +754,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: 'ვერიფიკაცია',
                 hideHeader: true,
+                backText: translate.t("common.back")
               })
             }
           />
@@ -708,6 +766,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ვერიფიკაცია',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -719,6 +778,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ვერიფიკაცია',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -730,6 +790,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ვერიფიკაცია',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -741,6 +802,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ვერიფიკაცია',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -752,6 +814,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ვერიფიკაცია',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -763,6 +826,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ვერიფიკაცია',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -774,6 +838,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ვერიფიკაცია',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -785,6 +850,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ვერიფიკაცია',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -796,6 +862,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ვერიფიკაცია',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -807,6 +874,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ვერიფიკაცია',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -819,6 +887,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: 'პაროლის შეცვლა',
                 hideHeader: true,
+                backText: translate.t("common.back")
               })
             }
           />
@@ -830,6 +899,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'პაროლის შეცვლა',
+                backText: translate.t("common.back")
               })
             }
           />
@@ -841,6 +911,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'პაროლის შეცვლა',
+                backText: translate.t("common.back")
               })
             }
           />
