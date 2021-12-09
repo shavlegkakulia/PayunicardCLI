@@ -216,7 +216,7 @@ const ViewTransfer: React.FC<IProps> = props => {
       <View style={styles.splitter}></View>
 
       <View style={styles.detailBox}>
-        <Text style={styles.textHeaderStyle}>საიდან</Text>
+        <Text style={styles.textHeaderStyle}>{translate.t('transfer.from')}</Text>
         {props.statement?.senderName && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>გამგზავნის სახელი</Text>
@@ -247,10 +247,10 @@ const ViewTransfer: React.FC<IProps> = props => {
       <View style={styles.splitter}></View>
 
       <View style={styles.detailBox}>
-        <Text style={styles.textHeaderStyle}>სად</Text>
+        <Text style={styles.textHeaderStyle}>{translate.t('transfer.to')}</Text>
         {props.statement?.receivername && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>მიმღები</Text>
+            <Text style={styles.textDescStyle}>{translate.t('transfer.beneficiary')}</Text>
             <Text style={styles.textDescValueStyle}>
               {props.statement.receivername}
             </Text>
@@ -280,7 +280,7 @@ const ViewTransfer: React.FC<IProps> = props => {
         )}
         {props.statement?.description && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>დანიშნულება</Text>
+            <Text style={styles.textDescStyle}>{translate.t('transfer.nomination')}</Text>
             <Text style={styles.textDescValueStyle}>
               {props.statement?.description}
             </Text>
@@ -372,7 +372,7 @@ const ViewUtility: React.FC<IProps> = props => {
       <View style={styles.splitter}></View>
 
       <View style={styles.detailBox}>
-        <Text style={styles.textHeaderStyle}>საიდან</Text>
+        <Text style={styles.textHeaderStyle}>{translate.t('transfer.from')}</Text>
 
         {props.statement?.senderMaskedCardNumber && (
           <View style={styles.directionRow}>
@@ -387,7 +387,7 @@ const ViewUtility: React.FC<IProps> = props => {
       <View style={styles.splitter}></View>
 
       <View style={styles.detailBox}>
-        <Text style={styles.textHeaderStyle}>სად</Text>
+        <Text style={styles.textHeaderStyle}>{translate.t('transfer.to')}</Text>
         {props.statement?.description && (
           <>
             <View style={styles.directionRow}>

@@ -189,7 +189,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'სხვასთან გადარიცხვა',
+                title: translate.t('transfer.toUniWallet'),
                 backText: translate.t("common.back")
               })
             }
@@ -201,7 +201,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'სხვასთან გადარიცხვა',
+                title: translate.t('transfer.toUniWallet'),
                 backText: translate.t("common.back")
               })
             }
@@ -213,7 +213,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'სხვასთან გადარიცხვა',
+                title: translate.t('transfer.toUniWallet'),
                 backText: translate.t("common.back")
               })
             }
@@ -225,7 +225,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'სხვასთან გადარიცხვა',
+                title: translate.t('transfer.toUniWallet'),
                 hideHeader: true,
                 backText: translate.t("common.back")
               })
@@ -238,7 +238,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'სხვასთან გადარიცხვა',
+                title: translate.t('transfer.toUniWallet'),
                 hideHeader: true,
                 backText: translate.t("common.back")
               })

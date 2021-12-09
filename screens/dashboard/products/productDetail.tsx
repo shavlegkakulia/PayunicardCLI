@@ -895,7 +895,7 @@ const ProductDetail: React.FC = props => {
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
             <View style={styles.transfersSectionContainerHeader}>
               <Text style={styles.transfersSectionContainerTitle}>
-                გადარიცხვა
+                {translate.t('tabNavigation.transfers')}
               </Text>
               <PaginationDots step={transferSectionStep} length={2} />
             </View>

@@ -358,7 +358,7 @@ const Transactions: React.FC = () => {
           <AppInput
             customKey="search"
             context=""
-            placeholder="ძებნა"
+            placeholder={translate.t('common.search')}
             type={InputTypes.search}
             value={searchValue}
             onChange={setSearchValue}

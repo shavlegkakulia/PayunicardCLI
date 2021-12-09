@@ -296,7 +296,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                 Routes.TransferBetweenAcctounts_SET_CURRENCY) && (
               <>
                 <View style={styles.accountBox}>
-                  <Text style={styles.accountBoxTitle}>საიდან</Text>
+                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.from')}</Text>
 
                   {TransfersStore.selectedFromAccount ? (
                     <AccountItem
@@ -329,7 +329,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                 </View>
 
                 <View style={styles.accountBox}>
-                  <Text style={styles.accountBoxTitle}>სად</Text>
+                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.to')}</Text>
 
                   {TransfersStore.selectedToAccount ? (
                     <AccountItem
@@ -367,7 +367,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
               <>
                 <View style={styles.amountContainer}>
                   <AppInputText
-                    label="თანხის ოდენობა"
+                    label={translate.t('transfer.amount')}
                     onChangeText={setAmount}
                     Style={[styles.amountInput, amountErrorStyle]}
                     value={TransfersStore.amount}
@@ -403,7 +403,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                 </View>
 
                 <View style={styles.nominationBox}>
-                  <Text style={styles.accountBoxTitle}>დანიშნულება</Text>
+                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.nomination')}</Text>
                   <AppInput
                     customKey="transfer"
                     context={ValidationContext}

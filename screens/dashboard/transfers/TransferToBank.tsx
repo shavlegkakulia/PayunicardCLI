@@ -445,7 +445,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                 Routes.TransferToBank_SET_CURRENCY) && (
               <View>
                 <View style={styles.accountBox}>
-                  <Text style={styles.accountBoxTitle}>საიდან</Text>
+                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.from')}</Text>
 
                   {TransfersStore.selectedFromAccount ? (
                     <AccountItem
@@ -479,7 +479,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                   Routes.TransferToBank_SET_CURRENCY && (
                   <>
                     <View style={styles.accountBox}>
-                      <Text style={styles.accountBoxTitle}>სად</Text>
+                      <Text style={styles.accountBoxTitle}>{translate.t('transfer.to')}</Text>
 
                       <AppInput
                         style={benificarAccountErrorStyle}
@@ -516,16 +516,16 @@ const TransferToBank: React.FC<INavigationProps> = props => {
               <View>
                 <View style={styles.benificarBox}>
                   <Text style={styles.benificarDetail}>
-                    სად: {TransfersStore.benificarAccount}
+                    {translate.t('transfer.to')}: {TransfersStore.benificarAccount}
                   </Text>
                   <Text style={styles.benificarDetail}>
-                    მიმღები: {TransfersStore.benificarName}
+                    {translate.t('transfer.beneficiary')}: {TransfersStore.benificarName}
                   </Text>
                 </View>
 
                 <View style={styles.amountContainer}>
                   <AppInputText
-                    label="თანხის ოდენობა"
+                    label={translate.t('transfer.amount')}
                     onChangeText={setAmount}
                     Style={[styles.amountInput, amountErrorStyle]}
                     autoFocus={TransfersStore.isTemplate}
@@ -575,11 +575,11 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                 )}
 
                 <View style={styles.nominationBox}>
-                  <Text style={styles.accountBoxTitle}>დანიშნულება</Text>
+                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.nomination')}</Text>
                   <AppInput
                     customKey="Nomination"
                     context={ValidationContext}
-                    placeholder="დანიშნულება"
+                    placeholder={translate.t('transfer.nomination')}
                     value={TransfersStore.nomination}
                     style={nominationErrorStyle}
                     requireds={[required]}

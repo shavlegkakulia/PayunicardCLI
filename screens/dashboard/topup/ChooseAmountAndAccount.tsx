@@ -293,7 +293,7 @@ const ChooseAmountAndAccount: React.FC = () => {
                   onChange={amount => setAmount(amount)}
                   context={ValidationContext}
                   customKey="amount"
-                  placeholder="თანხის ოდენობა"
+                  placeholder={translate.t('transfer.amount')}
                   requireds={[required, hasNumeric]}
                   style={styles.amountInput}
                 />
