@@ -52,10 +52,6 @@ import {tabHeight} from '../../../navigation/TabNav';
 import PaginationDots from '../../../components/PaginationDots';
 import {cardTypeIds} from '../cardsStore/TarriffCalculator';
 import userStatuses from '../../../constants/userStatuses';
-import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-}  from '../../../redux/action_types/translate_action_types';
 
 interface IAccountCardProps {
   account: IAccountBallance;
@@ -218,9 +214,6 @@ export const OrderedCard: React.FC<IOrderedCardProps> = props => {
 };
 
 export const AccountCard: React.FC<IAccountCardProps> = props => {
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
   const [outer, setOuter] = useState(true);
   const [copiedText, setCopiedText] = useState<string | undefined>();
   const copiedTextTtl = useRef<NodeJS.Timeout>();
@@ -365,7 +358,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
                   />
                 )}
                 <TemporaryText
-                  text={translate.t('common.copied')}
+                  text="დაკოპირდა"
                   show={props.account.accountNumber === copiedText}
                 />
               </TouchableOpacity>
@@ -416,10 +409,6 @@ const Products: React.FC = props => {
   >();
   const dispatch = useDispatch();
   const screenSize = Dimensions.get('window');
-
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
 
   const fetchAccounts = () => {
     NetworkService.CheckConnection(() => {
@@ -598,7 +587,7 @@ const Products: React.FC = props => {
             ]}>
             <View style={styles.productsViewHeader}>
               <Text style={styles.productsViewTitle}>
-                {translate.t('products.activeAccountCards')}
+                აქტიური ბარათები და ანგარიშები
               </Text>
             </View>
             {userData.isAccountsLoading ? (
@@ -646,7 +635,7 @@ const Products: React.FC = props => {
           <View
             style={[styles.addedCardsContainer, screenStyles.shadowedCardbr15]}>
             <View style={styles.productsViewHeader}>
-              <Text style={styles.productsViewTitle}>{translate.t('products.linkedCards')}</Text>
+              <Text style={styles.productsViewTitle}>დამატებული ბარათები</Text>
             </View>
             <ScrollView
               style={styles.addedCadsContainer}
@@ -666,7 +655,7 @@ const Products: React.FC = props => {
                           style={styles.addedCardIcon}
                         />
                         <Text style={styles.addedCardText}>
-                          {translate.t('plusSign.addCard')}
+                          ბარათის დამატება
                         </Text>
                       </TouchableOpacity>
                     </View>

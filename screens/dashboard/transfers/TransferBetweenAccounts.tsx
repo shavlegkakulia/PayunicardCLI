@@ -48,10 +48,6 @@ import {tabHeight} from '../../../navigation/TabNav';
 import NavigationService from '../../../services/NavigationService';
 import { subscriptionService } from '../../../services/subscriptionService';
 import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
-import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-} from '../../../redux/action_types/translate_action_types';
 
 const ValidationContext = 'transfer';
 
@@ -67,11 +63,6 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
   const [accounts, setAccounts] = useState<IAccountBallance[] | undefined>();
   const [toCurrencyVisible, setToCurrencyVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
-
   const [fromAccountErrorStyle, setFromAccountErrorStyle] = useState<
     StyleProp<ViewStyle>
   >({});
@@ -179,7 +170,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
   };
 
   useEffect(() => {
-    setNomination(translate.t('transfer.betweeenOwnAccounts'));
+    setNomination('საკუთარ ანგარიშებს შორის');
     setTransferType(TRANSFER_TYPES.toBank);
   }, []);
 
@@ -300,7 +291,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                 Routes.TransferBetweenAcctounts_SET_CURRENCY) && (
               <>
                 <View style={styles.accountBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.from')}</Text>
+                  <Text style={styles.accountBoxTitle}>საიდან</Text>
 
                   {TransfersStore.selectedFromAccount ? (
                     <AccountItem
@@ -333,7 +324,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                 </View>
 
                 <View style={styles.accountBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.to')}</Text>
+                  <Text style={styles.accountBoxTitle}>სად</Text>
 
                   {TransfersStore.selectedToAccount ? (
                     <AccountItem
@@ -371,7 +362,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
               <>
                 <View style={styles.amountContainer}>
                   <AppInputText
-                    label={translate.t('transfer.amount')}
+                    label="თანხის ოდენობა"
                     onChangeText={setAmount}
                     Style={[styles.amountInput, amountErrorStyle]}
                     value={TransfersStore.amount}
@@ -379,7 +370,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                   <View style={[styles.currencyBox, toCurrencyErrorStyle]}>
                     {TransfersStore.selectedToCurrency ? (
                       <CurrencyItem
-                        defaultTitle={translate.t('transfer.currency')}
+                        defaultTitle="ვალუტა"
                         currency={TransfersStore.selectedToCurrency}
                         onCurrencySelect={() => setToCurrencyVisible(true)}
                         style={styles.currencyItem}
@@ -388,7 +379,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                       <TouchableOpacity
                         onPress={() => setToCurrencyVisible(true)}
                         style={[styles.currencySelectHandler]}>
-                        <Text style={styles.currencyPlaceholder}>{translate.t('transfer.currency')}</Text>
+                        <Text style={styles.currencyPlaceholder}>ვალუტა</Text>
                         <Image
                           style={styles.dropImg}
                           source={require('./../../../assets/images/down-arrow.png')}
@@ -407,11 +398,11 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                 </View>
 
                 <View style={styles.nominationBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.nomination')}</Text>
+                  <Text style={styles.accountBoxTitle}>დანიშნულება</Text>
                   <AppInput
                     customKey="transfer"
                     context={ValidationContext}
-                    placeholder={translate.t('transfer.betweeenOwnAccounts')}
+                    placeholder="საკუთარ ანგარიშებს შორის"
                     value={TransfersStore.nomination}
                     style={nominationErrorStyle}
                     onChange={setNomination}
@@ -439,7 +430,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
               route.params.transferStep ===
               Routes.TransferBetweenAcctounts_SUCCES
                 ? 'დახურვა'
-                : translate.t('common.next')
+                : 'შემდეგი'
             }
             style={styles.handleButton}
           />

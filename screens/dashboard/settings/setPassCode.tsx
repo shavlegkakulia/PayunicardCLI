@@ -152,6 +152,7 @@ const SetPassCode: React.FC = () => {
           <TouchableOpacity onPress={GoToFaceId} style={styles.keyNum}>
             <Image
               source={require('./../../../assets/images/icon-face-id-72x72.png')}
+              style={styles.otherImg}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -183,9 +184,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 72,
-    height: 72,
-    borderRadius: 35.5,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+  },
+  otherImg: {
+    width: 60,
+    height: 60,
   },
   name: {
     marginTop: 12,
@@ -225,8 +230,8 @@ const styles = StyleSheet.create({
   },
   keyNum: {
     backgroundColor: '#F1F1F1',
-    width: 72,
-    height: 72,
+    width: 60,
+    height: 60,
     borderRadius: 35.15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -239,7 +244,7 @@ const styles = StyleSheet.create({
   },
   del: {
     fontFamily: 'FiraGO-Book',
-    fontSize: 14,
+    fontSize: 12,
     lineHeight: 17,
     color: colors.black,
   },

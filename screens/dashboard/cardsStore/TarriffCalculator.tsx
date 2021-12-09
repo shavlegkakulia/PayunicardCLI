@@ -26,10 +26,6 @@ import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import {PUSH} from '../../../redux/actions/error_action';
 import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-} from '../../../redux/action_types/translate_action_types';
-import {
   IUserState,
   IGloablState as IUserGlobalState,
 } from '../../../redux/action_types/user_action_types';
@@ -71,9 +67,6 @@ export const PacketTypeIds = {
 };
 
 const TarriffCalculator: React.FC = props => {
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [fromAccountVisible, setFromAccountVisible] = useState(false);
@@ -476,7 +469,7 @@ const TarriffCalculator: React.FC = props => {
             style={styles.button}
             onPress={next}
             isLoading={isLoading}
-            title={translate.t('common.next')}
+            title="შემდეგი"
           />
         </View>
       </KeyboardAvoidingView>

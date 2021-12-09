@@ -1,13 +1,7 @@
 import React from "react"
 import { View, StyleSheet, Image, Text } from "react-native"
-import { useSelector } from "react-redux";
 import AppButton from "../../../components/UI/AppButton";
 import colors from "../../../constants/colors";
-import {
-    ITranslateState,
-    IGlobalState as ITranslateGlobalState,
-  } from "../../../redux/action_types/translate_action_types";
-
 
 interface IProps {
     loading: boolean,
@@ -15,9 +9,7 @@ interface IProps {
 }
 
 const StepFour: React.FC<IProps> = (props) => {
-    const translate = useSelector<ITranslateGlobalState>(
-        state => state.TranslateReduser,
-      ) as ITranslateState;
+
     const nextHandler = () => {
         props.onComplate();
     }
@@ -42,7 +34,7 @@ const StepFour: React.FC<IProps> = (props) => {
   
                 <AppButton
                     isLoading={props.loading}
-                    title={translate.t('common.next')}
+                    title={'შემდეგი'}
                     onPress={nextHandler}
                     style={styles.button} />
       

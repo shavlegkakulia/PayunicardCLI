@@ -7,24 +7,16 @@ import AppButton from '../../../components/UI/AppButton';
 import AppInput from '../../../components/UI/AppInput';
 import Validation, {required} from '../../../components/UI/Validation';
 import {IKCData} from '../../../services/KvalificaServices';
-import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-} from "../../../redux/action_types/translate_action_types";
-import { useSelector } from "react-redux";
 
 interface IProps {
   kycData: IKCData | undefined;
-  onUpdateData: React.Dispatch<React.SetStateAction<IKCData | undefined>>;
+  onUpdateData: (c: IKCData | undefined) => void;
   onComplate: () => void;
 }
 
 const ValidationContext = 'userVerification';
 
 const StepSeven: React.FC<IProps> = props => {
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
   const nextHandler = () => {
     if (Validation.validate(ValidationContext)) {
       return;
@@ -34,35 +26,27 @@ const StepSeven: React.FC<IProps> = props => {
   };
 
   const setPersonalNumber = (value: string) => {
-    props.onUpdateData((prevData: any) => {
-      let data = {...prevData};
-      data.personalNumber = value;
-      return data;
-    });
+    let data = {...props.kycData};
+    data.personalNumber = value;
+    props.onUpdateData(data);
   };
 
   const setFirstName = (value: string) => {
-    props.onUpdateData((prevData: any) => {
-      let data = {...prevData};
-      data.firstName = value;
-      return data;
-    });
+    let data = {...props.kycData};
+    data.firstName = value;
+    props.onUpdateData(data);
   };
 
   const setLastName = (value: string) => {
-    props.onUpdateData((prevData: any) => {
-      let data = {...prevData};
-      data.lastName = value;
-      return data;
-    });
+    let data = {...props.kycData};
+    data.lastName = value;
+    props.onUpdateData(data);
   };
 
   const setCountryName = (value: string) => {
-    props.onUpdateData((prevData: any) => {
-      let data = {...prevData};
-      data.countryName = value;
-      return data;
-    });
+    let data = {...props.kycData};
+    data.countryName = value;
+    props.onUpdateData(data);
   };
   
   return (
@@ -109,7 +93,7 @@ const StepSeven: React.FC<IProps> = props => {
         />
       </View>
       <AppButton
-        title={translate.t('common.next')}
+        title={'შემდეგი'}
         onPress={nextHandler}
         style={styles.button}
       />

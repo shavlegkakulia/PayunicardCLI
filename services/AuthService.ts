@@ -198,7 +198,7 @@ class AuthService {
               return Promise.reject(error);
             }
         
-          if (stringToObject(error.response).data.error !== require_otp) {
+          if (stringToObject(error.response).data.error !== require_otp && stringToObject(error.response).data.error !== invalid_username_or_password) {
             Store.dispatch<IErrorAction>({ type: PUSH_ERROR, error: error.message || error.errorMessage });
           }
 

@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import AppButton from '../../components/UI/AppButton';
 import colors from '../../constants/colors';
 import {tabHeight} from '../../navigation/TabNav';
 import {PUSH} from '../../redux/actions/error_action';
@@ -30,6 +31,7 @@ interface IProps {
   access_token: string;
   refresh_token: string;
   UserData: IUserDetails | null;
+  onDismiss: () => void;
 }
 
 const setLoginWithPassCode: React.FC<IProps> = props => {
@@ -189,11 +191,12 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
         <Text style={styles.name}>
           {props.UserData?.name} {props.UserData?.surname}
         </Text>
-        {/* <Text style={styles.status}>
-          {getString(baseCode).length > 0
-            ? 'გაიმეორე პასკოდი'
-            : 'შეიყვანა ახალი პასკოდი'}
-        </Text> */}
+        <AppButton
+          TextStyle={styles.changeAccountText}
+          style={styles.changeAccount}
+          title={translate.t('login.loginWithAnother')}
+          onPress={props.onDismiss}
+        />
       </View>
       <View style={styles.dots}>
         <View
@@ -261,6 +264,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
           <TouchableOpacity onPress={onBiometric} style={styles.keyNum}>
             <Image
               source={require('./../../assets/images/icon-face-id-72x72.png')}
+              style={styles.otherImg}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -294,7 +298,11 @@ const styles = StyleSheet.create({
   image: {
     width: 60,
     height: 60,
-    borderRadius: 35.5,
+    borderRadius: 30,
+  },
+  otherImg: {
+    width: 60,
+    height: 60,
   },
   name: {
     marginTop: 12,
@@ -334,8 +342,8 @@ const styles = StyleSheet.create({
   },
   keyNum: {
     backgroundColor: '#F1F1F1',
-    width: 72,
-    height: 72,
+    width: 60,
+    height: 60,
     borderRadius: 35.15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -348,9 +356,24 @@ const styles = StyleSheet.create({
   },
   del: {
     fontFamily: 'FiraGO-Book',
-    fontSize: 14,
+    fontSize: 12,
     lineHeight: 17,
     color: colors.black,
+  },
+  changeAccount: {
+    paddingHorizontal: 15,
+    paddingVertical: 11,
+    alignSelf: 'center',
+    backgroundColor: '#FF8F0020',
+    borderRadius: 10,
+    marginVertical: 10,
+  },
+  changeAccountText: {
+    fontFamily: 'FiraGO-Book',
+    fontWeight: '500',
+    fontSize: 12,
+    lineHeight: 14,
+    color: '#FF8F00',
   },
 });
 

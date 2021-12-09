@@ -68,10 +68,6 @@ import {tabHeight} from '../../../navigation/TabNav';
 import Validation, {required} from '../../../components/UI/Validation';
 import {subscriptionService} from '../../../services/subscriptionService';
 import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
-import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-} from '../../../redux/action_types/translate_action_types';
 
 type RouteParamList = {
   params: {
@@ -333,7 +329,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
   }, [TransfersStore.fullScreenLoading]);
 
   useEffect(() => {
-    setNomination(translate.t('transfer.toBankTransfer'));
+    setNomination('ბანკში გადარიცხვა');
     setTransferType(TRANSFER_TYPES.toBank);
   }, []);
 
@@ -424,9 +420,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
       availableBal: 0,
     },
   ];
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
+
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
       <KeyboardAvoidingView
@@ -446,7 +440,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                 Routes.TransferToBank_SET_CURRENCY) && (
               <View>
                 <View style={styles.accountBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.from')}</Text>
+                  <Text style={styles.accountBoxTitle}>საიდან</Text>
 
                   {TransfersStore.selectedFromAccount ? (
                     <AccountItem
@@ -480,7 +474,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                   Routes.TransferToBank_SET_CURRENCY && (
                   <>
                     <View style={styles.accountBox}>
-                      <Text style={styles.accountBoxTitle}>{translate.t('transfer.to')}</Text>
+                      <Text style={styles.accountBoxTitle}>სად</Text>
 
                       <AppInput
                         style={benificarAccountErrorStyle}
@@ -517,7 +511,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
               <View>
                 <View style={styles.benificarBox}>
                   <Text style={styles.benificarDetail}>
-                    {translate.t('transfer.to')}: {TransfersStore.benificarAccount}
+                    სად: {TransfersStore.benificarAccount}
                   </Text>
                   <Text style={styles.benificarDetail}>
                     მიმღები: {TransfersStore.benificarName}
@@ -526,7 +520,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
 
                 <View style={styles.amountContainer}>
                   <AppInputText
-                    label={translate.t('transfer.amount')}
+                    label="თანხის ოდენობა"
                     onChangeText={setAmount}
                     Style={[styles.amountInput, amountErrorStyle]}
                     autoFocus={TransfersStore.isTemplate}
@@ -536,7 +530,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                   <View style={styles.currencyBox}>
                     {_currency[0] ? (
                       <CurrencyItem
-                        defaultTitle={translate.t('transfer.currency')}
+                        defaultTitle="ვალუტა"
                         currency={_currency[0]}
                         onCurrencySelect={() => setToCurrencyVisible(true)}
                         style={styles.currencyItem}
@@ -548,7 +542,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                           styles.currencySelectHandler,
                           toCurrencyErrorStyle,
                         ]}>
-                        <Text style={styles.currencyPlaceholder}>{translate.t('transfer.currency')}</Text>
+                        <Text style={styles.currencyPlaceholder}>ვალუტა</Text>
                         <Image
                           style={styles.dropImg}
                           source={require('./../../../assets/images/down-arrow.png')}
@@ -576,11 +570,11 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                 )}
 
                 <View style={styles.nominationBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.nomination')}</Text>
+                  <Text style={styles.accountBoxTitle}>დანიშნულება</Text>
                   <AppInput
                     customKey="Nomination"
                     context={ValidationContext}
-                    placeholder={translate.t('transfer.nomination')}
+                    placeholder="დანიშნულება"
                     value={TransfersStore.nomination}
                     style={nominationErrorStyle}
                     requireds={[required]}
@@ -654,7 +648,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
             title={
               route.params.transferStep === Routes.TransferToBank_SUCCES
                 ? 'დახურვა'
-                : translate.t('common.next')
+                : 'შემდეგი'
             }
             style={styles.handleButton}
           />

@@ -36,10 +36,6 @@ import {
 import Routes from '../../../navigation/routes';
 import {useNavigationState} from '@react-navigation/native';
 import {NAVIGATION_ACTIONS} from '../../../redux/action_types/navigation_action_types';
-import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-}  from '../../../redux/action_types/translate_action_types';
 
 export const TRANSFER_TYPES = {
   betweenAccounts: 'betweenAccounts',
@@ -63,9 +59,6 @@ export interface INavigationProps {
 }
 
 const Transfers: React.FC<INavigationProps> = props => {
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const [_accounts, setAccounts] = useState<IAccountBallance[] | undefined>();
@@ -289,7 +282,7 @@ const Transfers: React.FC<INavigationProps> = props => {
             <View style={[styles.transfersSectionContainer, screenStyles.shadowedCardbr15]}>
               <View style={styles.transfersSectionContainerHeader}>
                 <Text style={styles.transfersSectionContainerTitle}>
-                {translate.t('tabNavigation.transfers')}
+                  გადარიცხვა
                 </Text>
               </View>
               <View style={styles.transfersSectionContainerColumn}>
@@ -306,7 +299,7 @@ const Transfers: React.FC<INavigationProps> = props => {
                   <View style={styles.transfersSectionContainerItemDetails}>
                     <Text
                       style={styles.transfersSectionContainerItemDetailsTitle}>
-                      {translate.t('transfer.betweeenOwnAccounts')}
+                      {'საკუთარ ანგარიშებს შორის'}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -324,7 +317,7 @@ const Transfers: React.FC<INavigationProps> = props => {
                   <View style={styles.transfersSectionContainerItemDetails}>
                     <Text
                       style={styles.transfersSectionContainerItemDetailsTitle}>
-                      {translate.t('transfer.currencyExchange')}
+                      {'კონვერტაცია'}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -348,7 +341,7 @@ const Transfers: React.FC<INavigationProps> = props => {
                   <View style={styles.transfersSectionContainerItemDetails}>
                     <Text
                       style={styles.transfersSectionContainerItemDetailsTitle}>
-                      {translate.t('transfer.toUniWallet')}
+                      {'სხვის უნისაფულეზე'}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -366,7 +359,7 @@ const Transfers: React.FC<INavigationProps> = props => {
                   <View style={styles.transfersSectionContainerItemDetails}>
                     <Text
                       style={styles.transfersSectionContainerItemDetailsTitle}>
-                       {translate.t('transfer.toBank')}
+                      {'ბანკში'}
                     </Text>
                   </View>
                 </TouchableOpacity>

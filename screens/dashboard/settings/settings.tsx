@@ -209,7 +209,7 @@ const Settings: React.FC = () => {
   };
 
   const goToVerification = () =>
-    NavigationService.navigate(Routes.Verification);
+    NavigationService.navigate(Routes.Verification, {verificationStep: 0});
 
   const init = async () => {
     const PassCodeExists = await storage.getItem('PassCode');

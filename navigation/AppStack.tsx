@@ -54,19 +54,11 @@ import BiometricAuthScreen from '../screens/dashboard/settings/biometric';
 import PasswordChangeSucces from '../screens/landing/password/change/PasswordChangeSucces';
 import PasswordChangeStepFour from '../screens/landing/password/change/PasswordChangeStepFour';
 import ChangePasswordOtp from '../screens/landing/password/change/ChangePasswordOtp';
-import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-} from '../redux/action_types/translate_action_types';
-import { useSelector } from 'react-redux';
 
 const appStack = createStackNavigator();
 
 const AppStack: React.FC = () => {
   const sideDraver = useRef<DrawerLayout | null>();
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
 
   return (
     <DrawerLayout
@@ -119,7 +111,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('common.details'),
+                title: 'დეტალები',
               })
             }
             component={ProductDetail}
@@ -130,7 +122,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transaction.transactions'),
+                title: 'ტრანზაქციები',
               })
             }
             component={Transactions}
@@ -141,7 +133,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toBank'),
+                title: 'ბანკში გადარიცხვა',
               })
             }
             component={TransferToBank}
@@ -152,7 +144,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toBank'),
+                title: 'ბანკში გადარიცხვა',
               })
             }
             component={TransferToBank}
@@ -163,7 +155,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toBank'),
+                title: 'ბანკში გადარიცხვა',
               })
             }
             component={TransferToBank}
@@ -174,7 +166,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toBank'),
+                title: 'ბანკში გადარიცხვა',
                 hideHeader: true,
               })
             }
@@ -186,7 +178,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toUniWallet'),
+                title: 'სხვასთან გადარიცხვა',
               })
             }
             component={TransferToUni}
@@ -197,7 +189,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toUniWallet'),
+                title: 'სხვასთან გადარიცხვა',
               })
             }
             component={TransferToUni}
@@ -208,7 +200,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toUniWallet'),
+                title: 'სხვასთან გადარიცხვა',
               })
             }
             component={TransferToUni}
@@ -219,7 +211,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toUniWallet'),
+                title: 'სხვასთან გადარიცხვა',
                 hideHeader: true,
               })
             }
@@ -231,7 +223,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toUniWallet'),
+                title: 'სხვასთან გადარიცხვა',
                 hideHeader: true,
               })
             }
@@ -243,7 +235,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.betweeenOwnAccounts'),
+                title: 'საკუთარ ანგარიშებს შორის',
               })
             }
             component={TransferBetweenAccounts}
@@ -254,7 +246,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.betweeenOwnAccounts'),
+                title: 'საკუთარ ანგარიშებს შორის',
               })
             }
             component={TransferBetweenAccounts}
@@ -265,7 +257,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.betweeenOwnAccounts'),
+                title: 'საკუთარ ანგარიშებს შორის',
                 hideHeader: true,
               })
             }
@@ -277,7 +269,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title:translate.t('transfer.currencyExchange'),
+                title: 'კონვერტაცია',
               })
             }
             component={TransferConvertation}
@@ -288,7 +280,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title:translate.t('transfer.currencyExchange'),
+                title: 'კონვერტაცია',
               })
             }
             component={TransferConvertation}
@@ -299,7 +291,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title:translate.t('transfer.currencyExchange'),
+                title: 'კონვერტაცია',
                 hideHeader: true,
               })
             }
@@ -705,6 +697,105 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: 'ვერიფიკაცია',
                 hideHeader: true,
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep1}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep2}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep3}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep4}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep5}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep6}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep7}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep8}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.VerificationStep9}
+            component={Verification}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: 'ვერიფიკაცია',
               })
             }
           />

@@ -23,12 +23,8 @@ import {
   getString,
 } from '../../../utils/Converter';
 import {highLightWord} from '../../../utils/utils';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deletePayTemplate } from '../../../redux/actions/payments_actions';
-import {
-  ITranslateState,
-  IGlobalState as ITranslateGlobalState,
-} from '../../../redux/action_types/translate_action_types';
 
 interface ITemplatesContainerProps {
   templates: ITemplates[];
@@ -45,11 +41,6 @@ const TemplatesContainer: React.FC<ITemplatesContainerProps> = props => {
   const [checkVisible, setCheckVisible] = useState<boolean>(false);
   const templateSearchTimeot = useRef<NodeJS.Timeout>();
   const dispatch = useDispatch();
-
-  
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
 
   const RightActionOptions = [
     <Cover
@@ -128,9 +119,9 @@ const TemplatesContainer: React.FC<ITemplatesContainerProps> = props => {
   return (
     <View style={[styles.templatesContainer, screenStyles.shadowedCardbr15]}>
       <View style={styles.templatesHeader}>
-        <Text style={styles.templatesTitle}>{translate.t('payments.paymentTemplates')}</Text>
+        <Text style={styles.templatesTitle}>გადახდის შაბლონები</Text>
         <AppButton
-          title={translate.t('common.check')}
+          title="მონიშვნა"
           loaderColor={colors.primary}
           loadingSize={15}
           style={styles.templatesCheckToggleButton}
@@ -143,7 +134,7 @@ const TemplatesContainer: React.FC<ITemplatesContainerProps> = props => {
         <AppInput
           customKey="search"
           context=""
-          placeholder={translate.t('common.search')}
+          placeholder="ძებნა"
           type={InputTypes.search}
           onChange={searchInTemplates}
         />
@@ -222,7 +213,7 @@ const TemplatesContainer: React.FC<ITemplatesContainerProps> = props => {
                     <Text
                       style={styles.templatesItemAbonentCode}
                       numberOfLines={1}>
-                      {translate.t('payments.abonent')}: {template.abonentCode}
+                      აბონენტი: {template.abonentCode}
                     </Text>
                     <Text
                       style={[
@@ -247,13 +238,13 @@ const TemplatesContainer: React.FC<ITemplatesContainerProps> = props => {
         <>
           <View style={styles.templatesPayAllBox}>
             <Text style={styles.templatesComputedDebt}>
-              {translate.t('payments.totalDue')} {CurrencyConverter(coumputeTemplatesDebt())}{' '}
+              სულ {CurrencyConverter(coumputeTemplatesDebt())}{' '}
               {CurrencySimbolConverter(GEL)}
             </Text>
           </View>
           <AppButton
             onPress={props.payAll}
-            title={translate.t('common.pay')}
+            title="გადახდა"
             disabled={templatesList.every(
               template => template.checkForPay === false,
             )}
