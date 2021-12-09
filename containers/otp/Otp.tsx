@@ -11,12 +11,18 @@ import {
     TouchableOpacity,
     Text
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import colors from '../../constants/colors';
+import {
+    ITranslateState,
+    IGlobalState as ITranslateGlobalState,
+  }  from '../../redux/action_types/translate_action_types';
 
 interface IProps {
     label: string;
     value?: string;
     title?: string;
+    resendTitle?: string;
     onChangeText: (text: string) => void;
     onRetry?: () => void;
     Style?: StyleProp<ViewStyle>;
@@ -27,16 +33,17 @@ interface IState {
 }
 
 export default class FloatingLabelInput extends Component<IProps, IState> {
-    state = {
-        isFocused: false,
-    };
+    
     private _animatedIsFocused!: Animated.Value;
 
     constructor(props: IProps) {
         super(props);
         this._animatedIsFocused = new Animated.Value((this.props.value !== undefined && this.props.value === '') ? 0 : 1);
     }
-
+   
+    state = {
+        isFocused: false,
+    };
     handleFocus = () => this.setState({ isFocused: true });
     handleBlur = () => this.setState({ isFocused: false });
 
@@ -86,7 +93,7 @@ export default class FloatingLabelInput extends Component<IProps, IState> {
                         maxLength={4}
                     />
                     <TouchableOpacity onPress={this.props.onRetry} style={styles.retry}>
-                        <Text style={styles.retryText}>თავიდან</Text>
+                        <Text style={styles.retryText}>{this.props.resendTitle}</Text>
                     </TouchableOpacity>
                 </View>
                 </View>

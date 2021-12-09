@@ -14,13 +14,29 @@ export default {
         personalNumber: 'პირადი ნომერი',
         agreeTerms: 'ვეთანხმები წესებს და პირობებს',
         close: 'დახურვა',
+        no: 'არა',
         all: 'ყველა',
+        selectAccount: 'აირჩიეთ ანგარიში',
         amount: 'თანხა',
         commission: 'საკომისიო',
         minAmount: 'მინიმალური თანხა',
+        minTransfAmount: 'მინიმალური გადასარიცხი თანხა',
         maxAmount: 'მაქსიმალური თანხა',
-        saveTemplate: 'შაბლონად შენახვა',
+        maxTransfAmount: 'მაქსიმალური გადასარიცხი თანხა',
+        
         confirm: 'დადასტურება'
+    },
+    otp: {
+        enterOtp: 'შეიყვანეთ Sms კოდი',
+        otpSent: 'Sms კოდი გამოგზავნილია ნომერე',
+        smsCode: 'Sms კოდი',
+        resend: 'თავიდან'
+    },
+
+    template: {
+        saveTemplate: 'შაბლონად შენახვა',
+        templateName: 'შაბლონის სახელი',
+        transfTemplateSuccess: 'გადარიცხვის შაბლონი \n წარმატებით შეიქმნა'
     },
 
     services: {
@@ -30,6 +46,9 @@ export default {
         mobile: 'მობილური კავშირი',
         parking:' პარკირება და ჯარიმები',
         gambling: 'აზარტული თამაშები'
+    },
+    password: {
+        pasChanged: 'პაროლი წარმატებით შეიცვალა'
     },
     forgotPassword: {
         resetPassword: 'პაროლის ცვლილება',
@@ -114,9 +133,12 @@ export default {
         categories: 'კატეგორიები',
         paymentTemplates: 'გადახდის შაბლონები',
         abonent: 'აბონენტი',
+        carNumber: 'მანქანის ნომერი',
         abonentNumber: 'აბონენტის ნომერი',
+        debt: 'დავალიანება',
         totalDue: 'სულ გადასახდელი',
         paymentSuccessfull: 'გადახდა წარმატებით დასრულდა',
+
 
     },
     transaction: {
@@ -132,7 +154,9 @@ export default {
         toBankTransfer: 'ბანკში გადარიცხვა',
         from: 'საიდან',
         to: 'სად',
+        beneficiary: 'მიმღები',
         beneficiaryName: 'მიმღების სახელი',
+        beneficiaryAccount: 'მიმღების ანგარიში',
         amount: 'თანხის ოდენობა',
         currency: 'ვალუტა',
         nomination: 'დანიშნულება',

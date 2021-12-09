@@ -13,15 +13,22 @@ import AppButton from '../../../../components/UI/AppButton';
 import colors from '../../../../constants/colors';
 import screenStyles from '../../../../styles/screens';
 import {INavigationProps} from '../../transfers';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   NAVIGATION_ACTIONS,
 } from '../../../../redux/action_types/navigation_action_types';
 import {tabHeight} from '../../../../navigation/TabNav';
 import Routes from '../../../../navigation/routes';
 import NavigationService from '../../../../services/NavigationService';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../../redux/action_types/translate_action_types';
 
 const PayAllSucces: React.FC<INavigationProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
 
   const dispatch = useDispatch();
 
@@ -41,14 +48,14 @@ const PayAllSucces: React.FC<INavigationProps> = props => {
         <ScrollView>
           <View style={{height: Dimensions.get('window').height}}>
             <View style={styles.succesInner}>
-              <Text style={styles.succesText}>გადახდა წარმატებით დასრულდა</Text>
+              <Text style={styles.succesText}>{translate.t('payments.paymentSuccessfull')}</Text>
               <Image
                 source={require('./../../../../assets/images/succes_icon.png')}
                 style={styles.succesImg}
               />
             </View>
             <View style={[screenStyles.wraper, styles.buttonContainer]}>
-              <AppButton onPress={handleStep} title="დახურვა" />
+              <AppButton onPress={handleStep} title={translate.t('common.close')} />
             </View>
           </View>
         </ScrollView>

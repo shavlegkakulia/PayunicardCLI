@@ -398,7 +398,7 @@ const InsertAccointAndAmount: React.FC = props => {
             </View>
 
             <View style={styles.accountBox}>
-              <Text style={styles.accountBoxTitle}>აირჩიეთ ანგარიში</Text>
+              <Text style={styles.accountBoxTitle}>{translate.t('common.selectAccount')}</Text>
 
               {PaymentStore.selectedAccount ? (
                 <AccountItem
@@ -427,7 +427,7 @@ const InsertAccointAndAmount: React.FC = props => {
             </View>
 
             <View style={styles.amountColumn}>
-              <Text style={styles.amountLabel}>თანხა</Text>
+              <Text style={styles.amountLabel}>{translate.t('common.amount')}</Text>
               <AppInput
                 keyboardType="numeric"
                 value={PaymentStore.amount}
@@ -442,7 +442,7 @@ const InsertAccointAndAmount: React.FC = props => {
             {!route.params.withTemplate && (
               <View style={styles.amountBox}>
                 <Text style={[styles.amountLabel, styles.amountFeeLabel]}>
-                  საკომისიო:{' '}
+                {translate.t('common.commission')}:{' '}
                   {CurrencyConverter(
                     getNumber(PaymentStore.paymentDetails?.amountFee),
                   )}{' '}
@@ -450,7 +450,7 @@ const InsertAccointAndAmount: React.FC = props => {
                 </Text>
                 {PaymentStore.paymentDetails?.amount !== undefined && (
                   <Text style={styles.amountValue}>
-                    სულ გადასახდელი:{' '}
+                    {translate.t('payments.totalDue')}:{' '}
                     {CurrencyConverter(
                       PaymentStore.isTemplate
                         ? PaymentStore.amount
@@ -462,14 +462,14 @@ const InsertAccointAndAmount: React.FC = props => {
 
                 <View>
                   <Text style={[styles.amountRange]}>
-                    მინიმალური თანხა:{' '}
+                  {translate.t('common.minAmount')}:{' '}
                     {CurrencyConverter(
                       getNumber(PaymentStore.paymentDetails?.minAmount),
                     )}{' '}
                     {CurrencySimbolConverter(GEL)}
                   </Text>
                   <Text style={[styles.amountRange]}>
-                    მაქსიმალური თანხა:{' '}
+                  {translate.t('common.maxAmount')}:{' '}
                     {CurrencyConverter(
                       getNumber(PaymentStore.paymentDetails?.maxAmount),
                     )}{' '}

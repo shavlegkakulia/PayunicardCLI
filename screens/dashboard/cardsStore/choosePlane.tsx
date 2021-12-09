@@ -215,7 +215,7 @@ const choosePlane: React.FC = props => {
 
           <View style={styles.accountBox}>
             <Text style={styles.accountBoxTitle}>
-              აირჩიეთ ანგარიშის სავალუტო პრიორიტეტი
+              {translate.t('common.selectAccount')}ს სავალუტო პრიორიტეტი
             </Text>
 
             {selectedCurrencyType ? (

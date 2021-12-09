@@ -333,7 +333,7 @@ const ChooseAmountAndAccount: React.FC = () => {
                     onPress={() => setAccountVisible(true)}
                     style={[styles.accountSelectHandler, accountErrorStyle]}>
                     <Text style={styles.selectPlaceholder}>
-                      აირჩიეთ ანგარიში
+                      {translate.t('common.selectAccount')}
                     </Text>
                     <Image
                       style={styles.dropImg}

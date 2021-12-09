@@ -16,6 +16,10 @@ import {
   IPaymentState,
   PAYMENTS_ACTIONS,
 } from '../../../../redux/action_types/payments_action_type';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+}  from '../../../../redux/action_types/translate_action_types';
 import {IPayTemplateAddRequest} from '../../../../services/TemplatesService';
 import screenStyles from '../../../../styles/screens';
 import {INavigationProps} from '../../transfers';
@@ -23,6 +27,9 @@ import {INavigationProps} from '../../transfers';
 const ValidationContext = 'EditTemplate';
 
 const EditTemplate: React.FC<INavigationProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const PaymentStore = useSelector<IGlobalPaymentState>(
     state => state.PaymentsReducer,
   ) as IPaymentState;
@@ -98,7 +105,7 @@ const EditTemplate: React.FC<INavigationProps> = props => {
         <AppButton
           isLoading={PaymentStore.isActionLoading}
           onPress={complate}
-          title={'დახურვა'}
+          title={translate.t('common.close')}
           style={styles.button}
         />
       </View>

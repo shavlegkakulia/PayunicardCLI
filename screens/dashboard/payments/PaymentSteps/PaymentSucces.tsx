@@ -23,6 +23,10 @@ import {
   IPaymentState,
   PAYMENTS_ACTIONS,
 } from '../../../../redux/action_types/payments_action_type';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../../redux/action_types/translate_action_types';
 import NavigationService from '../../../../services/NavigationService';
 import screenStyles from '../../../../styles/screens';
 
@@ -35,6 +39,9 @@ type RouteParamList = {
 const ValidationContext = 'payment4';
 
 const PaymentSucces: React.FC = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [templateNameInputToggle, setTemplateNameInputToggle] =
     useState<boolean>(false);
   const PaymentStore = useSelector<IGlobalPaymentState>(
@@ -90,7 +97,7 @@ const PaymentSucces: React.FC = props => {
           <Text style={styles.succesText}>
             {route.params.withTemplate
               ? 'შაბლონი წარმატებით შეიქმნა'
-              : 'გადახდა წარმატებით დასრულდა'}
+              : translate.t('payments.paymentSuccessfull')}
           </Text>
           <Image
             source={require('./../../../../assets/images/succes_icon.png')}
@@ -105,7 +112,7 @@ const PaymentSucces: React.FC = props => {
               <AppButton
                 backgroundColor={colors.none}
                 color={colors.labelColor}
-                title="შაბლონად შენახვა"
+                title={translate.t('template.saveTemplate')}
                 onPress={() => {
                   setTemplateNameInputToggle(toggle => !toggle);
                 }}
@@ -119,7 +126,7 @@ const PaymentSucces: React.FC = props => {
                       onTemplateSave(name);
                     }}
                     context={ValidationContext}
-                    placeholder="შაბლონის სახელი"
+                    placeholder={translate.t('template.templateName')}
                     customKey="templateName"
                     style={styles.templateNameInput}
                   />
@@ -131,7 +138,7 @@ const PaymentSucces: React.FC = props => {
         <AppButton
           isLoading={PaymentStore.isActionLoading}
           onPress={complate}
-          title={'დახურვა'}
+          title={translate.t('common.close')}
           style={styles.button}
         />
       </View>

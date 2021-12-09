@@ -380,7 +380,7 @@ const TarriffCalculator: React.FC = props => {
             <View style={styles.inner}>
               {route?.params?.orderType === StoreActionType.PurchaseCard ? (
                 <View style={styles.accountBox}>
-                  <Text style={styles.accountBoxTitle}>აირჩიეთ ანგარიში </Text>
+                  <Text style={styles.accountBoxTitle}>{translate.t('common.selectAccount')} </Text>
 
                   {selectedFromAccount ? (
                     <AccountItem

@@ -280,10 +280,8 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
       });
     }, 10);
   };
-  const translate = useSelector<ITranslateGlobalState>(
-    state => state.TranslateReduser,
-  ) as ITranslateState;
 
+   
 
   useEffect(() => {
     if (isToDefault) return;
@@ -350,7 +348,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
   }, [TransfersStore.fullScreenLoading]);
 
   useEffect(() => {
-    setNomination('კონვერტაცია');
+    setNomination(translate.t('transfer.currencyExchange'));
     setTransferType(TRANSFER_TYPES.toBank);
   }, []);
 
@@ -375,6 +373,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
   };
 
   const makeTransaction = (toBank: boolean = false) => {
+ 
     const data: IP2PTransactionRequest = {
       toAccountNumber: TransfersStore.selectedToAccount?.accountNumber,
       fromAccountNumber: TransfersStore.selectedFromAccount?.accountNumber,
@@ -467,7 +466,9 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
       makeTransaction();
     }
   };
-
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
       <KeyboardAvoidingView
@@ -653,11 +654,11 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
 
                 <View style={styles.amountContainer}>
                   <View style={[styles.amountBox, {flex: 1, marginRight: 20}]}>
-                    <Text style={styles.accountBoxTitle}>გასაყიდი</Text>
+                    <Text style={styles.accountBoxTitle}>{translate.t('transfer.toSell')}</Text>
                     <AppInput
                       customKey="fromAmount"
                       context={ValidationContext}
-                      placeholder="თანხა"
+                      placeholder={translate.t('common.amount')}
                       value={TransfersStore.amount}
                       keyboardType="numeric"
                       style={amountErrorStyle}
@@ -666,11 +667,11 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
                   </View>
 
                   <View style={[styles.amountBox, {flex: 1, marginLeft: 20}]}>
-                    <Text style={styles.accountBoxTitle}>მისაღები</Text>
+                    <Text style={styles.accountBoxTitle}>{translate.t('transfer.toReceive')}</Text>
                     <AppInput
                       customKey="toAmount"
                       context={ValidationContext}
-                      placeholder="თანხა"
+                      placeholder={translate.t('common.amount')}
                       value={amountTo}
                       keyboardType="numeric"
                       style={amountToErrorStyle}
@@ -681,7 +682,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
 
                 <View style={{marginTop: 20}}>
                   <Text>
-                    ვალუტის კურსი: 1{CurrencySimbolConverter(baseCcyFrom)} ={' '}
+                  {translate.t('transfer.currencyRate')} : 1{CurrencySimbolConverter(baseCcyFrom)} ={' '}
                     {currencyRate?.toFixed(2)}
                     {CurrencySimbolConverter(baseCcyTo)}
                   </Text>
@@ -692,7 +693,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
                   <AppInput
                     customKey="transfer"
                     context={ValidationContext}
-                    placeholder="კონვერტაცია"
+                    placeholder= {translate.t('transfer.currencyExchange')}
                     value={TransfersStore.nomination}
                     style={nominationErrorStyle}
                     onChange={setNomination}
@@ -704,7 +705,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
             {route.params.transferStep === Routes.TransferConvertation_SUCCES && (
               <View style={styles.succesInner}>
                 <Text style={styles.succesText}>
-                  გადარიცხვა წარმატებით დასრულდა
+                {translate.t('transfer.transactionSuccessfull')}
                 </Text>
                 <Image
                   source={require('./../../../assets/images/succes_icon.png')}
@@ -719,7 +720,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
             onPress={onOperationHandle}
             title={
               route.params.transferStep === Routes.TransferConvertation_SUCCES
-                ? 'დახურვა'
+                ? translate.t('common.close')
                 : translate.t('common.next')
             }
             style={styles.handleButton}

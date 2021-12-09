@@ -168,7 +168,7 @@ export const OrderedCard: React.FC<IOrderedCardProps> = props => {
             <View style={styles.cardContainerInner}>
               <>
                 <Text style={styles.orderedCardAmount}>
-                  სულ გადასახდელი:{' '}
+                  {translate.t('payments.totalDue')}:{' '}
                   <Text style={styles.bolder}>
                     {CurrencyConverter(props.card.amount)}{' '}
                     {CurrencySimbolConverter(GEL)}

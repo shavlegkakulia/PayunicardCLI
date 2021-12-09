@@ -311,7 +311,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'გადახდა',
+                title: translate.t('products.payment'),
               })
             }
             component={PaymentSteps}
@@ -322,7 +322,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'გადახდა',
+                title: translate.t('products.payment'),
               })
             }
             component={PaymentSteps}
@@ -333,7 +333,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'გადახდა',
+                title: translate.t('products.payment'),
               })
             }
             component={PaymentSteps}
@@ -344,7 +344,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'გადახდა',
+                title: translate.t('products.payment'),
               })
             }
             component={PaymentSteps}
@@ -355,7 +355,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'გადახდა',
+                title: translate.t('products.payment'),
               })
             }
             component={InsertAbonentCode}
@@ -366,7 +366,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'გადახდა',
+                title: translate.t('products.payment'),
               })
             }
             component={InsertAccointAndAmount}
@@ -377,7 +377,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'გადახდა',
+                title: translate.t('products.payment'),
               })
             }
             component={CheckDebt}
@@ -388,7 +388,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'გადახდა',
+                title: translate.t('products.payment'),
                 hideHeader: true,
               })
             }

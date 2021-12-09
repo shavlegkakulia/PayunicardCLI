@@ -61,6 +61,10 @@ import {
 } from '../../../../redux/action_types/navigation_action_types';
 import { tabHeight } from '../../../../navigation/TabNav';
 import NavigationService from '../../../../services/NavigationService';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../../redux/action_types/translate_action_types';
 
 type RouteParamList = {
   params: {
@@ -79,6 +83,9 @@ const RightActionOptions = [
 ];
 
 const PayAll: React.FC<INavigationProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [accountVisible, setAccountVisible] = useState(false);
   const [_accounts, setAccounts] = useState<IAccountBallance[] | undefined>();
 
@@ -343,7 +350,7 @@ const PayAll: React.FC<INavigationProps> = props => {
             route.params.paymentStep < PAYMENT_STEPS.OTP && (
               <View>
                 <View style={[screenStyles.wraper, styles.accountBox]}>
-                  <Text style={styles.accountBoxTitle}>აირჩიეთ ანგარიში</Text>
+                  <Text style={styles.accountBoxTitle}>{translate.t('common.selectAccount')}</Text>
 
                   {PaymentStore.selectedAccount ? (
                     <AccountItem
@@ -417,7 +424,7 @@ const PayAll: React.FC<INavigationProps> = props => {
 
                 <View style={[screenStyles.wraper, styles.templatesPayAllBox]}>
                   <Text style={styles.templatesComputedDebt}>
-                    თანხა{' '}
+                    {translate.t('common.amount')}{' '}
                     <Text style={{color: colors.danger}}>
                       {CurrencyConverter(coumputeTemplatesDebt().toFixed(2))}
                       {CurrencySimbolConverter(GEL)}
@@ -426,7 +433,7 @@ const PayAll: React.FC<INavigationProps> = props => {
                   {route.params.paymentStep === PAYMENT_STEPS.CHECK_DEBT && (
                     <>
                       <Text style={styles.templatesComputedDebt}>
-                        საკომისიო{' '}
+                      {translate.t('common.commission')}{' '}
                         <Text style={{color: colors.danger}}>
                           {CurrencyConverter(
                             coumputeTemplatesDetailDebt().toFixed(2),

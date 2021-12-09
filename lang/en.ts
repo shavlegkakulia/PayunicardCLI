@@ -13,10 +13,15 @@ export default {
         personalNumber: 'Personal Number',
         commission: 'Commission',
         agreeTerms: 'Agree to the terms  and conditions',
+        amount: 'Amount',
         close: 'Close',
+        no: 'No',
         all: 'All',
+        selectAccount: 'Select Account',
         minAmount: 'Minimum Amount',
+        minTransfAmount: 'Minimum Transfer Amount',
         maxAmount: 'Maximum Amount',
+        maxTransfAmount: 'Maxsimum Transfer Amount',
         saveTemplate: 'Save As Template',
         confirm: 'Confirm'
 
@@ -46,6 +51,21 @@ export default {
         newPasswordTitle: 'Please Enter New Password',
         newPassword: 'New Password'
     },
+    password: {
+        pasChanged: 'Password Has Been Changed Successfully'
+    },
+    otp: {
+        enterOtp: 'Enter Sms Code',
+        otpSent: 'Sms Code Has Been Sent to Number ',
+        smsCode: 'Sms Code',
+        resend: 'Resend'
+    },
+    template: {
+        saveTemplate: 'Save Template',
+        templateName: 'Template Name',
+        transfTemplateSuccess: 'Transfer Template Has Been  \n Created Successfully'
+    },
+
     onboard: {
         firstScreenDesc: 'Open the wallet remotely',
         secondScreenDesc: 'Get a free non-bank VISA / MASTERCARD card',
@@ -100,11 +120,13 @@ export default {
     },
     payments: {
         categories: 'Categories',
+        debt: 'Pay Due',
         paymentTemplates: 'Payment Templates',
         abonent: 'Subscriber',
+        carNumber: 'Car Plate Number',
         abonentNumber: 'Subscriber Number',
         totalDue: 'Total Due',
-        paymentSuccessfull: 'Payment Successful'
+        paymentSuccessfull: 'Payment Successful',
     },
     transfer: {
         transferTemplates: 'Transfer Templates',
@@ -116,7 +138,9 @@ export default {
         toBankTransfer: 'Transfer To Bank',
         from: 'From',
         to: 'To',
+        beneficiary: 'Recipient',
         beneficiaryName: 'Recipient Name',
+        beneficiaryAccount: 'Recipient Account',
         amount: 'Amount',
         currency: 'Currency',
         nomination: 'Reference',

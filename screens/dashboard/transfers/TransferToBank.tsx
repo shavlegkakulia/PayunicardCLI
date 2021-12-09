@@ -486,7 +486,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                         style={benificarAccountErrorStyle}
                         value={TransfersStore.benificarAccount}
                         onChange={onToAccountSet}
-                        placeholder="მიმღების ანგარიში"
+                        placeholder={translate.t('transfer.beneficiaryAccount')}
                         context={ValidationContext}
                         customKey="benificarAccount"
                         requireds={[required]}
@@ -495,14 +495,14 @@ const TransferToBank: React.FC<INavigationProps> = props => {
 
                     <View style={styles.accountBox}>
                       <Text style={styles.accountBoxTitle}>
-                        მიმღების სახელი
+                      {translate.t('transfer.beneficiaryName')}
                       </Text>
 
                       <AppInput
                         style={benificarNameErrorStyle}
                         value={TransfersStore.benificarName}
                         onChange={setBenificarName}
-                        placeholder="მიმღების სახელი"
+                        placeholder={translate.t('transfer.beneficiaryName')}
                         context={ValidationContext}
                         customKey="benificarName"
                         requireds={[required]}
@@ -568,7 +568,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                 {transferDetail && (
                   <View style={styles.debtBox}>
                     <Text style={styles.debt}>
-                      საკომისიო{' '}
+                    {translate.t('common.commission')}{' '}
                       {CurrencyConverter(getNumber(transferDetail?.amountFee))}
                       {currencies.GEL}
                     </Text>
@@ -592,11 +592,12 @@ const TransferToBank: React.FC<INavigationProps> = props => {
 
             {route.params.transferStep === Routes.TransferToBank_SET_OTP && (
               <View style={styles.insertOtpSTep}>
-                <Text style={styles.insertOtpCode}>შეიყვანე სმს კოდი</Text>
+                <Text style={styles.insertOtpCode}>{translate.t('otp.enterOtp')}</Text>
                 <FloatingLabelInput
                   Style={styles.otpBox}
-                  label="სმს კოდი"
-                  title={`სმს კოდი გამოგზავნილია ნომერზე ${getString(maskedNumber)}`}
+                  label={translate.t('otp.smsCode')}
+                  resendTitle={translate.t('otp.resend')}
+                  title={`${translate.t('otp.otpSent')} ${getString(maskedNumber)}`}
                   value={otp}
                   onChangeText={setOtp}
                   onRetry={SendPhoneOTP}
@@ -607,7 +608,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
             {route.params.transferStep === Routes.TransferToBank_SUCCES && (
               <View style={styles.succesInner}>
                 <Text style={styles.succesText}>
-                  გადახდა წარმატებით დასრულდა
+                {translate.t('transfer.transactionSuccessfull')}
                 </Text>
                 <Image
                   source={require('./../../../assets/images/succes_icon.png')}
@@ -622,7 +623,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                     <AppButton
                       backgroundColor={colors.none}
                       color={colors.labelColor}
-                      title="შაბლონად შენახვა"
+                      title={translate.t('template.saveTemplate')}
                       onPress={() => {
                         setTemplateNameInputToggle(toggle => !toggle);
                       }}
@@ -636,7 +637,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                             setTemplateName(name);
                           }}
                           context={ValidationContext}
-                          placeholder="შაბლონის სახელი"
+                          placeholder={translate.t('template.templateName')}
                           customKey="templateName"
                           requireds={[required]}
                           style={styles.templateNameInput}
@@ -653,7 +654,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
             onPress={onOperationHandle}
             title={
               route.params.transferStep === Routes.TransferToBank_SUCCES
-                ? 'დახურვა'
+                ? translate.t('common.close')
                 : translate.t('common.next')
             }
             style={styles.handleButton}

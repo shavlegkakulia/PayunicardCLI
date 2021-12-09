@@ -334,7 +334,7 @@ const DelyveryMethods: React.FC = props => {
                 </Text>
               )}
               <Text style={[styles.li, styles.lastLi]}>
-                სულ გადასახდელი:{' '}
+                {translate.t('payments.totalDue')}:{' '}
                 {CurrencyConverter(
                   (route.params.orderType === StoreActionType.TarrifPlan
                     ? 0

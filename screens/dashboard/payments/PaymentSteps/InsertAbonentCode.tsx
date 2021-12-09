@@ -116,7 +116,7 @@ const InsertAbonentCode: React.FC<INavigationProps> = props => {
 
           <View style={[styles.abonentCodeColumn, isFine && styles.isFine]}>
             <View style={isFine && {flex: 1, marginRight: 5}}>
-              <Text style={styles.abonentLabel}>აბონენტის ნომერი</Text>
+              <Text style={styles.abonentLabel}>{translate.t('payments.abonentNumber')}</Text>
               <AppInput
                 value={PaymentStore.abonentCode}
                 onChange={abonentCode => setAbonentCode(abonentCode)}
@@ -128,7 +128,7 @@ const InsertAbonentCode: React.FC<INavigationProps> = props => {
             </View>
             {isFine && (
               <View style={styles.carPlate}>
-                <Text style={styles.abonentLabel}>მანქანის ნომერი</Text>
+                <Text style={styles.abonentLabel}>{translate.t('payments.carNumber')}</Text>
                 <AppInput
                   value={PaymentStore.carPlate}
                   onChange={carPlate => setCarPlate(carPlate)}

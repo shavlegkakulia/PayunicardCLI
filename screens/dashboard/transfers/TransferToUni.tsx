@@ -357,7 +357,7 @@ const TransferToUni: React.FC = () => {
   };
 
   useEffect(() => {
-    setNomination('სხვასთან გადარიცხვა');
+    setNomination(translate.t('common.toUniWallet'));
     setTransferType(TRANSFER_TYPES.toUni);
   }, []);
 
@@ -561,7 +561,7 @@ const TransferToUni: React.FC = () => {
                         style={benificarAccountErrorStyle}
                         value={TransfersStore.benificarAccount}
                         onChange={onToAccountSet}
-                        placeholder="მიმღების ანგარიში"
+                        placeholder={translate.t('transfer.beneficiaryAccount')}
                         requireds={[required]}
                         context={ValidationContext}
                         customKey="benificarAccount"
@@ -570,14 +570,14 @@ const TransferToUni: React.FC = () => {
 
                     <View style={styles.accountBox}>
                       <Text style={styles.accountBoxTitle}>
-                        მიმღების სახელი
+                      {translate.t('transfer.beneficiaryName')}
                       </Text>
 
                       <AppInput
                         style={benificarNameErrorStyle}
                         value={TransfersStore.benificarName}
                         onChange={setBenificarName}
-                        placeholder="მიმღების სახელი"
+                        placeholder= {translate.t('transfer.beneficiaryName')}
                         context={ValidationContext}
                         customKey="benificarName"
                         requireds={[required]}
@@ -595,7 +595,7 @@ const TransferToUni: React.FC = () => {
                     {translate.t('transfer.to')}: {TransfersStore.benificarAccount}
                   </Text>
                   <Text style={styles.benificarDetail}>
-                    მიმღები: {TransfersStore.benificarName}
+                  {translate.t('transfer.beneficiary')}: {TransfersStore.benificarName}
                   </Text>
                 </View>
 
@@ -675,11 +675,12 @@ const TransferToUni: React.FC = () => {
 
             {route.params.transferStep === Routes.TransferToUni_SET_OTP && (
               <View style={styles.insertOtpSTep}>
-                <Text style={styles.insertOtpCode}>შეიყვანე სმს კოდი</Text>
+                <Text style={styles.insertOtpCode}>{translate.t('otp.enterOtp')}</Text>
                 <FloatingLabelInput
                   Style={styles.otpBox}
-                  label="სმს კოდი"
-                  title={`სმს კოდი გამოგზავნილია ნომერზე ${maskedNumber}`}
+                  label={translate.t('otp.smsCode')}
+                  title={`${translate.t('otp.otpSent')} ${maskedNumber}`}
+                  resendTitle={translate.t('otp.resend')}
                   value={otp}
                   onChangeText={setOtp}
                   onRetry={SendPhoneOTP}
@@ -690,7 +691,7 @@ const TransferToUni: React.FC = () => {
             {route.params.transferStep === Routes.TransferToUni_SUCCES && (
               <View style={styles.succesInner}>
                 <Text style={styles.succesText}>
-                  გადარიცხვა წარმატებით დასრულდა
+                {translate.t('transfer.transactionSuccessfull')}
                 </Text>
                 <Image
                   source={require('./../../../assets/images/succes_icon.png')}
@@ -705,7 +706,7 @@ const TransferToUni: React.FC = () => {
                     <AppButton
                       backgroundColor={colors.none}
                       color={colors.labelColor}
-                      title="შაბლონად შენახვა"
+                      title={translate.t('template.saveTemplate')}
                       onPress={() => {
                         setTemplateNameInputToggle(toggle => !toggle);
                       }}
@@ -719,7 +720,7 @@ const TransferToUni: React.FC = () => {
                             setTemplateName(name);
                           }}
                           context={ValidationContext}
-                          placeholder="შაბლონის სახელი"
+                          placeholder={translate.t('template.templateName')}
                           customKey="templateName"
                           style={styles.templateNameInput}
                         />
@@ -734,7 +735,7 @@ const TransferToUni: React.FC = () => {
               Routes.TransferToUni_TEMPLATE_IS_SAVED && (
               <View style={styles.succesInner}>
                 <Text style={styles.succesText}>
-                  {'გადარიცხვის შაბლონი\nწარმატებით შეიქმნა'}
+                  {translate.t('template.transfTemplateSuccess')}
                 </Text>
                 <Image
                   source={require('./../../../assets/images/succes_icon.png')}
@@ -754,9 +755,9 @@ const TransferToUni: React.FC = () => {
               route.params.transferStep === Routes.TransferToUni_SUCCES ||
               route.params.transferStep ===
                 Routes.TransferToUni_TEMPLATE_IS_SAVED
-                ? 'დახურვა'
+                ? translate.t('common.close')
                 : route.params.withTemplate
-                ? 'შენახვა'
+                ? translate.t('common.save')
                 : translate.t('common.next')
             }
             style={styles.handleButton}

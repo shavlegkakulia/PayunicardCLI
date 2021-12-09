@@ -146,7 +146,7 @@ const CheckDebt: React.FC<INavigationProps> = props => {
 
             <View style={[styles.abonentCodeColumn, isFine && styles.isFine]}>
               <View style={isFine && {flex: 1, marginRight: 5}}>
-                <Text style={styles.abonentLabel}>აბონენტის ნომერი</Text>
+                <Text style={styles.abonentLabel}>{translate.t('payments.abonentNumber')}</Text>
                 <AppInput
                   value={PaymentStore.abonentCode}
                   onChange={abonentCode => setAbonentCode(abonentCode)}
@@ -159,7 +159,7 @@ const CheckDebt: React.FC<INavigationProps> = props => {
 
               {isFine && (
                 <View style={styles.carPlate}>
-                  <Text style={styles.abonentLabel}>მანქანის ნომერი</Text>
+                  <Text style={styles.abonentLabel}>{translate.t('payments.carNumber')}</Text>
                   <AppInput
                     value={PaymentStore.carPlate}
                     onChange={carPlate => setCarPlate(carPlate)}
@@ -175,7 +175,7 @@ const CheckDebt: React.FC<INavigationProps> = props => {
             <View style={[styles.debtBox, styles.shrink]}>
               {debt && debt?.length > 0 ? (
                 <View style={styles.debtColumn}>
-                  <Text style={styles.item}>დავალიანება: </Text>
+                  <Text style={styles.item}>{translate.t('payments.debt')}: </Text>
                   <Text style={[styles.item, styles.ccy]}>
                     {debt[0].Value}
                     {CurrencySimbolConverter(debt[0].CCY)}
@@ -184,7 +184,7 @@ const CheckDebt: React.FC<INavigationProps> = props => {
               ) : null}
               {custumer && custumer?.length > 0 ? (
                 <View style={styles.abonentColumn}>
-                  <Text style={styles.item}>აბონენტი: </Text>
+                  <Text style={styles.item}>{translate.t('payments.abonent')}: </Text>
                   <Text style={styles.item}>{custumer[0].Value}</Text>
                 </View>
               ) : null}

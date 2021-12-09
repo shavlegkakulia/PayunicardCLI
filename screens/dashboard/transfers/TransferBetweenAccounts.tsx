@@ -264,7 +264,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
       if (getNumber(TransfersStore.amount) < 1) {
         dispatch(
           PUSH(
-            `მინიმალური გადასარიცხი თანხა 0.1 ${CurrencySimbolConverter(GEL)}`,
+            `${translate.t('common.minTransfAmount')} 0.1 ${CurrencySimbolConverter(GEL)}`,
           ),
         );
         setIsLoading(false);
@@ -423,7 +423,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
               Routes.TransferBetweenAcctounts_SUCCES && (
               <View style={styles.succesInner}>
                 <Text style={styles.succesText}>
-                  გადარიცხვა წარმატებით დასრულდა
+                {translate.t('transfer.transactionSuccessfull')}
                 </Text>
                 <Image
                   source={require('./../../../assets/images/succes_icon.png')}
@@ -438,7 +438,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
             title={
               route.params.transferStep ===
               Routes.TransferBetweenAcctounts_SUCCES
-                ? 'დახურვა'
+                ? translate.t('common.close')
                 : translate.t('common.next')
             }
             style={styles.handleButton}

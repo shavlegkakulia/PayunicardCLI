@@ -1109,7 +1109,7 @@ const ProductDetail: React.FC = props => {
               title={`${
                 actionSheetStatus === ACTION_SHEET_STATUSES.start
                   ? 'არა'
-                  : 'დახურვა'
+                  : translate.t('common.close')
               }`}
               onPress={closeActionSheet}
               style={styles.actionButton}
@@ -1185,7 +1185,7 @@ const ProductDetail: React.FC = props => {
                   ? 'დადასტურება'
                   : actionSheetStatus === ACTION_SHEET_STATUSES.otp
                   ? translate.t('common.next')
-                  : 'დახურვა'
+                  : translate.t('common.close')
               }`}
               onPress={pinChangeActions}
               style={styles.actionButton}

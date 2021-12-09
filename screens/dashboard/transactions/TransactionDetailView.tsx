@@ -97,7 +97,7 @@ const ViewCliring: React.FC<IProps> = props => {
         <Text style={styles.textHeaderStyle}>{translate.t('common.details')}</Text>
         {props.statement?.amount !== undefined && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>თანხა</Text>
+            <Text style={styles.textDescStyle}>{translate.t('common.amount')}</Text>
             <Text style={styles.textDescValueStyle}>
               {CurrencyConverter(props.statement?.amount)}
             </Text>
@@ -283,7 +283,7 @@ const ViewTransfer: React.FC<IProps> = props => {
         <Text style={styles.textHeaderStyle}>{translate.t('common.details')}</Text>
         {props.statement?.amount && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>თანხა</Text>
+            <Text style={styles.textDescStyle}>{translate.t('common.amount')}</Text>
             <Text style={styles.textDescValueStyle}>
               {CurrencyConverter(props.statement.amount)}
             </Text>
@@ -427,7 +427,7 @@ const ViewUtility: React.FC<IProps> = props => {
         <Text style={styles.textHeaderStyle}>{translate.t('common.details')}</Text>
         {props.statement?.amount && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>თანხა</Text>
+            <Text style={styles.textDescStyle}>{translate.t('common.amount')}</Text>
             <Text style={styles.textDescValueStyle}>
               {CurrencyConverter(props.statement.amount)}
             </Text>

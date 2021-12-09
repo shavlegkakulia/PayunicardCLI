@@ -8,11 +8,16 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import {StoreActionType} from '.';
 import AppButton from '../../../components/UI/AppButton';
 import colors from '../../../constants/colors';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+}  from '../../../redux/action_types/translate_action_types';
 import NavigationService from '../../../services/NavigationService';
 import {
   ICardType,
@@ -43,6 +48,9 @@ type RouteParamList = {
 };
 
 const PrintInfo: React.FC = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -96,7 +104,7 @@ const PrintInfo: React.FC = props => {
               </View>
             )}
             <View style={styles.ul}>
-              <Text style={[styles.li, styles.lastLi]}>სულ გადასახდელი:</Text>
+              <Text style={[styles.li, styles.lastLi]}>{translate.t('payments.totalDue')}:</Text>
               <Text style={[styles.li, styles.lastLi]}>
                 {CurrencyConverter(route.params.totalFee)} ₾
               </Text>
@@ -132,7 +140,7 @@ const PrintInfo: React.FC = props => {
           style={styles.button}
           onPress={next}
           isLoading={isLoading}
-          title="დახურვა"
+          title={translate.t('common.close')}
         />
       </View>
     </ScrollView>

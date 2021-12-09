@@ -198,7 +198,7 @@ const PreOrder: React.FC = props => {
               </View>
             )}
             <View style={styles.ul}>
-              <Text style={[styles.li, styles.lastLi]}>სულ გადასახდელი:</Text>
+              <Text style={[styles.li, styles.lastLi]}>{translate.t('payments.totalDue')}:</Text>
               <Text style={[styles.li, styles.lastLi]}>
                 {CurrencyConverter(route.params.totalFee)} ₾
               </Text>

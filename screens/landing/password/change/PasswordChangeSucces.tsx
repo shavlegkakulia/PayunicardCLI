@@ -2,10 +2,15 @@ import {useNavigation} from '@react-navigation/core';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React from 'react';
 import {Image, Text, View, StyleSheet} from 'react-native';
+import { useSelector } from 'react-redux';
 import AppButton from '../../../../components/UI/AppButton';
 import colors from '../../../../constants/colors';
 import Routes from '../../../../navigation/routes';
 import {tabHeight} from '../../../../navigation/TabNav';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../../redux/action_types/translate_action_types';
 
 type RouteParamList = {
   params: {
@@ -14,6 +19,9 @@ type RouteParamList = {
 };
 
 const PasswordChangeSucces: React.FC = () => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const navigation = useNavigation();
   const complate = () => {
@@ -25,9 +33,9 @@ const PasswordChangeSucces: React.FC = () => {
       <View style={styles.succesInner}>
         <View style={styles.succesView}>
           <Image source={require('./../../../../assets/images/succes_icon.png')} />
-          <Text style={styles.succesText}>პაროლი წარმატებით შეიცვალა</Text>
+          <Text style={styles.succesText}>{translate.t('pasChanged.pasChanged')}</Text>
         </View>
-        <AppButton title="დახურვა" onPress={complate} style={styles.button} />
+        <AppButton title={translate.t('common.close')} onPress={complate} style={styles.button} />
       </View>
     </View>
   );
