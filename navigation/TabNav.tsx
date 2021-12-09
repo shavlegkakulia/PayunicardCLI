@@ -8,6 +8,10 @@ import {
   IGlobalState,
   NAVIGATION_ACTIONS,
 } from '../redux/action_types/navigation_action_types';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../redux/action_types/translate_action_types';
 import NavigationService from '../services/NavigationService';
 import {subscriptionService} from '../services/subscriptionService';
 import {getString} from '../utils/Converter';
@@ -48,6 +52,9 @@ RouteIcons[Routes.Transfers] = [
 ];
 
 const TabNav = () => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const dispatch = useDispatch();
 
   const [currentNav, setCurrentNav] = useState<string | undefined>(Routes.Home);
@@ -84,14 +91,14 @@ const TabNav = () => {
         active={currentNav === Routes.Home || currentNav === Routes.Dashboard}
         to={Routes.Dashboard}
         callback={onHandle}
-        title='მთავარი'
+        title={translate.t('tabNavigation.home')}
       />
 
       <NavItem
         active={currentNav === Routes.Products}
         to={Routes.Products}
         callback={onHandle}
-        title='პროდუქტები'
+        title={translate.t('tabNavigation.products')}
       />
 
       <NavItem
@@ -105,14 +112,14 @@ const TabNav = () => {
         active={currentNav === Routes.Payments}
         to={Routes.Payments}
         callback={onHandle}
-        title='გადახდები'
+        title={translate.t('tabNavigation.payments')}
       />
 
       <NavItem
         active={currentNav === Routes.Transfers}
         to={Routes.Transfers}
         callback={onHandle}
-        title='გადარიცხვები'
+        title={translate.t('tabNavigation.transfers')}
       />
     </View>
   );
