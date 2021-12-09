@@ -107,7 +107,7 @@ const Topup: React.FC = () => {
                   actionType === TopupActionTypes.addCard &&
                     styles.activeTouchableItemText,
                 ]}>
-                ბარათის დამატება
+                {translate.t('plusSign.addCard')}
               </Text>
             </TouchableOpacity>
           </View>

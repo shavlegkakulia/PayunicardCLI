@@ -251,6 +251,7 @@ export default {
         confirmOrderDesc: '* Once the Amount is Credited to the Account, the Delivery Time will be Calculated',
         deliveryAddress: 'Delivery Address',
         orderReceived: 'Order Recieved',
+        preOrder: 'Preorder',       
         preOrderReceived: 'Preorder Recieved',
         checkCardStatus: 'To Check the Status of Your Cards, Please Visi'
     }

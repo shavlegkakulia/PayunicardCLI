@@ -52,6 +52,10 @@ import {tabHeight} from '../../../navigation/TabNav';
 import PaginationDots from '../../../components/PaginationDots';
 import {cardTypeIds} from '../cardsStore/TarriffCalculator';
 import userStatuses from '../../../constants/userStatuses';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 
 interface IAccountCardProps {
   account: IAccountBallance;
@@ -78,6 +82,9 @@ const PACKET_TYPE_IDS = {
 };
 
 export const OrderedCard: React.FC<IOrderedCardProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
@@ -124,7 +131,7 @@ export const OrderedCard: React.FC<IOrderedCardProps> = props => {
             <Text style={styles.cardTitle}>
               {props.card.packagecode}****
               {props.card.status === 0
-                ? 'წინასწარი შეკვეთა'
+                ? translate.t('orderCard.preOrder')
                 : 'შეკვეთილი ბარათი'}
             </Text>
           </View>
@@ -388,6 +395,9 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 };
 
 const Products: React.FC = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [refreshing, setRefreshing] = useState(false);
   const [orderedsLoading, setOrderedsLoading] = useState(false);
   const [addedCardsLoading, setAddedCardsLoading] = useState(true);
@@ -587,7 +597,7 @@ const Products: React.FC = props => {
             ]}>
             <View style={styles.productsViewHeader}>
               <Text style={styles.productsViewTitle}>
-                აქტიური ბარათები და ანგარიშები
+              {translate.t('products.activeAccountCards')}
               </Text>
             </View>
             {userData.isAccountsLoading ? (
@@ -635,7 +645,7 @@ const Products: React.FC = props => {
           <View
             style={[styles.addedCardsContainer, screenStyles.shadowedCardbr15]}>
             <View style={styles.productsViewHeader}>
-              <Text style={styles.productsViewTitle}>დამატებული ბარათები</Text>
+              <Text style={styles.productsViewTitle}>{translate.t('products.linkedCards')}</Text>
             </View>
             <ScrollView
               style={styles.addedCadsContainer}
@@ -655,7 +665,7 @@ const Products: React.FC = props => {
                           style={styles.addedCardIcon}
                         />
                         <Text style={styles.addedCardText}>
-                          ბარათის დამატება
+                          {translate.t('plusSign.addCard')}
                         </Text>
                       </TouchableOpacity>
                     </View>
