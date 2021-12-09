@@ -175,7 +175,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
   };
 
   useEffect(() => {
-    setNomination('საკუთარ ანგარიშებს შორის');
+    setNomination(translate.t('transfer.betweeenOwnAccounts'));
     setTransferType(TRANSFER_TYPES.toBank);
   }, []);
 

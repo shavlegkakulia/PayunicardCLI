@@ -29,6 +29,17 @@ export default {
         
         confirm: 'დადასტურება'
     },
+
+    generalErrors: {
+        errorOccurred: 'დაფიქსირდა შეცდომა',
+        netError: 'ინტერნეტთან კავშირის პრობლემა',
+        tryAgain: 'კიდევ სცადეთ',
+        fillOutField: 'შეავსეთ ველი',
+        pleaseWait: 'გთხოვთ დაელოდოთ',
+        connectFail: 'კავშირი ვერ ხერხდება',
+        dataError:  'მონაცემები არ მოიძებნა'
+    },
+
     otp: {
         enterOtp: 'შეიყვანეთ Sms კოდი',
         otpSent: 'Sms კოდი გამოგზავნილია ნომერე',
