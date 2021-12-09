@@ -283,6 +283,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
               ? 'wallet'
               : props.account.accountTypeName}
             {' ' + (props.cardMask || '')}
+            {/* {props.account?.cards ? props.account.cards[0].status:'0'} */}
           </Text>
         </View>
         <View

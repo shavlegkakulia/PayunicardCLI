@@ -333,15 +333,18 @@ const ProductDetail: React.FC = props => {
         );
         AccountService.Block({cardId: cardId}).subscribe({
           next: Response => {
-            console.log(Response);
+            console.log(Response.data)
+            if(Response.data.ok) {
+              setActionSheetStep({
+                actionSheetType,
+                actionSheetStatus: ACTION_SHEET_STATUSES.succes,
+                actionSheetTitle: 'ბარათი დაბლოკილია',
+              });
+            }
           },
           complete: () => {
             setActionLoading(false);
-            setActionSheetStep({
-              actionSheetType,
-              actionSheetStatus: ACTION_SHEET_STATUSES.succes,
-              actionSheetTitle: 'ბარათი დაბლოკილია',
-            });
+           
           },
           error: err => {
             setActionLoading(false);
@@ -424,16 +427,18 @@ const ProductDetail: React.FC = props => {
         otp: otp,
       }).subscribe({
         next: Response => {
-          console.log(Response);
+          if(Response.data.ok) {
+            setOtp(undefined);
+            setActionSheetStep({
+              actionSheetType,
+              actionSheetStatus: ACTION_SHEET_STATUSES.succes,
+              actionSheetTitle: 'პინ კოდი წარმატებით შეიცვალა!',
+            });
+          }
         },
         complete: () => {
           setActionLoading(false);
-          setOtp(undefined);
-          setActionSheetStep({
-            actionSheetType,
-            actionSheetStatus: ACTION_SHEET_STATUSES.succes,
-            actionSheetTitle: 'პინ კოდი წარმატებით შეიცვალა!',
-          });
+         
         },
         error: err => {
           setActionLoading(false);
