@@ -196,7 +196,6 @@ const Payments: FC<IProps> = props => {
         type: PAYMENTS_ACTIONS.SET_CURRENT_PAYMENT_SERVICE,
         currentService: currentService[0],
       });
-      console.log('*************first');
       dispatch({
         type: PAYMENTS_ACTIONS.SET_IS_PAYMENT_SERVICE,
         isService: true,
@@ -219,20 +218,17 @@ const Payments: FC<IProps> = props => {
 
     /* categories contains merchant and also service */
     if (!isService && hasService && !hasChildren) {
-      console.log('*****************second');
       GetMerchantServices({CategoryID: parentID}, onComplate, onError);
     } /* categories contains merchants */ else if (
       !isService &&
       hasService &&
       hasChildren
     ) {
-      console.log('****************thirt');
       dispatch(getPayCategoriesServices(parentID, onComplate, onError));
     } /* categories contains only services */ else if (
       !isService &&
       !hasService
     ) {
-      console.log('*************fourty');
       dispatch(
         getPayCategoriesServices(
           parentID,

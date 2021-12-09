@@ -9,6 +9,7 @@ export default {
         deails: 'Details',
         pay: 'Pay',
         lname: 'Lastname',
+        save: 'Save',
         copied: 'Copied',
         personalNumber: 'Personal Number',
         commission: 'Commission',
@@ -63,7 +64,9 @@ export default {
     template: {
         saveTemplate: 'Save Template',
         templateName: 'Template Name',
-        transfTemplateSuccess: 'Transfer Template Has Been  \n Created Successfully'
+        transfTemplateSuccess: 'Transfer Template Has Been  \n Created Successfully',
+        paymentTemplateSuccess: 'Payment Template Has Been  \n Created Successfully',
+        editTemplate: 'Edit Template'
     },
 
     onboard: {

@@ -470,7 +470,7 @@ const PayAll: React.FC<INavigationProps> = props => {
             <View style={[screenStyles.wraper, styles.buttonContainer]}>
               <AppButton
                 onPress={handleStep}
-                title="შემდეგ"
+                title={translate.t('common.next')}
                 disabled={_templates.every(
                   template => template.checkForPay === false,
                 )}

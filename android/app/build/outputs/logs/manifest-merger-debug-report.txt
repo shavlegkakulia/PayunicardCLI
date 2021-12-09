@@ -5,6 +5,7 @@ INJECTED from D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\Androi
 INJECTED from D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:1:1-34:12
 INJECTED from D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:1:1-34:12
 MERGED from D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:1:1-34:12
+MERGED from [:react-native-view-pdf] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-view-pdf\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.flipper:flipper:0.75.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\a8f6015f96666ab8d93bfe5b64998bc8\jetified-flipper-0.75.1\AndroidManifest.xml:8:1-18:12
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.75.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\d8279ebfbcca51b68586de1b9bc17210\jetified-flipper-network-plugin-0.75.1\AndroidManifest.xml:8:1-15:12
 MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.75.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\13e0ca18817a9e59a8c4a94704ec8c3c\jetified-flipper-fresco-plugin-0.75.1\AndroidManifest.xml:8:1-15:12
@@ -25,9 +26,13 @@ MERGED from [:react-native-splash-screen] D:\Work(Mobile-Projects)\PayunicardCLI
 MERGED from [:react-native-webview] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-webview\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-23:12
 MERGED from [:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-47:12
 MERGED from [com.facebook.react:react-native:0.64.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\a56511b037fb04f244c71df782e66ef7\jetified-react-native-0.64.0\AndroidManifest.xml:2:1-13:12
+MERGED from [com.github.barteksc:android-pdf-viewer:2.8.2] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\6fca6204f3d98ac57b92524833d42e4c\jetified-android-pdf-viewer-2.8.2\AndroidManifest.xml:2:1-11:12
+MERGED from [com.github.barteksc:pdfium-android:1.7.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\89fe92d550811f4454dda1ec355bf08c\jetified-pdfium-android-1.7.1\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\2c221959306f1e25600c0a03d2200e72\legacy-support-v4-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\61dc29951a451b38e03eb63efbda5343\legacy-support-core-ui-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\5c64f35c4f864d4cd139ccbbff91ceb9\swiperefreshlayout-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.facebook.fresco:imagepipeline-okhttp3:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\f66a3370e9e4f8cb0ae0c6936c538c41\jetified-imagepipeline-okhttp3-2.0.0\AndroidManifest.xml:2:1-9:12
-MERGED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:2:1-34:12
+MERGED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:2:1-34:12
 MERGED from [org.webkit:android-jsc:r245459] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\65337ca8c0783fc27be60d476a5f6b75\jetified-android-jsc-r245459\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-reanimated] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-reanimated\android\build\.transforms\c1c9980904ec3ab60c3272722d9b6dcc\jetified-react-native-reanimated-64-jsc\AndroidManifest.xml:2:1-11:12
 MERGED from [com.facebook.fresco:flipper:2.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\84c6a932a42f35f9b796c5d67e6eb742\jetified-flipper-2.2.0\AndroidManifest.xml:2:1-9:12
@@ -68,8 +73,11 @@ MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\ashab\.gradle\ca
 MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\3c1c25210c9523b781f68f6e5260d398\coordinatorlayout-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae1a1dddf9cea612695d8157e2ff38cd\transition-1.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\361553562ce35cf8cf447832c4a7d1ec\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.media:media:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\72501ffe447ffd613fc88578f19a914c\media-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\c38f0dcdb4eabb88f8961812937ce545\recyclerview-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\2c07f8b2725cf3ca7c7510a86eb18cae\slidingpanelayout-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\86cf751735e9e9dd0416cce35c4a71a1\customview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\9b944abc3171b1b947c5fff909724ff1\asynclayoutinflater-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core:1.3.2] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\f03ec885b8fabdebb4f0d3bbade5009e\core-1.3.2\AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.exifinterface:exifinterface:1.3.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\68e46c6270e367089657152a13ba630a\exifinterface-1.3.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.sqlite:sqlite:2.1.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\74153744c3b76afb34d0c28a686a981b\sqlite-2.1.0\AndroidManifest.xml:17:1-24:12
@@ -82,10 +90,10 @@ MERGED from [androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\ashab\.gradle\
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\b37a656be7da34e79d326523a32fbcaa\lifecycle-runtime-2.2.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\15faa7fdc535e832982b4615d300cb77\lifecycle-livedata-2.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\033c1099bb4cd11be9138377da501d59\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\943631e3c5a6dfa67bece88add1d3fe3\core-runtime-2.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\11ae9ec956d6bcf258c0fc60ed922820\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\17959936f75234613fb11b8c15b12e4a\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\a49d8fed6e1f73515c23ded9f02890c2\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\943631e3c5a6dfa67bece88add1d3fe3\core-runtime-2.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.github.henninghall:numberpickerview:v1.1.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\bc9907f92754a09a1775ccd8e0df86bc\jetified-numberpickerview-v1.1.5\AndroidManifest.xml:2:1-11:12
 MERGED from [net.time4j:time4j-android:4.8-2021a] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\156875724411c9cc154d6a51ef6114e1\jetified-time4j-android-4.8-2021a\AndroidManifest.xml:2:1-13:12
 MERGED from [com.facebook.fresco:fbcore:2.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\5ff10ad0f2bea4b2419e86a549e99aac\jetified-fbcore-2.2.0\AndroidManifest.xml:2:1-9:12
@@ -121,8 +129,8 @@ MERGED from [:sentry_react-native] D:\Work(Mobile-Projects)\PayunicardCLI\node_m
 MERGED from [:sentry_react-native] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\@sentry\react-native\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-67
 MERGED from [:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-67
 MERGED from [:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:15:5-67
-MERGED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:12:5-67
-MERGED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:12:5-67
+MERGED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:12:5-67
+MERGED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:12:5-67
 MERGED from [io.sentry:sentry-android-core:5.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:9:5-67
 MERGED from [io.sentry:sentry-android-core:5.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1ec35a61456860e79fa5423307b6fea2\jetified-sentry-android-core-5.2.0\AndroidManifest.xml:9:5-67
 MERGED from [com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:12:5-67
@@ -181,8 +189,8 @@ MERGED from [:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules
 MERGED from [:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:35:5-45:19
 MERGED from [com.facebook.react:react-native:0.64.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\a56511b037fb04f244c71df782e66ef7\jetified-react-native-0.64.0\AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.react:react-native:0.64.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\a56511b037fb04f244c71df782e66ef7\jetified-react-native-0.64.0\AndroidManifest.xml:11:5-20
-MERGED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:19:5-32:19
-MERGED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:19:5-32:19
+MERGED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:19:5-32:19
+MERGED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:19:5-32:19
 MERGED from [com.facebook.soloader:soloader:0.10.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\5fb5c0c623111e89d0cb2cc6cbe55df8\jetified-soloader-0.10.1\AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.soloader:soloader:0.10.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\5fb5c0c623111e89d0cb2cc6cbe55df8\jetified-soloader-0.10.1\AndroidManifest.xml:11:5-20
 MERGED from [androidx.biometric:biometric:1.0.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1378ed9a82b4ec55cda52ca5dca49579\biometric-1.0.1\AndroidManifest.xml:27:5-32:19
@@ -234,7 +242,7 @@ MERGED from [com.otaliastudios:cameraview:1.6.0] C:\Users\ashab\.gradle\caches\t
 		ADDED from D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:19:7-38
 		ADDED from D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml:19:7-38
 	tools:replace
-		ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:22:9-44
+		ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:22:9-44
 	android:usesCleartextTraffic
 		ADDED from D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\debug\AndroidManifest.xml:8:9-44
 	android:name
@@ -272,6 +280,8 @@ uses-sdk
 INJECTED from D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml
 INJECTED from D:\Work(Mobile-Projects)\PayunicardCLI\android\app\src\main\AndroidManifest.xml
+MERGED from [:react-native-view-pdf] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-view-pdf\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-view-pdf] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-view-pdf\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.flipper:flipper:0.75.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\a8f6015f96666ab8d93bfe5b64998bc8\jetified-flipper-0.75.1\AndroidManifest.xml:11:5-13:41
 MERGED from [com.facebook.flipper:flipper:0.75.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\a8f6015f96666ab8d93bfe5b64998bc8\jetified-flipper-0.75.1\AndroidManifest.xml:11:5-13:41
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.75.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\d8279ebfbcca51b68586de1b9bc17210\jetified-flipper-network-plugin-0.75.1\AndroidManifest.xml:11:5-13:41
@@ -312,12 +322,20 @@ MERGED from [:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules
 MERGED from [:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.64.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\a56511b037fb04f244c71df782e66ef7\jetified-react-native-0.64.0\AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.64.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\a56511b037fb04f244c71df782e66ef7\jetified-react-native-0.64.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.barteksc:android-pdf-viewer:2.8.2] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\6fca6204f3d98ac57b92524833d42e4c\jetified-android-pdf-viewer-2.8.2\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.barteksc:android-pdf-viewer:2.8.2] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\6fca6204f3d98ac57b92524833d42e4c\jetified-android-pdf-viewer-2.8.2\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.barteksc:pdfium-android:1.7.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\89fe92d550811f4454dda1ec355bf08c\jetified-pdfium-android-1.7.1\AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.barteksc:pdfium-android:1.7.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\89fe92d550811f4454dda1ec355bf08c\jetified-pdfium-android-1.7.1\AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\2c221959306f1e25600c0a03d2200e72\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\2c221959306f1e25600c0a03d2200e72\legacy-support-v4-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\61dc29951a451b38e03eb63efbda5343\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\61dc29951a451b38e03eb63efbda5343\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\5c64f35c4f864d4cd139ccbbff91ceb9\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\5c64f35c4f864d4cd139ccbbff91ceb9\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.facebook.fresco:imagepipeline-okhttp3:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\f66a3370e9e4f8cb0ae0c6936c538c41\jetified-imagepipeline-okhttp3-2.0.0\AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:imagepipeline-okhttp3:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\f66a3370e9e4f8cb0ae0c6936c538c41\jetified-imagepipeline-okhttp3-2.0.0\AndroidManifest.xml:5:5-7:41
-MERGED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:8:5-10:41
-MERGED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:8:5-10:41
+MERGED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:8:5-10:41
+MERGED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:8:5-10:41
 MERGED from [org.webkit:android-jsc:r245459] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\65337ca8c0783fc27be60d476a5f6b75\jetified-android-jsc-r245459\AndroidManifest.xml:7:5-9:41
 MERGED from [org.webkit:android-jsc:r245459] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\65337ca8c0783fc27be60d476a5f6b75\jetified-android-jsc-r245459\AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-reanimated] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\react-native-reanimated\android\build\.transforms\c1c9980904ec3ab60c3272722d9b6dcc\jetified-react-native-reanimated-64-jsc\AndroidManifest.xml:7:5-9:41
@@ -398,10 +416,16 @@ MERGED from [androidx.transition:transition:1.2.0] C:\Users\ashab\.gradle\caches
 MERGED from [androidx.transition:transition:1.2.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae1a1dddf9cea612695d8157e2ff38cd\transition-1.2.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\361553562ce35cf8cf447832c4a7d1ec\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\361553562ce35cf8cf447832c4a7d1ec\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.media:media:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\72501ffe447ffd613fc88578f19a914c\media-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\72501ffe447ffd613fc88578f19a914c\media-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\c38f0dcdb4eabb88f8961812937ce545\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\c38f0dcdb4eabb88f8961812937ce545\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\2c07f8b2725cf3ca7c7510a86eb18cae\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\2c07f8b2725cf3ca7c7510a86eb18cae\slidingpanelayout-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\86cf751735e9e9dd0416cce35c4a71a1\customview-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\86cf751735e9e9dd0416cce35c4a71a1\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\9b944abc3171b1b947c5fff909724ff1\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\9b944abc3171b1b947c5fff909724ff1\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core:1.3.2] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\f03ec885b8fabdebb4f0d3bbade5009e\core-1.3.2\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.core:core:1.3.2] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\f03ec885b8fabdebb4f0d3bbade5009e\core-1.3.2\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.exifinterface:exifinterface:1.3.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\68e46c6270e367089657152a13ba630a\exifinterface-1.3.1\AndroidManifest.xml:20:5-22:41
@@ -426,14 +450,14 @@ MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\ashab\.gradle
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\15faa7fdc535e832982b4615d300cb77\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\033c1099bb4cd11be9138377da501d59\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\033c1099bb4cd11be9138377da501d59\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\943631e3c5a6dfa67bece88add1d3fe3\core-runtime-2.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\943631e3c5a6dfa67bece88add1d3fe3\core-runtime-2.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\11ae9ec956d6bcf258c0fc60ed922820\documentfile-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\11ae9ec956d6bcf258c0fc60ed922820\documentfile-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\17959936f75234613fb11b8c15b12e4a\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\17959936f75234613fb11b8c15b12e4a\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.print:print:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\a49d8fed6e1f73515c23ded9f02890c2\print-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.print:print:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\a49d8fed6e1f73515c23ded9f02890c2\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\943631e3c5a6dfa67bece88add1d3fe3\core-runtime-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\943631e3c5a6dfa67bece88add1d3fe3\core-runtime-2.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.github.henninghall:numberpickerview:v1.1.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\bc9907f92754a09a1775ccd8e0df86bc\jetified-numberpickerview-v1.1.5\AndroidManifest.xml:7:5-9:41
 MERGED from [com.github.henninghall:numberpickerview:v1.1.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\bc9907f92754a09a1775ccd8e0df86bc\jetified-numberpickerview-v1.1.5\AndroidManifest.xml:7:5-9:41
 MERGED from [net.time4j:time4j-android:4.8-2021a] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\156875724411c9cc154d6a51ef6114e1\jetified-time4j-android-4.8-2021a\AndroidManifest.xml:7:5-9:41
@@ -545,41 +569,41 @@ ADDED from [:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\
 	android:name
 		ADDED from [:rn-fetch-blob] D:\Work(Mobile-Projects)\PayunicardCLI\node_modules\rn-fetch-blob\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:37:13-62
 uses-permission#android.permission.CAMERA
-ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:13:5-65
+ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:13:5-65
 MERGED from [com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:13:5-65
 MERGED from [com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:13:5-65
 MERGED from [com.otaliastudios:cameraview:1.6.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\5c7ca332acfa5abd4f37da10c1563515\jetified-cameraview-1.6.0\AndroidManifest.xml:11:5-65
 MERGED from [com.otaliastudios:cameraview:1.6.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\5c7ca332acfa5abd4f37da10c1563515\jetified-cameraview-1.6.0\AndroidManifest.xml:11:5-65
 	android:name
-		ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:13:22-62
+		ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:13:22-62
 uses-feature#android.hardware.camera
-ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:15:5-17:35
+ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:15:5-17:35
 MERGED from [com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:17:5-19:36
 MERGED from [com.kvalifika:facetec:9.3.5] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\7c8442d4a6ee5931f8c20b8c6c3a0943\jetified-facetec-9.3.5\AndroidManifest.xml:17:5-19:36
 MERGED from [com.otaliastudios:cameraview:1.6.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\5c7ca332acfa5abd4f37da10c1563515\jetified-cameraview-1.6.0\AndroidManifest.xml:19:5-21:36
 MERGED from [com.otaliastudios:cameraview:1.6.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\5c7ca332acfa5abd4f37da10c1563515\jetified-cameraview-1.6.0\AndroidManifest.xml:19:5-21:36
 	android:required
-		ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:17:9-32
+		ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:17:9-32
 	android:name
-		ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:16:9-47
-activity#com.kvalifika.sdk.ui.ResultActivity
-ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:23:9-25:40
+		ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:16:9-47
+activity#com.kvalifika.sdk.ui.KvalifikaResultActivity
+ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:23:9-25:40
 	android:exported
-		ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:25:13-37
+		ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:25:13-37
 	android:name
-		ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:24:13-63
-activity#com.kvalifika.sdk.ui.DocumentSelectActivity
-ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:26:9-28:40
+		ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:24:13-72
+activity#com.kvalifika.sdk.ui.KvalifikaSelectDocumentActivity
+ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:26:9-28:40
 	android:exported
-		ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:28:13-37
+		ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:28:13-37
 	android:name
-		ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:27:13-71
-activity#com.kvalifika.sdk.ui.CaptureDocumentActivity
-ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:29:9-31:40
+		ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:27:13-80
+activity#com.kvalifika.sdk.ui.KvalifikaCaptureDocumentActivity
+ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:29:9-31:40
 	android:exported
-		ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:31:13-37
+		ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:31:13-37
 	android:name
-		ADDED from [com.kvalifika:sdk:1.0.0] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\41f6073cbd63a6bf15d5f5d816bd9cf9\jetified-sdk-1.0.0\AndroidManifest.xml:30:13-72
+		ADDED from [com.kvalifika:sdk:1.0.6] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\ae5c001f825987664f7db0f90fc475be\jetified-sdk-1.0.6\AndroidManifest.xml:30:13-81
 activity#androidx.biometric.DeviceCredentialHandlerActivity
 ADDED from [androidx.biometric:biometric:1.0.1] C:\Users\ashab\.gradle\caches\transforms-2\files-2.1\1378ed9a82b4ec55cda52ca5dca49579\biometric-1.0.1\AndroidManifest.xml:28:9-31:67
 	android:exported

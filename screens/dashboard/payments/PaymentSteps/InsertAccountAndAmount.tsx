@@ -39,6 +39,10 @@ import {
   PAYMENTS_ACTIONS,
 } from '../../../../redux/action_types/payments_action_type';
 import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+}  from '../../../../redux/action_types/translate_action_types';
+import {
   IUserState,
   IGloablState as IUserGlobalState,
 } from '../../../../redux/action_types/user_action_types';
@@ -57,6 +61,7 @@ import {
 } from '../../../../utils/Converter';
 import SetOtp from './SetOtp';
 
+
 type RouteParamList = {
   params: {
     paymentStep: string;
@@ -69,6 +74,10 @@ type RouteParamList = {
 const ValidationContext = 'payment3';
 
 const InsertAccointAndAmount: React.FC = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [accountVisible, setAccountVisible] = useState<boolean>(false);
   const [otpVisible, setOtpVisible] = useState<boolean>(false);
@@ -101,7 +110,7 @@ const InsertAccointAndAmount: React.FC = props => {
     ) {
       dispatch(
         PUSH(
-          `მინიმალური გადასახდელი თანხა შეადგენს ${
+          `${translate.t('common.minPayAmount')} ${
             PaymentStore.paymentDetails?.minAmount
           }${CurrencySimbolConverter(GEL)}`,
         ),
@@ -116,7 +125,7 @@ const InsertAccointAndAmount: React.FC = props => {
     ) {
       dispatch(
         PUSH(
-          `მაქსიმალური გადასახდელი თანხა შეადგენს ${
+          `${translate.t('common.maxPayAmount')} ${
             PaymentStore.paymentDetails?.maxAmount
           }${CurrencySimbolConverter(GEL)}`,
         ),
@@ -365,7 +374,7 @@ const InsertAccointAndAmount: React.FC = props => {
               <AppButton
                 isLoading={PaymentStore.isActionLoading || isLoading}
                 onPress={next}
-                title={'შემდეგი'}
+                title={translate.t('common.next')}
                 style={styles.button}
               />
             </View>
@@ -475,7 +484,7 @@ const InsertAccointAndAmount: React.FC = props => {
           <AppButton
             isLoading={PaymentStore.isActionLoading || isLoading}
             onPress={next}
-            title={'შემდეგი'}
+            title={translate.t('common.next')}
             style={styles.button}
           />
         </View>

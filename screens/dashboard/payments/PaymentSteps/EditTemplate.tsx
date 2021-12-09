@@ -95,7 +95,7 @@ const EditTemplate: React.FC<INavigationProps> = props => {
                   onTemplateSave(name);
                 }}
                 context={ValidationContext}
-                placeholder="შაბლონის სახელი"
+                placeholder={translate.t('template.templateName')}
                 customKey="templateName"
                 style={styles.templateNameInput}
               />

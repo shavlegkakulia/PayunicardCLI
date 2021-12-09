@@ -1,8 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Image, Text} from 'react-native';
+import { useSelector } from 'react-redux';
 import AppButton from '../../../components/UI/AppButton';
 import AppInput from '../../../components/UI/AppInput';
 import colors from '../../../constants/colors';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+}  from '../../../redux/action_types/translate_action_types';
 import {
   IPayTemplateAddRequest,
   ITemplates,
@@ -18,6 +23,9 @@ interface IProps {
 }
 
 const EditPayTemplate: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [templateNameInputToggle, setTemplateNameInputToggle] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [templateName, setTemplateName] = useState<string | undefined>(
@@ -47,7 +55,7 @@ const EditPayTemplate: React.FC<IProps> = props => {
       <View style={styles.paymentStepHeaderHeader}>
         <View style={styles.titleBox}>
           <Text numberOfLines={1} style={styles.titleText}>
-            შაბლონის რედაქტირებ
+            {translate.t('template.editTemplate')}
           </Text>
         </View>
       </View>
@@ -71,7 +79,7 @@ const EditPayTemplate: React.FC<IProps> = props => {
       <AppButton
         backgroundColor={colors.none}
         color={colors.labelColor}
-        title="შაბლონის რედაქტირებ"
+        title={translate.t('template.editTemplate')}
         onPress={() => {
           setTemplateNameInputToggle(toggle => !toggle);
         }}
@@ -85,7 +93,7 @@ const EditPayTemplate: React.FC<IProps> = props => {
               setTemplateName(name);
             }}
             context={ValidationContext}
-            placeholder="შაბლონის სახელი"
+            placeholder={translate.t('template.templateName')}
             customKey="templateName"
             style={styles.templateNameInput}
           />
@@ -94,7 +102,7 @@ const EditPayTemplate: React.FC<IProps> = props => {
       <AppButton
         isLoading={isLoading}
         onPress={onOperationHandle}
-        title={'შენახვა'}
+        title={translate.t('common.save')}
         style={styles.handleButton}
       />
     </View>

@@ -41,6 +41,8 @@ import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 // react-native-splash-screen
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+// react-native-view-pdf
+import com.rumax.reactnative.pdfviewer.PDFViewPackage;
 // react-native-webview
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 // rn-fetch-blob
@@ -105,6 +107,7 @@ public class PackageList {
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
       new SplashScreenReactPackage(),
+      new PDFViewPackage(),
       new RNCWebViewPackage(),
       new RNFetchBlobPackage()
     ));

@@ -106,13 +106,13 @@
         </provider>
 
         <activity
-            android:name="com.kvalifika.sdk.ui.ResultActivity"
+            android:name="com.kvalifika.sdk.ui.KvalifikaResultActivity"
             android:exported="false" />
         <activity
-            android:name="com.kvalifika.sdk.ui.DocumentSelectActivity"
+            android:name="com.kvalifika.sdk.ui.KvalifikaSelectDocumentActivity"
             android:exported="false" />
         <activity
-            android:name="com.kvalifika.sdk.ui.CaptureDocumentActivity"
+            android:name="com.kvalifika.sdk.ui.KvalifikaCaptureDocumentActivity"
             android:exported="false" />
         <activity
             android:name="androidx.biometric.DeviceCredentialHandlerActivity"

@@ -7,10 +7,15 @@ import {
   Text,
   Image,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import FullScreenLoader from '../../../components/FullScreenLoading';
 import AppInput from '../../../components/UI/AppInput';
 import colors from '../../../constants/colors';
 import {tabHeight} from '../../../navigation/TabNav';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 import PresentationServive, {
   ICitizenshipCountry,
 } from '../../../services/PresentationServive';
@@ -22,6 +27,9 @@ import {getString} from '../../../utils/Converter';
 const USERCONTEXT = 'USERCONTEXT';
 
 const EditUserInfo: React.FC = () => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [profileData, setProfileData] = useState<
     IGetUserProfileDataResponse | undefined
   >();
@@ -195,7 +203,7 @@ const EditUserInfo: React.FC = () => {
           )}
           {profileDataEdited?.factAddress !== undefined && (
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>მისამართი</Text>
+              <Text style={styles.label}>{translate.t('verification.address')}</Text>
               <AppInput
                 editable={false}
                 value={profileDataEdited?.factAddress}
@@ -206,7 +214,7 @@ const EditUserInfo: React.FC = () => {
                     return user;
                   });
                 }}
-                placeholder="მისამართი"
+                placeholder={translate.t('verification.address')}
                 customKey="address"
                 context={USERCONTEXT}
               />
@@ -214,10 +222,11 @@ const EditUserInfo: React.FC = () => {
           )}
           {profileDataEdited?.legalAddress !== undefined && (
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>მისამართი</Text>
+              <Text style={styles.label}>{translate.t('verification.address')}</Text>
               <AppInput
                 editable={false}
                 value={profileDataEdited?.legalAddress}
+                customKey='legalAddress'
                 onChange={legalAddress => {
                   setProfileDataEdited(prev => {
                     const user = {...prev};
@@ -225,8 +234,7 @@ const EditUserInfo: React.FC = () => {
                     return user;
                   });
                 }}
-                placeholder="მისამართი"
-                customKey="address"
+                placeholder={translate.t('verification.address')}
                 context={USERCONTEXT}
               />
             </View>

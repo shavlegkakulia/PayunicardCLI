@@ -93,7 +93,7 @@ const StepSeven: React.FC<IProps> = props => {
         />
       </View>
       <AppButton
-        title={'შემდეგი'}
+        title={translate.t('common.next')}
         onPress={nextHandler}
         style={styles.button}
       />

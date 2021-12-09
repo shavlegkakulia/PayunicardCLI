@@ -34,7 +34,7 @@ const StepFour: React.FC<IProps> = (props) => {
   
                 <AppButton
                     isLoading={props.loading}
-                    title={'შემდეგი'}
+                    title={translate.t('common.next')}
                     onPress={nextHandler}
                     style={styles.button} />
       

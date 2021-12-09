@@ -7,7 +7,6 @@ import {headerHeight} from '../constants/defaults';
 import  NavigationService, {
   OpenDrawer,
 } from '../services/NavigationService';
-import AppStack from './AppStack';
 
 const DefaultOptions = ({
   navigation,
@@ -58,12 +57,14 @@ export const DefaultOptionsDrawer = ({
   route,
   navigation,
   title,
-  hideHeader
+  hideHeader,
+  backText
 }: {
   route: any;
   navigation: any;
   title: string;
-  hideHeader?: boolean
+  hideHeader?: boolean;
+  backText?: string;
 }): StackNavigationOptions => ({
   headerTitleAlign: 'center',
   headerStyle: styles.header,
@@ -76,7 +77,7 @@ export const DefaultOptionsDrawer = ({
           style={styles.backImg}
           source={require('./../assets/images/back-arrow-primary.png')}
         />
-        <Text style={styles.backText}>უკან</Text>
+        <Text style={styles.backText}>{backText}</Text>
       </TouchableOpacity>
     </View>
   ),
@@ -101,11 +102,13 @@ export const DefaultOptionsDrawer = ({
 export const UnauthScreenOptionsDrawer = ({
   navigation,
   title,
-  hideHeader
+  hideHeader,
+  backText,
 }: {
   navigation: any;
   title: string;
-  hideHeader?: boolean
+  hideHeader?: boolean;
+  backText?: string;
 }): StackNavigationOptions => ({
   headerTitleAlign: 'center',
   headerStyle: styles.header,
@@ -118,7 +121,7 @@ export const UnauthScreenOptionsDrawer = ({
           style={styles.backImg}
           source={require('./../assets/images/back-arrow-primary.png')}
         />
-        <Text style={styles.backText}>უკან</Text>
+        <Text style={styles.backText}>{backText}</Text>
       </TouchableOpacity>
     </View>
   ),

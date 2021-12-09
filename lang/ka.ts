@@ -11,6 +11,7 @@ export default {
         email: 'ელ-ფოსტა',
         deails: 'დეტალები',
         copied: 'დაკოპირდა',
+        save: 'შენახვა',
         personalNumber: 'პირადი ნომერი',
         agreeTerms: 'ვეთანხმები წესებს და პირობებს',
         close: 'დახურვა',
@@ -21,8 +22,10 @@ export default {
         commission: 'საკომისიო',
         minAmount: 'მინიმალური თანხა',
         minTransfAmount: 'მინიმალური გადასარიცხი თანხა',
+        minPayAmount: 'მინიმალური გადასახდელი თანხა შეადგენს',
         maxAmount: 'მაქსიმალური თანხა',
         maxTransfAmount: 'მაქსიმალური გადასარიცხი თანხა',
+        maxPayfAmount: 'მაქსიმალური გადასახდელი თანხა შეადგენს',
         
         confirm: 'დადასტურება'
     },
@@ -36,7 +39,9 @@ export default {
     template: {
         saveTemplate: 'შაბლონად შენახვა',
         templateName: 'შაბლონის სახელი',
-        transfTemplateSuccess: 'გადარიცხვის შაბლონი \n წარმატებით შეიქმნა'
+        transfTemplateSuccess: 'გადარიცხვის შაბლონი \n წარმატებით შეიქმნა',
+        paymentTemplateSuccess: 'გადახდის შაბლონი \n წარმატებით შეიქმნა ',
+        editTemplate: 'შაბლონის რედაქტირება'
     },
 
     services: {
@@ -138,8 +143,6 @@ export default {
         debt: 'დავალიანება',
         totalDue: 'სულ გადასახდელი',
         paymentSuccessfull: 'გადახდა წარმატებით დასრულდა',
-
-
     },
     transaction: {
         transactions: 'ტრანზაქციები',

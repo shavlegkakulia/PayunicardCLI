@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import {StoreActionType} from '.';
 import AppButton from '../../../components/UI/AppButton';
 import AppCheckbox from '../../../components/UI/AppCheckbox';
@@ -22,6 +23,10 @@ import Validation, {required} from '../../../components/UI/Validation';
 import colors from '../../../constants/colors';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 import CardService, {
   IGetCardOrderingTariffAmountRequest,
   IGetCardOrderingTariffAmountResponse,
@@ -61,6 +66,9 @@ type RouteParamList = {
 const ValidationContext = 'DelValidationContext';
 
 const DelyveryMethods: React.FC = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [delyveryMethod, setDeliveryMethod] = useState<string>();
@@ -288,7 +296,7 @@ const DelyveryMethods: React.FC = props => {
                   onChange={value => setSAddress(value)}
                   context={ValidationContext}
                   customKey="address"
-                  placeholder="მისამართი*"
+                  placeholder={translate.t('verification.address')}
                   requireds={[required]}
                   style={styles.input}
                 />
@@ -342,7 +350,7 @@ const DelyveryMethods: React.FC = props => {
             style={styles.button}
             onPress={next}
             isLoading={isLoading}
-            title="შემდეგი"
+            title={translate.t('common.next')}
           />
         </View>
       </KeyboardAvoidingView>

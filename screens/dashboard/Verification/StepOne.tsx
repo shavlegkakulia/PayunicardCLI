@@ -1,10 +1,15 @@
 import React, { useState } from "react"
 import { View, StyleSheet, Text, StyleProp, ViewStyle, TouchableOpacity, Image } from "react-native"
+import { useSelector } from "react-redux";
 import AppButton from "../../../components/UI/AppButton";
 import AppInput from "../../../components/UI/AppInput";
 import AppSelect, { SelectItem } from "../../../components/UI/AppSelect/AppSelect";
 import Validation, { required } from "../../../components/UI/Validation";
 import colors from "../../../constants/colors";
+import {
+    ITranslateState,
+    IGlobalState as ITranslateGlobalState,
+  } from "../../../redux/action_types/translate_action_types";
 import { ICitizenshipCountry } from "../../../services/PresentationServive";
 
 interface IProps {
@@ -24,6 +29,9 @@ interface IProps {
 const ValidationContext = 'userVerification';
 
 const StepOne: React.FC<IProps> = (props) => {
+    const translate = useSelector<ITranslateGlobalState>(
+        state => state.TranslateReduser,
+      ) as ITranslateState;
     const [countryErrorStyle, setCountryErrorStyle] = useState<StyleProp<ViewStyle>>({});
     const [countryVisible, setCountryVisible] = useState(false);
 
@@ -81,7 +89,7 @@ const StepOne: React.FC<IProps> = (props) => {
                     context={ValidationContext} />
 
                 <AppInput
-                    placeholder='მისამართი'
+                    placeholder={translate.t('verification.address')}
                     onChange={(address) => props.onSetAddress(address)}
                     value={props.address}
                     customKey='address'
@@ -100,7 +108,7 @@ const StepOne: React.FC<IProps> = (props) => {
                     context={ValidationContext} />
             </View>
             <AppButton
-                title={'შემდეგი'}
+                title={translate.t('common.next')}
                 onPress={nextHandler}
                 style={styles.button} isLoading={props.loading} />
         </View>

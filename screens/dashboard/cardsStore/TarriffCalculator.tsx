@@ -469,7 +469,7 @@ const TarriffCalculator: React.FC = props => {
             style={styles.button}
             onPress={next}
             isLoading={isLoading}
-            title="შემდეგი"
+            title={translate.t('common.next')}
           />
         </View>
       </KeyboardAvoidingView>

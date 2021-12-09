@@ -118,20 +118,17 @@ const CreatePayTemplate: React.FC = () => {
 
     /* categories contains merchant and also service */
     if (!isService && hasService && !hasChildren) {
-      console.log('*****************second');
       GetMerchantServices({CategoryID: parentID}, onComplate, onError);
     } /* categories contains merchants */ else if (
       !isService &&
       hasService &&
       hasChildren
     ) {
-      console.log('****************thirt');
       dispatch(getPayCategoriesServices(parentID, onComplate, onError));
     } /* categories contains only services */ else if (
       !isService &&
       !hasService
     ) {
-      console.log('*************fourty');
       dispatch(
         getPayCategoriesServices(
           parentID,

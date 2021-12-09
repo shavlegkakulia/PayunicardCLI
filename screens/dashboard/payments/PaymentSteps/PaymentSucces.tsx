@@ -96,7 +96,7 @@ const PaymentSucces: React.FC = props => {
         <View style={styles.succesInner}>
           <Text style={styles.succesText}>
             {route.params.withTemplate
-              ? 'შაბლონი წარმატებით შეიქმნა'
+              ? translate.t('payments.paymentTemplateSuccess')
               : translate.t('payments.paymentSuccessfull')}
           </Text>
           <Image
