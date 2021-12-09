@@ -334,7 +334,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
   }, [TransfersStore.fullScreenLoading]);
 
   useEffect(() => {
-    setNomination('ბანკში გადარიცხვა');
+    setNomination(translate.t('transfer.toBank'));
     setTransferType(TRANSFER_TYPES.toBank);
   }, []);
 

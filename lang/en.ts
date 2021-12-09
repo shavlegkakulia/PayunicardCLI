@@ -27,6 +27,15 @@ export default {
         confirm: 'Confirm'
 
     },
+    generalErrors: {
+        errorOccurred: 'An Error Occurred',
+        netError: 'Network Error',
+        tryAgain: 'Try Again',
+        fillOutField:  'Fill Out Field',
+        pleaseWait: ' Please Wait',
+        connectFail: 'Connection Failed',
+        dataError:  'Data Not Found',
+    },
     services: {
         utility: 'Utility Payment',
         tvInternet: 'Television And Internet',

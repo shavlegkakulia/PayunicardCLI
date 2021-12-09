@@ -929,7 +929,7 @@ const ProductDetail: React.FC = props => {
                       />
                     </View>
                     <View style={styles.transfersSectionContainerItemDetails}>
-                      {breackWords('საკუთარ ანგარიშებს შორის')}
+                      {breackWords(translate.t('transfer.betweeenOwnAccounts'))}
                     </View>
                   </TouchableOpacity>
 
@@ -946,7 +946,7 @@ const ProductDetail: React.FC = props => {
                       />
                     </View>
                     <View style={styles.transfersSectionContainerItemDetails}>
-                      {breackWords('სხვის უნისაფულეზე')}
+                      {breackWords(translate.t('transfer.toUniWallet'))}
                     </View>
                   </TouchableOpacity>
 
@@ -963,7 +963,7 @@ const ProductDetail: React.FC = props => {
                       />
                     </View>
                     <View style={styles.transfersSectionContainerItemDetails}>
-                      {breackWords('კონვერტაცია')}
+                      {breackWords(translate.t('transfer.currencyExchange'))}
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -986,7 +986,7 @@ const ProductDetail: React.FC = props => {
                       />
                     </View>
                     <View style={styles.transfersSectionContainerItemDetails}>
-                      {breackWords('ბანკში')}
+                      {breackWords(translate.t('transfer.toBank'))}
                     </View>
                   </TouchableOpacity>
                 </View>

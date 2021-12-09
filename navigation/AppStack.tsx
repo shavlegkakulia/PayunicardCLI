@@ -140,7 +140,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბანკში გადარიცხვა',
+                title: translate.t('transfer.toBank'),
                 backText: translate.t("common.back")
               })
             }
@@ -152,7 +152,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბანკში გადარიცხვა',
+                title: translate.t('transfer.toBank'),
                 backText: translate.t("common.back")
               })
             }
@@ -164,7 +164,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბანკში გადარიცხვა',
+                title: translate.t('transfer.toBank'),
                 backText: translate.t("common.back")
               })
             }
@@ -176,7 +176,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბანკში გადარიცხვა',
+                title: translate.t('transfer.toBank'),
                 hideHeader: true,
                 backText: translate.t("common.back")
               })
@@ -251,7 +251,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'საკუთარ ანგარიშებს შორის',
+                title: translate.t('transfer.betweeenOwnAccounts'),
                 backText: translate.t("common.back")
               })
             }
@@ -263,7 +263,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'საკუთარ ანგარიშებს შორის',
+                title: translate.t('transfer.betweeenOwnAccounts'),
                 backText: translate.t("common.back")
               })
             }
@@ -275,7 +275,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'საკუთარ ანგარიშებს შორის',
+                title: translate.t('transfer.betweeenOwnAccounts'),
                 hideHeader: true,
                 backText: translate.t("common.back")
               })
@@ -288,7 +288,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'კონვერტაცია',
+                title: translate.t('transfer.currencyExchange'),
                 backText: translate.t("common.back")
               })
             }
@@ -300,7 +300,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'კონვერტაცია',
+                title: translate.t('transfer.currencyExchange'),
                 backText: translate.t("common.back")
               })
             }
@@ -312,7 +312,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'კონვერტაცია',
+                title: translate.t('transfer.currencyExchange'),
                 hideHeader: true,
                 backText: translate.t("common.back")
               })
