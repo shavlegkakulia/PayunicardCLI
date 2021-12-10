@@ -125,7 +125,7 @@ const PrintInfo: React.FC = props => {
               source={require('./../../../assets/images/topup2.png')}
               style={styles.icon2}
             />
-            <Text style={styles.buttonText}>სხვა ბარათით შევსება</Text>
+            <Text style={styles.buttonText}>{translate.t('topUp.withAnotherCard')}</Text>
           </TouchableOpacity>
 
           {!route.params.hasTotalFee && (

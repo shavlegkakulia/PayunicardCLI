@@ -31,6 +31,7 @@ import currencies, {GEL} from '../../../constants/currencies';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import {PUSH} from '../../../redux/actions/error_action';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import {
   IUserState,
   IGloablState as IUserGlobalState,
@@ -58,6 +59,9 @@ type RouteParamList = {
 const ValidationContext = 'Topup';
 
 const ChooseAmountAndAccount: React.FC = () => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [amount, setAmount] = useState<string | undefined>();
   const [tranId, setTranId] = useState<string | null | undefined>();
@@ -185,7 +189,7 @@ const ChooseAmountAndAccount: React.FC = () => {
     if (Validation.validate(ValidationContext)) return;
 
     if (getNumber(amount) < 1) {
-      dispatch(PUSH('თანხა არ უნდა იყოს 1 ლარზე ნაკლები'));
+      dispatch(PUSH(`${translate.t('common.minTransfAmount')} 1 GEL`));
       return;
     }
 
@@ -233,7 +237,7 @@ const ChooseAmountAndAccount: React.FC = () => {
       CheckTransaction();
     } else if (retriveUrl.endsWith('Payment_Failure')) {
       setIsEcommerce(undefined);
-      dispatch(PUSH('დაფიქსირდა შეცდომა'));
+      dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
     }
   };
 
@@ -300,10 +304,10 @@ const ChooseAmountAndAccount: React.FC = () => {
               </View>
 
               <View style={styles.accountBox}>
-                <Text style={styles.accountBoxTitle}>ვალუტა</Text>
+                <Text style={styles.accountBoxTitle}>{translate.t('transfer.currency')}</Text>
 
                 <CurrencyItem
-                  defaultTitle="ვალუტა"
+                  defaultTitle={translate.t('transfer.currency')}
                   currency={_currency[0]}
                   onCurrencySelect={() => setToCurrencyVisible(true)}
                   style={styles.currencyBox}
@@ -312,7 +316,7 @@ const ChooseAmountAndAccount: React.FC = () => {
 
               <View style={styles.accountBox}>
                 <Text style={styles.accountBoxTitle}>
-                  რომელი ანგარიშის შევსება გსურთ?
+                  {translate.t('topUp.whichAccount')}
                 </Text>
 
                 {account ? (
@@ -347,7 +351,7 @@ const ChooseAmountAndAccount: React.FC = () => {
             <AppButton
               isLoading={isLoading}
               style={styles.button}
-              title="შემდეგ"
+              title={translate.t('common.next')}
               onPress={next.bind(this)}
             />
           </View>

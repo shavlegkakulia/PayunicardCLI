@@ -33,7 +33,7 @@ const TopupSucces: React.FC = () => {
       style={styles.avoid}>
       <View style={[screenStyles.wraper, styles.container]}>
         <View style={styles.succesInner}>
-          <Text style={styles.succesText}>გადახდა წარმატებით დასრულდა</Text>
+          <Text style={styles.succesText}>{translate.t('payments.paymentSuccessfull')}</Text>
           <Image
             source={require('./../../../assets/images/succes_icon.png')}
             style={styles.succesImg}

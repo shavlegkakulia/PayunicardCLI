@@ -727,7 +727,7 @@ const ProductDetail: React.FC = props => {
           )}
 
           <View style={styles.transfersSectionContainerHeader}>
-            <Text style={styles.transfersSectionContainerTitle}>გადახდა</Text>
+            <Text style={styles.transfersSectionContainerTitle}>{translate.t('tabNavigation.payments')}</Text>
             {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
               <PaginationDots step={paymentSectionStep} length={2} />
             )}
@@ -750,7 +750,7 @@ const ProductDetail: React.FC = props => {
                 <TouchableOpacity
                   style={styles.sectionContainerItem}
                   onPress={() => {
-                    getCategories(1, false, false, true, true, 'კომუნალურები');
+                    getCategories(1, false, false, true, true, translate.t('services.utility'));
                   }}>
                   <View style={styles.sectionContainerItemImageContainer}>
                     <Image
@@ -760,7 +760,7 @@ const ProductDetail: React.FC = props => {
                     />
                   </View>
                   <View style={styles.sectionContainerItemDetails}>
-                    {breackWords('კომუნალურები')}
+                    {breackWords(translate.t('services.utility'))}
                   </View>
                 </TouchableOpacity>
 
@@ -775,7 +775,7 @@ const ProductDetail: React.FC = props => {
                           false,
                           true,
                           true,
-                          'ტელევიზია და ინტერნეტი',
+                          translate.t('services.tvInternet'),
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
@@ -786,14 +786,14 @@ const ProductDetail: React.FC = props => {
                         />
                       </View>
                       <View style={styles.sectionContainerItemDetails}>
-                        {breackWords('ტელევიზია და ინტერნეტი')}
+                        {breackWords(translate.t('services.tvInternet'))}
                       </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                       style={styles.sectionContainerItem}
                       onPress={() => {
-                        getCategories(10, false, false, true, true, 'ტელეფონი');
+                        getCategories(10, false, false, true, true, translate.t('services.telephone'));
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
@@ -803,7 +803,7 @@ const ProductDetail: React.FC = props => {
                         />
                       </View>
                       <View style={styles.sectionContainerItemDetails}>
-                        {breackWords('ტელეფონი')}
+                        {breackWords(translate.t('services.telephone'))}
                       </View>
                     </TouchableOpacity>
                   </>
@@ -822,7 +822,7 @@ const ProductDetail: React.FC = props => {
                           false,
                           true,
                           true,
-                          'მობილური კავშირი',
+                          translate.t('services.mobile'),
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
@@ -833,7 +833,7 @@ const ProductDetail: React.FC = props => {
                         />
                       </View>
                       <View style={styles.sectionContainerItemDetails}>
-                        {breackWords('მობილური კავშირი')}
+                        {breackWords(translate.t('services.mobile'))}
                       </View>
                     </TouchableOpacity>
 
@@ -846,7 +846,7 @@ const ProductDetail: React.FC = props => {
                           false,
                           true,
                           true,
-                          'პარკირება და ჯარიმები',
+                          translate.t('services.parking'),
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
@@ -857,7 +857,7 @@ const ProductDetail: React.FC = props => {
                         />
                       </View>
                       <View style={styles.sectionContainerItemDetails}>
-                        {breackWords('პარკირება და ჯარიმები')}
+                        {breackWords(translate.t('services.parking'))}
                       </View>
                     </TouchableOpacity>
 
@@ -870,7 +870,7 @@ const ProductDetail: React.FC = props => {
                           false,
                           true,
                           true,
-                          'აზარტული თამაშები',
+                          translate.t('services.gambling'),
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
@@ -881,7 +881,7 @@ const ProductDetail: React.FC = props => {
                         />
                       </View>
                       <View style={styles.sectionContainerItemDetails}>
-                        {breackWords('აზარტული თამაშები')}
+                        {breackWords(translate.t('services.gambling'))}
                       </View>
                     </TouchableOpacity>
                   </>
@@ -999,7 +999,7 @@ const ProductDetail: React.FC = props => {
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
             <View style={styles.transfersSectionContainerHeader}>
               <Text style={styles.transfersSectionContainerTitle}>
-                ბარათის მართვა
+                {translate.t('products.manageCard')}
               </Text>
             </View>
           )}
@@ -1018,7 +1018,7 @@ const ProductDetail: React.FC = props => {
                     />
                   </View>
                   <View style={styles.sectionContainerItemDetails}>
-                    {breackWords('ბარათის დაბლოკვა')}
+                    {breackWords(translate.t('products.blockCard'))}
                   </View>
                 </TouchableOpacity>}
 
@@ -1033,7 +1033,7 @@ const ProductDetail: React.FC = props => {
                     />
                   </View>
                   <View style={styles.sectionContainerItemDetails}>
-                    {breackWords('ბარათის PIN კოდის შეცვლა')}
+                    {breackWords(translate.t('products.changeCardPin'))}
                   </View>
                 </TouchableOpacity>}
 
@@ -1048,7 +1048,7 @@ const ProductDetail: React.FC = props => {
                     />
                   </View>
                   <View style={styles.sectionContainerItemDetails}>
-                    {breackWords('შევსება')}
+                    {breackWords(translate.t('plusSign.topUp'))}
                   </View>
                 </TouchableOpacity>
               </View>

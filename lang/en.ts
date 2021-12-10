@@ -165,7 +165,16 @@ export default {
         confirmTransfer: 'Confirm Transfer',
         transactionSuccessfull: 'Transaction Successful',
         freeOfCharge: '* Transfer Between Accounts Is Free Of Charge'
-
+    },
+    topUp: {
+        withAnotherCard: 'Use Another Card',
+        withCard: 'Use A Card',
+        withBanktransf: 'Transfer From Bank',
+        linkCardText1: ' Once you add your bank card to the system you will be able to top up the balance without entering card details. Please note, that added card only enables the top up feature.',
+        linkCardText2: ' After clicking "Add" button, you will be redirected to the secure page of the bank where you will enter your card details once. As a result, 0.01 GEL will be deducted and refunded to your account. Once the operation is successful, your card will be added to PayUnicard system, on the page “Accounts & Cards”.',
+        linkCardText3: ' PayUnicard.ge does not store your bank card data. Data is stored solely in processing systems protected according the international security standards.',
+        whichAccount: 'Which Account Would You Like to Top Up'
+        
     },
     verification: {
         thirdPartyRepresentative: 'Are You a Third Party Representative?',
@@ -251,6 +260,7 @@ export default {
         confirmOrderDesc: '* Once the Amount is Credited to the Account, the Delivery Time will be Calculated',
         deliveryAddress: 'Delivery Address',
         orderReceived: 'Order Recieved',
+        preOrder: 'Preorder',       
         preOrderReceived: 'Preorder Recieved',
         checkCardStatus: 'To Check the Status of Your Cards, Please Visi'
     }

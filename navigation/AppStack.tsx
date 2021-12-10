@@ -580,7 +580,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბალანსის შევსება',
+                title: translate.t('plusSign.topUp'),
                 backText: translate.t("common.back")
               })
             }
@@ -592,7 +592,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბალანსის შევსება',
+                title: translate.t('plusSign.topUp'),
                 backText: translate.t("common.back")
               })
             }
@@ -604,7 +604,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბალანსის შევსება',
+                title: translate.t('plusSign.topUp'),
                 backText: translate.t("common.back")
               })
             }
@@ -616,7 +616,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბალანსის შევსება',
+                title: translate.t('plusSign.topUp'),
                 backText: translate.t("common.back")
               })
             }
@@ -628,7 +628,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბალანსის შევსება',
+                title: translate.t('plusSign.topUp'),
                 hideHeader: true,
                 backText: translate.t("common.back")
               })
@@ -641,7 +641,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბარათის დამატება',
+                title: translate.t('plusSign.addCard'),
                 backText: translate.t("common.back")
               })
             }
@@ -653,7 +653,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბარათის დამატება',
+                title: translate.t('plusSign.addCard'),
                 hideHeader: true,
                 backText: translate.t("common.back")
               })

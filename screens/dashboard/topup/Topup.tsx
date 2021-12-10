@@ -1,19 +1,21 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Image, Text, ScrollView} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Image, Text, ScrollView } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
 import Cover from '../../../components/Cover';
 import AppButton from '../../../components/UI/AppButton';
 import colors from '../../../constants/colors';
 import Routes from '../../../navigation/routes';
-import {tabHeight} from '../../../navigation/TabNav';
+import { tabHeight } from '../../../navigation/TabNav';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import NavigationService from '../../../services/NavigationService';
 import UserService, {
   IAccountBallance,
   IGetUserBankCardsResponse,
 } from '../../../services/UserService';
 import screenStyles from '../../../styles/screens';
-import {getNumber} from '../../../utils/Converter';
+import { getNumber } from '../../../utils/Converter';
 
 type RouteParamList = {
   params: {
@@ -27,6 +29,9 @@ const TopupActionTypes = {
 };
 
 const Topup: React.FC = () => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [actionType, setActionType] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -89,9 +94,9 @@ const Topup: React.FC = () => {
                 style={[
                   styles.touchableItemText,
                   actionType === TopupActionTypes.topup &&
-                    styles.activeTouchableItemText,
+                  styles.activeTouchableItemText,
                 ]}>
-                ბარათით შევსება
+                {translate.t('topUp.withCard')}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -105,36 +110,25 @@ const Topup: React.FC = () => {
                 style={[
                   styles.touchableItemText,
                   actionType === TopupActionTypes.addCard &&
-                    styles.activeTouchableItemText,
+                  styles.activeTouchableItemText,
                 ]}>
-                ბარათის დამატება
+                {translate.t('plusSign.addCard')}
               </Text>
             </TouchableOpacity>
           </View>
           {actionType === TopupActionTypes.addCard && (
             <Text style={styles.actionInfoText}>
-              <Text style={styles.redPoint}>*</Text> საბანკო ბარათის სისტემაში
-              დამატების შემდეგ, შეგეძლებათ ბალანსი შეავსოთ თქვენი ბარათის
-              მონაცემების მითითების გარეშე. გაითვალისწინეთ, რომ დამატებული
-              საბანკო ბარათით შესაძლებელია მხოლოდ ბალანსის შევსების ოპერაცია.
+              <Text style={styles.redPoint}>*</Text> {translate.t('topUp.linkCardText1')}
               {'\n'}
-              <Text style={styles.redPoint}>*</Text> „დამატება“ ღილაკზე დაჭერის
-              შემდეგ, გადამისამართდებით ბანკის დაცულ გვერდზე, სადაც ერთჯერადად
-              მიუთითებთ თქვენი ბარათის მონაცემებს. შედეგად, ანგარიშიდან
-              ჩამოგეჭრებათ და დაგიბრუნდებათ 0.01 ლარი. ამ ოპერაციის წარმატებით
-              განხორციელების შემდეგ, თქვენი ბარათი დაემატება PayUnicard
-              სისტემაში, გვერდზე „ანგარიშები და ბარათები“.{'\n'}
-              <Text style={styles.redPoint}>*</Text>
-              PayUnicard.ge არ ინახავს თქვენი საბანკო ბარათის მონაცემებს.
-              მონაცემები ინახება მხოლოდ საპროცესინგო სისტემებში, რომლებიც
-              დაცულია უსაფრთხოების საერთაშორისო სტანდარტებით.
+              <Text style={styles.redPoint}>*</Text> {translate.t('topUp.linkCardText2')}{'\n'}
+              <Text style={styles.redPoint}>*</Text> {translate.t('topUp.linkCardText3')}
             </Text>
           )}
         </View>
         <AppButton
           isLoading={isLoading}
           style={styles.button}
-          title="შემდეგ"
+          title={translate.t('common.next')}
           onPress={next.bind(this)}
           disabled={actionType === undefined || isLoading}
         />
