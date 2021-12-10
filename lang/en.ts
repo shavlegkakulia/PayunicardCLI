@@ -16,11 +16,16 @@ export default {
         cancel: 'Cancel',
         delete: 'Delete',
         mobile: 'Mobile Number',
+        user: 'Subscriber',
         personalNumber: 'Personal Number',
         country: 'Country',
         commission: 'Commission',
         agreeTerms: 'Agree to the terms  and conditions',
         amount: 'Amount',
+        accountNumber: 'Account Number',
+        cardNumber: 'Card Number',
+        payDate: 'Pay Date',
+        postDate: 'Post Date',
         close: 'Close',
         no: 'No',
         all: 'All',
@@ -140,7 +145,16 @@ export default {
     },
     transaction: {
         transactions: 'Transactions',
-        lastTransaction: 'Last Transactions'
+        lastTransaction: 'Last Transactions',
+        tranDetails: 'Transaction Details',
+        tranAprovalCode: 'Approval Code',
+        tranId: 'Transaction ID',
+        merchantName: 'Merchant Name',
+        provider: 'Provider Name',
+        bankCode: 'Bank Code',
+        blockedFunds: 'Blocked Funds',
+        terminalNumber: 'Terminal Number'
+
     },
     dashboard: {
         userVerifyStatus1: 'In order to use all features of your wallet please complete identification.',
@@ -186,6 +200,8 @@ export default {
         beneficiary: 'Recipient',
         beneficiaryName: 'Recipient Name',
         beneficiaryAccount: 'Recipient Account',
+        senderName: 'Sender Name',
+        senderAccount:'Sender Account Number',
         amount: 'Amount',
         currency: 'Currency',
         nomination: 'Reference',
