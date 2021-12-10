@@ -259,7 +259,7 @@ const TransactionsList: React.FC<IProps> = props => {
         <Text style={styles.transactionsViewTitle}>{translate.t('transaction.lastTransaction')}</Text>
         {!props.hideSeeMoreButton && (
           <TouchableOpacity onPress={() => nav.navigate(Routes.Transactions)}>
-            <Text style={styles.transactionsViewSeeall}>ყველა</Text>
+            <Text style={styles.transactionsViewSeeall}>{translate.t('common.all')}</Text>
           </TouchableOpacity>
         )}
       </View>

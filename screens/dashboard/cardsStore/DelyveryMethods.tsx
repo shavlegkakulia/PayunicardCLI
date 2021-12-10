@@ -213,7 +213,9 @@ const DelyveryMethods: React.FC = props => {
                   </Text>
                   {delyveryMethod === delyveryMethods.inServiceCenter && (
                     <Text style={styles.desc}>
-                     {translate.t('orderCard.ServiceDeskAddress')}
+                     {translate.t('orderCard.ServiceDeskAddress').split('/n').map(t => (
+                       <>{t} {"/n"}</>
+                     ))}
                     </Text>
                   )}
                 </View>

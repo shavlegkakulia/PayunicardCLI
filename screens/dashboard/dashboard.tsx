@@ -56,24 +56,25 @@ import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
 } from '../../redux/action_types/translate_action_types';
+import PresentationServive, { IGetOffers, IOffersResponse } from '../../services/PresentationServive';
 
-const offers = [
-  {
-    title: 'სპეციალური შეთავაზება',
-    subtitle: 'დააგემოვნე აზიური სამზარეულო TOKYO-ში',
-    image: require('./../../assets/images/business1.jpeg'),
-  },
-  {
-    title: 'სპეციალური შეთავაზება',
-    subtitle: 'შეიძინე მუდამ განახლებული კოლექცია CITY MALL-ში.',
-    image: require('./../../assets/images/business2.jpeg'),
-  },
-  {
-    title: 'სპეციალური შეთავაზება',
-    subtitle: 'SUMMER IN `თბილისი`.',
-    image: require('./../../assets/images/business3.jpeg'),
-  },
-];
+// const offers = [
+//   {
+//     title: 'სპეციალური შეთავაზება',
+//     subtitle: 'დააგემოვნე აზიური სამზარეულო TOKYO-ში',
+//     image: require('./../../assets/images/business1.jpeg'),
+//   },
+//   {
+//     title: 'სპეციალური შეთავაზება',
+//     subtitle: 'შეიძინე მუდამ განახლებული კოლექცია CITY MALL-ში.',
+//     image: require('./../../assets/images/business2.jpeg'),
+//   },
+//   {
+//     title: 'სპეციალური შეთავაზება',
+//     subtitle: 'SUMMER IN `თბილისი`.',
+//     image: require('./../../assets/images/business3.jpeg'),
+//   },
+// ];
 
 export interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -96,12 +97,28 @@ const Dashboard: React.FC<IProps> = props => {
   ) as IUserState;
   const dispatch = useDispatch();
 
+  const [offers, setOffers] = useState<IOffersResponse[] | undefined>();
+
   const handleOffersScroll = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
     let overView = event.nativeEvent.contentOffset.x / (screenSize.width - 25);
     setOffersStep(Math.round(overView));
   };
+
+  const get_GetOffers = () => {
+    PresentationServive.get_GetOffers().subscribe({
+      next: (Response) => {
+        setOffers(Response.data.data?.offers);
+      }
+    })
+  }
+
+  useEffect(() => {
+    if(!offers) {
+      get_GetOffers();
+    }
+  }, [offers])
 
   const {documentVerificationStatusCode, customerVerificationStatusCode} =
     userData.userDetails || {};
@@ -278,16 +295,16 @@ const Dashboard: React.FC<IProps> = props => {
     <View style={styles.offersContainer}>
       <View style={styles.offersContainerHeader}>
         <Text style={styles.offersContainerTitle}>
-          {translate.t('dashboard.myQuotes')}
+          {translate.t('dashboard.myOffer')}
         </Text>
-        <PaginationDots step={offersStep} length={offers.length} />
+        <PaginationDots step={offersStep} length={offers?.length} />
       </View>
       <ScrollView
         onScroll={handleOffersScroll}
         style={styles.offersContainerScrollable}
         showsHorizontalScrollIndicator={false}
         horizontal={true}>
-        {offers.map((offer, index) => (
+        {offers?.map((o, index) => (
           <View
             style={[
               styles.offersContainerItem,
@@ -297,16 +314,16 @@ const Dashboard: React.FC<IProps> = props => {
             ]}
             key={`offer${index}`}>
             <Image
-              source={offer.image}
+              source={{uri: o.imageUrl}}
               style={styles.offersContainerItemImage}
               resizeMode="cover"
             />
             <View style={styles.offersContainerItemDetails}>
               <Text style={styles.offersContainerItemDetailsTitle}>
-                {offer.title}
+                {o.title}
               </Text>
               <Text style={styles.offersContainerItemDetailsSubTitle}>
-                {offer.subtitle}
+                {o.text}
               </Text>
             </View>
           </View>
@@ -498,7 +515,7 @@ const Dashboard: React.FC<IProps> = props => {
         </View>
         <View style={screenStyles.wraperWithShadow}>{UnicardAction}</View>
         <View style={screenStyles.wraperWithShadow}>{productsView}</View>
-        {offersView}
+        {(offers && offers?.length > 0) && offersView}
         <View style={screenStyles.wraper}>
           <TransactionsList
             statements={allStatements}
