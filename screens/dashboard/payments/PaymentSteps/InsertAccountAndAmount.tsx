@@ -340,6 +340,9 @@ const InsertAccointAndAmount: React.FC = props => {
       i.FieldCode === 'TotalDebt' ||
       i.FieldCode === 'Balance',
   );
+  if(!debt || debt.length) {
+    debt = []
+  }
   let custumer = PaymentStore.debtData?.filter(
     i =>
       i.FieldCode === 'AbonentName' ||
@@ -388,12 +391,12 @@ const InsertAccointAndAmount: React.FC = props => {
                 </Text>
                 <View>
                   <Text style={styles.address}>
-                    {custumer && custumer[0].Value}
-                    {cosumerAddress && cosumerAddress[0].Value}
+                    {custumer?.length && custumer[0].Value}
+                    {cosumerAddress?.length && cosumerAddress[0].Value}
                   </Text>
                   <Text style={styles.debt}>
-                    {PaymentStore.abonentCode}/{debt && debt[0].Value}
-                    {CurrencySimbolConverter(debt && debt[0].CCY)}
+                    {PaymentStore.abonentCode}/{debt?.length && debt[0].Value}
+                    {debt.length && CurrencySimbolConverter(getString(debt[0].CCY))}
                   </Text>
                 </View>
               </View>
