@@ -7,4 +7,8 @@ declare module '@env' {
     export const TEST_CONNECT_API: string;
     export const TOKEN_TTL: number;
     export const CDN_PATH: string;
+    export const client_id: string;
+    export const client_secret: string;
+    export const client_id_dev: string;
+    export const client_secret_dev: string;
 }

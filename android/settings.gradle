@@ -10,7 +10,5 @@ project(':react-native-exception-handler').projectDir = new File(rootProject.pro
 include ':react-native-gesture-handler'
 project(':react-native-gesture-handler').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-gesture-handler/android')
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); 
-include ':react-native-view-pdf'
-project(':react-native-view-pdf').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-view-pdf/android');
 applyNativeModulesSettingsGradle(settings)
 include ':app'

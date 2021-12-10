@@ -96,8 +96,8 @@ class AuthService {
     loginObj.append("username", User.username);
     loginObj.append("password", User.password);
     loginObj.append("scope", "Wallet_Api.Full offline_access");
-    loginObj.append("client_id", "WalletApi");
-    loginObj.append("client_secret", "abcd123");
+    loginObj.append("client_id", envs.client_id);
+    loginObj.append("client_secret", envs.client_secret);
     loginObj.append("grant_type", "password");
     if(User.otp) {
       loginObj.append("otp", User.otp.toString());

@@ -5,25 +5,28 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
+import {WebView} from 'react-native-webview';
 
-import PDFView from 'react-native-view-pdf';
 import colors from '../../../constants/colors';
+import NavigationService from '../../../services/NavigationService';
 
 const AgreeTerm: React.FC = () => {
   const source = {
     uri: 'https://www.payunicard.ge/documents/en/ServiceTermsOfUse.pdf?v=001',
   };
 
+  const boBack = () => {
+    NavigationService.GoBack();
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
-      <PDFView
-        fadeInDuration={250.0}
-        style={{flex: 1}}
-        resource={source.uri}
-        resourceType="url"
-        onLoad={() => console.log(`PDF rendered from url`)}
-        onError={error => console.log('Cannot render PDF', error)}
-      />
+      <WebView
+          source={{uri: source.uri}}
+          onNavigationStateChange={boBack}
+          cacheEnabled={false}
+          thirdPartyCookiesEnabled={true}
+        />
     </ScrollView>
   );
 };
