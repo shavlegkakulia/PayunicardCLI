@@ -53,7 +53,7 @@ const StepOne: React.FC<IProps> = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.addressContainer}>
-                <Text style={styles.BoxTitle}>ჩაეწერეთ იურიდიული მისამართი</Text>
+                <Text style={styles.BoxTitle}>{translate.t('verification.enterLegalAddress')}</Text>
                 <View style={[styles.countryBox, countryErrorStyle]}>
                     {props.selectedCountry ?
                         <SelectItem
@@ -66,7 +66,7 @@ const StepOne: React.FC<IProps> = (props) => {
                         <TouchableOpacity
                             onPress={() => setCountryVisible(true)}
                             style={[styles.countrySelectHandler]}>
-                            <Text style={styles.countryPlaceholder}>აირჩიეთ ქვეყანა</Text>
+                            <Text style={styles.countryPlaceholder}>{translate.t('verification.chooseCountry')}</Text>
                             <Image style={styles.dropImg} source={require('./../../../assets/images/down-arrow.png')} />
                         </TouchableOpacity>}
 
@@ -80,7 +80,7 @@ const StepOne: React.FC<IProps> = (props) => {
                 </View>
 
                 <AppInput
-                    placeholder='ქალაქი/მუნიციპალიტეტი'
+                    placeholder={translate.t('verification.city')}
                     onChange={(city) => props.onSetCity(city)}
                     value={props.city}
                     customKey='city'
@@ -98,7 +98,7 @@ const StepOne: React.FC<IProps> = (props) => {
                     context={ValidationContext} />
 
                 <AppInput
-                    placeholder='საფოსტო ინდექსი'
+                    placeholder={translate.t('verification.zipCode')}
                     onChange={(postCode) => props.onSetPostCode(postCode)}
                     value={props.postCode}
                     customKey='postCode'

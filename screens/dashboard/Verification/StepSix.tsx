@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, Image, Text} from 'react-native';
+import { useSelector } from 'react-redux';
 import AppButton from '../../../components/UI/AppButton';
 import AppCheckbox from '../../../components/UI/AppCheckbox';
 import colors from '../../../constants/colors';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 
 interface IProps {
   loading: boolean;
@@ -10,6 +12,9 @@ interface IProps {
 }
 
 const StepSix: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [accepted, setAccepted] = useState<boolean>(false);
 
   const nextHandler = () => {
@@ -25,10 +30,9 @@ const StepSix: React.FC<IProps> = props => {
             source={require('./../../../assets/images/ICON.png')}
             resizeMode={'contain'}
           />
-        </View>
+        </View> 
         <Text style={styles.title}>
-          უსაფრთხოებისთვის აუცილებელია დაადასტუროთ, რომ განაცხადის შევსები პირი
-          ნამდვილად თქვენ ხართ
+          {translate.t('verification.kvForSecuirty')}
         </Text>
 
         <View style={styles.block}>
@@ -37,7 +41,7 @@ const StepSix: React.FC<IProps> = props => {
             source={require('./../../../assets/images/home_active.png')}
             resizeMode={'contain'}
           />
-          <Text style={styles.labelText}>ვიზუალური იდენტიფიკაცია</Text>
+          <Text style={styles.labelText}>1. {translate.t('verification.kvVisualIdentification')}</Text>
         </View>
 
         <View style={styles.block}>
@@ -47,7 +51,7 @@ const StepSix: React.FC<IProps> = props => {
             resizeMode={'contain'}
           />
           <Text style={styles.labelText}>
-            2. პირადობის მოწმობის ან პასპორტის სკანირება
+            2. {translate.t('verification.kvDocumentScan')}
           </Text>
         </View>
 
@@ -58,20 +62,20 @@ const StepSix: React.FC<IProps> = props => {
             resizeMode={'contain'}
           />
           <Text style={styles.labelText}>
-            2. პროცედურის გასავლელად აუცილებელია ვებ-კამერა
+            3. {translate.t('verification.kvWebCamRequired')}
           </Text>
         </View>
 
         <View>
             <AppCheckbox style={styles.checkbox} activeColor={colors.primary} label='ვეთახმები წესებს და პირობებს' clicked={() => setAccepted(!accepted)} value={accepted} key={'accept'} customKey='accept' context='verification' />
-            <Text style={styles.description}>წინამდებარე თანხმობით ვადასტურებ, რომ კომპანია (როგორც უშუალოდ ასევე უფლებამოსილი პირის მეშვეობით), მომსახურების მიღების მიზნით, უფლებამოსილია მიიღოს და დაამუშავოს ჩემი პერსონალური მონაცემები, მათ შორის ბიომეტრიული მონაცემი, მიღებული დისტანციური იდენტიფიცირებისას ჩემის სახის, ჩემი პირადობის მოწმობის ან საიდენტიფიკაციო დოკუმენტის ფოტო გადაღების/ვიდეო ჩანაწერის გაკეთების დროს, ასევე მიიღოს და დაამუშავოს აღნიშნულ დოკუმენტებში არსებული პერსონალური მონაცემები და შეამოწმოს აღნიშნული მონაცემების სიზუსტე.ჩემთვის ასევე ცნობილია და ვეთანხმები, რომ ჩემი ბიომეტრიული მონაცემების დამუშავება ხდება მხოლოდ იმ ვადით რა ვადაც აუცილებელის იდენტიფიცირების პროცესის დასრულებისთვის. არ ხდება კომპანიის მიერ და მათი წაშლა ხორციელდება იდენტიფიცირების პროცესის დასრულებისთანავე, ხოლო სხვა მონაცემების შენახვა კომპანია ახორციელებს კომპანიის სტანდარტული ხელშეკრულების პირობების შესაბამისად.აქვე ვადასტურებ რომ, იდენტიფიცირების მიზნით, ჩემს მიერ მოწოდებული ყველა პერსონალური მონაცემი იქნება უტყუარი და ზუსტი, ხოლო წარდგენილი დოკუმენტი მოქმედი და ნამდვილი.</Text>
+            <Text style={styles.description}>{translate.t('verification.kvDisclamer')}</Text>
         </View>
       </View>
 
       <AppButton
         isLoading={props.loading}
         disabled={!accepted}
-        title={'დაწყება'}
+        title={translate.t('verification.kvStart')}
         onPress={nextHandler}
         style={styles.button}
       />

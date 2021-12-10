@@ -1,7 +1,9 @@
 import React from "react"
 import { View, StyleSheet, Image, Text } from "react-native"
+import { useSelector } from "react-redux";
 import AppButton from "../../../components/UI/AppButton";
 import colors from "../../../constants/colors";
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from "../../../redux/action_types/translate_action_types";
 
 interface IProps {
     loading: boolean,
@@ -9,7 +11,9 @@ interface IProps {
 }
 
 const StepFour: React.FC<IProps> = (props) => {
-
+    const translate = useSelector<ITranslateGlobalState>(
+        state => state.TranslateReduser,
+      ) as ITranslateState;
     const nextHandler = () => {
         props.onComplate();
     }
@@ -18,7 +22,7 @@ const StepFour: React.FC<IProps> = (props) => {
         <View style={styles.container}>
             <View style={styles.wrapper}>
                 <Text style={styles.headerText}>
-                    გთხოვთ, მოემზადოთ ვიზუალური იდენტიფიკაციისთის
+                    {translate.t('verification.visualIdentification')}
                 </Text>
             </View>
             <View style={styles.imageContainer}>
@@ -26,9 +30,7 @@ const StepFour: React.FC<IProps> = (props) => {
             </View>
             <View style={styles.wrapper}>
                 <Text style={styles.title}>
-                    თქვენ დაგჭირდებათ ვებკამერა და პირადობის
-                    დამადასტურებელი დოკუმენტი
-                    (პასპორტი ან პირადობის მოწმობა).
+                {translate.t('verification.webcamAndDocument')}
                 </Text>
             </View>
   

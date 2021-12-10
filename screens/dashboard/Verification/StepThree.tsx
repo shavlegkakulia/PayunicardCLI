@@ -1,11 +1,13 @@
 import React, { useState } from "react"
 import { View, StyleSheet, Text, StyleProp, ViewStyle, TouchableOpacity, Image } from "react-native"
+import { useSelector } from "react-redux";
 import AppButton from "../../../components/UI/AppButton";
 import AppCheckbox from "../../../components/UI/AppCheckbox";
 import AppInput from "../../../components/UI/AppInput";
 import AppSelect, { SelectItem } from "../../../components/UI/AppSelect/AppSelect";
 import Validation, { required } from "../../../components/UI/Validation";
 import colors from "../../../constants/colors";
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from "../../../redux/action_types/translate_action_types";
 import { IExpectedType } from "../../../services/UserService";
 import { ITransactionCategoryInterface } from "./Index";
 
@@ -24,6 +26,10 @@ interface IProps {
 const ValidationContext = 'userVerification';
 
 const StepThree: React.FC<IProps> = (props) => {
+    const translate = useSelector<ITranslateGlobalState>(
+        state => state.TranslateReduser,
+      ) as ITranslateState;
+      
     const [expectedTurnoverErrorStyle, setExpectedTurnoverErrorStyle] = useState<StyleProp<ViewStyle>>({});
     const [expectedTurnoverVisible, setExpectedTurnoverVisible] = useState(false);
 
@@ -47,12 +53,12 @@ const StepThree: React.FC<IProps> = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.sectionContainer}>
-                <Text style={styles.BoxTitle}>მონიშნეთ მოსალოდნელი ბრუნვა 1 წლის განმავლობაში</Text>
+                <Text style={styles.BoxTitle}>{translate.t('verification.expectedTurnover')}</Text>
                 <View style={[styles.sectionBox, expectedTurnoverErrorStyle]}>
                     {props.selectedExpectedTurnover ?
                         <SelectItem
                             itemKey='expectedTurnover'
-                            defaultTitle='აირჩიეთ მოსალოდნელი ბრუნვა'
+                            defaultTitle={translate.t('verification.chooseExpectedTurnover')}
                             item={props.selectedExpectedTurnover}
                             onItemSelect={() => setExpectedTurnoverVisible(true)}
                             style={styles.typeItem} />
@@ -60,7 +66,7 @@ const StepThree: React.FC<IProps> = (props) => {
                         <TouchableOpacity
                             onPress={() => setExpectedTurnoverVisible(true)}
                             style={[styles.typeSelectHandler]}>
-                            <Text style={styles.typePlaceholder}>აირჩიეთ მოსალოდნელი ბრუნვა</Text>
+                            <Text style={styles.typePlaceholder}>{translate.t('verification.chooseExpectedTurnover')}</Text>
                             <Image style={styles.dropImg} source={require('./../../../assets/images/down-arrow.png')} />
                         </TouchableOpacity>}
 
@@ -75,7 +81,7 @@ const StepThree: React.FC<IProps> = (props) => {
 
 
                 <View style={styles.categories}>
-                    <Text style={styles.BoxTitle}>მონიშნეთ მოსალოდნელი ტრანზაქციების კატეგორიები</Text>
+                    <Text style={styles.BoxTitle}>{translate.t('verification.chooseTransactionOptions')}</Text>
                     {props.transactionCategories.map((category, index) =>
                         <View key={index} style={styles.categoryItem}>
                             <TouchableOpacity
@@ -95,7 +101,7 @@ const StepThree: React.FC<IProps> = (props) => {
                 </View>
 
                 {isAnotherSelected && <AppInput
-                        placeholder='სხვა'
+                        placeholder={translate.t('verification.other')}
                         onChange={(anotherTransactionCategory) => props.setAnotherTransactionCategory(anotherTransactionCategory)}
                         value={props.anotherTransactionCategory}
                         customKey='anotherTransactionCategory'
