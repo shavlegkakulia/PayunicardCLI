@@ -72,8 +72,8 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
     const refreshToken = await AuthService.getRefreshToken();
     const refreshObj = new FormData();
     refreshObj.append('scope', 'Wallet_Api.Full offline_access');
-    refreshObj.append('client_id', 'WalletApi');
-    refreshObj.append('client_secret', 'abcd123');
+    refreshObj.append("client_id", envs.client_id);
+    refreshObj.append("client_secret", envs.client_secret);
     refreshObj.append('grant_type', 'refresh_token');
     refreshObj.append('refresh_token', refreshToken);
     return axios
@@ -124,7 +124,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
             isAuthenticated: true,
           });
         } else {
-          dispatch(PUSH('დაფიქსირდა შეცდომა'));
+          dispatch(PUSH(translate.t("generalErrors.errorOccurred")));
           setCode(undefined);
         }
       });
@@ -147,7 +147,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
           isAuthenticated: true,
         });
       } else {
-        dispatch(PUSH('დაფიქსირდა შეცდომა'));
+        dispatch(PUSH(translate.t("generalErrors.errorOccurred")));
         setCode(undefined);
       }
     });

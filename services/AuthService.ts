@@ -213,9 +213,9 @@ class AuthService {
         this.refreshStarted = true;
         const refreshObj = new FormData();
         refreshObj.append('scope', 'Wallet_Api.Full offline_access');
-        refreshObj.append('client_id', 'WalletApi');
-        refreshObj.append('client_secret', 'abcd123');
         refreshObj.append('grant_type', 'refresh_token');
+        refreshObj.append("client_id", envs.client_id);
+        refreshObj.append("client_secret", envs.client_secret);
         refreshObj.append('refresh_token', refreshToken);
         return axios
           .post<IAuthorizationResponse>(`${envs.CONNECT_URL}connect/token`, refreshObj, { anonymous: true })
