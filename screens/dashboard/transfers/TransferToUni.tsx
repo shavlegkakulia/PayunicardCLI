@@ -607,7 +607,7 @@ const TransferToUni: React.FC = () => {
                   <View style={styles.currencyBox}>
                     {TransfersStore.selectedFromCurrency ? (
                       <CurrencyItem
-                        defaultTitle="ვალუტა"
+                        defaultTitle={ translate.t("transfer.currency")}
                         currency={TransfersStore.selectedFromCurrency}
                         onCurrencySelect={() => setFromCurrencyVisible(true)}
                         style={styles.currencyItem}
@@ -619,7 +619,7 @@ const TransferToUni: React.FC = () => {
                           styles.currencySelectHandler,
                           fromCurrencyErrorStyle,
                         ]}>
-                        <Text style={styles.currencyPlaceholder}>ვალუტა</Text>
+                        <Text style={styles.currencyPlaceholder}>{ translate.t("transfer.currency")}</Text>
                         <Image
                           style={styles.dropImg}
                           source={require('./../../../assets/images/down-arrow.png')}
@@ -654,11 +654,11 @@ const TransferToUni: React.FC = () => {
 
                 {route.params.newTemplate && (
                   <View style={styles.nominationBox}>
-                    <Text style={styles.accountBoxTitle}>შაბლონის სახელი</Text>
+                    <Text style={styles.accountBoxTitle}>{ translate.t("template.templateName")}</Text>
                     <AppInput
                       customKey="templateName"
                       context={ValidationContext}
-                      placeholder="შაბლონის სახელი"
+                      placeholder={ translate.t("template.templateName")}
                       requireds={[required]}
                       value={TransfersStore.templateName}
                       style={nominationErrorStyle}

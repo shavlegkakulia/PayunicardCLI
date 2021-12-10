@@ -129,7 +129,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
         }
       });
     } else {
-      dispatch(PUSH('არასწორი პას კოდი'));
+      dispatch(PUSH(translate.t('generalErrors.passCodeError')));
       setCode(undefined);
     }
   };
@@ -283,7 +283,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
           <TouchableOpacity
             onPress={setNum.bind(this, '-')}
             style={styles.keyNum}>
-            <Text style={styles.del}>წაშლა</Text>
+            <Text style={styles.del}>{translate.t('common.delete')}</Text>
           </TouchableOpacity>
         </View>
       </View>

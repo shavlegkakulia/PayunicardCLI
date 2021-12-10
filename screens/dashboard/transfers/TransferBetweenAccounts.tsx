@@ -375,7 +375,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                   <View style={[styles.currencyBox, toCurrencyErrorStyle]}>
                     {TransfersStore.selectedToCurrency ? (
                       <CurrencyItem
-                        defaultTitle="ვალუტა"
+                        defaultTitle={ translate.t("transfer.currency")}
                         currency={TransfersStore.selectedToCurrency}
                         onCurrencySelect={() => setToCurrencyVisible(true)}
                         style={styles.currencyItem}
@@ -384,7 +384,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                       <TouchableOpacity
                         onPress={() => setToCurrencyVisible(true)}
                         style={[styles.currencySelectHandler]}>
-                        <Text style={styles.currencyPlaceholder}>ვალუტა</Text>
+                        <Text style={styles.currencyPlaceholder}>{ translate.t("transfer.currency")}</Text>
                         <Image
                           style={styles.dropImg}
                           source={require('./../../../assets/images/down-arrow.png')}

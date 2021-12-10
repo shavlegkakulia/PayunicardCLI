@@ -41,6 +41,7 @@ export default {
         pleaseWait: ' Please Wait',
         connectFail: 'Connection Failed',
         dataError:  'Data Not Found',
+        passCodeError:  'Incorect Passcode'
     },
     services: {
         utility: 'Utility Payment',
@@ -116,6 +117,18 @@ export default {
         login: 'Sign In',
         signup: 'Sign Up',
         loginWithAnother: 'Log in with another account'
+    },
+    signup: {
+        title: 'Sign Up',
+        startRegister: 'Sign Up',
+        passwordValidationSection1: 'Password Should Contain Minimum:',
+        passwordValidationSection2: '8 Characters',
+        passwordValidationSection3: 'One Uppercase Letter',
+        passwordValidationSection4: 'One Lowercase Letter',
+        passwordValidationSection5: 'One Number',
+        passwordValidationSection6: 'One Special Character (Except the Dot and @ Symbol)',
+        simpleRegistrationComplate: 'მარტივი რეგისტრაცია დასრულებულია',
+        addCardsToPoints: 'დაამატეთ ლოიალობის ბარათები და დააგროვეთ ქულები'
     },
     plusSign: {
         chooseService: 'Choose Service',

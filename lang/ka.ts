@@ -41,7 +41,8 @@ export default {
         fillOutField: 'შეავსეთ ველი',
         pleaseWait: 'გთხოვთ დაელოდოთ',
         connectFail: 'კავშირი ვერ ხერხდება',
-        dataError:  'მონაცემები არ მოიძებნა'
+        dataError:  'მონაცემები არ მოიძებნა',
+        passCodeError:  'არასწორი პასკოდი'
     },
 
     otp: {
@@ -49,12 +50,13 @@ export default {
         otpSent: 'Sms კოდი გამოგზავნილია ნომერზე',
         otpSentBlank: 'Sms კოდი გამოგზავნილია ',
         smsCode: 'Sms კოდი',
+
         resend: 'თავიდან'
     },
 
     template: {
         saveTemplate: 'შაბლონად შენახვა',
-        templateName: 'შაბლონის სახელი',
+        templateName:'შაბლონის სახელი',
         transfTemplateSuccess: 'გადარიცხვის შაბლონი \n წარმატებით შეიქმნა',
         paymentTemplateSuccess: 'გადახდის შაბლონი \n წარმატებით შეიქმნა ',
         editTemplate: 'შაბლონის რედაქტირება'

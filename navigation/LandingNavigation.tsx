@@ -159,7 +159,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის შეცვლა',
+            title:  translate.t("settings.changePassword"),
             hideHeader: true,
             backText: translate.t("common.back")
           })
@@ -171,7 +171,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის შეცვლა',
+            title:  translate.t("settings.changePassword"),
             backText: translate.t("common.back")
           })
         }

@@ -293,7 +293,7 @@ const PasswordReset: React.FC<IProps> = props => {
           style={styles.pwdResetInput}
           value={email}
           onChange={setEmail}
-          placeholder={'Username/Email'}
+          placeholder={translate.t('login.usernameEmail')}
         />
 
         {isRegistered ? (
@@ -304,7 +304,7 @@ const PasswordReset: React.FC<IProps> = props => {
             style={styles.pwdResetInput}
             value={personalNumber}
             onChange={setPersonalNumber}
-            placeholder={'პირადი ნომერი'}
+            placeholder={translate.t('common.personalNumber')}
           />
         ) : null}
 
@@ -315,18 +315,18 @@ const PasswordReset: React.FC<IProps> = props => {
           style={styles.pwdResetInput}
           value={phone}
           onChange={setPhone}
-          placeholder={'ტელეფონი'}
+          placeholder={translate.t('services.telephone')}
         />
       </View>
     );
   } else if (pwdResetStep === PWDRESET_STEPS.STEP_THREE) {
     pwdResetStepView = (
       <View style={styles.insertOtpSTep}>
-        <Text style={styles.insertOtpCode}>შეიყვანე სმს კოდი</Text>
+        <Text style={styles.insertOtpCode}>{translate.t('otp.enterOtp')}</Text>
         <FloatingLabelInput
           Style={styles.otpBox}
           label={translate.t('otp.smsCode')}
-          title="პაროლის შეცვლისათვის საჭირო სმს კოდი გამოგზავნილია"
+          title={translate.t('otp.otpSentBlank')}
           value={otp}
           onChangeText={setOtp}
           onRetry={SendPhoneOTP}
@@ -383,7 +383,7 @@ const PasswordReset: React.FC<IProps> = props => {
   } else if (pwdResetStep === PWDRESET_STEPS.STEP_FIVE) {
     pwdResetStepView = (
       <SuccesContent
-        statusText="პაროლი წარმატებით შეიცვალა"
+        statusText={translate.t('password.pasChanged')}
         style={styles.succesStyle}
       />
     );

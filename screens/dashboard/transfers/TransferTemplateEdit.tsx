@@ -13,6 +13,7 @@ import {
   IGlobalState as ITRansferGlobalState,
   TRANSFERS_ACTION_TYPES,
 } from '../../../redux/action_types/transfers_action_types';
+import { ITranslateState, IGlobalState as ITranslateGlobalState }  from '../../../redux/action_types/translate_action_types';
 import NavigationService from '../../../services/NavigationService';
 import TemplatesService, {
   IPayTemplateEditRequest,
@@ -29,6 +30,9 @@ type RouteParamList = {
 const ValidationContext = 'EditTransferTemplate';
 
 const TransferTemplateEdit = () => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [templName, setTemplName] = useState<string>(route.params.templName);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -86,11 +90,11 @@ const TransferTemplateEdit = () => {
             onChange={setTemplName}
             context={ValidationContext}
             customKey="templName"
-            placeholder="შაბლონის სახელი"
+            placeholder={ translate.t("template.templateName")}
             requireds={[required]}
           />
 
-          <AppButton title="შენახვა" onPress={submit} isLoading={isLoading} />
+          <AppButton title={ translate.t("common.save")} onPress={submit} isLoading={isLoading} />
         </View>
       </View>
     </KeyboardAvoidingView>

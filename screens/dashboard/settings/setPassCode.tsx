@@ -37,7 +37,7 @@ const SetPassCode: React.FC = () => {
 
   const savePassData = async (prev: string) => {
     if (prev !== baseCode) {
-      dispatch(PUSH('არასწორი პას კოდი'));
+      dispatch(PUSH(translate.t('generalErrors.passCodeError')));
       setCode(undefined);
       setBaseCode(undefined);
       return;

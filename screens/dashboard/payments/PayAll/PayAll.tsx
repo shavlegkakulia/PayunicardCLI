@@ -442,7 +442,7 @@ const PayAll: React.FC<INavigationProps> = props => {
                         </Text>
                       </Text>
                       <Text style={styles.templatesComputedDebt}>
-                        ჯამური თანხა{' '}
+                        { translate.t("payments.totalDue")}{' '}
                         <Text style={{color: colors.danger}}>
                           {CurrencyConverter(
                             (

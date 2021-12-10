@@ -705,7 +705,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'პაროლის შეცვლა',
+                title:  translate.t("settings.changePassword"),
                 backText: translate.t("common.back")
               })
             }
@@ -717,7 +717,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'პაროლის შეცვლა',
+                title:  translate.t("settings.changePassword"),
                 backText: translate.t("common.back")
               })
             }
@@ -729,7 +729,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'პაროლის შეცვლა',
+                title:  translate.t("settings.changePassword"),
                 backText: translate.t("common.back")
               })
             }
@@ -741,7 +741,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'პაროლის შეცვლა',
+                title:  translate.t("settings.changePassword"),
                 backText: translate.t("common.back")
               })
             }
@@ -910,7 +910,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'პაროლის შეცვლა',
+                title:  translate.t("settings.changePassword"),
                 hideHeader: true,
                 backText: translate.t("common.back")
               })
@@ -923,7 +923,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'პაროლის შეცვლა',
+                title:  translate.t("settings.changePassword"),
                 backText: translate.t("common.back")
               })
             }
@@ -935,7 +935,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'პაროლის შეცვლა',
+                title:  translate.t("settings.changePassword"),
                 backText: translate.t("common.back")
               })
             }

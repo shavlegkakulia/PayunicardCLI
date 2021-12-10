@@ -535,7 +535,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                   <View style={styles.currencyBox}>
                     {_currency[0] ? (
                       <CurrencyItem
-                        defaultTitle="ვალუტა"
+                        defaultTitle={ translate.t("transfer.currency")}
                         currency={_currency[0]}
                         onCurrencySelect={() => setToCurrencyVisible(true)}
                         style={styles.currencyItem}
@@ -547,7 +547,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                           styles.currencySelectHandler,
                           toCurrencyErrorStyle,
                         ]}>
-                        <Text style={styles.currencyPlaceholder}>ვალუტა</Text>
+                        <Text style={styles.currencyPlaceholder}>{ translate.t("transfer.currency")}</Text>
                         <Image
                           style={styles.dropImg}
                           source={require('./../../../assets/images/down-arrow.png')}
