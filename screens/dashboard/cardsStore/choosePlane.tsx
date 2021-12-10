@@ -9,6 +9,7 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import {StoreActionType} from '.';
 import CurrencyPrioritySelect, {
   CurrencyPriorityItem,
@@ -20,6 +21,10 @@ import AppButton from '../../../components/UI/AppButton';
 import colors from '../../../constants/colors';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+ } from '../../../redux/action_types/translate_action_types';
 import NavigationService from '../../../services/NavigationService';
 import PresentationServive, {
   GetPackageTypeListResponse,
@@ -42,6 +47,9 @@ export const Periodes = {
 };
 
 const choosePlane: React.FC = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [packageVisible, setPackageVisible] = useState<boolean>(false);
   const [period, setPeriod] = useState<string>(Periodes.Year);
@@ -154,7 +162,7 @@ const choosePlane: React.FC = props => {
                   styles.periodText,
                   period === Periodes.Quarter && styles.periodTextActive,
                 ]}>
-                კვარტალი
+                {translate.t('orderCard.quarter')}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -168,13 +176,13 @@ const choosePlane: React.FC = props => {
                   styles.periodText,
                   period === Periodes.Year && styles.periodTextActive,
                 ]}>
-                წელიწადი
+                {translate.t('orderCard.year')}
               </Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.accountBox}>
-            <Text style={styles.accountBoxTitle}>აირჩიეთ ტარიფი</Text>
+            <Text style={styles.accountBoxTitle}>{translate.t('orderCard.chosseTariff')}</Text>
 
             {selectedPackage ? (
               <PackageItem
@@ -207,7 +215,7 @@ const choosePlane: React.FC = props => {
 
           <View style={styles.accountBox}>
             <Text style={styles.accountBoxTitle}>
-              {translate.t('common.selectAccount')}ს სავალუტო პრიორიტეტი
+              {translate.t('orderCard.chosseCurrencyPriority')}
             </Text>
 
             {selectedCurrencyType ? (
@@ -239,12 +247,12 @@ const choosePlane: React.FC = props => {
           </View>
         </View>
 
-        <View style={styles.bline}>
+        {/* <View style={styles.bline}>
           <Text style={styles.info}>
-            ტარიფის და ბარათების ღირებულება:{' '}
+          {translate.t('orderCard.tariffPrice')}
             {CurrencyConverter(period === Periodes.Year ? selectedPackage?.priceAnnual : selectedPackage?.priceQuarterly)} ₾
           </Text>
-        </View>
+        </View> */}
       </View>
       <AppButton
         style={styles.button}

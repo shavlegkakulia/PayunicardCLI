@@ -28,6 +28,10 @@ import UserService, {
 import {delyveryMethods} from './DelyveryMethods';
 import {StoreActionType} from '.';
 import {Periodes} from './choosePlane';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 
 type RouteParamList = {
   params: {
@@ -52,6 +56,9 @@ type RouteParamList = {
 };
 
 const TarrifSetOtp: React.FC = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [otp, setOtp] = useState<string | undefined>();
@@ -166,8 +173,8 @@ const TarrifSetOtp: React.FC = props => {
         <View style={styles.content}>
           <FloatingLabelInput
             Style={styles.otpBox}
-            label="სმს კოდი"
-            title="სმს კოდი გამოგზავნილია"
+            label={translate.t('otp.smsCode')}
+            title={translate.t('otp.otpSentBlank')}
             value={otp}
             onChangeText={setOtp}
             onRetry={sendOtp}

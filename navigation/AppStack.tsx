@@ -508,7 +508,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბარათის შეკვეთა',
+                title: translate.t("plusSign.orderCard"),
                 backText: translate.t("common.back")
               })
             }
@@ -520,7 +520,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბარათის შეკვეთა',
+                title: translate.t("plusSign.orderCard"),
                 backText: translate.t("common.back")
               })
             }
@@ -532,7 +532,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბარათის შეკვეთა',
+                title: translate.t("plusSign.orderCard"),
                 backText: translate.t("common.back")
               })
             }
@@ -544,7 +544,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბარათის მიღების მეთოდის არჩევა',
+                title: translate.t("plusSign.orderCard"),
                 backText: translate.t("common.back")
               })
             }
@@ -556,7 +556,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბარათის შეკვეთა',
+                title: translate.t("plusSign.orderCard"),
                 backText: translate.t("common.back")
               })
             }
@@ -568,7 +568,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'წინასწარი შეკვეთა',
+                title: translate.t("plusSign.orderCard"),
                 backText: translate.t("common.back")
               })
             }
@@ -580,7 +580,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ქვითარი',
+                title: translate.t("plusSign.orderCard"),
                 hideHeader: true,
                 backText: translate.t("common.back")
               })
@@ -691,7 +691,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'გადახდის შაბლონი',
+               title: translate.t("payments.paymentTemplates"),
                 backText: translate.t("common.back")
               })
             }
@@ -753,7 +753,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'პასკოდი',
+                title: translate.t('settings.passCode'),
                 backText: translate.t("common.back")
               })
             }
@@ -765,7 +765,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'პერსონალური ინფორმაცია',
+                title: translate.t('settings.personalInfo'),
                 backText: translate.t("common.back")
               })
             }
@@ -777,7 +777,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ვერიფიკაცია',
+                title: translate.t('verification.verification'),
                 hideHeader: true,
                 backText: translate.t("common.back")
               })
@@ -790,7 +790,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ვერიფიკაცია',
+                title: translate.t('verification.verification'),
                 backText: translate.t("common.back")
               })
             }
@@ -802,7 +802,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ვერიფიკაცია',
+                title: translate.t('verification.verification'),
                 backText: translate.t("common.back")
               })
             }
@@ -814,7 +814,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ვერიფიკაცია',
+                title: translate.t('verification.verification'),
                 backText: translate.t("common.back")
               })
             }
@@ -826,7 +826,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ვერიფიკაცია',
+                title: translate.t('verification.verification'),
                 backText: translate.t("common.back")
               })
             }
@@ -838,7 +838,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ვერიფიკაცია',
+                title: translate.t('verification.verification'),
                 backText: translate.t("common.back")
               })
             }
@@ -850,7 +850,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ვერიფიკაცია',
+                title: translate.t('verification.verification'),
                 backText: translate.t("common.back")
               })
             }
@@ -862,7 +862,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ვერიფიკაცია',
+                title: translate.t('verification.verification'),
                 backText: translate.t("common.back")
               })
             }
@@ -874,7 +874,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ვერიფიკაცია',
+                title: translate.t('verification.verification'),
                 backText: translate.t("common.back")
               })
             }
@@ -886,7 +886,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ვერიფიკაცია',
+                title: translate.t('verification.verification'),
                 backText: translate.t("common.back")
               })
             }
@@ -898,7 +898,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ვერიფიკაცია',
+                title: translate.t('verification.verification'),
                 backText: translate.t("common.back")
               })
             }

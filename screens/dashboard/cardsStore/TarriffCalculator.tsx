@@ -26,6 +26,10 @@ import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import {PUSH} from '../../../redux/actions/error_action';
 import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
+import {
   IUserState,
   IGloablState as IUserGlobalState,
 } from '../../../redux/action_types/user_action_types';
@@ -67,6 +71,9 @@ export const PacketTypeIds = {
 };
 
 const TarriffCalculator: React.FC = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [fromAccountVisible, setFromAccountVisible] = useState(false);
@@ -282,16 +289,17 @@ const TarriffCalculator: React.FC = props => {
     } else {
       setFromAccountErrorStyle({});
     }
-
-    if (route.params.orderType === StoreActionType.PurchaseCard) {
+    console.log('aq tu shemodis', route.params.orderType)
+   // if (route.params.orderType === StoreActionType.PurchaseCard) {
       const isChoosed = cardTypes?.filter(
         ct => ct.willCount && ct.willCount > 0,
       );
+     
       if (getNumber(isChoosed?.length) <= 0) {
         dispatch(PUSH('გთხოვთ აირჩიეთ ბარათი'));
         return;
       }
-    }
+    //}
 
     NavigationService.navigate(Routes.DelyveryMethods, {
       package: route.params.package,
@@ -338,7 +346,7 @@ const TarriffCalculator: React.FC = props => {
   const tab = (
     <View style={styles.tabContainer}>
       <Text style={styles.tabTitle}>
-        აირჩიეთ Visa ან Mastercard უფასო ბარათი
+        {translate.t('orderCard.chooseCards')}
       </Text>
       <View style={styles.tabContent}>
         {isLoading ? (
@@ -405,13 +413,13 @@ const TarriffCalculator: React.FC = props => {
                 </View>
               ) : (
                 <>
-                  <Text style={styles.tarrifTitle}>არჩეული ანგარიში</Text>
+                  <Text style={styles.tarrifTitle}>{translate.t('orderCard.choosenTariff')}</Text>
                   <Text style={[styles.tarrifTitle, styles.tarrifValue]}>
                     {route.params.package.paketCode}
                   </Text>
 
                   <Text style={[styles.tarrifTitle, styles.ccyBox]}>
-                    არჩეული სავალუტო პრიორიტეტი
+                  {translate.t('orderCard.chossenCurrencyPriority')}
                   </Text>
                   <Text style={[styles.tarrifTitle, styles.tarrifValue]}>
                     {route.params.tarrif.ccy}
@@ -422,7 +430,7 @@ const TarriffCalculator: React.FC = props => {
               {tab}
 
               <Text style={styles.checkTitle}>
-                მაღალი რისკის მერჩანტების ტრანზაქციების გააქტიურება
+                {translate.t('orderCard.highRiskMerchantTitle')}
               </Text>
 
               <View style={styles.toggleBox}>
@@ -438,28 +446,26 @@ const TarriffCalculator: React.FC = props => {
                   value={isEnabled}
                 />
                 <Text style={styles.checkLabel}>
-                  {
-                    'დაადასტურეთ სმს კოდით, თუ გსურთ\nგანახორციელოთ ტრანზაქციები: კაზინოს,\nტოტალიზატორის, ლატარიის,საბროკერო და სხვა\nანგარიშებზე'
-                  }
+                {translate.t('orderCard.highRiskMerchantDesc')}
                 </Text>
               </View>
             </View>
 
             <View style={styles.bline}>
               <Text style={styles.cardCountInfo}>
-                ბარათის რაოდენობა: {cardCount}
+                {translate.t('orderCard.cardCount')}: {cardCount}
               </Text>
 
               <Text style={styles.info}>
                 {route.params.orderType === StoreActionType.TarrifPlan
-                  ? `ტარიფის ღირებულება: ${CurrencyConverter(
+                  ? `${translate.t('orderCard.tariffPrice')}: ${CurrencyConverter(
                       getNumber(
                         route.params.period === Periodes.Year
                           ? route.params.package?.priceAnnual
                           : route.params.package?.priceQuarterly,
                       ),
                     )} ₾`
-                  : `ბარათების ღირებულება: ${CurrencyConverter(
+                  : `${translate.t('orderCard.cardPrice')}: ${CurrencyConverter(
                       cardTarrif?.tariffAmount,
                     )} ₾`}
               </Text>

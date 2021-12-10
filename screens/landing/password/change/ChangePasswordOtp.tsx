@@ -124,7 +124,7 @@ const ChangePasswordOtp: React.FC = () => {
             <Text style={styles.insertOtpCode}>შეიყვანე სმს კოდი</Text>
             <FloatingLabelInput
               Style={styles.otpBox}
-              label="სმს კოდი"
+              label={translate.t('otp.smsCode')}
               title="პაროლის შეცვლისათვის საჭირო სმს კოდი გამოგზავნილია"
               value={otp}
               onChangeText={setOtp}

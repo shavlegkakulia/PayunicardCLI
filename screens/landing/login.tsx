@@ -249,8 +249,8 @@ const LoginForm: React.FC = () => {
           <View style={styles.content}>
             <FloatingLabelInput
               Style={styles.otpBox}
-              label="სმს კოდი"
-              title="სმს კოდი გამოგზავნილია"
+              label={translate.t('otp.smsCode')}
+              title={translate.t('otp.otpSentBlank')}
               value={otp}
               onChangeText={otp => setOtp(otp)}
               onRetry={onResendOtp}
@@ -260,7 +260,7 @@ const LoginForm: React.FC = () => {
             style={styles.button}
             onPress={login}
             isLoading={state.isLoading}
-            title="დადასტურება"
+            title={translate.t('common.confirm')}
           />
         </View>
       </KeyboardAvoidingView>

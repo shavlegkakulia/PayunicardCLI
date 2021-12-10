@@ -100,7 +100,7 @@ const EditUserInfo: React.FC = () => {
         <View style={styles.container}>
           {profileDataEdited?.phone !== undefined && (
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>მობილურის ნომერი</Text>
+              <Text style={styles.label}>{translate.t('common.mobile')}</Text>
               <AppInput
                 editable={false}
                 value={profileDataEdited?.phone}
@@ -111,15 +111,15 @@ const EditUserInfo: React.FC = () => {
                     return user;
                   });
                 }}
-                placeholder="მობილურის ნომერი"
+                placeholder={translate.t('common.mobile')}
                 customKey="mobile"
                 context={USERCONTEXT}
               />
             </View>
           )}
-          {profileDataEdited?.name !== undefined && (
+           {profileDataEdited?.name !== undefined && (
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>სახელი</Text>
+              <Text style={styles.label}>{translate.t('common.name')}</Text>
               <AppInput
                 editable={false}
                 value={profileDataEdited?.name}
@@ -130,7 +130,7 @@ const EditUserInfo: React.FC = () => {
                     return user;
                   });
                 }}
-                placeholder="სახელი"
+                placeholder={translate.t('common.name')}
                 customKey="name"
                 context={USERCONTEXT}
               />
@@ -138,7 +138,7 @@ const EditUserInfo: React.FC = () => {
           )}
           {profileDataEdited?.surname !== undefined && (
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>გვარი</Text>
+              <Text style={styles.label}>{translate.t('common.lname')}</Text>
               <AppInput
                 editable={false}
                 value={profileDataEdited?.surname}
@@ -149,7 +149,7 @@ const EditUserInfo: React.FC = () => {
                     return user;
                   });
                 }}
-                placeholder="გვარი"
+                placeholder={translate.t('common.lname')}
                 customKey="lname"
                 context={USERCONTEXT}
               />
@@ -158,7 +158,7 @@ const EditUserInfo: React.FC = () => {
           {profileDataEdited?.birthDate !== undefined &&
             profileDataEdited?.birthDate !== null && (
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>დაბადების თარიღი</Text>
+                <Text style={styles.label}>{translate.t('common.birthDate')}</Text>
                 <AppInput
                   editable={false}
                   value={profileDataEdited?.birthDate}
@@ -172,11 +172,11 @@ const EditUserInfo: React.FC = () => {
           {profileDataEdited?.personalID !== undefined &&
             profileDataEdited?.personalID !== null && (
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>პირადი ნომერი</Text>
+                <Text style={styles.label}>{translate.t('common.personalNumber')}</Text>
                 <AppInput
                   value={profileDataEdited?.personalID}
                   onChange={() => {}}
-                  placeholder="პირადი ნომერი"
+                  placeholder={translate.t('common.personalNumber')}
                   customKey="pn"
                   context={USERCONTEXT}
                 />
@@ -184,7 +184,7 @@ const EditUserInfo: React.FC = () => {
             )}
           {profileDataEdited?.email !== undefined && (
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>ელფოსტა</Text>
+              <Text style={styles.label}>{translate.t('common.email')}</Text>
               <AppInput
                 editable={false}
                 value={profileDataEdited?.email}
@@ -195,7 +195,7 @@ const EditUserInfo: React.FC = () => {
                     return user;
                   });
                 }}
-                placeholder="ელფოსტა"
+                placeholder={translate.t('common.email')}
                 customKey="email"
                 context={USERCONTEXT}
               />
@@ -220,41 +220,23 @@ const EditUserInfo: React.FC = () => {
               />
             </View>
           )}
-          {profileDataEdited?.legalAddress !== undefined && (
+        
+          {(country && country[0]?.countryName) && (
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>{translate.t('verification.address')}</Text>
+              <Text style={styles.label}>{translate.t('common.country')}</Text>
               <AppInput
                 editable={false}
-                value={profileDataEdited?.legalAddress}
-                customKey='legalAddress'
-                onChange={legalAddress => {
-                  setProfileDataEdited(prev => {
-                    const user = {...prev};
-                    user.legalAddress = legalAddress;
-                    return user;
-                  });
-                }}
-                placeholder={translate.t('verification.address')}
-                context={USERCONTEXT}
-              />
-            </View>
-          )}
-          {country !== undefined && country?.length && (
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>ქვეყანა</Text>
-              <AppInput
-                editable={false}
-                value={country[0].countryName}
+                value={country[0]?.countryName}
                 onChange={() => {}}
-                placeholder="ქვეყანა"
+                placeholder={translate.t('common.country')}
                 customKey="mobile"
                 context={USERCONTEXT}
               />
             </View>
           )}
-          {profileDataEdited?.factCity !== undefined && (
+         {profileDataEdited?.factCity !== undefined && (
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>ქალაქი/მუნიციპალიტეტი </Text>
+              <Text style={styles.label}>{translate.t('verification.city')}</Text>
               <AppInput
                 editable={false}
                 value={profileDataEdited?.factCity}
@@ -265,7 +247,7 @@ const EditUserInfo: React.FC = () => {
                     return user;
                   });
                 }}
-                placeholder="ქალაქი/მუნიციპალიტეტი "
+                placeholder={translate.t('verification.city')}
                 customKey="city"
                 context={USERCONTEXT}
               />
@@ -273,7 +255,7 @@ const EditUserInfo: React.FC = () => {
           )}
           {profileDataEdited?.factPostalCode !== undefined && (
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>საფოსტო ინდექსი </Text>
+              <Text style={styles.label}>{translate.t('verification.zipCode')}</Text>
               <AppInput
                 editable={false}
                 value={profileDataEdited?.factPostalCode}
@@ -284,7 +266,7 @@ const EditUserInfo: React.FC = () => {
                     return user;
                   });
                 }}
-                placeholder="საფოსტო ინდექსი"
+                placeholder={translate.t('verification.zipCode')}
                 customKey="postal"
                 context={USERCONTEXT}
               />
