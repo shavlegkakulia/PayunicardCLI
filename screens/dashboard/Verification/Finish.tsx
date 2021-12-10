@@ -32,13 +32,12 @@ const Finish: React.FC<IProps> = props => {
       </View>
       <View style={styles.wrapper}>
         <Text style={styles.headerText}>
-          თქვენი მოთხოვნა მიღბული და მუშავდება
+         {translate.t('verification.requestAccepted')}
         </Text>
       </View>
       <View style={styles.wrapper}>
         <Text style={styles.title}>
-          თქვენი მოთხოვნის დაკმაყოფილების შემთვეში, მიიღებთ SMS შეტყობინებას
-          არაუგვიანეს 3 სამუშაო დღისა.
+        {translate.t('verification.notifyTime')}
         </Text>
       </View>
 

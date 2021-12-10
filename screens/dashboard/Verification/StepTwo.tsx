@@ -1,10 +1,12 @@
 import React, { useState } from "react"
 import { View, StyleSheet, Text, StyleProp, ViewStyle, TouchableOpacity, Image } from "react-native"
+import { useSelector } from "react-redux";
 import AppButton from "../../../components/UI/AppButton";
 import AppInput from "../../../components/UI/AppInput";
 import AppSelect, { SelectItem } from "../../../components/UI/AppSelect/AppSelect";
 import Validation, { required } from "../../../components/UI/Validation";
 import colors from "../../../constants/colors";
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from "../../../redux/action_types/translate_action_types";
 import { IStatus, IType2 } from "../../../services/UserService";
 
 interface IProps {
@@ -26,6 +28,9 @@ const skipEmployeStatuses = ['UnEmployed', 'Retired'];
 const ValidationContext = 'userVerification';
 
 const StepTwo: React.FC<IProps> = (props) => {
+    const translate = useSelector<ITranslateGlobalState>(
+        state => state.TranslateReduser,
+      ) as ITranslateState;
     const [employmentStatusErrorStyle, setEmploymentStatusErrorStyle] = useState<StyleProp<ViewStyle>>({});
     const [jobTypeErrorStyle, setJobTypeErrorStyle] = useState<StyleProp<ViewStyle>>({});
     const [jobStatusVisible, setJobStatusVisible] = useState(false);
@@ -58,12 +63,12 @@ const StepTwo: React.FC<IProps> = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.sectionContainer}>
-                <Text style={styles.BoxTitle}>მიუთითეთ საქმიანობის სფერო</Text>
+                <Text style={styles.BoxTitle}>{translate.t('verification.fieldOfEmployment')}</Text>
                 <View style={[styles.sectionBox, employmentStatusErrorStyle]}>
                     {props.selectedEmploymentStatus ?
                         <SelectItem
                             itemKey='employmentStatus'
-                            defaultTitle='დასაქმებული'
+                            defaultTitle={translate.t('verification.chooseStatusOfEmployment')}
                             item={props.selectedEmploymentStatus}
                             onItemSelect={() => setJobStatusVisible(true)}
                             style={styles.typeItem} />
@@ -71,7 +76,7 @@ const StepTwo: React.FC<IProps> = (props) => {
                         <TouchableOpacity
                             onPress={() => setJobStatusVisible(true)}
                             style={[styles.typeSelectHandler]}>
-                            <Text style={styles.typePlaceholder}>დასაქმებული</Text>
+                            <Text style={styles.typePlaceholder}>{translate.t('verification.chooseStatusOfEmployment')}</Text>
                             <Image style={styles.dropImg} source={require('./../../../assets/images/down-arrow.png')} />
                         </TouchableOpacity>}
 
@@ -89,7 +94,7 @@ const StepTwo: React.FC<IProps> = (props) => {
                         {props.selectedJobType ?
                             <SelectItem
                                 itemKey='customerEmploymentType'
-                                defaultTitle='აირჩიეთ საქმიანობის სფერო'
+                                defaultTitle={translate.t('verification.chooseFieldOfEmployment')}
                                 item={props.selectedJobType}
                                 onItemSelect={() => setJobTypesVisible(true)}
                                 style={styles.typeItem} />
@@ -97,7 +102,7 @@ const StepTwo: React.FC<IProps> = (props) => {
                             <TouchableOpacity
                                 onPress={() => setJobTypesVisible(true)}
                                 style={[styles.typeSelectHandler]}>
-                                <Text style={styles.typePlaceholder}>აირჩიეთ საქმიანობის სფერო</Text>
+                                <Text style={styles.typePlaceholder}>{translate.t('verification.chooseFieldOfEmployment')}</Text>
                                 <Image style={styles.dropImg} source={require('./../../../assets/images/down-arrow.png')} />
                             </TouchableOpacity>}
 
@@ -111,7 +116,7 @@ const StepTwo: React.FC<IProps> = (props) => {
                     </View>
 
                     <AppInput
-                        placeholder='დამსაქმებელი'
+                        placeholder={translate.t('verification.employer')}
                         onChange={(complimentary) => props.onSetComplimentary(complimentary)}
                         value={props.complimentary}
                         customKey='complimentary'
@@ -120,7 +125,7 @@ const StepTwo: React.FC<IProps> = (props) => {
                         context={ValidationContext} />
 
                     <AppInput
-                        placeholder='დაკავებული თანამდებობა'
+                        placeholder={translate.t('verification.workPosition')}
                         onChange={(occupiedPosition) => props.onSetOccupiedPositios(occupiedPosition)}
                         value={props.occupiedPosition}
                         customKey='occupiedPosition'

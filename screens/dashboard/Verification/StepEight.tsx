@@ -8,6 +8,7 @@ import {
   Text,
   Image,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import AppButton from '../../../components/UI/AppButton';
 import AppCheckbox from '../../../components/UI/AppCheckbox';
 import AppInput from '../../../components/UI/AppInput';
@@ -16,6 +17,7 @@ import AppSelect, {
 } from '../../../components/UI/AppSelect/AppSelect';
 import Validation, {required} from '../../../components/UI/Validation';
 import colors from '../../../constants/colors';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import {IKCData} from '../../../services/KvalificaServices';
 import {ICitizenshipCountry} from '../../../services/PresentationServive';
 
@@ -33,6 +35,9 @@ interface IProps {
 const ValidationContext = 'userVerification';
 
 const StepEight: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [countryErrorStyle, setCountryErrorStyle] = useState<
     StyleProp<ViewStyle>
   >({});
@@ -63,7 +68,7 @@ const StepEight: React.FC<IProps> = props => {
     }
 
     props.onComplate();
-  };
+  }; 
 
   const setBirthDate = (value: string) => {
     let data = {...props.kycData};
@@ -85,7 +90,7 @@ const StepEight: React.FC<IProps> = props => {
     <View style={styles.container}>
       <View style={styles.addressContainer}>
         <AppInput
-          placeholder="დაბადების წელი"
+          placeholder={translate.t('verification.dateOfBirth')}
           onChange={birthDate => setBirthDate(birthDate)}
           value={props.kycData?.birthDate}
           customKey="birthDate"
@@ -95,7 +100,7 @@ const StepEight: React.FC<IProps> = props => {
         />
 
         <AppInput
-          placeholder="სქესი"
+          placeholder={translate.t('verification.sex')}
           onChange={sex => setSex(sex)}
           value={props.kycData?.sex}
           customKey="sex"
@@ -108,7 +113,7 @@ const StepEight: React.FC<IProps> = props => {
           {props.selectedCountry ? (
             <SelectItem
               itemKey="countryName"
-              defaultTitle="აირჩიეთ ქვეყანა"
+              defaultTitle={translate.t('verification.chooseCountry')}
               item={props.selectedCountry}
               onItemSelect={() => setCountryVisible(true)}
               style={styles.countryItem}
@@ -117,7 +122,7 @@ const StepEight: React.FC<IProps> = props => {
             <TouchableOpacity
               onPress={() => setCountryVisible(true)}
               style={[styles.countrySelectHandler]}>
-              <Text style={styles.countryPlaceholder}>აირჩიეთ ქვეყანა</Text>
+              <Text style={styles.countryPlaceholder}>{translate.t('verification.chooseCountry')}</Text>
               <Image
                 style={styles.dropImg}
                 source={require('./../../../assets/images/down-arrow.png')}
@@ -141,7 +146,7 @@ const StepEight: React.FC<IProps> = props => {
         <AppCheckbox
           style={styles.checkbox}
           activeColor={colors.primary}
-          label="ორმაგი მოქალაქეობა"
+          label={translate.t('verification.dualSitizenship')}
           clicked={() => setHasDualSitizenship(!hasDualSitizenship)}
           value={hasDualSitizenship}
           key={'hasDualSitizenship'}
@@ -154,7 +159,7 @@ const StepEight: React.FC<IProps> = props => {
             {props.selectedCountry2 ? (
               <SelectItem
                 itemKey="countryName"
-                defaultTitle="აირჩიეთ ქვეყანა"
+                defaultTitle={translate.t('verification.chooseCountry')}
                 item={props.selectedCountry2}
                 onItemSelect={() => setCountryVisible2(true)}
                 style={styles.countryItem}
@@ -163,7 +168,7 @@ const StepEight: React.FC<IProps> = props => {
               <TouchableOpacity
                 onPress={() => setCountryVisible2(true)}
                 style={[styles.countrySelectHandler]}>
-                <Text style={styles.countryPlaceholder}>აირჩიეთ ქვეყანა</Text>
+                <Text style={styles.countryPlaceholder}>{translate.t('verification.chooseCountry')}</Text>
                 <Image
                   style={styles.dropImg}
                   source={require('./../../../assets/images/down-arrow.png')}

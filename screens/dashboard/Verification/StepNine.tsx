@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Image, Text} from 'react-native';
+import { useSelector } from 'react-redux';
 import AppButton from '../../../components/UI/AppButton';
 import AppCheckbox from '../../../components/UI/AppCheckbox';
 import colors from '../../../constants/colors';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import { IKCData } from '../../../services/KvalificaServices';
 
 interface IProps {
@@ -12,6 +14,9 @@ interface IProps {
 }
 
 const StepNine: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [accepted, setAccepted] = useState<boolean>(false);
 
   const nextHandler = () => {
@@ -21,29 +26,29 @@ const StepNine: React.FC<IProps> = props => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <Text style={styles.title}>გადაამოწმეთ პირადი{'\n'}ინფორმაცია</Text>
+        <Text style={styles.title}>{translate.t('verification.checkPersonalInfo')}</Text>
 
         <View style={styles.block}>
-          <Text style={styles.labelText}>დოკუმენტის ტიპი:</Text>
-          <Text style={styles.labelValue}>{props.kycData?.documetType === 'ID' ? 'პირადობის მოწმობა' : 'პასპორტი'}</Text>
+          <Text style={styles.labelText}>{translate.t('verification.docType')}:</Text>
+          <Text style={styles.labelValue}>{props.kycData?.documetType === 'ID' ? translate.t('verification.idCard') : translate.t('verification.passport')}</Text>
         </View>
 
         <View style={styles.block}>
-          <Text style={styles.labelText}>{props.kycData?.documetType === 'ID' ? 'პირადი ნომერი:' : 'პასპორტის ნომერი:'}</Text>
+          <Text style={styles.labelText}>{props.kycData?.documetType === 'ID' ? translate.t('verification.idNumber') : translate.t('verification.passportNumber')}</Text>
           <Text style={styles.labelValue}>{props.kycData?.personalNumber || props.kycData?.documentNumber}</Text>
         </View>
 
         <View style={styles.block}>
-          <Text style={styles.labelText}>დსახელი, გვარი:</Text>
+          <Text style={styles.labelText}>{translate.t('common.name')},{ translate.t('commin.lname') }:</Text>
           <Text style={styles.labelValue}>{props.kycData?.firstName} {props.kycData?.lastName}</Text>
         </View>
 
         <View style={styles.block}>
-          <Text style={styles.labelText}>დაბადების წელი:</Text>
+          <Text style={styles.labelText}>{translate.t('verification.dateOfBirth')}:</Text>
           <Text style={styles.labelValue}>{props.kycData?.birthDate}</Text>
         </View>
 
-        <Text style={[styles.title, styles.title2]}>ატვირთე დოკუმენტები</Text>
+        <Text style={[styles.title, styles.title2]}>{translate.t('verification.uploadedDocuments')}</Text>
 
         <View style={styles.imgContainer}>
           <Image
@@ -69,8 +74,7 @@ const StepNine: React.FC<IProps> = props => {
           <AppCheckbox
             style={styles.checkbox}
             activeColor={colors.primary}
-            label="ვეთახმები ფეიუნიქარდი მომსახურებით სარგებლობის პირობებს და
-            ფეიუნიქარდის სარგებლობის პირობებს"
+            label={translate.t('verification.agreePayUniTerms')}
             clicked={() => setAccepted(!accepted)}
             value={accepted}
             key={'accept'}
@@ -83,7 +87,7 @@ const StepNine: React.FC<IProps> = props => {
       <AppButton
         isLoading={props.loading}
         disabled={!accepted}
-        title={'დაწყება'}
+        title={translate.t('common.next')}
         onPress={nextHandler}
         style={styles.button}
       />
