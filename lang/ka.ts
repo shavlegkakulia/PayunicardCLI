@@ -9,14 +9,19 @@ export default {
         search: 'ძებნა',
         pay: 'გადახდა',
         email: 'ელ-ფოსტა',
+        birthDate: 'დაბადების თარიღი',
         deails: 'დეტალები',
         copied: 'დაკოპირდა',
         save: 'შენახვა',
+        cancel: 'გაუქმება',
+        delete: 'წაშლა',
+        country: 'ქვეყანა',
         personalNumber: 'პირადი ნომერი',
         agreeTerms: 'ვეთანხმები წესებს და პირობებს',
         close: 'დახურვა',
         no: 'არა',
         all: 'ყველა',
+        mobile: 'მობილურის ნომერი',
         selectAccount: 'აირჩიეთ ანგარიში',
         amount: 'თანხა',
         commission: 'საკომისიო',
@@ -26,7 +31,6 @@ export default {
         maxAmount: 'მაქსიმალური თანხა',
         maxTransfAmount: 'მაქსიმალური გადასარიცხი თანხა',
         maxPayfAmount: 'მაქსიმალური გადასახდელი თანხა შეადგენს',
-        
         confirm: 'დადასტურება'
     },
 
@@ -42,7 +46,8 @@ export default {
 
     otp: {
         enterOtp: 'შეიყვანეთ Sms კოდი',
-        otpSent: 'Sms კოდი გამოგზავნილია ნომერე',
+        otpSent: 'Sms კოდი გამოგზავნილია ნომერზე',
+        otpSentBlank: 'Sms კოდი გამოგზავნილია ',
         smsCode: 'Sms კოდი',
         resend: 'თავიდან'
     },
@@ -82,6 +87,20 @@ export default {
         myPayments: "ჩემი გადახდები",
         myTransfers: "ჩემი გადარიცხვები",
         myTransactions: 'ჩემი ტრანზაქციები',
+    },
+    settings: {
+        personalInfo: 'პერსონალური ინფორმაცია',
+        changePassword: 'პაროლის შეცვლა',
+        passCode: 'პასკოდი',
+        changePhoto: 'ფოტო სურათის შეცვლა',
+        fingerPrint: 'თითის ანაბეჭდი',
+        takePhoto: 'სურათის გადაღება',
+        galery: 'ტელეფონის გალერეა',
+        newPasscode: 'შეიყვანეთ ახალი პასკოდი',
+        confirmPasscode: 'დაადასტურეთ ახალი პასკოდი'
+        
+        
+
     },
     onboard: {
         firstScreenDesc: 'გახსენი საფულე დისტანციურად',
@@ -195,6 +214,7 @@ export default {
         amountValidationError: ''
     },
     verification: {
+        verification : 'ვერიფიცაკია',
         thirdPartyRepresentative: 'მესამე პირის წარმომადგენელი ხართ?',
         thirdPartyRepresentativeOption: 'მინდობილობის საფუძველზე შესაძლებელია მესამე პირისთვის უნისაფულის გახსნა',
         enterLegalAddress: 'ჩაწერეთ იურიდიული მისამართი',
@@ -249,9 +269,11 @@ export default {
         year: 'წელიწადი',
         quarter: 'კვარტალი',
         chosseTariff: 'აირჩიეთ ტარიფი',
+        choosenTariff: 'არჩეული ტარიფი',
         chosseCurrencyPriority: 'აირჩიეთ ვალუტის პრიორიტეტი',
+        chossenCurrencyPriority: 'არჩეული სავალუტო პრიორიტეტი',
         chosseCurrency: 'აირჩიეთ ვალუტა',
-        chooseCards: 'აირჩიეთ ვიზა ან/და მასტერქარდ უფასო ბარათი',
+        chooseCards: 'აირჩიეთ VISA ან/და MasterCard უფასო ბარათი',
         visaCount: '* შეგიძლიათ მაქსიმუმ 2 UNIcard Visa ბარათის შეკვეთა',
         mcCount: '* ჯამში შეგიძლიათ იქონიოთ 6 UNIcard Visa/Mastercard ბარათი',
         highRiskMerchantTitle: 'მაღალი რისკის ჯგუფის ტრანზაქციების გააქტიურება',
@@ -264,7 +286,7 @@ export default {
         deliveryPrice: 'ადგილზე მიტანის საკომისიო',
         totalDue: 'სულ გადასახდელი',
         getCardAtServiceDesk: 'აიღეთ ბარათი სერვის ცენტრში მომენტალურად',
-        ServiceDeskAddress: 'ორშაბათი-კვირა: 10:00 – 20 :00 /n თბილისი მოლის სერვის ცენტრი, ცენტრალური ატრიუმი /n დავით აღმაშენებლის ხეივანი 16 კმ /n დიღომი, თბილისი',
+        ServiceDeskAddress: 'ორშაბათი-კვირა: 10:00 – 20 :00 \n თბილისი მოლის სერვის ცენტრი, ცენტრალური ატრიუმი \n დავით აღმაშენებლის ხეივანი 16 კმ \n დიღომი, თბილისი',
         getCardDelivered: 'მიიღეთ ბარათი სასურველ მისამართზე',
         chooseCity: 'აირჩიეთ ქალაქი',
         vilage: 'სოფელი/დასახლებული პუნქტი',

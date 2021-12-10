@@ -209,13 +209,11 @@ const DelyveryMethods: React.FC = props => {
                 />
                 <View style={styles.info}>
                   <Text style={styles.label}>
-                    აიღეთ ბარათი სერვისის ცენტრში მომენტალურად{' '}
+                    {translate.t('orderCard.getCardAtServiceDesk')}{' '}
                   </Text>
                   {delyveryMethod === delyveryMethods.inServiceCenter && (
                     <Text style={styles.desc}>
-                      ორშაბათი-კვირა: 10:00 - 22:00 თბილისი მოლის სერვის ცენტრი,
-                      ცენტრალური ატრიუმი დავით აღმაშენებლის ხეივანი 16კმ დიღომი,
-                      თბილისი
+                     {translate.t('orderCard.ServiceDeskAddress')}
                     </Text>
                   )}
                 </View>
@@ -234,7 +232,7 @@ const DelyveryMethods: React.FC = props => {
                 />
                 <View style={styles.info}>
                   <Text style={styles.label}>
-                    მიიღეთ ბარათი სასურველ მისამართზე{' '}
+                  {translate.t('orderCard.getCardDelivered')}{' '}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -244,13 +242,13 @@ const DelyveryMethods: React.FC = props => {
               <View>
                 <View style={styles.addressContainer}>
                   <Text style={styles.BoxTitle}>
-                    მიიღეთ ბარათი სასურველ მისამართზე
+                  {translate.t('orderCard.getCardDelivered')}
                   </Text>
                   <View style={[styles.countryBox, cityErrorStyle]}>
                     {city ? (
                       <SelectItem
                         itemKey="name"
-                        defaultTitle="აირჩიეთ ქვეყანა"
+                        defaultTitle={translate.t('orderCard.chooseCity')}
                         item={city}
                         onItemSelect={() => setCityVisible(true)}
                         style={styles.countryItem}
@@ -260,7 +258,7 @@ const DelyveryMethods: React.FC = props => {
                         onPress={() => setCityVisible(true)}
                         style={[styles.countrySelectHandler]}>
                         <Text style={styles.countryPlaceholder}>
-                          ქალაქი/მუნიციპალიტეტი
+                        {translate.t('verification.city')}
                           <Text style={styles.point}>*</Text>
                         </Text>
                         <Image
@@ -288,7 +286,7 @@ const DelyveryMethods: React.FC = props => {
                   onChange={value => setVillage(value)}
                   context=""
                   customKey="village"
-                  placeholder="სოფელი/დასახელების პუნქტი"
+                  placeholder={translate.t('orderCard.vilage')}
                   style={styles.input}
                 />
                 <AppInput
@@ -303,18 +301,18 @@ const DelyveryMethods: React.FC = props => {
 
                 <Text style={styles.description}>
                   {
-                    '*მიწოდება თბილისში უფასოა და ხორციელდება 3 სამუშაო დღის ვადაში\n\n*მიწოდების საფასური საქართველოს მასშტაბით - 10 ლარი (თანხა ჩამოგეჭრებათ ანგარიშიდან)'
+                   ` * ${translate.t('orderCard.cardDeliveryText1')} \n\n * ${translate.t('orderCard.cardDeliveryText2')} \n\n * ${translate.t('orderCard.cardDeliveryText2')} `
                   }
                 </Text>
               </View>
             )}
             <View style={styles.bottomInfo}>
               <Text style={styles.li}>
-                ადგილზე მიტანის საკომისიო:{' '}
+              {translate.t('orderCard.deliveryPrice')}:{' '}
                 {CurrencyConverter(cardTarrif?.deliveryAmount)}₾
               </Text>
               <Text style={styles.li}>
-                ბარათების ღირებულება:{' '}
+              {translate.t('orderCard.cardPrice')}:{' '}
                 {CurrencyConverter(
                   getNumber(
                     route.params.package?.priceAnnual
@@ -326,7 +324,7 @@ const DelyveryMethods: React.FC = props => {
               </Text>
               {route.params.package?.priceAnnual && (
                 <Text style={styles.li}>
-                  ტარიფის ღირებულება:{' '}
+                 {translate.t('orderCard.tariffPrice')}:{' '}
                   {CurrencyConverter(
                     getNumber(route.params.period === Periodes.Year ? route.params.package?.priceAnnual : route.params.package?.priceQuarterly),
                   )}

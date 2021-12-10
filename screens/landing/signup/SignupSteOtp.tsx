@@ -118,7 +118,7 @@ const SignupSteOtp: React.FC = () => {
             <Text style={styles.insertOtpCode}>შეიყვანე სმს კოდი</Text>
             <FloatingLabelInput
               Style={styles.otpBox}
-              label="სმს კოდი"
+              label={translate.t('otp.smsCode')}
               title="ავტორიზაციისთვის საჭირო სმს კოდი გამოგზავნილია"
               value={otpGuid}
               onChangeText={setOtpGuid}

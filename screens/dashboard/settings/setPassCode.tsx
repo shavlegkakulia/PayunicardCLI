@@ -9,6 +9,7 @@ import {
   IAuthState,
   IGlobalState as AuthState,
 } from '../../../redux/action_types/auth_action_types';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import {
   IGloablState,
   IUserState,
@@ -20,6 +21,10 @@ import {getString} from '../../../utils/Converter';
 import storage from './../../../services/StorageService';
 
 const SetPassCode: React.FC = () => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
+  
   const [code, setCode] = useState<string>();
   const [baseCode, setBaseCode] = useState<string>();
   const userState = useSelector<IGloablState>(
@@ -82,8 +87,8 @@ const SetPassCode: React.FC = () => {
         </Text>
         <Text style={styles.status}>
           {getString(baseCode).length > 0
-            ? 'გაიმეორე პასკოდი'
-            : 'შეიყვანა ახალი პასკოდი'}
+            ? translate.t('settings.confirmPasscode')
+            : translate.t('settings.newPasscode')}
         </Text>
       </View>
       <View style={styles.dots}>
@@ -163,7 +168,7 @@ const SetPassCode: React.FC = () => {
           <TouchableOpacity
             onPress={setNum.bind(this, '-')}
             style={styles.keyNum}>
-            <Text style={styles.del}>წაშლა</Text>
+            <Text style={styles.del}>{translate.t('common.delete')}</Text>
           </TouchableOpacity>
         </View>
       </View>

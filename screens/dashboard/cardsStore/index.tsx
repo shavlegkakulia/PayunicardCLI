@@ -5,6 +5,10 @@ import { TYPE_UNICARD } from '../../../constants/accountTypes';
 import colors from '../../../constants/colors';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+}  from '../../../redux/action_types/translate_action_types';
 import { IUserState, IGloablState as IUserGlobalState } from '../../../redux/action_types/user_action_types';
 import NavigationService from '../../../services/NavigationService';
 import screenStyles from '../../../styles/screens';
@@ -16,6 +20,9 @@ export const StoreActionType = {
 };
 
 const CardsStore: React.FC = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
@@ -34,14 +41,14 @@ const CardsStore: React.FC = props => {
         <TouchableOpacity style={styles.item} onPress={() => next(StoreActionType.TarrifPlan)}>
           <View style={styles.iconBox}>
             <Image
-              source={require('./../../../assets/images/icon-list.png')}
+              source={require('./../../../assets/images/icon-list.png')} 
               style={styles.icon}
             />
           </View>
           <View style={styles.textBox}>
-            <Text style={styles.title}>სატარიფო გეგმის შეძენა</Text>
+            <Text style={styles.title}>{translate.t('orderCard.orderTariff')}</Text>
             <Text style={styles.desc}>
-              ახალი სატარიფო გეგმის და გეგმით გათვალისწინებული ბარათების შეძენა
+            {translate.t('orderCard.orderTarifDesc')}
             </Text>
           </View>
         </TouchableOpacity>
@@ -54,9 +61,9 @@ const CardsStore: React.FC = props => {
             />
           </View>
           <View style={styles.textBox}>
-            <Text style={styles.title}>ბარათების შეკვეთა</Text>
+            <Text style={styles.title}>{translate.t('orderCard.cardOrder')}</Text>
             <Text style={styles.desc}>
-              ახალი ბარათების შეკვეთა აქტიური ანგარიშებისთვის
+            {translate.t('orderCard.cardOrderDesc')}
             </Text>
           </View>
         </TouchableOpacity>

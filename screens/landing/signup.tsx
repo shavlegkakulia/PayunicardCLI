@@ -303,7 +303,7 @@ const SignupForm: React.FC<IProps> = props => {
         <Text style={styles.insertOtpCode}>შეიყვანე სმს კოდი</Text>
         <FloatingLabelInput
           Style={styles.otpBox}
-          label="სმს კოდი"
+          label={translate.t('otp.smsCode')}
           title="ავტორიზაციისთვის საჭირო სმს კოდი გამოგზავნილია"
           value={otpGuid}
           onChangeText={setOtpGuid}

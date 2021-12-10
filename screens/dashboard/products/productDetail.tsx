@@ -1149,7 +1149,7 @@ const ProductDetail: React.FC = props => {
             <View>
               <FloatingLabelInput
                 Style={styles.otpBox}
-                label="სმს კოდი"
+                label={translate.t('otp.smsCode')}
                 title=""
                 value={otp}
                 onChangeText={setOtp}

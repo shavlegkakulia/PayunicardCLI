@@ -24,7 +24,7 @@ const TopupFlow: React.FC = () => {
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const topup = () => {
     NavigationService.navigate(Routes.Topup, {
-      currentAccount: route.params.currentAccount
+      currentAccount: route?.params?.currentAccount
     });
   };
 

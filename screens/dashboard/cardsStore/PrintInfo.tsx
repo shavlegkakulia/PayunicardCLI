@@ -97,7 +97,7 @@ const PrintInfo: React.FC = props => {
             </View>
             {route.params.orderType === StoreActionType.TarrifPlan && (
               <View style={styles.ul}>
-                <Text style={styles.li}>ტარიფის ღირებულება:</Text>
+                <Text style={styles.li}>{translate.t('orderCard.tariffPrice')}:</Text>
                 <Text style={styles.li}>
                   {CurrencyConverter(getNumber(route.params.tarrifAmount))}₾
                 </Text>

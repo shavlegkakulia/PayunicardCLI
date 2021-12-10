@@ -45,6 +45,7 @@ import FilesService, {
 import FingerprintScanner from 'react-native-fingerprint-scanner';
 
 const Settings: React.FC = () => {
+ 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [getPhoto, setGetPhoto] = useState<boolean>(false);
   const [isPassCodeEnabled, setIsPassCodeEnabled] = useState<boolean>(false);
@@ -109,10 +110,9 @@ const Settings: React.FC = () => {
       type: ImageType.UserProfileImage,
       image: img,
     };
-    console.log(data)
     FilesService.uploadImage(data).subscribe({
       next: Response => {
-        if (Response.data.ok) {console.log('*********************', Response.data.data);
+        if (Response.data.ok) {
           updateUserProfileImage(getString(Response.data.data?.imageUrl));
         }
       },
@@ -124,7 +124,6 @@ const Settings: React.FC = () => {
     const data: IUpdateUserProfileImageRequest | undefined = {
       imageUrl: url,
     };
-    //console.log(data);
     UserService.updateUserProfileImage(data).subscribe({
       next: Response => {
         if (Response.data.ok) {
@@ -305,7 +304,7 @@ const Settings: React.FC = () => {
                   source={require('./../../../assets/images/icon-man-40x40.png')}
                   style={styles.navItemIcon}
                 />
-                <Text style={styles.navItemTitle}>პერსონალური ინფორმაცია</Text>
+                <Text style={styles.navItemTitle}>{translate.t('settings.personalInfo')}</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity style={styles.navItem} onPress={goPwdChange}>
@@ -314,7 +313,7 @@ const Settings: React.FC = () => {
                   source={require('./../../../assets/images/icon-change-pwd-40x40.png')}
                   style={styles.navItemIcon}
                 />
-                <Text style={styles.navItemTitle}>პაროლის შეცვლა</Text>
+                <Text style={styles.navItemTitle}>{translate.t('settings.changePassword')}</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity style={styles.navItem} onPress={GoToPassCode}>
@@ -323,7 +322,7 @@ const Settings: React.FC = () => {
                   source={require('./../../../assets/images/icon-pass-code-40x40.png')}
                   style={styles.navItemIcon}
                 />
-                <Text style={styles.navItemTitle}>პას კოდი</Text>
+                <Text style={styles.navItemTitle}>{translate.t('settings.passCode')}</Text>
               </View>
               <Switch
                 style={styles.check}
@@ -345,7 +344,7 @@ const Settings: React.FC = () => {
                     style={styles.navItemIcon}
                   />
                   <Text style={styles.navItemTitle}>
-                    თითის ანაბეჭდით შესვლა
+                  {translate.t('settings.fingerPrint')}
                   </Text>
                 </View>
                 <Switch
@@ -368,7 +367,7 @@ const Settings: React.FC = () => {
                   isLoading={isLoading}
                   style={styles.cover}
                 />
-                <Text style={styles.navItemTitle}>ფოტო სურათის შეცვლა</Text>
+                <Text style={styles.navItemTitle}>{translate.t('settings.changePhoto')}</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity style={styles.navItem} onPress={goToVerification}>
@@ -377,7 +376,7 @@ const Settings: React.FC = () => {
                   source={require('./../../../assets/images/icon-verification-40x40.png')}
                   style={styles.navItemIcon}
                 />
-                <Text style={styles.navItemTitle}>ვერიფიკაცია</Text>
+                <Text style={styles.navItemTitle}>{translate.t('verification.verification')}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -418,17 +417,17 @@ const Settings: React.FC = () => {
           <View style={styles.actionContainer}>
             <AppButton
               style={styles.action}
-              title="სურათის გადაღება"
+              title={translate.t('settings.takePhoto')}
               onPress={ctakePhoto}
             />
             <AppButton
               style={styles.action}
-              title="ტელეფონის გალერეა"
+              title={translate.t('settings.galery')}
               onPress={choosePhoto}
             />
             <AppButton
               style={styles.action}
-              title="გაუქმება"
+              title={translate.t('common.cancel')}
               onPress={closeChoosePhotos}
               color={colors.black}
               backgroundColor={colors.inputBackGround}

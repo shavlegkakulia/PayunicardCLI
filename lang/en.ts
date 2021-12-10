@@ -8,10 +8,16 @@ export default {
         search: 'Search',
         deails: 'Details',
         pay: 'Pay',
+        email: 'E-Mail',
+        birthDate: 'Date of Birth',
         lname: 'Lastname',
         save: 'Save',
         copied: 'Copied',
+        cancel: 'Cancel',
+        delete: 'Delete',
+        mobile: 'Mobile Number',
         personalNumber: 'Personal Number',
+        country: 'Country',
         commission: 'Commission',
         agreeTerms: 'Agree to the terms  and conditions',
         amount: 'Amount',
@@ -44,6 +50,19 @@ export default {
         parking:'Parking And Fines',
         gambling: 'Gambling'
     },
+    settings: {
+        personalInfo: 'Personal Information',
+        changePassword: 'Change Password',
+        passCode: 'Passcode',
+        changePhoto: 'Change Photo',
+        fingerPrint: 'FingerPrint',
+        takePhoto: 'Take Photo',
+        galery: 'Phone Galery',
+        newPasscode: 'Enter New Passcode',
+        confirmPasscode: 'Confirm New Passcode'
+
+        
+    },
     tabNavigation: {
         home: "Home",
         products: "Products",
@@ -67,6 +86,7 @@ export default {
     otp: {
         enterOtp: 'Enter Sms Code',
         otpSent: 'Sms Code Has Been Sent to Number ',
+        otpSentBlank: 'Sms Code Has Been Sent',
         smsCode: 'Sms Code',
         resend: 'Resend'
     },
@@ -177,6 +197,7 @@ export default {
         
     },
     verification: {
+        verification : 'Verification',
         thirdPartyRepresentative: 'Are You a Third Party Representative?',
         thirdPartyRepresentativeOption: 'A UNIwallet Can Be Open for a Third Party with a Power of Attorney',
         enterLegalAddress: 'Enter Legal Address',
@@ -232,7 +253,9 @@ export default {
         year: 'Year',
         quarter: 'Quarter',
         chosseTariff: 'Choose Plan',
+        choosenTariff: 'Selected Plan',
         chosseCurrencyPriority: 'Choose Currency Priority',
+        chossenCurrencyPriority: 'Selected Currency Priority',
         chosseCurrency: 'Choose Currency',
         chooseCards: 'Choose Visa or/and Mastercard Free Card',
         visaCount: '* You Can Order Maximum 2 UNIcard Visa Cards',
@@ -251,8 +274,8 @@ export default {
         getCardDelivered: 'Have the Card Delivered to You at the Address of Your Choice',
         chooseCity: 'Select City',
         vilage: 'Village/Settlement',
-        insufficienFtunds: 'ანაგრიშზე არ არის საკმარისი თანხა',
-        warningText: 'გთხოვთ ბალანსი შეავსოთ {tariffPrice} ლარით არაუგვიანეს {date}, წინააღმდეგ შემთხვევაში თქვენი შეკვეთა გაუქმდება.',
+        insufficienFtunds: 'Insufficient Funds',
+        warningText: 'Please top up the Balance {tariffPrice} GEL no later than {date}, Otherwise your order will be cancelled',
         cardDeliveryText1: 'You Will Receive The Card Within 3 Business Days',
         cardDeliveryText2: 'Card Delivery in Tbilisi - 5 GEL, in Region - 10 GEL. (The Amount will be Deducted From Your Account)',
         cardDeliveryText3: 'Delivery of the First Card in Tbilisi is Free',

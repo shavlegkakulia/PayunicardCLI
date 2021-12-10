@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {Image, TouchableOpacity, View, StyleSheet, Text} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { Image, TouchableOpacity, View, StyleSheet, Text } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import colors from '../constants/colors';
 import SUBSCRIBTION_KEYS from '../constants/subscribtionKeys';
 import {
@@ -13,8 +13,8 @@ import {
   IGlobalState as ITranslateGlobalState,
 } from '../redux/action_types/translate_action_types';
 import NavigationService from '../services/NavigationService';
-import {subscriptionService} from '../services/subscriptionService';
-import {getString} from '../utils/Converter';
+import { subscriptionService } from '../services/subscriptionService';
+import { getString } from '../utils/Converter';
 import Routes from './routes';
 
 export const tabHeight = 67;

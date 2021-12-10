@@ -8,6 +8,10 @@ import colors from '../../../constants/colors';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
+import {
   IUserState,
   IGloablState,
 } from '../../../redux/action_types/user_action_types';
@@ -53,6 +57,9 @@ type RouteParamList = {
 };
 
 const PreOrder: React.FC = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -162,36 +169,30 @@ const PreOrder: React.FC = props => {
           />
           <Text style={styles.infoHeader}>
             {hasTotalFee
-              ? 'შეკვეთის დადასტურება'
-              : 'ანგარიშზე არ არის\nსაკმარისი თანხა'}
+              ? translate.t('orderCard.confirmOrder') 
+              : translate.t('orderCard.insufficienFtunds')}
           </Text>
           {!hasTotalFee && (
             <Text style={styles.info}>
-              გთხოვთ ანგარიში შეავსოთ <Text style={styles.bold}>90 ლარით</Text>{' '}
-              არაუგვიანეს{'\n'}
-              <Text style={styles.bold}>
-                2021 წლის 24 თებერვლის 00:00 საათისა,
-              </Text>
-              {'\n'}
-              წინააღმდეგ შემთხვევაში თქვენი შეკვეთა გაუქმდება
+             {translate.t('orderCard.warningText')}
             </Text>
           )}
           <View style={styles.bottomInfo}>
             <View style={styles.ul}>
-              <Text style={styles.li}>ადგილზე მიტანის საკომისიო:</Text>
+              <Text style={styles.li}>{translate.t('orderCard.deliveryPrice')}:</Text>
               <Text style={styles.li}>
                 {CurrencyConverter(route.params.deliveryAmount)}₾
               </Text>
             </View>
             <View style={styles.ul}>
-              <Text style={styles.li}>ბარათების ღირებულება:</Text>
+              <Text style={styles.li}>{translate.t('orderCard.cardPrice')}:</Text>
               <Text style={styles.li}>
                 {CurrencyConverter(getNumber(route.params.cardAmount))}₾
               </Text>
             </View>
             {route.params.orderType === StoreActionType.TarrifPlan && (
               <View style={styles.ul}>
-                <Text style={styles.li}>ტარიფის ღირებულება:</Text>
+                <Text style={styles.li}>{translate.t('orderCard.tariffPrice')}:</Text>
                 <Text style={styles.li}>
                   {CurrencyConverter(getNumber(route.params.tarrifAmount))}₾
                 </Text>
@@ -206,20 +207,20 @@ const PreOrder: React.FC = props => {
           </View>
 
           <View style={styles.delyveryInfo}>
-            <Text style={styles.addrTitle}>მიწოდების მისამართი</Text>
+            <Text style={styles.addrTitle}>{translate.t('orderCard.deliveryAddress')}</Text>
             <Text style={styles.addrValue}>
               {route.params.delyveryMethod === delyveryMethods.inAddress
                 ? `${getString(route.params?.city?.name)}, ${getString(
                     route.params.address,
                   )}, ${getString(route.params.village)}`
-                : 'სერვის ცენტრი'}
+                : translate.t('orderCard.ServiceDeskAddress')}
             </Text>
           </View>
 
           {!hasTotalFee && (
             <Text style={styles.description}>
               {
-                '*თანხის ანგარიშზე შემოტანის შემდეგ მოხდება\nმიწოდების სერვისისთვის დროის ათვლა '
+                translate.t('orderCard.confirmOrderDesc')
               }
             </Text>
           )}
@@ -230,8 +231,8 @@ const PreOrder: React.FC = props => {
           isLoading={isLoading}
           title={`${
             hasTotalFee
-              ? 'შეკვეთის დადასტურება'
-              : 'წინასწარი შეკვეთის დადასტურება'
+              ? translate.t('orderCard.confirmOrder')
+              : translate.t('orderCard.preOrder')
           }`}
         />
       </View>
