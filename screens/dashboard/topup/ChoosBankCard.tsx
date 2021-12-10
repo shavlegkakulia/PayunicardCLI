@@ -9,11 +9,13 @@ import {
   Image,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
 import BankCardSelect from '../../../components/BankCardSelect/BankCardSelect';
 import AppButton from '../../../components/UI/AppButton';
 import colors from '../../../constants/colors';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import NavigationService from '../../../services/NavigationService';
 import UserService, {
   IBankCard,
@@ -29,6 +31,10 @@ type RouteParamList = {
 };
 
 const ChoosBankCard: React.FC = () => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
+  
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [activeCard, setActiveCard] = useState<IBankCard | undefined>();
 
@@ -69,13 +75,13 @@ const ChoosBankCard: React.FC = () => {
               style={styles.darkPlus}
               resizeMode="contain"
             />
-            <Text style={styles.otherMethodText}>სხვა ბარათით შევსება</Text>
+            <Text style={styles.otherMethodText}>{translate.t('topUp.withAnotherCard')}</Text>
           </TouchableOpacity>
         </View>
 
         <AppButton
           style={styles.button}
-          title="შემდეგ"
+          title={translate.t('common.next')}
           onPress={next.bind(this)}
           disabled={activeCard === undefined}
         />
