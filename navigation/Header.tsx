@@ -4,14 +4,17 @@ import React from 'react';
 import {Image, View, TouchableOpacity, StyleSheet, Text} from 'react-native';
 import colors from '../constants/colors';
 import {headerHeight} from '../constants/defaults';
+import { ka_ge } from '../lang';
 import  NavigationService, {
   OpenDrawer,
 } from '../services/NavigationService';
 
 const DefaultOptions = ({
   navigation,
+  lang
 }: {
   navigation: any;
+  lang: string
 }): StackNavigationOptions => ({
   headerTitleAlign: 'center',
   headerStyle: styles.header,
@@ -30,7 +33,7 @@ const DefaultOptions = ({
   headerTitle: () => (
     <View>
       <Image
-        source={require('./../assets/images/payunicard.png')}
+        source={lang === ka_ge ? require('./../assets/images/payunicard.png') : require('./../assets/images/payunicard_en.png')}
         style={styles.logo}
         resizeMode="contain"
       />
@@ -58,7 +61,7 @@ export const DefaultOptionsDrawer = ({
   navigation,
   title,
   hideHeader,
-  backText
+  backText,
 }: {
   route: any;
   navigation: any;
@@ -175,11 +178,11 @@ const styles = StyleSheet.create({
     height: 40,
   },
   logo: {
-    height: 40,
+    height: 42,
   },
   rightItem: {
-    width: 40,
-    height: 40,
+    width: 26,
+    height: 17,
   },
   back: {
     flexDirection: 'row',

@@ -87,27 +87,52 @@ const AppStack: React.FC = () => {
           }}>
           <appStack.Screen
             name={Routes.Home}
-            options={DefaultOptions}
+            options={props =>
+              DefaultOptions({
+                navigation: props.navigation,
+                lang: translate.key
+              })
+            }
             component={Dashboard}
           />
           <appStack.Screen
             name={Routes.Dashboard}
-            options={DefaultOptions}
+            options={props =>
+              DefaultOptions({
+                navigation: props.navigation,
+                lang: translate.key
+              })
+            }
             component={Dashboard}
           />
           <appStack.Screen
             name={Routes.Products}
-            options={DefaultOptions}
+            options={props =>
+              DefaultOptions({
+                navigation: props.navigation,
+                lang: translate.key
+              })
+            }
             component={Products}
           />
           <appStack.Screen
             name={Routes.Payments}
-            options={DefaultOptions}
+            options={props =>
+              DefaultOptions({
+                navigation: props.navigation,
+                lang: translate.key
+              })
+            }
             component={Payments}
           />
           <appStack.Screen
             name={Routes.Transfers}
-            options={DefaultOptions}
+            options={props =>
+              DefaultOptions({
+                navigation: props.navigation,
+                lang: translate.key
+              })
+            }
             component={Transfers}
           />
           <appStack.Screen

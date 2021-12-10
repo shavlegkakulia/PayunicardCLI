@@ -96,23 +96,31 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
           accesToken: response.data.access_token,
           refreshToken: response.data.refresh_token,
         });
-        return true;
+        return {
+          accesToken: response.data.access_token,
+          refreshToken: response.data.refresh_token,
+        };
       })
       .catch(() => {
-        return false;
+        return {accesToken: undefined, refreshToken: undefined};
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+        return {accesToken: undefined, refreshToken: undefined};
+      });
   };
 
   const login = async (pascode: string) => {
     if (baseCode === pascode) {
-      const {access_token, refresh_token} = props;
+ 
       goRefreshToken().then(res => {
-        if (res) {
+        console.log('**************************', res);
+        const {accesToken, refreshToken} = res;
+        if (res.accesToken !== undefined) {
           dispatch({
             type: LOGIN,
-            accesToken: access_token,
-            refreshToken: refresh_token,
+            accesToken: accesToken,
+            refreshToken: refreshToken,
             isAuthenticated: true,
           });
         } else {
