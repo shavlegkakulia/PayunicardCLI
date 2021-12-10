@@ -207,8 +207,10 @@ const Settings: React.FC = () => {
     NavigationService.navigate(Routes.EditUserInfo);
   };
 
-  const goToVerification = () =>
+  const goToVerification = () => {
+    return;
     NavigationService.navigate(Routes.Verification, {verificationStep: 0});
+  }
 
   const init = async () => {
     const PassCodeExists = await storage.getItem('PassCode');
@@ -370,7 +372,7 @@ const Settings: React.FC = () => {
                 <Text style={styles.navItemTitle}>{translate.t('settings.changePhoto')}</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.navItem} onPress={goToVerification}>
+            <TouchableOpacity style={styles.navItem} onPress={goToVerification} activeOpacity={1} >
               <View style={styles.navItemDetail}>
                 <Image
                   source={require('./../../../assets/images/icon-verification-40x40.png')}
