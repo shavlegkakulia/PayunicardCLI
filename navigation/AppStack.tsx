@@ -1,5 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import React, {useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Routes from './routes';
 import Dashboard from '../screens/dashboard/dashboard';
 import Products from '../screens/dashboard/products';
@@ -38,7 +38,7 @@ import addBankCard from '../screens/dashboard/addBankCard/addBankCard';
 import AddBankCardSucces from '../screens/dashboard/addBankCard/AddBankCardSucces';
 import CreatePayTemplate from '../screens/dashboard/payments/CreateTemplate';
 import {DrawerLayout} from 'react-native-gesture-handler';
-import {StatusBar, View} from 'react-native';
+import {BackHandler, StatusBar, View} from 'react-native';
 import SideBarDrawer from './SideBarDrawer';
 import colors from '../constants/colors';
 import NavigationService from '../services/NavigationService';
@@ -54,8 +54,11 @@ import BiometricAuthScreen from '../screens/dashboard/settings/biometric';
 import PasswordChangeSucces from '../screens/landing/password/change/PasswordChangeSucces';
 import PasswordChangeStepFour from '../screens/landing/password/change/PasswordChangeStepFour';
 import ChangePasswordOtp from '../screens/landing/password/change/ChangePasswordOtp';
-import { useSelector } from 'react-redux';
-import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../redux/action_types/translate_action_types';
+import {useSelector} from 'react-redux';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../redux/action_types/translate_action_types';
 
 const appStack = createStackNavigator();
 
@@ -64,12 +67,28 @@ const AppStack: React.FC = () => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
-  
+  const isDrawerOpened = useRef<boolean>();
+
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (isDrawerOpened.current) {
+        sideDraver.current?.closeDrawer();
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    return () => sub.remove();
+  }, []);
+
   return (
     <DrawerLayout
       drawerWidth={300}
       drawerLockMode={'unlocked'}
       keyboardDismissMode="on-drag"
+      onDrawerOpen={() => (isDrawerOpened.current = true)}
+      onDrawerClose={() => (isDrawerOpened.current = false)}
       ref={drawer => {
         sideDraver.current = drawer;
         NavigationService.setDrawerOpen(sideDraver.current?.openDrawer, 0);
@@ -90,7 +109,7 @@ const AppStack: React.FC = () => {
             options={props =>
               DefaultOptions({
                 navigation: props.navigation,
-                lang: translate.key
+                lang: translate.key,
               })
             }
             component={Dashboard}
@@ -100,7 +119,7 @@ const AppStack: React.FC = () => {
             options={props =>
               DefaultOptions({
                 navigation: props.navigation,
-                lang: translate.key
+                lang: translate.key,
               })
             }
             component={Dashboard}
@@ -110,7 +129,7 @@ const AppStack: React.FC = () => {
             options={props =>
               DefaultOptions({
                 navigation: props.navigation,
-                lang: translate.key
+                lang: translate.key,
               })
             }
             component={Products}
@@ -120,7 +139,7 @@ const AppStack: React.FC = () => {
             options={props =>
               DefaultOptions({
                 navigation: props.navigation,
-                lang: translate.key
+                lang: translate.key,
               })
             }
             component={Payments}
@@ -130,7 +149,7 @@ const AppStack: React.FC = () => {
             options={props =>
               DefaultOptions({
                 navigation: props.navigation,
-                lang: translate.key
+                lang: translate.key,
               })
             }
             component={Transfers}
@@ -142,7 +161,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('common.details'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={ProductDetail}
@@ -154,7 +173,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ტრანზაქციები',
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={Transactions}
@@ -166,7 +185,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('transfer.toBank'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferToBank}
@@ -178,7 +197,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('transfer.toBank'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferToBank}
@@ -190,7 +209,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('transfer.toBank'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferToBank}
@@ -203,7 +222,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: translate.t('transfer.toBank'),
                 hideHeader: true,
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferToBank}
@@ -215,7 +234,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('transfer.toUniWallet'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferToUni}
@@ -227,7 +246,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('transfer.toUniWallet'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferToUni}
@@ -239,7 +258,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('transfer.toUniWallet'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferToUni}
@@ -252,7 +271,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: translate.t('transfer.toUniWallet'),
                 hideHeader: true,
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferToUni}
@@ -265,7 +284,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: translate.t('transfer.toUniWallet'),
                 hideHeader: true,
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferToUni}
@@ -277,7 +296,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('transfer.betweeenOwnAccounts'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferBetweenAccounts}
@@ -289,7 +308,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('transfer.betweeenOwnAccounts'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferBetweenAccounts}
@@ -302,7 +321,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: translate.t('transfer.betweeenOwnAccounts'),
                 hideHeader: true,
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferBetweenAccounts}
@@ -314,7 +333,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('transfer.currencyExchange'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferConvertation}
@@ -326,7 +345,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('transfer.currencyExchange'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferConvertation}
@@ -339,7 +358,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: translate.t('transfer.currencyExchange'),
                 hideHeader: true,
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferConvertation}
@@ -351,7 +370,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={PaymentSteps}
@@ -363,7 +382,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={PaymentSteps}
@@ -375,7 +394,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={PaymentSteps}
@@ -387,7 +406,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={PaymentSteps}
@@ -399,7 +418,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={InsertAbonentCode}
@@ -411,7 +430,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={InsertAccointAndAmount}
@@ -423,7 +442,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('products.payment'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={CheckDebt}
@@ -436,7 +455,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: translate.t('products.payment'),
                 hideHeader: true,
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={PaymentSucces}
@@ -448,7 +467,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'შაბლონის რედაქტირება',
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={EditTemplate}
@@ -460,7 +479,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბევრის გადახდა',
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={PayAll}
@@ -472,7 +491,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბევრის გადახდა',
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={PayAll}
@@ -485,7 +504,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: 'ბევრის გადახდა',
                 hideHeader: true,
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={PayAllSucces}
@@ -497,7 +516,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'ბევრის გადახდა',
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={PayAll}
@@ -508,8 +527,8 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t("plusSign.orderCard"),
-                backText: translate.t("common.back")
+                title: translate.t('plusSign.orderCard'),
+                backText: translate.t('common.back'),
               })
             }
             component={CardsStore}
@@ -520,8 +539,8 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t("plusSign.orderCard"),
-                backText: translate.t("common.back")
+                title: translate.t('plusSign.orderCard'),
+                backText: translate.t('common.back'),
               })
             }
             component={choosePlane}
@@ -532,8 +551,8 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t("plusSign.orderCard"),
-                backText: translate.t("common.back")
+                title: translate.t('plusSign.orderCard'),
+                backText: translate.t('common.back'),
               })
             }
             component={TarriffCalculator}
@@ -544,8 +563,8 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t("plusSign.orderCard"),
-                backText: translate.t("common.back")
+                title: translate.t('plusSign.orderCard'),
+                backText: translate.t('common.back'),
               })
             }
             component={DelyveryMethods}
@@ -556,8 +575,8 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t("plusSign.orderCard"),
-                backText: translate.t("common.back")
+                title: translate.t('plusSign.orderCard'),
+                backText: translate.t('common.back'),
               })
             }
             component={TarrifSetOtp}
@@ -568,8 +587,8 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t("plusSign.orderCard"),
-                backText: translate.t("common.back")
+                title: translate.t('plusSign.orderCard'),
+                backText: translate.t('common.back'),
               })
             }
             component={PreOrder}
@@ -580,9 +599,9 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t("plusSign.orderCard"),
+                title: translate.t('plusSign.orderCard'),
                 hideHeader: true,
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={PrintInfo}
@@ -594,7 +613,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: 'შაბლონის რედაქტირება',
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TransferTemplateEdit}
@@ -606,7 +625,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('plusSign.topUp'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TopupFlow}
@@ -618,7 +637,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('plusSign.topUp'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={Topup}
@@ -630,7 +649,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('plusSign.topUp'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={ChoosBankCard}
@@ -642,7 +661,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('plusSign.topUp'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={ChooseAmountAndAccount}
@@ -655,7 +674,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: translate.t('plusSign.topUp'),
                 hideHeader: true,
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={TopupSucces}
@@ -667,7 +686,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('plusSign.addCard'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={addBankCard}
@@ -680,7 +699,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: translate.t('plusSign.addCard'),
                 hideHeader: true,
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
             component={AddBankCardSucces}
@@ -691,8 +710,8 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-               title: translate.t("payments.paymentTemplates"),
-                backText: translate.t("common.back")
+                title: translate.t('payments.paymentTemplates'),
+                backText: translate.t('common.back'),
               })
             }
             component={CreatePayTemplate}
@@ -705,8 +724,8 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title:  translate.t("settings.changePassword"),
-                backText: translate.t("common.back")
+                title: translate.t('settings.changePassword'),
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -717,8 +736,8 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title:  translate.t("settings.changePassword"),
-                backText: translate.t("common.back")
+                title: translate.t('settings.changePassword'),
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -729,8 +748,8 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title:  translate.t("settings.changePassword"),
-                backText: translate.t("common.back")
+                title: translate.t('settings.changePassword'),
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -741,8 +760,8 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title:  translate.t("settings.changePassword"),
-                backText: translate.t("common.back")
+                title: translate.t('settings.changePassword'),
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -754,7 +773,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('settings.passCode'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -766,7 +785,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('settings.personalInfo'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -779,7 +798,7 @@ const AppStack: React.FC = () => {
                 route: props.route,
                 title: translate.t('verification.verification'),
                 hideHeader: true,
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -791,7 +810,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('verification.verification'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -803,7 +822,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('verification.verification'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -815,7 +834,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('verification.verification'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -827,7 +846,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('verification.verification'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -839,7 +858,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('verification.verification'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -851,7 +870,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('verification.verification'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -863,7 +882,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('verification.verification'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -875,7 +894,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('verification.verification'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -887,7 +906,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('verification.verification'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -899,7 +918,7 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('verification.verification'),
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -910,9 +929,9 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title:  translate.t("settings.changePassword"),
+                title: translate.t('settings.changePassword'),
                 hideHeader: true,
-                backText: translate.t("common.back")
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -923,8 +942,8 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title:  translate.t("settings.changePassword"),
-                backText: translate.t("common.back")
+                title: translate.t('settings.changePassword'),
+                backText: translate.t('common.back'),
               })
             }
           />
@@ -935,8 +954,8 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title:  translate.t("settings.changePassword"),
-                backText: translate.t("common.back")
+                title: translate.t('settings.changePassword'),
+                backText: translate.t('common.back'),
               })
             }
           />
