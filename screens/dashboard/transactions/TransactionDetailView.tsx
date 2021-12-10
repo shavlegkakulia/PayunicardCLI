@@ -92,7 +92,7 @@ const ViewCliring: React.FC<IProps> = props => {
       <View style={styles.splitter}></View>
 
       <View style={styles.detailBox}>
-        <Text style={styles.textHeaderStyle}>დეტალები</Text>
+        <Text style={styles.textHeaderStyle}>{translate.t('common.details')}</Text>
         {props.statement?.amount !== undefined && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.amount')}</Text>
@@ -104,7 +104,7 @@ const ViewCliring: React.FC<IProps> = props => {
         {props.statement?.abvrName &&
           props.statement?.abvrName?.trim().length > 0 && (
             <View style={styles.directionRow}>
-              <Text style={styles.textDescStyle}>მერჩანტი</Text>
+              <Text style={styles.textDescStyle}>{translate.t('transaction.merchantName')}</Text>
               <Text style={styles.textDescValueStyle}>
                 {props.statement?.abvrName.trimEnd()}
               </Text>
@@ -112,7 +112,7 @@ const ViewCliring: React.FC<IProps> = props => {
           )}
         {props.statement?.uniBonus && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>უნიქულები</Text>
+            <Text style={styles.textDescStyle}>{translate.t('dashboard.uniPoints')}</Text>
             <Text style={styles.textDescValueStyle}>
               {CurrencyConverter(props.statement?.uniBonus)}
             </Text>
@@ -120,7 +120,7 @@ const ViewCliring: React.FC<IProps> = props => {
         )}
         {props.statement?.senderMaskedCardNumber && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>ბარათის ნომერი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('common.cardNumber')}</Text>
             <Text style={styles.textDescValueStyle}>
               {props.statement?.receiveraccount}
             </Text>
@@ -128,7 +128,7 @@ const ViewCliring: React.FC<IProps> = props => {
         )}
         {props.statement?.tranDate && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>გადახდის თარიღი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('common.payDate')}</Text>
             <Text style={styles.textDescValueStyle}>
               {formatDate(props.statement?.tranDate)}
             </Text>
@@ -136,7 +136,7 @@ const ViewCliring: React.FC<IProps> = props => {
         )}
         {props.statement?.dateCreated && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>გატარების თარიღი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('common.postDate')}</Text>
             <Text style={styles.textDescValueStyle}>
               {formatDate(
                 props.statement?.dateCreated
@@ -151,11 +151,11 @@ const ViewCliring: React.FC<IProps> = props => {
       <View style={styles.splitter}></View>
 
       <View style={[styles.detailBox, styles.defDetail]}>
-        <Text style={styles.textHeaderStyle}>ტრანზაქციის დეტალები</Text>
+        <Text style={styles.textHeaderStyle}>{translate.t('transaction.tranDetails')}</Text>
         {props.statement?.aprCode &&
           props.statement?.aprCode.trim().length > 0 && (
             <View style={styles.directionRow}>
-              <Text style={styles.textDescStyle}>ავტორიზაციის კოდი</Text>
+              <Text style={styles.textDescStyle}>{translate.t('transaction.tranAprovalCode')}</Text>
               <Text style={styles.textDescValueStyle}>
                 {props.statement?.aprCode}
               </Text>
@@ -163,7 +163,7 @@ const ViewCliring: React.FC<IProps> = props => {
           )}
         {props.statement?.tranid && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>ტრანზაქციის იდენტიფიკატორი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('transaction.tranId')}</Text>
             <Text style={styles.textDescValueStyle}>
               {props.statement?.tranid}
             </Text>
@@ -228,7 +228,7 @@ const ViewTransfer: React.FC<IProps> = props => {
         <Text style={styles.textHeaderStyle}>{translate.t('transfer.from')}</Text>
         {props.statement?.senderName && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>გამგზავნის სახელი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('transfer.senderName')}</Text>
             <Text style={styles.textDescValueStyle}>
               {props.statement.senderName}
             </Text>
@@ -236,7 +236,7 @@ const ViewTransfer: React.FC<IProps> = props => {
         )}
         {props.statement?.senderaccount && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>ანგარიშის ნომერი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('common.accountNumber')}</Text>
             <Text style={styles.textDescValueStyle}>
               {props.statement?.senderaccount}
             </Text>
@@ -245,7 +245,7 @@ const ViewTransfer: React.FC<IProps> = props => {
 
         {props.statement?.senderBankCode && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>გბანკის კოდი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('transaction.bankCode')}</Text>
             <Text style={styles.textDescValueStyle}>
               {props.statement?.senderBankCode}
             </Text>
@@ -267,7 +267,7 @@ const ViewTransfer: React.FC<IProps> = props => {
         )}
         {props.statement?.receiveraccount && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>ანგარიშის ნომერი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('common.accountNumber')}</Text>
             <Text style={styles.textDescValueStyle}>
               {props.statement?.receiveraccount}
             </Text>
@@ -278,7 +278,7 @@ const ViewTransfer: React.FC<IProps> = props => {
       <View style={styles.splitter}></View>
 
       <View style={styles.detailBox}>
-        <Text style={styles.textHeaderStyle}>დეტალები</Text>
+        <Text style={styles.textHeaderStyle}>{translate.t('common.details')}</Text>
         {props.statement?.amount && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.amount')}</Text>
@@ -297,7 +297,7 @@ const ViewTransfer: React.FC<IProps> = props => {
         )}
         {props.statement?.tranDate && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>გადახდის თარიღი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('common.payDate')}</Text>
             <Text style={styles.textDescValueStyle}>
               {formatDate(props.statement?.tranDate)}
             </Text>
@@ -305,7 +305,7 @@ const ViewTransfer: React.FC<IProps> = props => {
         )}
         {props.statement?.dateCreated && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>გატარების თარიღი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('common.postDate')}</Text>
             <Text style={styles.textDescValueStyle}>
               {formatDate(
                 props.statement?.dateCreated
@@ -320,10 +320,10 @@ const ViewTransfer: React.FC<IProps> = props => {
       <View style={styles.splitter}></View>
 
       <View style={[styles.detailBox, styles.defDetail]}>
-        <Text style={styles.textHeaderStyle}>ტრანზაქციის დეტალები</Text>
+        <Text style={styles.textHeaderStyle}>{translate.t('transaction.tranDetails')}</Text>
         {props.statement?.tranid && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>ტრანზაქციის იდენტიფიკატორი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('transaction.tranId')}</Text>
             <Text style={styles.textDescValueStyle}>
               {props.statement?.tranid}
             </Text>
@@ -388,7 +388,7 @@ const ViewUtility: React.FC<IProps> = props => {
 
         {props.statement?.senderMaskedCardNumber && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>ბარათის ნომერი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('common.cardNumber')}</Text>
             <Text style={styles.textDescValueStyle}>
               {props.statement?.senderMaskedCardNumber}
             </Text>
@@ -403,14 +403,14 @@ const ViewUtility: React.FC<IProps> = props => {
         {props.statement?.description && (
           <>
             <View style={styles.directionRow}>
-              <Text style={styles.textDescStyle}>პროვაიდერის დასახელება</Text>
+              <Text style={styles.textDescStyle}>{translate.t('transaction.provider')}</Text>
               <Text style={styles.textDescValueStyle}>
                 {props.statement.description.split('/')[0].split(':')[1]}
               </Text>
             </View>
 
             <View style={styles.directionRow}>
-              <Text style={styles.textDescStyle}>მომხმარებელი</Text>
+              <Text style={styles.textDescStyle}>{translate.t('common.user')}</Text>
               <Text style={styles.textDescValueStyle}>
                 {props.statement.description.split('/')[1]}
               </Text>
@@ -422,7 +422,7 @@ const ViewUtility: React.FC<IProps> = props => {
       <View style={styles.splitter}></View>
 
       <View style={styles.detailBox}>
-        <Text style={styles.textHeaderStyle}>დეტალები</Text>
+        <Text style={styles.textHeaderStyle}>{translate.t('common.details')}</Text>
         {props.statement?.amount && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.amount')}</Text>
@@ -436,10 +436,10 @@ const ViewUtility: React.FC<IProps> = props => {
       <View style={styles.splitter}></View>
 
       <View style={[styles.detailBox, styles.defDetail]}>
-        <Text style={styles.textHeaderStyle}>ტრანზაქციის დეტალები</Text>
+        <Text style={styles.textHeaderStyle}>{translate.t('transaction.tranDetails')}</Text>
         {props.statement?.tranid && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>ტრანზაქციის იდენტიფიკატორი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('transaction.tranId')}</Text>
             <Text style={styles.textDescValueStyle}>
               {props.statement?.tranid}
             </Text>
@@ -462,6 +462,9 @@ const ViewUtility: React.FC<IProps> = props => {
 };
 
 const ViewBlocked: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   return (
     <>
       <View style={[styles.directionRow, styles.utilityHeader]}>
@@ -495,8 +498,8 @@ const ViewBlocked: React.FC<IProps> = props => {
       <View style={styles.splitter}></View>
 
       <View style={styles.detailBox}>
-      <Text style={[styles.textHeaderStyle, styles.bolder]}>ბლოკირებული თანხა</Text>
-        <Text style={styles.textHeaderStyle}>მერჩანტის სახელი</Text>
+      <Text style={[styles.textHeaderStyle, styles.bolder]}>{translate.t('transaction.blockedFunds')}</Text>
+        <Text style={styles.textHeaderStyle}>{translate.t('transaction.merchantName')}</Text>
         {props.fundStatement?.merchantDescription && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>
@@ -506,7 +509,7 @@ const ViewBlocked: React.FC<IProps> = props => {
         )}
         {props.fundStatement?.terminalNumber && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>ტერმინალის ნომერი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('transaction.terminalNumber')}</Text>
             <Text style={styles.textDescValueStyle}>
               {props.fundStatement?.terminalNumber}
             </Text>
@@ -514,7 +517,7 @@ const ViewBlocked: React.FC<IProps> = props => {
         )}
         {props.fundStatement?.cardNumber && (
           <View style={styles.directionRow}>
-            <Text style={styles.textDescStyle}>ბარათის ნომერი</Text>
+            <Text style={styles.textDescStyle}>{translate.t('common.cardNumber')}</Text>
             <Text style={styles.textDescValueStyle}>
               {props.fundStatement?.cardNumber}
             </Text>
@@ -526,6 +529,9 @@ const ViewBlocked: React.FC<IProps> = props => {
 };
 
 const TransactionDetailView: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [transactionType, setTransactionType] = useState<number | undefined>(
     TRANSACTION_TYPES.CLIRING,
   );
@@ -628,7 +634,7 @@ const TransactionDetailView: React.FC<IProps> = props => {
   useEffect(() => {
     const data = (
       <View style={styles.header}>
-        <Text style={styles.title}>ტრანსზაქციის დეტალები</Text>
+        <Text style={styles.title}>{translate.t('transaction.tranDetails')}</Text>
       </View>
     );
     props.sendHeader(data);

@@ -141,7 +141,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'დეტალები',
+                title: translate.t('common.details'),
                 backText: translate.t("common.back")
               })
             }
