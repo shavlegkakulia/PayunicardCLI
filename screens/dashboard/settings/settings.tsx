@@ -34,7 +34,7 @@ import UserService, {
 } from '../../../services/UserService';
 import {getString} from '../../../utils/Converter';
 import Cover from '../../../components/Cover';
-import {FetchUserDetail} from '../../../redux/actions/user_actions';
+import {FetchUserAccounts, FetchUserAccountStatements, FetchUserDetail, FetchUserProducts, FetchUserTotalBalance} from '../../../redux/actions/user_actions';
 import ActionSheetCustom from './../../../components/actionSheet';
 import AppButton from '../../../components/UI/AppButton';
 import BiometricAuthScreen from './biometric';
@@ -43,6 +43,7 @@ import FilesService, {
   IUploadFileRequest,
 } from '../../../services/FilesService';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
+import { debounce } from '../../../utils/utils';
 
 const Settings: React.FC = () => {
  
@@ -176,6 +177,8 @@ const Settings: React.FC = () => {
     }
   };
 
+  const refetchDelay = debounce((e: Function) => e(), 1000);
+
   const changeActiveLang = useCallback(
     (key: string) => {
       if (key === ka_ge) {
@@ -191,6 +194,13 @@ const Settings: React.FC = () => {
       }
 
       dispatch(use(key));
+
+      refetchDelay(() => {
+        dispatch(FetchUserProducts());
+        dispatch(FetchUserAccounts());
+        dispatch(FetchUserTotalBalance());
+        dispatch(FetchUserAccountStatements({}));
+      });
     },
     [ka, en],
   );

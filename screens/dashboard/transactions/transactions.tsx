@@ -49,6 +49,7 @@ import CardService, {
   ITransaction,
 } from '../../../services/CardService';
 import {TYPE_UNICARD} from '../../../constants/accountTypes';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 
 const filter_items = {
   selectedAccount: 'selectedAccount',
@@ -59,6 +60,9 @@ const Transactions: React.FC = () => {
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [refreshing, setRefreshing] = useState(false);
   const [fetchingMore, setFetchingMore] = useState(false);
   const [stopFetching, setStopFetching] = useState(false);

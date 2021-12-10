@@ -1,5 +1,5 @@
-import React from 'react';
-import {useState} from 'react';
+
+import React, {useState} from 'react';
 import {useEffect} from 'react';
 import {
   View,
@@ -23,6 +23,8 @@ import {formatDate} from '../../../utils/utils';
 import envs from './../../../config/env';
 import RNFetchBlob from 'rn-fetch-blob';
 import AuthService from '../../../services/AuthService';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
+import { useSelector } from 'react-redux';
 
 interface IProps {
   statement: IGetTransactionDetailsResponse | undefined;
@@ -40,6 +42,10 @@ const TRANSACTION_TYPES = {
 };
 
 const ViewCliring: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
+  
   return (
     <>
       {(props.statement?.mccGroupName !== undefined ||
@@ -180,6 +186,9 @@ const ViewCliring: React.FC<IProps> = props => {
 };
 
 const ViewTransfer: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   return (
     <>
       <View style={[styles.directionRow, styles.transactionHeader]}>
@@ -337,6 +346,9 @@ const ViewTransfer: React.FC<IProps> = props => {
 };
 
 const ViewUtility: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   return (
     <>
       <View style={[styles.directionRow, styles.utilityHeader]}>
