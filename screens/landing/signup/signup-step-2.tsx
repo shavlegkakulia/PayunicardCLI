@@ -104,7 +104,7 @@ const SignupStepTwo: React.FC = () => {
             onChange={setUserName}
             keyboardType={'email-address'}
             autoCapitalize={autoCapitalize.none}
-            placeholder={translate.t('login.email')}
+            placeholder={translate.t('common.email')}
           />
         </View>
         <AppButton title={translate.t('common.next')} onPress={nextStep} />
