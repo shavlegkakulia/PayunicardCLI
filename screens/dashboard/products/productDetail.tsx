@@ -26,7 +26,6 @@ import {
   useRoute,
 } from '@react-navigation/native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {AccountCard} from './index';
 import UserService, {
   IAccountBallance,
   IFund,
@@ -70,6 +69,7 @@ import PresentationService from './../../../services/PresentationServive';
 import CardService, {IGetBarcodeRequest} from '../../../services/CardService';
 import NavigationService from '../../../services/NavigationService';
 import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
+import AccountCard from './AccountCard';
 
 type RouteParamList = {
   Account: {
