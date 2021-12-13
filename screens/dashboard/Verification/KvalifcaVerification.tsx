@@ -3,7 +3,7 @@ import {
   KvalifikaSDKLocale,
 } from '@kvalifika/react-native-sdk';
 import React, {useEffect} from 'react';
-import FullScreenLoader from '../../components/FullScreenLoading';
+import FullScreenLoader from '../../../components/FullScreenLoading';
 
 interface IProps {
   startSession?: boolean;

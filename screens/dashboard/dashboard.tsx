@@ -1,29 +1,13 @@
 import React, {useCallback, useRef} from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-  ActivityIndicator,
-  RefreshControl,
-  Dimensions,
-} from 'react-native';
+import {ScrollView, View, RefreshControl} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import ActionSheetCustom from './../../components/actionSheet';
-import PaginationDots from '../../components/PaginationDots';
 import colors from '../../constants/colors';
-import currencies from '../../constants/currencies';
 import userStatuses from '../../constants/userStatuses';
-import {useDimension} from '../../hooks/useDimension';
 import {
   FetchUserAccounts,
-  FetchUserAccountStatements,
   FetchUserProducts,
   FetchUserTotalBalance,
 } from '../../redux/actions/user_actions';
@@ -33,9 +17,8 @@ import {
 } from '../../redux/action_types/user_action_types';
 import NetworkService from '../../services/NetworkService';
 import screenStyles from '../../styles/screens';
-import {CurrencyConverter} from '../../utils/Converter';
 import DashboardLayout from '../DashboardLayout';
-import CurrentMoney from './currentMoney';
+import CurrentMoney from './home/CurrentMoney';
 import TransactionsList from './transactions/TransactionsList';
 import Routes from '../../navigation/routes';
 import {subscriptionService} from '../../services/subscriptionService';
@@ -44,10 +27,9 @@ import SUBSCRIBTION_KEYS from '../../constants/subscribtionKeys';
 import {NAVIGATION_ACTIONS} from '../../redux/action_types/navigation_action_types';
 import {useNavigationState} from '@react-navigation/native';
 import {PAYMENTS_ACTIONS} from '../../redux/action_types/payments_action_type';
-import NavigationService, {OpenDrawer} from '../../services/NavigationService';
+import NavigationService from '../../services/NavigationService';
 import {TRANSFERS_ACTION_TYPES} from '../../redux/action_types/transfers_action_types';
 import {debounce} from '../../utils/utils';
-import UserService, {IFund} from '../../services/UserService';
 import {
   NavigationEventSubscription,
   NavigationScreenProp,
@@ -56,25 +38,10 @@ import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
 } from '../../redux/action_types/translate_action_types';
-import PresentationServive, { IGetOffers, IOffersResponse } from '../../services/PresentationServive';
-
-// const offers = [
-//   {
-//     title: 'სპეციალური შეთავაზება',
-//     subtitle: 'დააგემოვნე აზიური სამზარეულო TOKYO-ში',
-//     image: require('./../../assets/images/business1.jpeg'),
-//   },
-//   {
-//     title: 'სპეციალური შეთავაზება',
-//     subtitle: 'შეიძინე მუდამ განახლებული კოლექცია CITY MALL-ში.',
-//     image: require('./../../assets/images/business2.jpeg'),
-//   },
-//   {
-//     title: 'სპეციალური შეთავაზება',
-//     subtitle: 'SUMMER IN `თბილისი`.',
-//     image: require('./../../assets/images/business3.jpeg'),
-//   },
-// ];
+import AccountStatusView from './home/AccounStatus';
+import ProductsView from './home/AboutProducts';
+import UnicardAction from './home/UnicardActionView';
+import OffersView from './home/Offers';
 
 export interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -84,41 +51,16 @@ const Dashboard: React.FC<IProps> = props => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
-  const [offersStep, setOffersStep] = useState<number>(0);
+
   const [refreshing, setRefreshing] = useState(false);
-  const screenSize = useDimension();
+
   const [actionsSheetHeader, setActionsSheetHeader] =
     useState<JSX.Element | null>(null);
   const [actionsVisible, setActionsVisible] = useState(false);
-  const [isFundsLoading, setIsFundsLoading] = useState<boolean>(false);
-  const [funds, setFunds] = useState<IFund[] | undefined>();
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
   const dispatch = useDispatch();
-
-  const [offers, setOffers] = useState<IOffersResponse[] | undefined>();
-
-  const handleOffersScroll = (
-    event: NativeSyntheticEvent<NativeScrollEvent>,
-  ) => {
-    let overView = event.nativeEvent.contentOffset.x / (screenSize.width - 25);
-    setOffersStep(Math.round(overView));
-  };
-
-  const get_GetOffers = () => {
-    PresentationServive.get_GetOffers().subscribe({
-      next: (Response) => {
-        setOffers(Response.data.data?.offers);
-      }
-    })
-  }
-
-  useEffect(() => {
-    if(!offers) {
-      get_GetOffers();
-    }
-  }, [offers])
 
   const {documentVerificationStatusCode, customerVerificationStatusCode} =
     userData.userDetails || {};
@@ -133,204 +75,6 @@ const Dashboard: React.FC<IProps> = props => {
       NavigationService.navigate(Routes.Verification, {verificationStep: 0});
     }
   };
-
-  const openUnicardSidebar = () => {
-    OpenDrawer && OpenDrawer[1]();
-  };
-
-  const AccountStatusView = ({
-    onStartVerification,
-  }: {
-    onStartVerification: () => void;
-  }) => {
-    let statusView = <></>;
-    if (
-      documentVerificationStatusCode === userStatuses.Enum_NotVerified &&
-      customerVerificationStatusCode === userStatuses.Enum_NotVerified
-    ) {
-      statusView = (
-        <>
-          <Image
-            source={require('../../assets/images/alert_red.png')}
-            style={styles.accountStatusViewSimbol}
-          />
-          <Text style={styles.accountStatusViewText}>
-            {translate.t('dashboard.userVerifyStatus1')}
-          </Text>
-        </>
-      );
-    } else if (
-      documentVerificationStatusCode === userStatuses.Enum_Verified &&
-      customerVerificationStatusCode === userStatuses.Enum_Verified
-    ) {
-      statusView = (
-        <>
-          <Image
-            source={require('../../assets/images/round-checked-20x20.png')}
-            style={styles.accountStatusViewSimbol}
-          />
-          <Text style={styles.accountStatusViewText}>
-            {translate.t('dashboard.userVerifyStatus2')}
-          </Text>
-        </>
-      );
-    } else if (
-      documentVerificationStatusCode === userStatuses.Enum_PartiallyProcessed
-    ) {
-      statusView = (
-        <>
-          <Image
-            source={require('../../assets/images/alert_red.png')}
-            style={styles.accountStatusViewSimbol}
-          />
-          <Text style={styles.accountStatusViewText}>
-            {translate.t('dashboard.userVerifyStatus1')}
-          </Text>
-        </>
-      );
-    } else {
-      statusView = (
-        <>
-          <Image
-            source={require('../../assets/images/alert_orange.png')}
-            style={styles.accountStatusViewSimbol}
-          />
-          <Text style={styles.accountStatusViewText}>
-            {translate.t('dashboard.userVerifyStatus3')}
-          </Text>
-        </>
-      );
-    }
-
-    return (
-      <View style={[styles.accountStatusView, screenStyles.shadowedCardbr15]}>
-        <View style={styles.accountStatusViewInner}>
-          <TouchableOpacity
-            onPress={onStartVerification}
-            style={styles.accountStatusViewTouchable}>
-            {userData.isUserLoading ? (
-              <ActivityIndicator
-                size="small"
-                color={colors.primary}
-                style={styles.loadingBox}
-              />
-            ) : (
-              statusView
-            )}
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
-
-  const productsView = (
-    <TouchableOpacity
-      activeOpacity={0.7}
-      onPress={() => NavigationService.navigate(Routes.Products)}
-      style={[styles.productsViewContainer, screenStyles.shadowedCardbr15]}>
-      <View style={styles.productsViewHeader}>
-        <Text style={styles.productsViewTitle}>
-          {translate.t('dashboard.myProducts')}
-        </Text>
-        <View>
-          <Text style={styles.productsViewSeeall}>
-            {translate.t('common.all')}
-          </Text>
-        </View>
-      </View>
-      {userData.isUserProductsLoading ? (
-        <ActivityIndicator
-          size="small"
-          color={colors.primary}
-          style={styles.loadingBox}
-        />
-      ) : (
-        userData.userProducts?.map((product, index) => (
-          <View style={styles.ProductsViewItem} key={`products${index}`}>
-            <Image
-              source={{uri: product.imageURL}}
-              style={styles.productsViewLogo}
-            />
-            <View style={styles.productsItemRight}>
-              <View style={styles.productsItemRightInner}>
-                <Text style={styles.productsViewItemTitle}>
-                  {product.productName}
-                </Text>
-                <Text style={styles.productsViewItemValue}>
-                  {CurrencyConverter(product.balance)}
-                  {currencies.GEL}
-                </Text>
-              </View>
-              {userData.userProducts &&
-                index != userData.userProducts.length - 1 && (
-                  <View style={styles.productsViewItemLine}></View>
-                )}
-            </View>
-          </View>
-        ))
-      )}
-    </TouchableOpacity>
-  );
-
-  const UnicardAction = (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={openUnicardSidebar}
-      style={[styles.unicardActionContainer, screenStyles.shadowedCardbr15]}>
-      <View style={styles.unicardActionInnerLeft}>
-        <View style={styles.unicardLogoBox}>
-          <Image source={require('./../../assets/images/uniLogo.png')} />
-        </View>
-        <Text style={styles.unicardACtionText}>
-          {translate.t('dashboard.unicardCard')}
-        </Text>
-      </View>
-      <Image
-        source={require('./../../assets/images/icon-right-arrow-green.png')}
-      />
-    </TouchableOpacity>
-  );
-
-  const offersView = (
-    <View style={styles.offersContainer}>
-      <View style={styles.offersContainerHeader}>
-        <Text style={styles.offersContainerTitle}>
-          {translate.t('dashboard.myOffer')}
-        </Text>
-        <PaginationDots step={offersStep} length={offers?.length} />
-      </View>
-      <ScrollView
-        onScroll={handleOffersScroll}
-        style={styles.offersContainerScrollable}
-        showsHorizontalScrollIndicator={false}
-        horizontal={true}>
-        {offers?.map((o, index) => (
-          <View
-            style={[
-              styles.offersContainerItem,
-              screenStyles.shadowedCardbr15,
-              {width: screenSize.width - 90},
-              index === 0 && {marginLeft: 15},
-            ]}
-            key={`offer${index}`}>
-            <Image
-              source={{uri: o.imageUrl}}
-              style={styles.offersContainerItemImage}
-              resizeMode="cover"
-            />
-            <View style={styles.offersContainerItemDetails}>
-              <Text style={styles.offersContainerItemDetailsTitle}>
-                {o.title}
-              </Text>
-              <Text style={styles.offersContainerItemDetailsSubTitle}>
-                {o.text}
-              </Text>
-            </View>
-          </View>
-        ))}
-      </ScrollView>
-    </View>
-  );
 
   const _routes = useNavigationState(state => state.routes);
 
@@ -358,25 +102,6 @@ const Dashboard: React.FC<IProps> = props => {
       dispatch(FetchUserProducts());
       dispatch(FetchUserAccounts());
       dispatch(FetchUserTotalBalance());
-      dispatch(FetchUserAccountStatements({}));
-    });
-  };
-
-  const GetUserBlockedFunds = () => {
-    setIsFundsLoading(true);
-    UserService.getUserBlockedFunds().subscribe({
-      next: Response => {
-        console.log(Response.data.data?.funds);
-        if (Response.data.ok) {
-          setFunds(Response.data.data?.funds);
-        }
-      },
-      complete: () => {
-        setIsFundsLoading(false);
-      },
-      error: err => {
-        setIsFundsLoading(false);
-      },
     });
   };
 
@@ -426,8 +151,6 @@ const Dashboard: React.FC<IProps> = props => {
       if (!userData.userProducts?.length) dispatch(FetchUserProducts());
       if (!userData.userAccounts?.length) dispatch(FetchUserAccounts());
       if (!userData.userTotalBalance) dispatch(FetchUserTotalBalance());
-      if (!userData.useAccountStatements)
-        dispatch(FetchUserAccountStatements({}));
     });
   }, []);
 
@@ -445,15 +168,14 @@ const Dashboard: React.FC<IProps> = props => {
     userData.isUserProductsLoading,
   ]);
 
-  useEffect(() => {
-    GetUserBlockedFunds();
-  }, []);
-
   const actionSHeetCloseDelay = debounce((e: Function) => e(), 1000);
 
   useEffect(() => {
     subscriptionService.getData().subscribe(data => {
-      if (data?.key === SUBSCRIBTION_KEYS.OPEN_ACTIONS_ACTIONSHEET && !actionsVisible) {
+      if (
+        data?.key === SUBSCRIBTION_KEYS.OPEN_ACTIONS_ACTIONSHEET &&
+        !actionsVisible
+      ) {
         setActionsVisible(true);
       } else if (
         data?.key === SUBSCRIBTION_KEYS.OPEN_CREATE_TRANSFER_TEMPLATE
@@ -490,8 +212,6 @@ const Dashboard: React.FC<IProps> = props => {
 
   const ActionsSheetHeight = 440;
 
-  const allStatements = [...(userData.useAccountStatements?.statements || [])];
-
   return (
     <DashboardLayout>
       <ScrollView
@@ -507,22 +227,17 @@ const Dashboard: React.FC<IProps> = props => {
           <AccountStatusView onStartVerification={start_verification} />
         </View>
         <View style={screenStyles.wraper}>
-          <CurrentMoney
-            totalBalance={userData.userTotalBalance}
-            isLoading={userData.isTotalBalanceLoading}
-            containerStyle={styles.currentMoneyBox}
-          />
+          <CurrentMoney />
         </View>
-        <View style={screenStyles.wraperWithShadow}>{UnicardAction}</View>
-        <View style={screenStyles.wraperWithShadow}>{productsView}</View>
-        {(offers && offers?.length > 0) && offersView}
+        <View style={screenStyles.wraperWithShadow}>
+          <UnicardAction />
+        </View>
+        <View style={screenStyles.wraperWithShadow}>
+          <ProductsView />
+        </View>
+        <OffersView />
         <View style={screenStyles.wraper}>
-          <TransactionsList
-            statements={allStatements}
-            funds={funds}
-            isLoading={userData.isStatementsLoading || isFundsLoading}
-            containerStyle={styles.transactionContainer}
-          />
+          <TransactionsList />
         </View>
       </ScrollView>
 
@@ -534,199 +249,13 @@ const Dashboard: React.FC<IProps> = props => {
         hasScroll={true}
         height={ActionsSheetHeight}
         onPress={closeActionSheet}>
-        <Actions title={translate.t('plusSign.chooseService')}sendHeader={setActionsSheetHeader} />
+        <Actions
+          title={translate.t('plusSign.chooseService')}
+          sendHeader={setActionsSheetHeader}
+        />
       </ActionSheetCustom>
     </DashboardLayout>
   );
 };
-
-const styles = StyleSheet.create({
-  accountStatusView: {
-    marginTop: 20,
-    minHeight: 46,
-    backgroundColor: colors.white,
-    flex: 1,
-    alignItems: 'center',
-  },
-  accountStatusViewInner: {
-    alignItems: 'center',
-    paddingHorizontal: 25,
-    paddingVertical: 13,
-    flex: 1,
-  },
-  accountStatusViewTouchable: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  accountStatusViewSimbol: {
-    width: 20,
-    height: 20,
-    marginRight: 30,
-  },
-  accountStatusViewText: {
-    fontFamily: 'FiraGO-Book',
-    fontSize: 15,
-    lineHeight: 19,
-    color: colors.black,
-  },
-  unicardACtionText: {
-    fontFamily: 'FiraGO-Book',
-    fontSize: 14,
-    lineHeight: 17,
-    color: colors.labelColor,
-  },
-  currentMoneyBox: {
-    marginTop: 35,
-    paddingHorizontal: 8,
-  },
-  productsViewContainer: {
-    marginTop: 36,
-    padding: 17,
-    backgroundColor: colors.white,
-  },
-  unicardActionContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 36,
-    padding: 17,
-    backgroundColor: colors.white,
-  },
-  unicardActionInnerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  unicardLogoBox: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    overflow: 'hidden',
-    backgroundColor: colors.inputBackGround,
-    marginRight: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  productsViewHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  productsViewTitle: {
-    fontFamily: 'FiraGO-Medium',
-    fontSize: 14,
-    lineHeight: 17,
-    color: colors.black,
-  },
-  productsViewSeeall: {
-    fontFamily: 'FiraGO-Book',
-    fontSize: 12,
-    lineHeight: 15,
-    color: colors.labelColor,
-  },
-  ProductsViewItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  ProductsViewLastItem: {
-    //marginTop: 34
-  },
-  productsItemRight: {
-    flex: 1,
-    position: 'relative',
-  },
-  productsItemRightInner: {
-    flexDirection: 'row',
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  productsViewLogo: {
-    width: 40,
-    height: 40,
-    marginRight: 16,
-  },
-  productsViewItemTitle: {
-    fontFamily: 'FiraGO-Book',
-    fontSize: 14,
-    lineHeight: 17,
-    color: colors.labelColor,
-  },
-  productsViewItemLine: {
-    borderBottomColor: '#F5F5F5',
-    borderBottomWidth: 1,
-    flex: 1,
-    position: 'absolute',
-    bottom: -8,
-    left: 0,
-    right: 0,
-  },
-  productsViewItemValue: {
-    fontFamily: 'FiraGO-Medium',
-    fontSize: 14,
-    lineHeight: 17,
-    color: colors.black,
-  },
-  offersContainer: {
-    height: 188,
-    flex: 1,
-    marginTop: 33,
-  },
-  offersContainerHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 18,
-    paddingHorizontal: 22,
-    marginBottom: 20,
-  },
-  offersContainerTitle: {
-    fontFamily: 'FiraGO-Medium',
-    fontSize: 14,
-    lineHeight: 17,
-    color: colors.black,
-  },
-  offersContainerScrollable: {},
-  offersContainerItem: {
-    overflow: 'hidden',
-    height: 143,
-    marginHorizontal: 9,
-    backgroundColor: colors.white,
-  },
-  offersContainerItemImage: {
-    width: '100%',
-    height: 82,
-  },
-  offersContainerItemDetails: {
-    height: 61,
-    backgroundColor: colors.white,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  offersContainerItemDetailsTitle: {
-    fontFamily: 'FiraGO-Book',
-    fontSize: 10,
-    lineHeight: 12,
-    color: colors.black,
-  },
-  offersContainerItemDetailsSubTitle: {
-    fontFamily: 'FiraGO-Book',
-    fontSize: 9,
-    lineHeight: 11,
-    color: colors.labelColor,
-    marginTop: 4,
-  },
-  transactionContainer: {
-    marginBottom: 41,
-    marginTop: 38,
-  },
-  loadingBox: {
-    alignSelf: 'center',
-    flex: 1,
-    marginTop: 10,
-  },
-});
 
 export default Dashboard;

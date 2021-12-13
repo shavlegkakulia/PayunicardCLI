@@ -1060,11 +1060,7 @@ const ProductDetail: React.FC = props => {
 
         <View style={[screenStyles.wraper, styles.transactions]}>
           <TransactionsList
-            statements={userData.useAccountStatements?.statements}
-            funds={funds}
             hideSeeMoreButton={true}
-            isLoading={userData.isStatementsLoading || isFundsLoading}
-            containerStyle={styles.transactionContainer}
           />
         </View>
       </ReactScroll>

@@ -26,7 +26,7 @@ import {
 import NetworkService from '../../../services/NetworkService';
 import screenStyles from '../../../styles/screens';
 import DashboardLayout from '../../DashboardLayout';
-import CurrentMoney from './../currentMoney';
+import CurrentMoney from '../home/CurrentMoney';
 import UserService, {
   IAccountBallance,
   ICancelPackageWEBRequest,
@@ -583,11 +583,7 @@ const Products: React.FC = props => {
           />
         }>
         <View style={screenStyles.wraper}>
-          <CurrentMoney
-            totalBalance={userData.userTotalBalance}
-            isLoading={userData.isTotalBalanceLoading}
-            containerStyle={styles.currentMoneyBox}
-          />
+          <CurrentMoney />
         </View>
         <View style={screenStyles.wraperWithShadow}>
           <View
@@ -597,7 +593,7 @@ const Products: React.FC = props => {
             ]}>
             <View style={styles.productsViewHeader}>
               <Text style={styles.productsViewTitle}>
-              {translate.t('products.activeAccountCards')}
+                {translate.t('products.activeAccountCards')}
               </Text>
             </View>
             {userData.isAccountsLoading ? (
@@ -645,7 +641,9 @@ const Products: React.FC = props => {
           <View
             style={[styles.addedCardsContainer, screenStyles.shadowedCardbr15]}>
             <View style={styles.productsViewHeader}>
-              <Text style={styles.productsViewTitle}>{translate.t('products.linkedCards')}</Text>
+              <Text style={styles.productsViewTitle}>
+                {translate.t('products.linkedCards')}
+              </Text>
             </View>
             <ScrollView
               style={styles.addedCadsContainer}

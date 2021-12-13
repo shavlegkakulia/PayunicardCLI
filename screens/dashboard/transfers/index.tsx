@@ -14,7 +14,6 @@ import NetworkService from '../../../services/NetworkService';
 import {ITransferTemplate} from '../../../services/TemplatesService';
 import screenStyles from '../../../styles/screens';
 import DashboardLayout from '../../DashboardLayout';
-import TransactionsList from '../transactions/TransactionsList';
 import TransferTemplates from './TransferTemplates';
 import {useDispatch, useSelector} from 'react-redux';
 import {

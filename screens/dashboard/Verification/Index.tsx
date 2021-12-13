@@ -64,7 +64,7 @@ import UserService, {
   IType2,
 } from '../../../services/UserService';
 import {getString} from '../../../utils/Converter';
-import KvalifcaVerification from '../KvalifcaVerification';
+import KvalifcaVerification from './KvalifcaVerification';
 import Finish from './Finish';
 import StepEight from './StepEight';
 import StepFour from './StepFour';
