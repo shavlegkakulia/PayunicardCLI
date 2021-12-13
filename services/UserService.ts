@@ -59,6 +59,7 @@ export interface IAccountBallance {
   accountName?: string | undefined;
   accountId?: number;
   type?: number;
+  amount?: number;
   availableInGEL?: number;
   availableInUSD?: number;
   availableInEUR?: number;

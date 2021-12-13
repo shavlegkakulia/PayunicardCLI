@@ -250,6 +250,10 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
       currency => currency.key === props.account.ccyPriority,
     );
 
+    if (accounts.type === TYPE_UNICARD) {
+      return accounts.availableInGEL;
+    }
+
     return priorityBalance?.length ? priorityBalance[0].availableBal : 0;
   };
 

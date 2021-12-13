@@ -55,7 +55,7 @@ const CurrentMoney: React.FC = () => {
         ) : (
           <View style={styles.currentUniscoresValueBox}>
             <Text style={styles.currentUniscoresValue}>
-              {userData.userTotalBalance?.points}
+              {CurrencyConverter(userData.userTotalBalance?.points)}
             </Text>
             <Image
               source={require('./../../../assets/images/score-star.png')}
