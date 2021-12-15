@@ -106,7 +106,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
   const [currenciesTo, setCurrenciesTo] = useState<ICurrency[] | undefined>(
     undefined,
   );
-
+  const [fromAmount, setFromAmount] = useState<string | undefined>();
   const TransfersStore = useSelector<ITRansferGlobalState>(
     state => state.TransfersReducer,
   ) as ITransfersState;
@@ -134,10 +134,8 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
   };
 
   const setAmount = (amount: string | undefined) => {
-    dispatch({
-      type: TRANSFERS_ACTION_TYPES.SET_AMOUNT,
-      amount: amount,
-    });
+    setFromAmount(amount);
+    console.log('/////////////', amount)
   };
 
   const navigation = useNavigation();
@@ -240,6 +238,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
       fromBaseAmount: fromBaseAmount,
       amountFROM: isNaN(parseInt(_amount)) ? 0 : parseInt(_amount),
     };
+    console.log(fromAmount)
     calculationTimeoutRef.current = setTimeout(() => {
       setIsLoading(true);
       setIsToDefault(false);
@@ -258,7 +257,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
 
             setCurrencyRate(realrate);
 
-            if (!TransfersStore.amount && !amountTo) {
+            if (!fromAmount && !amountTo) {
               setAmount('');
               setAmountTo('');
               return;
@@ -275,7 +274,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
           setIsLoading(false);
         },
       });
-    }, 10);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -310,7 +309,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
       TransfersStore.selectedFromAccount &&
       TransfersStore.selectedToAccount
     ) {
-      CurrencyConverterCalculatror(TransfersStore.amount);
+      CurrencyConverterCalculatror(fromAmount);
     }
   }, [
     TransfersStore.selectedFromCurrency,
@@ -322,13 +321,19 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
 
   useEffect(() => {
     if (fromBaseAmount === true && isToDefault === true) {
-      CurrencyConverterCalculatror(TransfersStore.amount);
+      CurrencyConverterCalculatror(fromAmount);
       return;
     } else if (fromBaseAmount === false && isToDefault === true) {
       CurrencyConverterCalculatror(amountTo);
       return;
     }
-  }, [isToDefault, amountTo]);
+  }, [isToDefault, amountTo, fromAmount]);
+
+  useEffect(() => {
+    if(!fromAmount) {
+      setAmountTo('');
+    }
+  }, [fromAmount]);
 
   useEffect(() => {
     if (TransfersStore.transactionResponse) {
@@ -375,7 +380,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
       nomination: TransfersStore.nomination,
       ccy: TransfersStore.selectedToCurrency?.key,
       ccyto: TransfersStore.selectedToCurrency?.key,
-      amount: getNumber(TransfersStore.amount),
+      amount: getNumber(fromAmount),
       otp: null,
     };
 
@@ -418,7 +423,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
         return;
       }
 
-      if (!TransfersStore.amount || isNaN(parseInt(TransfersStore.amount))) {
+      if (!fromAmount || isNaN(parseInt(fromAmount))) {
         setAmountErrorStyle({
           borderBottomColor: colors.danger,
           borderBottomWidth: 1,
@@ -442,7 +447,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
         return;
       }
 
-      if (getNumber(TransfersStore.amount) < 1) {
+      if (getNumber(fromAmount) < 1) {
         dispatch(
           PUSH(
             `მინიმალური გადასარიცხი თანხა 0.1 ${CurrencySimbolConverter(GEL)}`,
@@ -654,7 +659,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
                       customKey="fromAmount"
                       context={ValidationContext}
                       placeholder={translate.t('common.amount')}
-                      value={TransfersStore.amount}
+                      value={fromAmount}
                       keyboardType="numeric"
                       style={amountErrorStyle}
                       onChange={updateAmountFrom}
