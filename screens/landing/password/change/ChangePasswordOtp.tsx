@@ -67,7 +67,7 @@ const ChangePasswordOtp: React.FC = () => {
     if (isLoading) return;
 
     if (!otp) {
-      dispatch(PUSH('ერთჯერადი კოდი აუცილებელია'));
+      dispatch(PUSH(translate.t('otp.enterOtp')));
       return;
     }
     NetworkService.CheckConnection(() => {
@@ -121,7 +121,7 @@ const ChangePasswordOtp: React.FC = () => {
         )}
         <View style={styles.inputsContainer}>
           <View style={styles.insertOtpSTep}>
-            <Text style={styles.insertOtpCode}>შეიყვანე სმს კოდი</Text>
+            <Text style={styles.insertOtpCode}>{translate.t('otp.enterOtp')}</Text>
             <FloatingLabelInput
               Style={styles.otpBox}
               label={translate.t('otp.smsCode')}

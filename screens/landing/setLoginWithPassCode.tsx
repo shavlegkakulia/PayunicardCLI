@@ -26,6 +26,10 @@ import storage from './../../services/StorageService';
 import envs from './../../config/env';
 import Store from './../../redux/store';
 import FullScreenLoader from '../../components/FullScreenLoading';
+import {stringToObject} from '../../utils/utils';
+import {require_otp} from '../../constants/errorCodes';
+import {useNavigation} from '@react-navigation/native';
+import Routes from '../../navigation/routes';
 
 interface IProps {
   access_token: string;
@@ -47,6 +51,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
     state => state.AuthReducer,
   ) as IAuthState;
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const setNum = (num: string) => {
     if (isLoading) return;
@@ -72,8 +77,8 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
     const refreshToken = await AuthService.getRefreshToken();
     const refreshObj = new FormData();
     refreshObj.append('scope', 'Wallet_Api.Full offline_access');
-    refreshObj.append("client_id", envs.client_id);
-    refreshObj.append("client_secret", envs.client_secret);
+    refreshObj.append('client_id', envs.client_id);
+    refreshObj.append('client_secret', envs.client_secret);
     refreshObj.append('grant_type', 'refresh_token');
     refreshObj.append('refresh_token', refreshToken);
     return axios
@@ -99,23 +104,25 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
         return {
           accesToken: response.data.access_token,
           refreshToken: response.data.refresh_token,
+          skip: false,
         };
       })
-      .catch(() => {
-        return {accesToken: undefined, refreshToken: undefined};
+      .catch(error => {
+        if (stringToObject(error.response).data.error === require_otp) {
+          navigation.navigate(Routes.RefreshTokenOtp);
+        }
+        return {accesToken: undefined, refreshToken: undefined, skip: true};
       })
       .finally(() => {
         setIsLoading(false);
-        return {accesToken: undefined, refreshToken: undefined};
+        return {accesToken: undefined, refreshToken: undefined, skip: false};
       });
   };
 
   const login = async (pascode: string) => {
     if (baseCode === pascode) {
- 
       goRefreshToken().then(res => {
-        console.log('**************************', res);
-        const {accesToken, refreshToken} = res;
+        const {accesToken, refreshToken, skip} = res;
         if (res.accesToken !== undefined) {
           dispatch({
             type: LOGIN,
@@ -124,8 +131,10 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
             isAuthenticated: true,
           });
         } else {
-          dispatch(PUSH(translate.t("generalErrors.errorOccurred")));
-          setCode(undefined);
+          if (!skip) {
+            dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
+            setCode(undefined);
+          }
         }
       });
     } else {
@@ -135,7 +144,6 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
   };
 
   const onSuccesBiometric = () => {
-    console.log('modis');
     const {access_token, refresh_token} = props;
 
     goRefreshToken().then(res => {
@@ -147,7 +155,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
           isAuthenticated: true,
         });
       } else {
-        dispatch(PUSH(translate.t("generalErrors.errorOccurred")));
+        dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
         setCode(undefined);
       }
     });

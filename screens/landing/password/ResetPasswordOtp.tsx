@@ -91,7 +91,7 @@ const ResetPasswordOtp: React.FC = () => {
         </View></>}
         <View style={styles.inputsContainer}>
           <View style={styles.insertOtpSTep}>
-            <Text style={styles.insertOtpCode}>შეიყვანე სმს კოდი</Text>
+            <Text style={styles.insertOtpCode}>{translate.t('otp.enterOtp')}</Text>
             <FloatingLabelInput
               Style={styles.otpBox}
               label={translate.t('otp.smsCode')}

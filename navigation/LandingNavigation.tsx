@@ -19,8 +19,12 @@ import setLoginWithPassCode from '../screens/landing/setLoginWithPassCode';
 import PasswordChangeSucces from '../screens/landing/password/change/PasswordChangeSucces';
 import PasswordChangeStepFour from '../screens/landing/password/change/PasswordChangeStepFour';
 import AgreeTerm from '../screens/landing/signup/signup-agree';
-import { useSelector } from 'react-redux';
-import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../redux/action_types/translate_action_types';
+import {useSelector} from 'react-redux';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../redux/action_types/translate_action_types';
+import RefreshTokenOtp from '../screens/landing/RefreshIokenOtp';
 
 const LandingStack = createStackNavigator();
 
@@ -43,8 +47,8 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: translate.t("signup.title"),
-            backText: translate.t("common.back")
+            title: translate.t('signup.title'),
+            backText: translate.t('common.back'),
           })
         }
       />
@@ -55,7 +59,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'რეგისტრაცია',
-            backText: translate.t("common.back")
+            backText: translate.t('common.back'),
           })
         }
       />
@@ -66,7 +70,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'რეგისტრაცია',
-            backText: translate.t("common.back")
+            backText: translate.t('common.back'),
           })
         }
       />
@@ -77,7 +81,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'რეგისტრაცია',
-            backText: translate.t("common.back")
+            backText: translate.t('common.back'),
           })
         }
       />
@@ -89,7 +93,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'პაროლის დარესეტება',
-            backText: translate.t("common.back")
+            backText: translate.t('common.back'),
           })
         }
       />
@@ -100,7 +104,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'პაროლის დარესეტება',
-            backText: translate.t("common.back")
+            backText: translate.t('common.back'),
           })
         }
       />
@@ -111,7 +115,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'პაროლის დარესეტება',
-            backText: translate.t("common.back")
+            backText: translate.t('common.back'),
           })
         }
       />
@@ -122,7 +126,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'პაროლის დარესეტება',
-            backText: translate.t("common.back")
+            backText: translate.t('common.back'),
           })
         }
       />
@@ -133,7 +137,7 @@ function LandingNavigator() {
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'პაროლის დარესეტება',
-            backText: translate.t("common.back")
+            backText: translate.t('common.back'),
           })
         }
       />
@@ -145,7 +149,7 @@ function LandingNavigator() {
             navigation: props.navigation,
             title: 'პაროლის დარესეტება',
             hideHeader: true,
-            backText: translate.t("common.back")
+            backText: translate.t('common.back'),
           })
         }
       />
@@ -159,9 +163,9 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title:  translate.t("settings.changePassword"),
+            title: translate.t('settings.changePassword'),
             hideHeader: true,
-            backText: translate.t("common.back")
+            backText: translate.t('common.back'),
           })
         }
       />
@@ -171,19 +175,30 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title:  translate.t("settings.changePassword"),
-            backText: translate.t("common.back")
+            title: translate.t('settings.changePassword'),
+            backText: translate.t('common.back'),
           })
         }
       />
-       <LandingStack.Screen
+      <LandingStack.Screen
         name={Routes.AgreeTerm}
         component={AgreeTerm}
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
             title: 'წესები და პირობები',
-            backText: translate.t("common.back")
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <LandingStack.Screen
+        name={Routes.RefreshTokenOtp}
+        component={RefreshTokenOtp}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('otp.smsCode'),
+            backText: translate.t('common.back'),
           })
         }
       />
