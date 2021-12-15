@@ -67,7 +67,7 @@ const StepSix: React.FC<IProps> = props => {
         </View>
 
         <View>
-            <AppCheckbox style={styles.checkbox} activeColor={colors.primary} label='ვეთახმები წესებს და პირობებს' clicked={() => setAccepted(!accepted)} value={accepted} key={'accept'} customKey='accept' context='verification' />
+            <AppCheckbox style={styles.checkbox} activeColor={colors.primary} label={translate.t('common.agreeTerms')} clicked={() => setAccepted(!accepted)} value={accepted} key={'accept'} customKey='accept' context='verification' />
             <Text style={styles.description}>{translate.t('verification.kvDisclamer')}</Text>
         </View>
       </View>
