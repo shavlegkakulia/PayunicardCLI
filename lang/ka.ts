@@ -88,9 +88,9 @@ export default {
     tabNavigation: {
         home: "მთავარი",
         products: "პროდუქტები",
-        payments: "გადახდები",
-        transfers: "გადარიცხვები",
-        settings: 'პატამეტრები',
+        payments: "გადახდა",
+        transfers: "გადარიცხვა",
+        settings: 'პარამეტრები',
         myProducts: "ჩემი პროდუქტები",
         myPayments: "ჩემი გადახდები",
         myTransfers: "ჩემი გადარიცხვები",
