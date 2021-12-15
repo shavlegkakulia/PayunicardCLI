@@ -12,7 +12,6 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
 import userStatuses from '../../../constants/userStatuses';
-import {useKeyboard} from '../../../hooks/useKeyboard';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import {FetchUserDetail} from '../../../redux/actions/user_actions';
@@ -45,7 +44,6 @@ import {
   SET_VER_CUSTOMEREXPECTEDTURNOVERTYPE,
   SET_VER_TRANSACTIONCATREGORIES,
   SET_VER_ANOTHERTRANSACTIONCATREGORIES,
-  SET_VER_STARTVERIFICATION,
   SET_VER_USERKYCDATA,
   SET_VER_RESETSTATE,
 } from '../../../redux/action_types/verification_action_types';
@@ -64,7 +62,6 @@ import UserService, {
   IType2,
 } from '../../../services/UserService';
 import {getString} from '../../../utils/Converter';
-import KvalifcaVerification from './KvalifcaVerification';
 import Finish from './Finish';
 import StepEight from './StepEight';
 import StepFour from './StepFour';
@@ -203,7 +200,7 @@ const Verification: React.FC = () => {
   };
 
   const setStartVerification = (c: boolean) => {
-    dispatch({type: SET_VER_STARTVERIFICATION, startVerification: c});
+    NavigationService.navigate(Routes.KvalifcaVerification);
   };
 
   const setUserKYCData = (c: IKCData | undefined) => {
@@ -214,7 +211,6 @@ const Verification: React.FC = () => {
     state => state.UserReducer,
   ) as IUserState;
   const dispatch = useDispatch();
-  const keyboard = useKeyboard();
 
   const onToggletransactionCategoryActive = (
     category: ITransactionCategoryInterface,
@@ -285,14 +281,6 @@ const Verification: React.FC = () => {
           VERIFICATION_STEPS.step_three,
         );
       }),
-    );
-  };
-
-  const closeKvalificaVerification = () => {
-    setStartVerification(false);
-    setVerificationStep(
-      Routes.VerificationStep7,
-      VERIFICATION_STEPS.step_seven,
     );
   };
 
@@ -372,21 +360,6 @@ const Verification: React.FC = () => {
     });
   };
 
-  const closeKycSession = (sessionId: string | undefined) => {
-    if (!sessionId) {
-      closeKvalificaVerification();
-      return;
-    }
-    KvalificaServices.CloseKycSession(sessionId).subscribe({
-      next: Response => {
-        parseAndSetKCdata(Response.data?.data);
-      },
-      complete: () => {
-        closeKvalificaVerification();
-      },
-    });
-  };
-
   const onCustomerRegistration = () => {
     if(isLoading) return;
 
@@ -432,14 +405,14 @@ const Verification: React.FC = () => {
     };
     console.log(data)
     UserService.CustomerRegistration(data).subscribe({
-      // next: Response => {
-      //   if (Response.data.ok) {
-      //     setVerificationStep(
-      //       Routes.VerificationStep4,
-      //       VERIFICATION_STEPS.step_four,
-      //     );
-      //   }
-      // },
+      next: Response => {
+        if (Response.data.ok) {
+          setVerificationStep(
+            Routes.VerificationStep4,
+            VERIFICATION_STEPS.step_four,
+          );
+        }
+      },
       complete: () => {
         setIsLoading(false);
         setVerificationStep(
@@ -649,10 +622,6 @@ const Verification: React.FC = () => {
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
       <KeyboardAvoidingView behavior="padding" style={styles.avoid}>
-        <KvalifcaVerification
-          startSession={VerficationStore.startVerification}
-          onClose={closeKycSession}
-        />
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={{flex: 1}}>
             {route.params.verificationStep > VERIFICATION_STEPS.welcome &&

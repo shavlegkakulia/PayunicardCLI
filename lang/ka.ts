@@ -17,7 +17,7 @@ export default {
         delete: 'წაშლა',
         country: 'ქვეყანა',
         personalNumber: 'პირადი ნომერი',
-        agreeTerms: 'ვეთანხმები წესებს და პირობებს',
+        agreeTerms: 'ვეთანხმები წესებსა და პირობებს',
         close: 'დახურვა',
         no: 'არა',
         yes: 'დიახ',
@@ -37,7 +37,7 @@ export default {
         maxAmount: 'მაქსიმალური თანხა',
         maxTransfAmount: 'მაქსიმალური გადასარიცხი თანხა',
         maxPayfAmount: 'მაქსიმალური გადასახდელი თანხა შეადგენს',
-        confirm: 'დადასტურება'
+        confirm: 'დადასტურება',
     },
 
     generalErrors: {

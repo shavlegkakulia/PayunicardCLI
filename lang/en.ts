@@ -20,7 +20,7 @@ export default {
         personalNumber: 'Personal Number',
         country: 'Country',
         commission: 'Commission',
-        agreeTerms: 'Agree to the terms  and conditions',
+        agreeTerms: 'Agree to the Terms and Conditions',
         amount: 'Amount',
         accountNumber: 'Account Number',
         cardNumber: 'Card Number',
