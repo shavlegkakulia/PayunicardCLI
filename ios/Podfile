@@ -39,3 +39,4 @@ target 'Payunicard' do
   #   react_native_post_install(installer)
   # end
 end
+# we can discuss here If you have anything  ok got it, our sdk supports 11 or hight version, aham clear, SDK does not support in sumalator as well, because It start from camaera, okey let me connect a phisical deviec, just a sec. but last time when you fixed it it was working on emulator as well , I don't think

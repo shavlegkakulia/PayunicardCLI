@@ -11,15 +11,18 @@ interface IProps {
 }
 
 const KvalifcaVerification: React.FC<IProps> = props => {
-  const InitializeKC = () => {
+   useEffect(() => {
     KvalifikaSDK.initialize({
       appId: 'iO9UGJdzbkQItk7kxJicWkKFWlvdqWps',
       locale: KvalifikaSDKLocale.EN,
+      development: true
     });
-  };
+  }, [])
+    
 
+// Now It works, sorry, It should be true, I think, can you plz try, okey sec 
   useEffect(() => {
-    if (props.startSession) {
+    
       KvalifikaSDK.onInitialize(() => {
         console.log('Kvalifika', 'Kvalifika SDK Initialized');
         KvalifikaSDK.startSession();
@@ -31,25 +34,21 @@ const KvalifcaVerification: React.FC<IProps> = props => {
 
       KvalifikaSDK.onFinish(sessionId => {
         console.log('Kvalifika', `Session finished with id: ${sessionId}`);
-        props.onClose(sessionId);
+        //props.onClose(sessionId);
       });
 
       KvalifikaSDK.onError((error, message) => {
         console.log(error, message);
-        props.onClose(undefined);
+        //props.onClose(undefined);
       });
 
-      InitializeKC();
-    } else {
-      KvalifikaSDK.removeCallbacks();
-    }
 
     return () => {
       console.log('removed');
       // Remove callbacks to avoid duplicate listeners if useEffect runs multiple times or remounts
       KvalifikaSDK.removeCallbacks();
     };
-  }, [props.startSession]);
+  }, []);
 
   return props.startSession ? <FullScreenLoader /> : null;
 };
