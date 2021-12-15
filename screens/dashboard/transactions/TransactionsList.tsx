@@ -136,7 +136,7 @@ const TransactionsList: React.FC<IProps> = props => {
     _funds = [...(funds || [])];
   }
 
-  console.log('**', statements);
+  
 
   const getHeader = (str: JSX.Element | null) => {
     setAsheetHeader(str);
