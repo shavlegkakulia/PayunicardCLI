@@ -15,7 +15,7 @@
     "release": "react-native run-android --variant release"
   },
   "dependencies": {
-    "@kvalifika/react-native-sdk": "^1.0.3",
+    "@kvalifika/react-native-sdk": "^1.0.8",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/masked-view": "^0.1.11",
