@@ -3,9 +3,11 @@ import {
   View,
   StyleSheet
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import AppButton from '../../../components/UI/AppButton';
 import AppInput from '../../../components/UI/AppInput';
 import Validation, {required} from '../../../components/UI/Validation';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import {IKCData} from '../../../services/KvalificaServices';
 
 interface IProps {
@@ -17,6 +19,9 @@ interface IProps {
 const ValidationContext = 'userVerification';
 
 const StepSeven: React.FC<IProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const nextHandler = () => {
     if (Validation.validate(ValidationContext)) {
       return;

@@ -3,6 +3,7 @@ import {
   KvalifikaSDKLocale,
 } from '@kvalifika/react-native-sdk';
 import React, {useEffect} from 'react';
+import { Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import FullScreenLoader from '../../../components/FullScreenLoading';
 import Routes from '../../../navigation/routes';
@@ -11,10 +12,16 @@ import KvalificaServices, { getKycFullYear, IKCData } from '../../../services/Kv
 import NavigationService from '../../../services/NavigationService';
 import { getString } from '../../../utils/Converter';
 
+const kIds = {
+  prod: 'lUJvOmqrZC2dLYz5hjJ',
+  dev: '912189fb-92c4-4f59-8fcb-204237e010f7'
+}
+
 const KvalifcaVerification: React.FC = () => {
   const dispatch = useDispatch();
 
   const closeKvalificaVerification = () => {
+    Alert.alert('yes')
     NavigationService.navigate(Routes.VerificationStep7, {
       verificationStep: 7
     })
@@ -73,15 +80,18 @@ const KvalifcaVerification: React.FC = () => {
       complete: () => {
         closeKvalificaVerification();
       },
+      error: () => {
+        NavigationService.GoBack();
+      }
     });
   };
 
 
   useEffect(() => {
     KvalifikaSDK.initialize({
-      appId: 'lUJvOmqrZC2dLYz5hjJ',
+      appId: 'lUJvOmqrZC2dLYz5hjJ',//__DEV__ ? kIds.dev : kIds.prod,
       locale: KvalifikaSDKLocale.EN,
-      //development: __DEV__ ? true : false
+      //development: true,//__DEV__ ? true : false
     });
   }, []);
 
@@ -97,7 +107,6 @@ const KvalifcaVerification: React.FC = () => {
 
       KvalifikaSDK.onFinish(sessionId => {
         console.log('Kvalifika', `Session finished with id: ${sessionId}`);
-        NavigationService.navigate('');
         closeKycSession(sessionId);
       });
 
