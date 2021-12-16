@@ -2,10 +2,10 @@ import {
   KvalifikaSDK,
   KvalifikaSDKLocale,
 } from '@kvalifika/react-native-sdk';
-import React, {useEffect} from 'react';
-import { Alert } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import FullScreenLoader from '../../../components/FullScreenLoading';
+import colors from '../../../constants/colors';
 import Routes from '../../../navigation/routes';
 import { SET_VER_USERKYCDATA } from '../../../redux/action_types/verification_action_types';
 import KvalificaServices, { getKycFullYear, IKCData } from '../../../services/KvalificaServices';
@@ -18,10 +18,10 @@ const kIds = {
 }
 
 const KvalifcaVerification: React.FC = () => {
+  const [sesId, setSesId] = useState<string | undefined>();
   const dispatch = useDispatch();
 
   const closeKvalificaVerification = () => {
-    Alert.alert('yes')
     NavigationService.navigate(Routes.VerificationStep7, {
       verificationStep: 7
     })
@@ -68,7 +68,7 @@ const KvalifcaVerification: React.FC = () => {
     });
   };
   
-  const closeKycSession = (sessionId: string | undefined) => {
+  const closeKycSession = (sessionId: string | undefined, complated: boolean) => {
     if (!sessionId) {
       closeKvalificaVerification();
       return;
@@ -78,7 +78,11 @@ const KvalifcaVerification: React.FC = () => {
         parseAndSetKCdata(Response.data?.data);
       },
       complete: () => {
-        closeKvalificaVerification();
+        if(complated) {
+          closeKvalificaVerification();
+        } else {
+          NavigationService.GoBack();
+        }
       },
       error: () => {
         NavigationService.GoBack();
@@ -89,9 +93,9 @@ const KvalifcaVerification: React.FC = () => {
 
   useEffect(() => {
     KvalifikaSDK.initialize({
-      appId: 'lUJvOmqrZC2dLYz5hjJ',//__DEV__ ? kIds.dev : kIds.prod,
+      appId: __DEV__ ? kIds.dev : kIds.prod,
       locale: KvalifikaSDKLocale.EN,
-      //development: true,//__DEV__ ? true : false
+      development: __DEV__ ? true : false
     });
   }, []);
 
@@ -102,17 +106,18 @@ const KvalifcaVerification: React.FC = () => {
       });
 
       KvalifikaSDK.onStart(sessionId => {
+        setSesId(sessionId);
         console.log(`Started with id: ${sessionId}`);
       });
 
       KvalifikaSDK.onFinish(sessionId => {
         console.log('Kvalifika', `Session finished with id: ${sessionId}`);
-        closeKycSession(sessionId);
+        closeKycSession(sessionId, true);
       });
 
       KvalifikaSDK.onError((error, message) => {
         console.log(error, message);
-        NavigationService.GoBack();
+        closeKycSession(sesId, false);
       });
 
     return () => {
@@ -122,7 +127,18 @@ const KvalifcaVerification: React.FC = () => {
     };
   }, []);
 
-  return <FullScreenLoader />;
+  return <View style={styles.container}>
+    <ActivityIndicator size="large" color={colors.primary} />
+  </View>;
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.white,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})
 
 export default KvalifcaVerification;

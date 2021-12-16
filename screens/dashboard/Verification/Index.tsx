@@ -231,6 +231,12 @@ const Verification: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if(route.params.verificationStep >= VERIFICATION_STEPS.step_four && !VerficationStore.countryes) {
+      getCitizenshipCountries();
+    }
+  }, [route.params.verificationStep])
+
   const stepTwoScreenAction = () => {
     if (
       VerficationStore.employmentStatuses &&
