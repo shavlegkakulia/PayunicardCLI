@@ -9,6 +9,7 @@ import Store from './../redux/store';
 import { subscriptionService } from './subscriptionService';
 import SUBSCRIBTION_KEYS from '../constants/subscribtionKeys';
 import { IAuthAction, REFRESH } from '../redux/action_types/auth_action_types';
+import { AUTH_USER_INFO } from '../constants/defaults';
 
 declare module 'axios' {
   interface AxiosRequestConfig {
@@ -102,6 +103,19 @@ class AuthService {
     if(User.otp) {
       loginObj.append("otp", User.otp.toString());
     }
+
+    //cleare remember data if current user is different
+      storage
+        .getItem(AUTH_USER_INFO)
+        .then(async(user) => {
+          if(user) {
+            const rememberData = JSON.parse(user);
+            if(rememberData && rememberData?.username !== User.username) {
+              await storage.removeItem(AUTH_USER_INFO);
+            }
+          }
+        });
+  
    
     const promise = axios.post<IAuthorizationResponse>(`${envs.CONNECT_URL}connect/token`, loginObj, { fromLogin: true, objectResponse: true, skipRefresh: true });
     return from(promise);
