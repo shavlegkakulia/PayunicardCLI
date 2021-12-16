@@ -22,8 +22,8 @@ const KvalifcaVerification: React.FC = () => {
   const dispatch = useDispatch();
 
   const closeKvalificaVerification = () => {
-    NavigationService.navigate(Routes.VerificationStep7, {
-      verificationStep: 7
+    NavigationService.navigate(Routes.VerificationStep6, {
+      verificationStep: 6
     })
   };
 

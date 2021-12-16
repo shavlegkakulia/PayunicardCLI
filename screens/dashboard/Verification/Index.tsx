@@ -233,7 +233,9 @@ const Verification: React.FC = () => {
 
   useEffect(() => {
     if(route.params.verificationStep >= VERIFICATION_STEPS.step_four && !VerficationStore.countryes) {
-      getCitizenshipCountries();
+      dispatch(
+        GetCitizenshipCountries(),
+      );
     }
   }, [route.params.verificationStep])
 
