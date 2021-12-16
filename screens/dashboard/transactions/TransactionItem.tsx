@@ -150,6 +150,7 @@ const TransactionItem: React.FC<IProps> = (props) => {
                       {CurrencyConverter(statement.bonusamount)}{' '}
                       <Image
                         source={require('./../../../assets/images/score-star.png')}
+                        style={styles.coin}
                       />
                     </Text>
                     <Image
@@ -250,8 +251,9 @@ const TransactionItem: React.FC<IProps> = (props) => {
       transactionViewItemAmount: {
         fontFamily: 'FiraGO-Medium',
         fontSize: 12,
-        lineHeight: 15,
+        lineHeight: 18,
         color: colors.danger,
+        height: 20
       },
       transactionsViewItemUnicardImage: {
         marginRight: 13,
@@ -259,6 +261,10 @@ const TransactionItem: React.FC<IProps> = (props) => {
         height: 20,
         borderRadius: 20,
       },
+      coin: {
+        width: 18,
+        height: 18
+      }
   })
 
   export default TransactionItem;

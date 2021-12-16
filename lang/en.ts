@@ -300,7 +300,7 @@ export default {
         deliveryPrice: 'Delivery Fee',
         totalDue: 'Total',
         getCardAtServiceDesk: 'Get the Card at the Service Center Instantly',
-        ServiceDeskAddress: 'Monday to Sunday, 10:00 – 19:00 /n Tbilisi Mall Service Center, Main Atrium /n 16th km Davit Aghmashenebeli Alley, /n Dighomi, Tbilisi',
+        ServiceDeskAddress: 'Monday to Sunday, 10:00 – 19:00 \n Tbilisi Mall Service Center, Main Atrium \n 16th km Davit Aghmashenebeli Alley, \n Dighomi, Tbilisi',
         getCardDelivered: 'Have the Card Delivered to You at the Address of Your Choice',
         chooseCity: 'Select City',
         vilage: 'Village/Settlement',

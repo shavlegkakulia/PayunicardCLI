@@ -33,6 +33,7 @@ import {
   getNumber,
   getString,
 } from '../../../utils/Converter';
+import { futureDay } from '../../../utils/utils';
 import { delyveryMethods } from './DelyveryMethods';
 
 type RouteParamList = {
@@ -174,7 +175,7 @@ const PreOrder: React.FC = props => {
           </Text>
           {!hasTotalFee && (
             <Text style={styles.info}>
-             {translate.t('orderCard.warningText')}
+             {translate.t('orderCard.warningText').replace('{date}', futureDay(7)).replace('{tariffPrice}', CurrencyConverter(getNumber(route.params.tarrifAmount))+'₾')}
             </Text>
           )}
           <View style={styles.bottomInfo}>

@@ -25,7 +25,7 @@ interface IProps {
 }
 
 const skipEmployeStatuses = ['UnEmployed', 'Retired'];
-const ValidationContext = 'userVerification';
+const ValidationContext = 'userVerification2';
 
 const StepTwo: React.FC<IProps> = (props) => {
     const translate = useSelector<ITranslateGlobalState>(

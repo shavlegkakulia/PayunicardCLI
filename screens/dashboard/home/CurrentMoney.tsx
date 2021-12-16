@@ -109,6 +109,8 @@ const styles = StyleSheet.create({
   },
   currentUniscoresSimbol: {
     marginLeft: 5,
+    width: 18,
+    height: 18
   },
   loadingBox: {
     alignSelf: 'flex-start',

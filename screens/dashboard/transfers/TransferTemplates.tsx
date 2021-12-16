@@ -227,7 +227,7 @@ const TransferTemplates: React.FC<ITransferTemplatesProps> = props => {
               </TouchableOpacity>
               {template.isFavourite && (
                 <Image
-                  source={require('./../../../assets/images/score-star.png')}
+                  source={require('./../../../assets/images/star.png')}
                   style={styles.isFav}
                 />
               )}

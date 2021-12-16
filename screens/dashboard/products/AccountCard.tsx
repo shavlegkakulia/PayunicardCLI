@@ -267,6 +267,8 @@ const styles = StyleSheet.create({
   },
   cardUniStar: {
     marginLeft: 6,
+    width: 18,
+    height: 18
   },
   cardBallance: {
     fontFamily: 'FiraGO-Regular',

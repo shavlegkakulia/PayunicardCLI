@@ -26,7 +26,7 @@ interface IProps {
     onComplate: () => void
 }
 
-const ValidationContext = 'userVerification';
+const ValidationContext = 'userVerification1';
 
 const StepOne: React.FC<IProps> = (props) => {
     const translate = useSelector<ITranslateGlobalState>(

@@ -93,7 +93,7 @@ export const AccountItem: React.FC<IItemProps> = props => {
           <Text style={styles.amount}>
             {CurrencyConverter(props.account.availableInGEL)}{' '}
           </Text>
-          <Image source={require('./../../assets/images/score-star.png')} />
+          <Image source={require('./../../assets/images/score-star.png')} style={styles.coin} />
         </View>
       )}
     </TouchableOpacity>
@@ -233,6 +233,10 @@ const styles = StyleSheet.create({
   disabledAccount: {
     opacity: 0.5,
   },
+  coin: {
+    width: 18,
+    height: 18
+  }
 });
 
 export default AccountSelect;

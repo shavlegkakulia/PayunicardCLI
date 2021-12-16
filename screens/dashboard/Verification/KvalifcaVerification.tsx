@@ -4,9 +4,11 @@ import {
 } from '@kvalifika/react-native-sdk';
 import React, {useEffect, useState} from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import colors from '../../../constants/colors';
+import { ka_ge } from '../../../lang';
 import Routes from '../../../navigation/routes';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import { SET_VER_USERKYCDATA } from '../../../redux/action_types/verification_action_types';
 import KvalificaServices, { getKycFullYear, IKCData } from '../../../services/KvalificaServices';
 import NavigationService from '../../../services/NavigationService';
@@ -19,6 +21,9 @@ const kIds = {
 
 const KvalifcaVerification: React.FC = () => {
   const [sesId, setSesId] = useState<string | undefined>();
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const dispatch = useDispatch();
 
   const closeKvalificaVerification = () => {
@@ -94,7 +99,7 @@ const KvalifcaVerification: React.FC = () => {
   useEffect(() => {
     KvalifikaSDK.initialize({
       appId: __DEV__ ? kIds.dev : kIds.prod,
-      locale: KvalifikaSDKLocale.EN,
+      locale: (translate.key === ka_ge) ?  KvalifikaSDKLocale.GE: KvalifikaSDKLocale.EN,
       development: __DEV__ ? true : false
     });
   }, []);

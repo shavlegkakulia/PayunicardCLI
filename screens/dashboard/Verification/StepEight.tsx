@@ -32,7 +32,7 @@ interface IProps {
   onComplate: () => void;
 }
 
-const ValidationContext = 'userVerification';
+const ValidationContext = 'userVerification8';
 
 const StepEight: React.FC<IProps> = props => {
   const translate = useSelector<ITranslateGlobalState>(

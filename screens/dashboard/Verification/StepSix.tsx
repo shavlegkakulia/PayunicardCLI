@@ -121,6 +121,8 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontFamily: 'FiraGO-Regular',
     marginLeft: 10,
+    flex: 1,
+    flexWrap: 'wrap'
   },
   title: {
     fontSize: 14,

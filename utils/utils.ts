@@ -54,6 +54,10 @@ export const minusMonthFromDate = (
   return _D;
 };
 
+export const futureDay = (daysLeft: number) => {
+  return new Date(Date.now() + getNumber(daysLeft) * 24 * 60 * 60 * 1000).toDateString();
+}
+
 export const dateDiff = (date1: Date, date2: Date) => {
   const d1 = new Date(date1);
   const d2 = new Date(date2);
