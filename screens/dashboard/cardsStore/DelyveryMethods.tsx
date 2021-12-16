@@ -303,7 +303,7 @@ const DelyveryMethods: React.FC = props => {
 
                 <Text style={styles.description}>
                   {
-                   ` * ${translate.t('orderCard.cardDeliveryText1')} \n\n * ${translate.t('orderCard.cardDeliveryText2')} \n\n * ${translate.t('orderCard.cardDeliveryText2')} `
+                   ` * ${translate.t('orderCard.cardDeliveryText1')} \n\n * ${translate.t('orderCard.cardDeliveryText2')}  `
                   }
                 </Text>
               </View>

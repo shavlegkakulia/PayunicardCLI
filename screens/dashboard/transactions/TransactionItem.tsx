@@ -3,7 +3,7 @@ import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import colors from "../../../constants/colors";
 import { ITransaction } from "../../../services/CardService";
 import { IFund, IStatements } from "../../../services/UserService";
-import { CurrencyConverter, CurrencySimbolConverter } from "../../../utils/Converter";
+import { CurrencyConverter, CurrencySimbolConverter, getNumber } from "../../../utils/Converter";
 import { formatDate } from "../../../utils/utils";
 
 interface IProps {
@@ -102,7 +102,7 @@ const TransactionItem: React.FC<IProps> = (props) => {
                         </Text>
                       </View>
                       <View style={styles.transactionsViewItemInnerRight}>
-                        <Text style={styles.transactionViewItemAmount}>
+                        <Text style={[styles.transactionViewItemAmount, getNumber(st.amount) >= 0 && {color: colors.primary}]}>
                           {CurrencyConverter(st.amount)}{' '}
                           {CurrencySimbolConverter(st.ccy?.trim())}
                         </Text>

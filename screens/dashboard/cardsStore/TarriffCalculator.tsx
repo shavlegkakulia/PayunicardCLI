@@ -595,6 +595,8 @@ const styles = StyleSheet.create({
     lineHeight: 12,
     color: colors.black,
     marginLeft: 18,
+    flex: 1, 
+    flexWrap: 'wrap' 
   },
   toggleBox: {
     flexShrink: 1,

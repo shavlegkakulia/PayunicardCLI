@@ -15,7 +15,7 @@ import Validation, {required} from '../../../../components/UI/Validation';
 import colors from '../../../../constants/colors';
 import Routes from '../../../../navigation/routes';
 import { tabHeight } from '../../../../navigation/TabNav';
-import { onCheckDebt } from '../../../../redux/actions/payments_actions';
+import { mobileNetworkMerchantCategoryIds, onCheckDebt } from '../../../../redux/actions/payments_actions';
 import {
   IGlobalPaymentState,
   IPaymentState,
@@ -66,7 +66,10 @@ const CheckDebt: React.FC<INavigationProps> = props => {
   };
 
   const next = () => {
-    if (Validation.validate(ValidationContext) || !PaymentStore.debtData) return;
+    const isMobile = mobileNetworkMerchantCategoryIds.includes(
+      PaymentStore.currentService?.categoryID,
+    )
+    if ((Validation.validate(ValidationContext) || !PaymentStore.debtData) && !isMobile) return;
 
     const index = parseInt(route.params.step.toString()) + 1;
     props.navigation?.navigate(Routes.Payments_INSERT_ACCOUNT_AND_AMOUNT, {

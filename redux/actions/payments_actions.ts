@@ -13,7 +13,7 @@ import TransactionService, {
   IRegisterPayTransactionRequest,
 } from '../../services/TransactionService';
 
-const mobileNetworkMerchantCategoryIds: Array<number | undefined> = [
+export const mobileNetworkMerchantCategoryIds: Array<number | undefined> = [
   7, 33, 17, 8,
 ];
 
@@ -262,7 +262,7 @@ export const onCheckDebt =
       serviceId: PaymentStore.paymentDetails?.debtCode,
       abonentCode: PaymentStore.abonentCode,
     };
-
+    console.log('////', data)
     TransactionService.checkCostumerDebt(data).subscribe({
       next: Response => {
         if (Response.data.Ok) {
