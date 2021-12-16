@@ -6,7 +6,7 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		Bka5dNY6JZVwbDEhM2/l5eO7bN0=
+		HPFqnyfkzwVYA7qTIQncqiTkAj8=
 		</data>
 		<key>Headers/Kvalifika-Swift.h</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		Np7/v+4vkDGOUdt1+8OpHVlOE60=
+		tiwhgjkSN4hnS5GVAUotJxgDGBk=
 		</data>
 		<key>KvalifikaDocument.storyboardc/4g5-qn-RDX-view-dJ7-US-3iR.nib</key>
 		<data>
@@ -82,7 +82,7 @@
 		</data>
 		<key>Modules/Kvalifika.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		DlO0pJlKcq4tiBF3XPEi1SoWqvE=
+		gtVf13ygZ9qmeVDpovQnUbxdwqU=
 		</data>
 		<key>Modules/Kvalifika.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -94,7 +94,7 @@
 		</data>
 		<key>Modules/Kvalifika.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		DlO0pJlKcq4tiBF3XPEi1SoWqvE=
+		gtVf13ygZ9qmeVDpovQnUbxdwqU=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -107,7 +107,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			CB8rB2hHxupB2wQdFYMFFhp795S02ZIN5mKzFDNKp5s=
+			K7/2jhXSXwA35eic8LR8kWr3CQWRFD+eTIWOHZMBN/M=
 			</data>
 		</dict>
 		<key>Headers/Kvalifika-Swift.h</key>
@@ -233,7 +233,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			6N3a4jeaAjngykJKJRNUcEqEnSKTJFwc2LVRdLqB1Ew=
+			OUlSx1XYYYcJJscJY+u3CBpQ4NvKlnxOIQPie7t3VQI=
 			</data>
 		</dict>
 		<key>Modules/Kvalifika.swiftmodule/arm64.swiftdoc</key>
@@ -254,7 +254,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			6N3a4jeaAjngykJKJRNUcEqEnSKTJFwc2LVRdLqB1Ew=
+			OUlSx1XYYYcJJscJY+u3CBpQ4NvKlnxOIQPie7t3VQI=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

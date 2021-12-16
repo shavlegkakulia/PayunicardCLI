@@ -99,6 +99,7 @@ const KvalifcaVerification: React.FC = () => {
     });
   }, []);
 
+// Now It works, sorry, It should be true, I think, can you plz try, okey sec 
   useEffect(() => {
       KvalifikaSDK.onInitialize(() => {
         console.log('Kvalifika', 'Kvalifika SDK Initialized');
