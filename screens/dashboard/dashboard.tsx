@@ -78,44 +78,7 @@ const Dashboard: React.FC<IProps> = props => {
   };
 
   const _routes = useNavigationState(state => state.routes);
-  useEffect(() => {
-    KvalifikaSDK.initialize({
-      appId: 'iO9UGJdzbkQItk7kxJicWkKFWlvdqWps',
-      locale: KvalifikaSDKLocale.EN,
-      //development: true
-    });
-  }, [])
-    
-
-// Now It works, sorry, It should be true, I think, can you plz try, okey sec 
-  useEffect(() => {
-    
-      KvalifikaSDK.onInitialize(() => {
-        console.log('Kvalifika', 'Kvalifika SDK Initialized');
-        KvalifikaSDK.startSession();
-      });
-
-      KvalifikaSDK.onStart(sessionId => {
-        console.log(`Started with id: ${sessionId}`);
-      });
-
-      KvalifikaSDK.onFinish(sessionId => {
-        console.log('Kvalifika', `Session finished with id: ${sessionId}`);
-        //props.onClose(sessionId);
-      });
-
-      KvalifikaSDK.onError((error, message) => {
-        console.log(error, message);
-        //props.onClose(undefined);
-      });
-
-
-    return () => {
-      console.log('removed');
-      // Remove callbacks to avoid duplicate listeners if useEffect runs multiple times or remounts
-      KvalifikaSDK.removeCallbacks();
-    };
-  }, []);
+ 
   const transferToUni = () => {
     const currentRoute = _routes[_routes.length - 1].name;
     //cleare transfer global state
