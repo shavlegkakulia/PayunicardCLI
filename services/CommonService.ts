@@ -26,8 +26,14 @@ class CommonService {
           return Promise.resolve(response);
 
         if (!response.data.ok && !response.data.Ok) {
-          response.errorMessage =
-            response?.data?.errors[0]?.displayText || 'validation.error';
+          try{
+            response.errorMessage =
+            response?.data?.errors[0]?.ErrorMessage || 'validation.error';
+            }
+            catch(err) {
+              response.errorMessage =
+              response?.data?.Errors[0]?.DisplayText || 'validation.error';
+            }
           response.customError = true;
           if (!response.config.skipCustomErrorHandling)
             store.dispatch<IErrorAction>({

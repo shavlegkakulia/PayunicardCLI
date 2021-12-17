@@ -12,6 +12,7 @@ import TransactionService, {
   IGetDeptRequest,
   IRegisterPayTransactionRequest,
 } from '../../services/TransactionService';
+import { stringToObject } from '../../utils/utils';
 
 export const mobileNetworkMerchantCategoryIds: Array<number | undefined> = [
   7, 33, 17, 8,
@@ -253,6 +254,11 @@ export const onCheckDebt =
       callback();
       return;
     }
+
+    let abonentCode = PaymentStore.abonentCode;
+    if((PaymentStore.paymentDetails?.forMerchantCode || PaymentStore.paymentDetails?.merchantCode) === 'PATRJAR') {
+      abonentCode = PaymentStore.abonentCode + '/' + PaymentStore.carPlate;
+    }
  
     const data: IGetDeptRequest = {
       forPaySPCode: PaymentStore.paymentDetails?.forPaySPCode || PaymentStore.paymentDetails?.forPaySpCode,
@@ -260,9 +266,9 @@ export const onCheckDebt =
       forMerchantServiceCode:
         PaymentStore.paymentDetails?.forMerchantServiceCode || PaymentStore.paymentDetails?.merchantServiceCode,
       serviceId: PaymentStore.paymentDetails?.debtCode,
-      abonentCode: PaymentStore.abonentCode,
+      abonentCode: abonentCode,
     };
-    console.log('////', data)
+  
     TransactionService.checkCostumerDebt(data).subscribe({
       next: Response => {
         if (Response.data.Ok) {
@@ -275,7 +281,7 @@ export const onCheckDebt =
       complete: () => {
         callback();
       },
-      error: (e) => { console.log(e)
+      error: () => { 
         callback();
       },
     });
