@@ -144,19 +144,21 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
   };
 
   const onSuccesBiometric = () => {
-    const {access_token, refresh_token} = props;
 
     goRefreshToken().then(res => {
-      if (res) {
+      const {accesToken, refreshToken, skip} = res;
+      if (res.accesToken !== undefined) {
         dispatch({
           type: LOGIN,
-          accesToken: access_token,
-          refreshToken: refresh_token,
+          accesToken: accesToken,
+          refreshToken: refreshToken,
           isAuthenticated: true,
         });
       } else {
-        dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
-        setCode(undefined);
+        if (!skip) {
+          dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
+          setCode(undefined);
+        }
       }
     });
   };
