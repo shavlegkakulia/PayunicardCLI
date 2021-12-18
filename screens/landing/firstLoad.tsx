@@ -54,7 +54,7 @@ const FirstLoad: React.FC<IPageProps> = props => {
       imgUrl: require('../../assets/images/load_screen_4.png'),
     },
   ];
-  const nextStep = useCallback(() => {
+  const nextStep = () => {
     setStep(s => {
       if (s >= 3) {
         props.Complate();
@@ -63,7 +63,7 @@ const FirstLoad: React.FC<IPageProps> = props => {
       moveNext(s + 1);
       return s + 1;
     });
-  }, [step]);
+  };
 
   const moveNext = (index: number) => {
     carouselRef.current?.scrollTo({
