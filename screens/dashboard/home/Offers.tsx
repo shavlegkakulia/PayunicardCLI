@@ -7,15 +7,18 @@ import {
   StyleSheet,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  TouchableOpacity,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import PaginationDots from '../../../components/PaginationDots';
 import colors from '../../../constants/colors';
 import {useDimension} from '../../../hooks/useDimension';
+import Routes from '../../../navigation/routes';
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
 } from '../../../redux/action_types/translate_action_types';
+import NavigationService from '../../../services/NavigationService';
 import PresentationServive, {
   IOffersResponse,
 } from '../../../services/PresentationServive';
@@ -50,6 +53,12 @@ const OffersView: React.FC = () => {
     }
   }, [offers]);
 
+  const viewOffer = (id: number) => {
+    NavigationService.navigate(Routes.OfferDetails, {
+      offerId: id,
+    });
+  };
+
   if (!offers || !offers?.length) return null;
 
   return (
@@ -65,7 +74,8 @@ const OffersView: React.FC = () => {
         showsHorizontalScrollIndicator={false}
         horizontal={true}>
         {offers?.map((o, index) => (
-          <View
+          <TouchableOpacity
+            onPress={viewOffer.bind(this, o.id)}
             style={[
               styles.offersContainerItem,
               screenStyles.shadowedCardbr15,
@@ -86,7 +96,7 @@ const OffersView: React.FC = () => {
                 {o.text}
               </Text>
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>

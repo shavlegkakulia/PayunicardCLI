@@ -86,7 +86,8 @@ const Routes = {
     Biometric: 'Biometric',
     AgreeTerm: 'AgreeTerm',
     RefreshTokenOtp: 'RefreshTokenOtp',
-    KvalifcaVerification: 'KvalifcaVerification'
+    KvalifcaVerification: 'KvalifcaVerification',
+    OfferDetails: 'OfferDetails'
 }
 
 export default Routes;

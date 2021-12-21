@@ -269,10 +269,16 @@ export interface IIResponseOfGetCitiesResponse {
 }
 
 export interface IOffersResponse {
+  id: number;
   imageUrl: string;
   url: string;
   title: string;
   text: string;
+}
+
+export interface IOffersDetailResponse extends IOffersResponse {
+  id: number;
+  description: string;
 }
 
 export interface IGetOffers {
@@ -283,6 +289,16 @@ export interface IIResponseOfGeOffersResponseData {
   ok: boolean;
   errors?: IError[] | undefined;
   data?: IGetOffers | undefined;
+}
+
+export interface IGetOffersDetails {
+  offer: IOffersDetailResponse;
+}
+
+export interface IIResponseOfGeOffersDetailsResponseData {
+  ok: boolean;
+  errors?: IError[] | undefined;
+  data?: IGetOffersDetails | undefined;
 }
 
 class PresentationService {
@@ -365,6 +381,11 @@ class PresentationService {
 
   get_GetOffers() {
     const promise = axios.get<IIResponseOfGeOffersResponseData>(`${envs.API_URL}GetOffers`);
+    return from(promise);
+  }
+
+  get_GetOfferDetail(OfferId: number) {
+    const promise = axios.get<IIResponseOfGeOffersDetailsResponseData>(`${envs.API_URL}GetOffer/${OfferId}`);
     return from(promise);
   }
 }

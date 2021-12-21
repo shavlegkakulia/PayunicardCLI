@@ -60,6 +60,7 @@ import {
   IGlobalState as ITranslateGlobalState,
 } from '../redux/action_types/translate_action_types';
 import KvalifcaVerification from '../screens/dashboard/Verification/KvalifcaVerification';
+import OfferDetails from '../containers/OfferDetails';
 
 const appStack = createStackNavigator();
 
@@ -968,6 +969,18 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('verification.verification'),
+                backText: translate.t('common.back'),
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.OfferDetails}
+            component={OfferDetails}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: translate.t('tabNavigation.offerDetail'),
                 backText: translate.t('common.back'),
               })
             }

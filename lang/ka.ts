@@ -95,6 +95,7 @@ export default {
         myPayments: "ჩემი გადახდები",
         myTransfers: "ჩემი გადარიცხვები",
         myTransactions: 'ჩემი ტრანზაქციები',
+        offerDetail: ''
     },
     settings: {
         personalInfo: 'პერსონალური ინფორმაცია',
