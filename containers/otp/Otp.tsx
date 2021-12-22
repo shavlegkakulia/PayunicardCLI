@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         lineHeight: 17
     },
     input: {
-        height: 36,
+        minHeight: 36,
         fontSize: 14,
         color: colors.black,
         borderBottomWidth: 1,
