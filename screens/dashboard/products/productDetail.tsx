@@ -10,6 +10,7 @@ import {
   ImageSourcePropType,
   Dimensions,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
@@ -1241,7 +1242,7 @@ const styles = StyleSheet.create({
       width: 1,
       height: 1,
     },
-    shadowRadius: 25,
+    shadowRadius: Platform.OS === 'ios' ? 5 : 25,
     borderRadius: 25,
     backgroundColor: colors.white,
   },
@@ -1273,7 +1274,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   sectionContainerItem: {
-    overflow: 'hidden',
+    overflow: Platform.OS === 'ios' ? 'visible' : 'hidden',
     alignItems: 'center',
     width: '33.3333333333%',
   },
@@ -1290,7 +1291,7 @@ const styles = StyleSheet.create({
       width: 1,
       height: 1,
     },
-    shadowRadius: 25,
+    shadowRadius: Platform.OS === 'ios' ? 5 : 25,
     borderRadius: 25,
     backgroundColor: colors.white,
   },

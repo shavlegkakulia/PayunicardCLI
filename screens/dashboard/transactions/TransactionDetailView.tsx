@@ -45,7 +45,7 @@ const ViewCliring: React.FC<IProps> = props => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
-  
+  console.log(props.statement)
   return (
     <>
       {(props.statement?.mccGroupName !== undefined ||
@@ -642,7 +642,7 @@ const TransactionDetailView: React.FC<IProps> = props => {
 
   return (
     <View style={styles.container}>
-      {transactionType === TRANSACTION_TYPES.CLIRING && (
+      {transactionType === TRANSACTION_TYPES.CLIRING || transactionType === TRANSACTION_TYPES.TRANPOS && (
         <ViewCliring {...props} onDownload={downloadPdf} />
       )}
 

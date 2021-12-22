@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Animated, Easing, Modal } from 'react-native';
+import { View, Text, StyleSheet, Animated, Easing, Modal, Platform, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import colors from '../constants/colors';
 import { IErrorState, IGlobalState as ErrorState } from '../redux/action_types/error_action_types';
@@ -58,6 +58,10 @@ const ErrorWrapper: FC = (props) => {
     )
 }
 
+const screenHeight = Dimensions.get("window").height;
+const cHeight = screenHeight >= 800 && Platform.OS === 'ios' ? 90 : 60;
+const cPaddingTop = screenHeight >= 800 && Platform.OS === 'ios' ? 35 : 0;
+
 const styles = StyleSheet.create({
     container: {
         position: 'relative',
@@ -75,14 +79,15 @@ const styles = StyleSheet.create({
         right: 0,
         flex: 1,
         width: '100%',
-        height: 60,
+        height: cHeight,
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10
     },
     errorText: {
-        color: colors.white
+        color: colors.white,
+        paddingTop: cPaddingTop
     }
 });
 

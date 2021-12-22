@@ -28,6 +28,7 @@ import AppSelect, {
   SelectItem,
 } from '../../../components/UI/AppSelect/AppSelect';
 import countryCodes from '../../../constants/countryCodes';
+import { SafeAreaView } from 'react-navigation';
 
 const VALIDATION_CONTEXT = 'signup';
 
@@ -86,6 +87,7 @@ const SignupForm: React.FC = () => {
       behavior="padding"
       keyboardVerticalOffset={0}
       style={styles.avoid}>
+        <SafeAreaView style={{flex: 1}}>
       <View style={styles.content}>
         <View>
           <Text
@@ -165,6 +167,7 @@ const SignupForm: React.FC = () => {
           style={styles.button}
         />
       </View>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   );
 };

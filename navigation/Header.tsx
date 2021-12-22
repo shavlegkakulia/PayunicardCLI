@@ -1,7 +1,7 @@
 
 import {StackNavigationOptions} from '@react-navigation/stack';
 import React from 'react';
-import {Image, View, TouchableOpacity, StyleSheet, Text} from 'react-native';
+import {Image, View, TouchableOpacity, StyleSheet, Text, Platform, Dimensions} from 'react-native';
 import colors from '../constants/colors';
 import {headerHeight} from '../constants/defaults';
 import { ka_ge } from '../lang';
@@ -17,7 +17,7 @@ const DefaultOptions = ({
   lang: string
 }): StackNavigationOptions => ({
   headerTitleAlign: 'center',
-  headerStyle: styles.header,
+  headerStyle: [styles.header, Platform.OS === 'android' && {height: headerHeight}],
   headerShown: true,
   headerLeft: () => (
     <View style={styles.notification}>
@@ -70,7 +70,7 @@ export const DefaultOptionsDrawer = ({
   backText?: string;
 }): StackNavigationOptions => ({
   headerTitleAlign: 'center',
-  headerStyle: styles.header,
+  headerStyle: [styles.header, Platform.OS === 'android' && {height: headerHeight}],
   headerShown: hideHeader ? false : true,
   gestureEnabled: true,
   headerLeft: () => (
@@ -114,7 +114,7 @@ export const UnauthScreenOptionsDrawer = ({
   backText?: string;
 }): StackNavigationOptions => ({
   headerTitleAlign: 'center',
-  headerStyle: styles.header,
+  headerStyle: [styles.header, Platform.OS === 'android' && {height: headerHeight}],
   headerShown: hideHeader ? false : true,
   gestureEnabled: false,
   headerLeft: () => (
@@ -138,9 +138,10 @@ export const UnauthScreenOptionsDrawer = ({
   ),
 });
 
+
+
 const styles = StyleSheet.create({
   header: {
-    height: headerHeight,
     backgroundColor: colors.baseBackgroundColor,
     shadowOffset: {height: 0, width: 0},
     shadowColor: 'transparent',

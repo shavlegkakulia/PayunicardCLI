@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Text, ActivityIndicator, ViewStyle, TextStyle, StyleProp } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, ActivityIndicator, ViewStyle, TextStyle, StyleProp, Platform } from "react-native";
 import colors from '../../constants/colors';
 
 //@ts-ignore
@@ -45,9 +45,10 @@ const styles = StyleSheet.create({
   appButtonContainer: {
     backgroundColor: colors.primary,
     borderRadius: 10,
-    paddingVertical: 12,
     paddingHorizontal: 20,
-    lineHeight: 16
+    lineHeight: 16,
+    paddingVertical: Platform.OS === 'ios' ? 17 : 12,
+    maxHeight: 51
   },
   appButtonText: {
     fontSize: 14,
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     fontFamily: 'FiraGO-Regular'
   },
   loading: {
-    padding: 4
+    padding: Platform.OS === 'ios' ? 0: 4
   }
 });
 
