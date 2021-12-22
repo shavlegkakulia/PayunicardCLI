@@ -24,6 +24,19 @@ import {
   ContainsSpecialCharacter,
   TestLength,
 } from './../../utils/Regex';
+// // @ts-ignore
+// TextInput.defaultProps = {
+//   // @ts-ignore
+//   ...TextInput.defaultProps,
+//   maxFontSizeMultiplier: 1,
+// };
+
+// // @ts-ignore
+// Text.defaultProps = {
+//   // @ts-ignore
+//   ...Text.defaultProps,
+//   maxFontSizeMultiplier: 1,
+// };
 
 export const InputTypes = {
   search: 'search',
@@ -248,7 +261,11 @@ const AppInput = React.forwardRef(
                 onPress={toggleSwitch}>
                 <Image
                   style={styles.eye}
-                  source={showPassword ? require('./../../assets/images/eye.png') : require('./../../assets/images/eye_hidden.png')}
+                  source={
+                    showPassword
+                      ? require('./../../assets/images/eye.png')
+                      : require('./../../assets/images/eye_hidden.png')
+                  }
                 />
               </TouchableOpacity>
             )}
@@ -301,7 +318,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 5,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   eye: {
     width: 22,
@@ -315,13 +332,13 @@ const styles = StyleSheet.create({
     width: 24,
   },
   errorText: {
-    position: 'absolute', 
-    fontFamily: 'FiraGO-Normal', 
-    fontSize: 10, 
-    color: colors.danger, 
-    left: 15, 
-    bottom: -14
-  }
+    position: 'absolute',
+    fontFamily: 'FiraGO-Normal',
+    fontSize: 10,
+    color: colors.danger,
+    left: 15,
+    bottom: -14,
+  },
 });
 
 export default AppInput;

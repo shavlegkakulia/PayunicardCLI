@@ -80,6 +80,7 @@ export default {
         myPayments: "My Payments",
         myTransfers: "My Transfers",
         myTransactions: 'My Transactions',
+        offerDetail: ''
     },
     forgotPassword: {
         resetPassword: 'Reset Password',
