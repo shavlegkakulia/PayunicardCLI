@@ -1,6 +1,8 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {createRef, useCallback, useEffect, useState} from 'react';
 import {
+  Dimensions,
   Image,
+  NativeScrollEvent,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -39,6 +41,7 @@ import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
 } from '../../../redux/action_types/translate_action_types';
+import PaginationDots from '../../../components/PaginationDots';
 
 export const TRANSFER_TYPES = {
   betweenAccounts: 'betweenAccounts',
@@ -76,6 +79,10 @@ const Transfers: React.FC<INavigationProps> = props => {
   const TransfersStore = useSelector<ITRansferGlobalState>(
     state => state.TransfersReducer,
   ) as ITransfersState;
+
+  const [transferSectionStep, setTransferSectionStep] = useState<number>(0);
+
+  const carouselRef = createRef<ScrollView>();
 
   const dispatch = useDispatch();
 
@@ -249,6 +256,18 @@ const Transfers: React.FC<INavigationProps> = props => {
     );
   }, []);
 
+  const onChangeTransferSectionStep = (nativeEvent: NativeScrollEvent) => {
+    if (nativeEvent) {
+      const slide = Math.ceil(
+        nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
+      );
+      if (slide != transferSectionStep) {
+        //if(slide === 3) return;
+        setTransferSectionStep(slide);
+      }
+    }
+  };
+
   useEffect(() => {
     console.log(TransfersStore.transferTemplates);
     NetworkService.CheckConnection(() => {
@@ -285,13 +304,26 @@ const Transfers: React.FC<INavigationProps> = props => {
             />
           }>
           <View style={[screenStyles.wraperWithShadow]}>
-            <View style={[styles.transfersSectionContainer, screenStyles.shadowedCardbr15]}>
+            <View
+              style={[
+                styles.transfersSectionContainer,
+                screenStyles.shadowedCardbr15,
+              ]}>
               <View style={styles.transfersSectionContainerHeader}>
                 <Text style={styles.transfersSectionContainerTitle}>
                   {translate.t('tabNavigation.transfers')}
                 </Text>
+                <PaginationDots step={transferSectionStep} length={2} />
               </View>
-              <View style={styles.transfersSectionContainerColumn}>
+              <ScrollView
+                ref={carouselRef}
+                onScroll={({nativeEvent}) =>
+                  onChangeTransferSectionStep(nativeEvent)
+                }
+                showsHorizontalScrollIndicator={false}
+                pagingEnabled={true}
+                horizontal>
+                  <View style={styles.iGroup}>
                 <TouchableOpacity
                   style={styles.transfersSectionContainerItem}
                   onPress={transferBetweenAccounts}>
@@ -327,13 +359,9 @@ const Transfers: React.FC<INavigationProps> = props => {
                     </Text>
                   </View>
                 </TouchableOpacity>
-              </View>
+                </View>
 
-              <View
-                style={[
-                  styles.transfersSectionContainerColumn,
-                  styles.transfersSectionContainerItemLast,
-                ]}>
+                <View style={styles.iGroup}>
                 <TouchableOpacity
                   style={styles.transfersSectionContainerItem}
                   onPress={transferToUni}>
@@ -366,20 +394,21 @@ const Transfers: React.FC<INavigationProps> = props => {
                     <Text
                       style={styles.transfersSectionContainerItemDetailsTitle}>
                       {translate.t('transfer.toBank')}
-                    </Text> 
+                    </Text>
                   </View>
                 </TouchableOpacity>
-              </View>
+                </View>
+              </ScrollView>
             </View>
           </View>
           <View style={styles.endof}>
-          <View style={screenStyles.wraperWithShadow}>
-            <TransferTemplates
-              isTemplatesFetching={TransfersStore.isTemplatesLoading}
-              templates={TransfersStore.transferTemplates}
-              onStartTransferFromTemplate={startTransferFromTemplate}
-            />
-          </View>
+            <View style={screenStyles.wraperWithShadow}>
+              <TransferTemplates
+                isTemplatesFetching={TransfersStore.isTemplatesLoading}
+                templates={TransfersStore.transferTemplates}
+                onStartTransferFromTemplate={startTransferFromTemplate}
+              />
+            </View>
           </View>
         </ScrollView>
       </DashboardLayout>
@@ -395,7 +424,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   transfersSectionContainerHeader: {
-    alignItems: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     height: 18,
     paddingHorizontal: 0,
     marginBottom: 20,
@@ -406,18 +437,15 @@ const styles = StyleSheet.create({
     lineHeight: 17,
     color: colors.black,
   },
-  transfersSectionContainerColumn: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
   transfersSectionContainerItem: {
     overflow: 'hidden',
     marginHorizontal: 9,
     alignItems: 'center',
     flex: 1,
   },
-  transfersSectionContainerItemLast: {
-    marginTop: 30,
+  iGroup: {
+    flexDirection: 'row',
+    width: Dimensions.get("window").width - 66
   },
   transfersSectionContainerItemImageContainer: {
     width: 50,
@@ -469,7 +497,7 @@ const styles = StyleSheet.create({
     width: '33.3333333333%',
   },
   endof: {
-    marginBottom: 30
-  }
+    marginBottom: 30,
+  },
 });
 export default Transfers;

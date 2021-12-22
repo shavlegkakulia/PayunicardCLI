@@ -192,7 +192,7 @@ export default {
     transfer: {
         transferTemplates: 'Transfer Templates',
         transfers: 'Transfers',
-        betweeenOwnAccounts: 'Between Own Accounts',
+        betweeenOwnAccounts: 'Between Own\nAccounts',
         currencyExchange: 'Currency Exchange',
         toUniWallet: "To Someone's UniWallet",
         toBank: 'To Bank',
