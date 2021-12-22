@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import colors from "../constants/colors";
 
 const screenStyles = StyleSheet.create({
@@ -18,14 +18,15 @@ const screenStyles = StyleSheet.create({
     },
     shadowedCardbr15: {
         margin: 4,
+        marginVertical: Platform.OS === 'ios' ? 4: 4,
         elevation: 4,
         shadowColor: '#00000060',
-        shadowOpacity: 0.3,
+        shadowOpacity: Platform.OS === 'ios' ? 0.1 : 0.3,
         shadowOffset: {
-            width: 2,
-            height: 2
+            width: 0,
+            height: 1
         },
-        shadowRadius: 15,
+        shadowRadius: Platform.OS === 'ios' ? 5 : 15,
         borderRadius: 15,
     },
     shadowedCardbr10: {
@@ -37,7 +38,7 @@ const screenStyles = StyleSheet.create({
             width: 2,
             height: 2
         },
-        shadowRadius: 10,
+        shadowRadius: Platform.OS === 'ios' ? 5 : 10,
         borderRadius: 10,
     }
 });

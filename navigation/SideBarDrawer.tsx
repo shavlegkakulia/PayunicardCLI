@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ImageSourcePropType,
   ScrollView,
+  Platform,
 } from 'react-native';
 import AppButton from '../components/UI/AppButton';
 import colors from '../constants/colors';
@@ -198,6 +199,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     justifyContent: 'space-between',
+    paddingVertical: Platform.OS === 'ios' ? 30 : 0
   },
   touchable: {
     padding: 10,

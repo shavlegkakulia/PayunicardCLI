@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
+  Platform,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -432,7 +433,7 @@ const styles = StyleSheet.create({
       width: 1,
       height: 1,
     },
-    shadowRadius: 25,
+    shadowRadius: Platform.OS === 'ios' ? 5 : 25,
     borderRadius: 25,
     backgroundColor: colors.white,
   },

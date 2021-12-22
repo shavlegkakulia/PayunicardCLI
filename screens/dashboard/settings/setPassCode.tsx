@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Image, Text, TouchableOpacity, Dimensions, Platform} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
 import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
@@ -74,8 +74,10 @@ const SetPassCode: React.FC = () => {
 
   const GoToFaceId = () => {};
 
+  const screenHeight = Dimensions.get("window").height;
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, screenHeight <= 800 && {paddingTop: 5}]}>
       <View style={styles.user}>
         <Image
           source={{uri: userState.userDetails?.imageUrl}}
@@ -212,6 +214,7 @@ const styles = StyleSheet.create({
   dots: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginVertical: 10
   },
   dot: {
     width: 10,
@@ -231,7 +234,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: Platform.OS === 'ios' ? 40 : 24,
   },
   keyNum: {
     backgroundColor: '#F1F1F1',

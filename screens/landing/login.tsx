@@ -8,6 +8,7 @@ import {
   Keyboard,
   EmitterSubscription,
   KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import AppInput, {autoCapitalize} from './../../components/UI/AppInput';
 import AppButton from './../../components/UI/AppButton';
@@ -251,6 +252,7 @@ const LoginForm: React.FC = () => {
               Style={styles.otpBox}
               label={translate.t('otp.smsCode')}
               title={translate.t('otp.otpSentBlank')}
+              resendTitle={translate.t('otp.resend')}
               value={otp}
               onChangeText={otp => setOtp(otp)}
               onRetry={onResendOtp}
@@ -405,6 +407,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 25,
     width: '100%',
+    marginTop: Platform.OS === 'ios' ? 20 : 0
   },
   avoid: {
     flexGrow: 1,
@@ -481,7 +484,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   button: {
-    marginVertical: 40,
+    marginVertical: Platform.OS === 'ios' ? 70 : 40,
   },
 });
 

@@ -148,8 +148,8 @@ const styles = StyleSheet.create({
     fontFamily: 'FiraGO-Bold',
     fontWeight: '500',
     color: colors.black,
-    fontSize: 24,
-    lineHeight: 29,
+    fontSize: 21,
+    lineHeight: 26,
     textAlign: 'left',
   },
   otpBox: {

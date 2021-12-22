@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, TouchableOpacity, View, StyleSheet, Text } from 'react-native';
+import { Image, TouchableOpacity, View, StyleSheet, Text, Platform, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import colors from '../constants/colors';
 import SUBSCRIBTION_KEYS from '../constants/subscribtionKeys';
@@ -125,10 +125,13 @@ const TabNav = () => {
   );
 };
 
+const screenHeight = Dimensions.get("window").height;
+const cHeight = screenHeight >= 800 && Platform.OS === 'ios' ? tabHeight + 20 : tabHeight;
+
 const styles = StyleSheet.create({
   botomTab: {
     flexDirection: 'row',
-    height: tabHeight,
+    height: cHeight,
     position: 'absolute',
     bottom: 0,
     left: 0,
@@ -146,7 +149,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     //elevation: 1,
     borderTopWidth: 1,
-    borderTopColor: colors.inputBackGround
+    borderTopColor: colors.inputBackGround,
+    paddingBottom: screenHeight >= 800 && Platform.OS === 'ios' ? 20 : 0
   },
   tabIcon: {
     width: 40,

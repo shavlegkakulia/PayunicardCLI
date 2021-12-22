@@ -7,6 +7,7 @@ import {
   StyleProp,
   ViewStyle,
   KeyboardTypeOptions,
+  Platform,
 } from 'react-native';
 import {TextInput, Text} from 'react-native';
 import {useSelector} from 'react-redux';
@@ -276,6 +277,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingVertical: Platform.OS === 'ios' ? 5.5 : 0
   },
   passwordHint: {
     fontFamily: 'FiraGo-Regular',

@@ -170,8 +170,8 @@ const styles = StyleSheet.create({
   },
   pwdResettext: {
     fontFamily: 'FiraGO-Medium',
-    fontSize: 24,
-    lineHeight: 29,
+    fontSize: 21,
+    lineHeight: 26,
     color: colors.black,
     marginBottom: 36,
   },

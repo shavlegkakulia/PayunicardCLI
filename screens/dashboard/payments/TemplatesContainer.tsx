@@ -326,12 +326,12 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   tempatesItemName: {
-    flex: 1,
+    flexGrow: 1,
     fontFamily: 'FiraGO-Book',
     fontSize: 14,
     lineHeight: 17,
     color: colors.black,
-    paddingRight: 10,
+    paddingRight: 10
   },
   templatesItemAbonentCode: {
     flex: 1,

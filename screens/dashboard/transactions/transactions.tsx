@@ -11,6 +11,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../../components/UI/AppButton';
@@ -311,7 +312,7 @@ const Transactions: React.FC = () => {
       event.nativeEvent.layoutMeasurement.height +
         event.nativeEvent.contentOffset.y >=
       event.nativeEvent.contentSize.height - paddingToBottom;
-   
+   console.log({isChunk})
     if (isChunk && !fetchingMore) {
       setFetchingMore(true);
       setRowIndex(prev => {
@@ -693,9 +694,11 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: colors.white,
+    marginBottom: Platform.OS === 'ios' ? 40 : 0
   },
   button: {
     marginVertical: 30,
+    marginBottom: Platform.OS === 'ios' ? 30 : 0
   },
   activeFilterBox: {
     flexDirection: 'row',

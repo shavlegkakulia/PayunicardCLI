@@ -53,12 +53,12 @@ const OffersView: React.FC = () => {
   if (!offers || !offers?.length) return null;
 
   return (
-    <View style={styles.offersContainer}>
+    <View style={[styles.offersContainer, screenStyles.shadowedCardbr15]}>
       <View style={styles.offersContainerHeader}>
         <Text style={styles.offersContainerTitle}>
           {translate.t('dashboard.myOffer')}
         </Text>
-        <PaginationDots step={offersStep} length={offers?.length} />
+        {offers.length > 1 && <PaginationDots step={offersStep} length={offers?.length} />}
       </View>
       <ScrollView
         onScroll={handleOffersScroll}
@@ -69,8 +69,8 @@ const OffersView: React.FC = () => {
             style={[
               styles.offersContainerItem,
               screenStyles.shadowedCardbr15,
-              {width: screenSize.width - 90},
-              index === 0 && {marginLeft: 15},
+              {width: offers.length === 1 ? screenSize.width - 32 : screenSize.width - 92},
+              index === 0 && {marginLeft: 11},
             ]}
             key={`offer${index}`}>
             <Image

@@ -1,18 +1,23 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
+import colors from '../constants/colors';
 
 
 const LandingLayout:React.FC = (props) => {
     return (
-        <View style={style.container}>
+        <SafeAreaView  style={style.container}>
+  
             {props.children}
-        </View>
+      
+        </SafeAreaView>
     )
 }
 
 const style = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: colors.white
     }
 })
 
