@@ -74,6 +74,7 @@ import {
   IGlobalState as ITranslateGlobalState,
 } from '../../../redux/action_types/translate_action_types';
 import AccountCard from './AccountCard';
+import userStatuses from '../../../constants/userStatuses';
 
 type RouteParamList = {
   Account: {
@@ -143,6 +144,12 @@ const ProductDetail: React.FC = props => {
   const [isEnabled, setIsEnabled] = useState(true);
   const [isEnabled2, setIsEnabled2] = useState(true);
 
+  const {documentVerificationStatusCode, customerVerificationStatusCode} =
+  userData.userDetails || {};
+  
+  const isUserVerified =     documentVerificationStatusCode === userStatuses.Enum_Verified &&
+  customerVerificationStatusCode === userStatuses.Enum_Verified
+
   const toggleHrmSwitch = () => setIsEnabled(previousState => !previousState);
   const toggleHrmSwitch2 = () =>
     setIsEnabled2(previousState2 => !previousState2);
@@ -189,6 +196,7 @@ const ProductDetail: React.FC = props => {
   const routes = useNavigationState(state => state.routes);
 
   const transferBetweenAccounts = () => {
+    if(!isUserVerified) return;
     const currentRoute = routes[routes.length - 1].name;
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
@@ -207,6 +215,7 @@ const ProductDetail: React.FC = props => {
   };
 
   const transferToBank = () => {
+    if(!isUserVerified) return;
     const currentRoute = routes[routes.length - 1].name;
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
@@ -222,6 +231,7 @@ const ProductDetail: React.FC = props => {
   };
 
   const transferToUni = () => {
+    if(!isUserVerified) return;
     const currentRoute = routes[routes.length - 1].name;
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
@@ -237,6 +247,7 @@ const ProductDetail: React.FC = props => {
   };
 
   const transferConvertation = () => {
+    if(!isUserVerified) return;
     const currentRoute = routes[routes.length - 1].name;
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
@@ -515,7 +526,9 @@ const ProductDetail: React.FC = props => {
     hasChildren: boolean = false,
     navigate: boolean = false,
     categoryTitle: string = '',
+    accept: boolean = false
   ) => {
+    if(!accept) return;
     if (PaymentStore.isCategoriesLoading) return;
     // dispatch({
     //   type: PAYMENTS_ACTIONS.PAYMENT_SET_SELECTED_ACCOUNT,
@@ -664,6 +677,8 @@ const ProductDetail: React.FC = props => {
 
   const actionSheetHeight = 410;
 
+  const isDisabled = isUserVerified ? {} : {opacity: 0.5};
+
   return (
     <DashboardLayout>
       {actionLoading && (
@@ -767,6 +782,7 @@ const ProductDetail: React.FC = props => {
                       true,
                       true,
                       translate.t('services.utility'),
+                      true
                     );
                   }}>
                   <View style={styles.sectionContainerItemImageContainer}>
@@ -793,16 +809,17 @@ const ProductDetail: React.FC = props => {
                           true,
                           true,
                           translate.t('services.tvInternet'),
+                          false
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
                           source={{uri: `${envs.CDN_PATH}utility/internet.png`}}
-                          style={styles.toolsIcon}
+                          style={[styles.toolsIcon, isDisabled]}
                           resizeMode="contain"
                         />
                       </View>
-                      <View style={styles.sectionContainerItemDetails}>
+                      <View style={[styles.sectionContainerItemDetails, isDisabled]}>
                         {breackWords(translate.t('services.tvInternet'))}
                       </View>
                     </TouchableOpacity>
@@ -817,16 +834,17 @@ const ProductDetail: React.FC = props => {
                           true,
                           true,
                           translate.t('services.telephone'),
+                          false
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
                           source={{uri: `${envs.CDN_PATH}utility/phone.png`}}
-                          style={styles.toolsIcon}
+                          style={[styles.toolsIcon, isDisabled]}
                           resizeMode="contain"
                         />
                       </View>
-                      <View style={styles.sectionContainerItemDetails}>
+                      <View style={[styles.sectionContainerItemDetails, isDisabled]}>
                         {breackWords(translate.t('services.telephone'))}
                       </View>
                     </TouchableOpacity>
@@ -847,6 +865,7 @@ const ProductDetail: React.FC = props => {
                           true,
                           true,
                           translate.t('services.mobile'),
+                          true
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
@@ -871,16 +890,17 @@ const ProductDetail: React.FC = props => {
                           true,
                           true,
                           translate.t('services.parking'),
+                          false
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
                           source={{uri: `${envs.CDN_PATH}utility/parking.png`}}
-                          style={styles.toolsIcon}
+                          style={[styles.toolsIcon, isDisabled]}
                           resizeMode="contain"
                         />
                       </View>
-                      <View style={styles.sectionContainerItemDetails}>
+                      <View style={[styles.sectionContainerItemDetails, isDisabled]}>
                         {breackWords(translate.t('services.parking'))}
                       </View>
                     </TouchableOpacity>
@@ -895,16 +915,17 @@ const ProductDetail: React.FC = props => {
                           true,
                           true,
                           translate.t('services.gambling'),
+                          false
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
                           source={{uri: `${envs.CDN_PATH}utility/game.png`}}
-                          style={styles.toolsIcon}
+                          style={[styles.toolsIcon, isDisabled]}
                           resizeMode="contain"
                         />
                       </View>
-                      <View style={styles.sectionContainerItemDetails}>
+                      <View style={[styles.sectionContainerItemDetails, isDisabled]}>
                         {breackWords(translate.t('services.gambling'))}
                       </View>
                     </TouchableOpacity>
@@ -950,10 +971,10 @@ const ProductDetail: React.FC = props => {
                       }>
                       <Image
                         source={require('./../../../assets/images/between_accounts.png')}
-                        style={styles.transfersSectionContainerItemImage}
+                        style={[styles.transfersSectionContainerItemImage, isDisabled]}
                       />
                     </View>
-                    <View style={styles.transfersSectionContainerItemDetails}>
+                    <View style={[styles.transfersSectionContainerItemDetails, isDisabled]}>
                       {breackWords(translate.t('transfer.betweeenOwnAccounts'))}
                     </View>
                   </TouchableOpacity>
@@ -967,10 +988,10 @@ const ProductDetail: React.FC = props => {
                       }>
                       <Image
                         source={require('./../../../assets/images/to_wallet.png')}
-                        style={styles.transfersSectionContainerItemImage}
+                        style={[styles.transfersSectionContainerItemImage, isDisabled]}
                       />
                     </View>
-                    <View style={styles.transfersSectionContainerItemDetails}>
+                    <View style={[styles.transfersSectionContainerItemDetails, isDisabled]}>
                       {breackWords(translate.t('transfer.toUniWallet'))}
                     </View>
                   </TouchableOpacity>
@@ -984,10 +1005,10 @@ const ProductDetail: React.FC = props => {
                       }>
                       <Image
                         source={require('./../../../assets/images/convertation.png')}
-                        style={styles.transfersSectionContainerItemImage}
+                        style={[styles.transfersSectionContainerItemImage, isDisabled]}
                       />
                     </View>
-                    <View style={styles.transfersSectionContainerItemDetails}>
+                    <View style={[styles.transfersSectionContainerItemDetails, isDisabled]}>
                       {breackWords(translate.t('transfer.currencyExchange'))}
                     </View>
                   </TouchableOpacity>
@@ -1007,10 +1028,10 @@ const ProductDetail: React.FC = props => {
                       }>
                       <Image
                         source={require('./../../../assets/images/to_bank.png')}
-                        style={styles.transfersSectionContainerItemImage}
+                        style={[styles.transfersSectionContainerItemImage, isDisabled]}
                       />
                     </View>
-                    <View style={styles.transfersSectionContainerItemDetails}>
+                    <View style={[styles.transfersSectionContainerItemDetails, isDisabled]}>
                       {breackWords(translate.t('transfer.toBank'))}
                     </View>
                   </TouchableOpacity>

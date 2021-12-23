@@ -32,6 +32,7 @@ interface ITransferTemplatesProps {
   templates: ITransferTemplate[];
   isTemplatesFetching: boolean;
   onStartTransferFromTemplate: (template: ITransferTemplate) => void;
+  isDisabled?: boolean;
 }
 
 const TransferTemplates: React.FC<ITransferTemplatesProps> = props => {
@@ -44,7 +45,10 @@ const TransferTemplates: React.FC<ITransferTemplatesProps> = props => {
 
   const dispatch = useDispatch();
 
+  const isDisabled = !props.isDisabled ? {} : {opacity: 0.5};
+
   const searchInTemplates = useCallback((name: string) => {
+    if(props.isDisabled) return;
     if (templateSearchTimeot.current)
       clearTimeout(templateSearchTimeot.current);
 
@@ -139,6 +143,7 @@ const TransferTemplates: React.FC<ITransferTemplatesProps> = props => {
   };
 
   const templateAction = (index: number, templateId: number | undefined) => {
+    if(props.isDisabled) return;
     //0 = delete, 1 = edit, 2 = favorite
     if (index === 0 && templateId) {
       deactivateTemplate(templateId);
@@ -211,7 +216,7 @@ const TransferTemplates: React.FC<ITransferTemplatesProps> = props => {
                 <View style={styles.templatesItemLogoBox}>
                   <Image
                     source={{uri: template.imageUrl}}
-                    style={styles.templatesItemLogo}
+                    style={[styles.templatesItemLogo, isDisabled]}
                   />
                 </View>
               </View>
