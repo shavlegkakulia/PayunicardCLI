@@ -10,6 +10,7 @@ import {
   ImageSourcePropType,
   Dimensions,
   ActivityIndicator,
+  Switch,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
@@ -68,7 +69,10 @@ import {
 import PresentationService from './../../../services/PresentationServive';
 import CardService, {IGetBarcodeRequest} from '../../../services/CardService';
 import NavigationService from '../../../services/NavigationService';
-import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 import AccountCard from './AccountCard';
 
 type RouteParamList = {
@@ -108,7 +112,7 @@ const ProductDetail: React.FC = props => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
-  
+
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
@@ -136,6 +140,12 @@ const ProductDetail: React.FC = props => {
   const [selectedFromAccount, setSelectedFromAccount] = useState<
     IAccountBallance | undefined
   >(undefined);
+  const [isEnabled, setIsEnabled] = useState(true);
+  const [isEnabled2, setIsEnabled2] = useState(true);
+
+  const toggleHrmSwitch = () => setIsEnabled(previousState => !previousState);
+  const toggleHrmSwitch2 = () =>
+    setIsEnabled2(previousState2 => !previousState2);
 
   const PaymentStore = useSelector<IGlobalPaymentState>(
     state => state.PaymentsReducer,
@@ -338,8 +348,8 @@ const ProductDetail: React.FC = props => {
         );
         AccountService.Block({cardId: cardId}).subscribe({
           next: Response => {
-            console.log(Response.data)
-            if(Response.data.ok) {
+            console.log(Response.data);
+            if (Response.data.ok) {
               setActionSheetStep({
                 actionSheetType,
                 actionSheetStatus: ACTION_SHEET_STATUSES.succes,
@@ -349,7 +359,6 @@ const ProductDetail: React.FC = props => {
           },
           complete: () => {
             setActionLoading(false);
-           
           },
           error: err => {
             setActionLoading(false);
@@ -375,7 +384,7 @@ const ProductDetail: React.FC = props => {
 
   const startAccountTopup = () => {
     NavigationService.navigate(Routes.Topup, {
-      currentAccount: route.params.account
+      currentAccount: route.params.account,
     });
   };
 
@@ -432,7 +441,7 @@ const ProductDetail: React.FC = props => {
         otp: otp,
       }).subscribe({
         next: Response => {
-          if(Response.data.OK) {
+          if (Response.data.OK) {
             setOtp(undefined);
             setActionSheetStep({
               actionSheetType,
@@ -443,7 +452,6 @@ const ProductDetail: React.FC = props => {
         },
         complete: () => {
           setActionLoading(false);
-         
         },
         error: err => {
           setActionLoading(false);
@@ -727,7 +735,9 @@ const ProductDetail: React.FC = props => {
           )}
 
           <View style={styles.transfersSectionContainerHeader}>
-            <Text style={styles.transfersSectionContainerTitle}>{translate.t('tabNavigation.payments')}</Text>
+            <Text style={styles.transfersSectionContainerTitle}>
+              {translate.t('tabNavigation.payments')}
+            </Text>
             {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
               <PaginationDots step={paymentSectionStep} length={2} />
             )}
@@ -750,7 +760,14 @@ const ProductDetail: React.FC = props => {
                 <TouchableOpacity
                   style={styles.sectionContainerItem}
                   onPress={() => {
-                    getCategories(1, false, false, true, true, translate.t('services.utility'));
+                    getCategories(
+                      1,
+                      false,
+                      false,
+                      true,
+                      true,
+                      translate.t('services.utility'),
+                    );
                   }}>
                   <View style={styles.sectionContainerItemImageContainer}>
                     <Image
@@ -793,7 +810,14 @@ const ProductDetail: React.FC = props => {
                     <TouchableOpacity
                       style={styles.sectionContainerItem}
                       onPress={() => {
-                        getCategories(10, false, false, true, true, translate.t('services.telephone'));
+                        getCategories(
+                          10,
+                          false,
+                          false,
+                          true,
+                          true,
+                          translate.t('services.telephone'),
+                        );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
@@ -890,15 +914,16 @@ const ProductDetail: React.FC = props => {
             </View>
           </ScrollView>
 
-          <View style={styles.line}></View>
-
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
-            <View style={styles.transfersSectionContainerHeader}>
-              <Text style={styles.transfersSectionContainerTitle}>
-                {translate.t('tabNavigation.transfers')}
-              </Text>
-              <PaginationDots step={transferSectionStep} length={2} />
-            </View>
+            <>
+              <View style={styles.line}></View>
+              <View style={styles.transfersSectionContainerHeader}>
+                <Text style={styles.transfersSectionContainerTitle}>
+                  {translate.t('tabNavigation.transfers')}
+                </Text>
+                <PaginationDots step={transferSectionStep} length={2} />
+              </View>
+            </>
           )}
 
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
@@ -994,48 +1019,53 @@ const ProductDetail: React.FC = props => {
             </ScrollView>
           )}
 
-          <View style={styles.line}></View>
-
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
-            <View style={styles.transfersSectionContainerHeader}>
-              <Text style={styles.transfersSectionContainerTitle}>
-                {translate.t('products.manageCard')}
-              </Text>
-            </View>
+            <>
+              <View style={styles.line}></View>
+              <View style={styles.transfersSectionContainerHeader}>
+                <Text style={styles.transfersSectionContainerTitle}>
+                  {translate.t('products.manageCard')}
+                </Text>
+              </View>
+            </>
           )}
 
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
             <View style={[screenStyles.wraper, styles.toolItemsWraper]}>
               <View style={[styles.sectionContainerColumn, {width: cardWidth}]}>
-                {route.params.account.type !== PACKET_TYPE_IDS.wallet && <TouchableOpacity
-                  style={styles.sectionContainerItem}
-                  onPress={startCardBlock}>
-                  <View style={styles.sectionContainerItemImageContainer}>
-                    <Image
-                      source={require('./../../../assets/images/block-icon.png')}
-                      style={styles.toolsIcon}
-                      resizeMode="contain"
-                    />
-                  </View>
-                  <View style={styles.sectionContainerItemDetails}>
-                    {breackWords(translate.t('products.blockCard'))}
-                  </View>
-                </TouchableOpacity>}
+                {route.params.account.type !== PACKET_TYPE_IDS.wallet && (
+                  <TouchableOpacity
+                    style={styles.sectionContainerItem}
+                    onPress={startCardBlock}>
+                    <View style={styles.sectionContainerItemImageContainer}>
+                      <Image
+                        source={require('./../../../assets/images/block-icon.png')}
+                        style={styles.toolsIcon}
+                        resizeMode="contain"
+                      />
+                    </View>
+                    <View style={styles.sectionContainerItemDetails}>
+                      {breackWords(translate.t('products.blockCard'))}
+                    </View>
+                  </TouchableOpacity>
+                )}
 
-                {route.params.account.type !== PACKET_TYPE_IDS.wallet && <TouchableOpacity
-                  style={styles.sectionContainerItem}
-                  onPress={startPinChange}>
-                  <View style={styles.sectionContainerItemImageContainer}>
-                    <Image
-                      source={require('./../../../assets/images/pin-icon.png')}
-                      style={styles.toolsIcon}
-                      resizeMode="contain"
-                    />
-                  </View>
-                  <View style={styles.sectionContainerItemDetails}>
-                    {breackWords(translate.t('products.changeCardPin'))}
-                  </View>
-                </TouchableOpacity>}
+                {route.params.account.type !== PACKET_TYPE_IDS.wallet && (
+                  <TouchableOpacity
+                    style={styles.sectionContainerItem}
+                    onPress={startPinChange}>
+                    <View style={styles.sectionContainerItemImageContainer}>
+                      <Image
+                        source={require('./../../../assets/images/pin-icon.png')}
+                        style={styles.toolsIcon}
+                        resizeMode="contain"
+                      />
+                    </View>
+                    <View style={styles.sectionContainerItemDetails}>
+                      {breackWords(translate.t('products.changeCardPin'))}
+                    </View>
+                  </TouchableOpacity>
+                )}
 
                 <TouchableOpacity
                   style={styles.sectionContainerItem}
@@ -1056,12 +1086,54 @@ const ProductDetail: React.FC = props => {
           )}
         </View>
 
-        <View style={styles.line}></View>
+        {route.params.account.type !== PACKET_TYPE_IDS.wallet &&
+          route.params.account.type !== PACKET_TYPE_IDS.unicard && (
+            <>
+              <View style={styles.line}></View>
+              <View style={[screenStyles.wraper, styles.swiths]}>
+                <Text style={styles.checkTitle}>
+                  {translate.t('orderCard.highRiskMerchantTitle')}
+                </Text>
 
+                <View style={styles.toggleBox}>
+                  <Switch
+                    style={styles.check}
+                    trackColor={{
+                      false: colors.inputBackGround,
+                      true: colors.primary,
+                    }}
+                    thumbColor={isEnabled ? colors.white : colors.white}
+                    ios_backgroundColor={colors.inputBackGround}
+                    onValueChange={toggleHrmSwitch}
+                    value={isEnabled}
+                  />
+                  <Text style={styles.checkLabel}>
+                    {translate.t('orderCard.highRiskMerchantDesc')}
+                  </Text>
+                </View>
+
+                <View style={styles.toggleBox}>
+                  <Switch
+                    style={styles.check}
+                    trackColor={{
+                      false: colors.inputBackGround,
+                      true: colors.primary,
+                    }}
+                    thumbColor={isEnabled2 ? colors.white : colors.white}
+                    ios_backgroundColor={colors.inputBackGround}
+                    onValueChange={toggleHrmSwitch2}
+                    value={isEnabled2}
+                  />
+                  <Text style={styles.checkLabel}>
+                    {translate.t('orderCard.highRiskMerchantDesc')}
+                  </Text>
+                </View>
+              </View>
+            </>
+          )}
+        <View style={styles.line}></View>
         <View style={[screenStyles.wraper, styles.transactions]}>
-          <TransactionsList
-            hideSeeMoreButton={true}
-          />
+          <TransactionsList hideSeeMoreButton={true} />
         </View>
       </ReactScroll>
       <ActionSheetCustom
@@ -1201,7 +1273,7 @@ const styles = StyleSheet.create({
   transfersSectionContainer: {
     flex: 1,
     marginTop: 33,
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
   },
   transfersSectionContainerHeader: {
     flexDirection: 'row',
@@ -1211,7 +1283,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22,
     marginBottom: 14,
     marginTop: 20,
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
   },
   transfersSectionContainerTitle: {
     fontFamily: 'FiraGO-Medium',
@@ -1221,7 +1293,7 @@ const styles = StyleSheet.create({
   },
   transfersSectionContainerColumn: {
     flexDirection: 'row',
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
   },
   transfersSectionContainerItem: {
     overflow: 'hidden',
@@ -1267,7 +1339,7 @@ const styles = StyleSheet.create({
   toolItemsWraper: {
     flexDirection: 'row',
     paddingTop: 10,
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
   },
   sectionContainerColumn: {
     flexDirection: 'row',
@@ -1299,8 +1371,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   transactions: {
-    marginTop: 40,
-    backgroundColor: colors.white
+    marginTop: 0,
+    backgroundColor: colors.white,
   },
   blockContainer: {
     flex: 1,
@@ -1384,8 +1456,37 @@ const styles = StyleSheet.create({
     height: 1,
     flex: 1,
     marginVertical: 10,
-    marginHorizontal: 30
-  }
+    marginHorizontal: 30,
+  },
+  checkTitle: {
+    fontFamily: 'FiraGO-Medium',
+    fontSize: 14,
+    lineHeight: 17,
+    color: colors.black,
+    marginTop: 35,
+  },
+  toggleBox: {
+    flexShrink: 1,
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  check: {
+    alignSelf: 'flex-start',
+  },
+  checkLabel: {
+    fontFamily: 'FiraGO-Book',
+    fontSize: 10,
+    lineHeight: 12,
+    color: colors.black,
+    marginLeft: 18,
+    flex: 1,
+    flexWrap: 'wrap',
+  },
+  swiths: {
+    backgroundColor: colors.white,
+    marginBottom: 30,
+  },
 });
 
 export default ProductDetail;

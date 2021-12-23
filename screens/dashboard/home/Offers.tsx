@@ -48,9 +48,7 @@ const OffersView: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!offers) {
-      get_GetOffers();
-    }
+    get_GetOffers();
   }, [offers]);
 
   const viewOffer = (id: number) => {
@@ -89,10 +87,10 @@ const OffersView: React.FC = () => {
               resizeMode="cover"
             />
             <View style={styles.offersContainerItemDetails}>
-              <Text style={styles.offersContainerItemDetailsTitle}>
+              <Text style={styles.offersContainerItemDetailsTitle} numberOfLines={1}>
                 {o.title}
               </Text>
-              <Text style={styles.offersContainerItemDetailsSubTitle}>
+              <Text style={styles.offersContainerItemDetailsSubTitle} numberOfLines={2}>
                 {o.text}
               </Text>
             </View>

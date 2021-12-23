@@ -8,6 +8,7 @@ import {
   Keyboard,
   EmitterSubscription,
   KeyboardAvoidingView,
+  BackHandler,
 } from 'react-native';
 import AppInput, {autoCapitalize} from './../../components/UI/AppInput';
 import AppButton from './../../components/UI/AppButton';
@@ -136,7 +137,7 @@ const LoginForm: React.FC = () => {
     if (Validation.validate(CONTEXT_TYPE)) {
       return;
     }
-    if (state.isLoading || isUserLoading) return;
+    if (state.isLoading || isUserLoading || isLoading) return;
 
     NetworkService.CheckConnection(() => {
       setIsUserLoading(true);
@@ -174,6 +175,7 @@ const LoginForm: React.FC = () => {
           }
           dispatch({type: AUT_SET_IS_LOADING, isLoading: false});
           setIsUserLoading(false);
+          setIsLoading(false);
         },
         complete: () => {
           setOtp(null);
@@ -190,6 +192,11 @@ const LoginForm: React.FC = () => {
     setOtp(null);
     login();
   };
+
+  const sendOtp = () => {
+    setIsLoading(true);
+    login();
+  }
 
   const changeUsername = useCallback(
     (username: string) => {
@@ -239,6 +246,21 @@ const LoginForm: React.FC = () => {
     );
   };
 
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (otpVisible) {
+        setOtpVisible(false);
+        setIsUserLoading(false);
+        setIsLoading(false);
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    return () => sub.remove();
+  }, [otpVisible]);
+
   if (otpVisible) {
     return (
       <KeyboardAvoidingView
@@ -254,12 +276,13 @@ const LoginForm: React.FC = () => {
               value={otp}
               onChangeText={otp => setOtp(otp)}
               onRetry={onResendOtp}
+              resendTitle={translate.t('otp.resend')}
             />
           </View>
           <AppButton
             style={styles.button}
-            onPress={login}
-            isLoading={state.isLoading}
+            onPress={sendOtp}
+            isLoading={state.isLoading || isLoading}
             title={translate.t('common.confirm')}
           />
         </View>
