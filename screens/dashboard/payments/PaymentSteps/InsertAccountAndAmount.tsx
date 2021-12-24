@@ -333,6 +333,14 @@ const InsertAccointAndAmount: React.FC = props => {
     }
   }, [PaymentStore.paymentDetails, PaymentStore.selectedAccount]);
 
+  useEffect(() => {
+    if (PaymentStore.currentService?.categoryID === 8) {
+      setAccounts(accounts => {
+        return accounts?.filter(acc => acc.type !== TYPE_UNICARD && acc.customerPaketId !== 2 && acc.type !== 0);
+      });
+    }
+  }, [PaymentStore.currentService]);
+
   let debt = PaymentStore.debtData?.filter(
     i =>
       i.FieldCode === 'Debt' ||
