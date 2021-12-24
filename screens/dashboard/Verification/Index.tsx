@@ -125,6 +125,7 @@ const StepsContent: React.FC<IStepsProps> = props => {
 type RouteParamList = {
   params: {
     verificationStep: number;
+    retry?: boolean;
   };
 };
 
@@ -139,9 +140,10 @@ const Verification: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const setVerificationStep = (route: string, step: number) => {
-    NavigationService.navigate(route, {
+  const setVerificationStep = (_route: string, step: number) => {
+    NavigationService.navigate(_route, {
       verificationStep: step,
+      retry: route.params.retry
     });
   };
 
@@ -293,8 +295,38 @@ const Verification: React.FC = () => {
   };
 
   const checkKycSession = () => {
+    if(route.params.retry) {
+      CheckKycForReprocess();
+      return;
+    }
     setIsLoading(true);
     KvalificaServices.CheckKycSession().subscribe({
+      next: Response => {
+        if (Response.data.ok) {
+          if (Response.data.data?.skipKycSession) {
+            getKycSessionData();
+          } else {
+            setVerificationStep(
+              Routes.VerificationStep5,
+              VERIFICATION_STEPS.step_five,
+            );
+          }
+        }
+      },
+      complete: () => {
+        setIsLoading(false);
+      },
+      error: () => {
+        setIsLoading(false);
+        complate();
+      },
+    });
+  };
+
+  const CheckKycForReprocess = () => {
+    console.log('aqaaa***************************')
+    setIsLoading(true);
+    KvalificaServices.CheckKycForReprocess().subscribe({
       next: Response => {
         if (Response.data.ok) {
           if (Response.data.data?.skipKycSession) {
@@ -587,6 +619,7 @@ const Verification: React.FC = () => {
   } else if (route.params.verificationStep === VERIFICATION_STEPS.step_six) {
     content = (
       <StepSeven
+        notEditable={route.params.retry}
         kycData={VerficationStore.userKYCData}
         onUpdateData={setUserKYCData}
         onComplate={() =>
@@ -600,6 +633,7 @@ const Verification: React.FC = () => {
   } else if (route.params.verificationStep === VERIFICATION_STEPS.step_seven) {
     content = (
       <StepEight
+        notEditable={route.params.retry}
         countryes={VerficationStore.countryes}
         selectedCountry={VerficationStore.country}
         onSetCountry={setCountry}

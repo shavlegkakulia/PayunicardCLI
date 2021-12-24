@@ -83,7 +83,8 @@ const TarriffCalculator: React.FC = props => {
   const [fromAccountErrorStyle, setFromAccountErrorStyle] = useState<
     StyleProp<ViewStyle>
   >({});
-  const [isEnabled, setIsEnabled] = useState(true);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const [isEnabled2, setIsEnabled2] = useState(false);
   const [accounts, setAccounts] = useState<IAccountBallance[] | undefined>();
   const [cardTypes, setCardTypes] = useState<ICardType[] | undefined>();
   const [cardTarrif, setCardTarrif] =
@@ -103,6 +104,8 @@ const TarriffCalculator: React.FC = props => {
   }, 0);
 
   const toggleHrmSwitch = () => setIsEnabled(previousState => !previousState);
+
+  const toggleHrmSwitch2 = () => setIsEnabled2(previousState2 => !previousState2);
 
   const onFromAccountSelect = (account: IAccountBallance) => {
     setselectedFromAccount(account);
@@ -301,13 +304,24 @@ const TarriffCalculator: React.FC = props => {
       }
     //}
 
+    let cardHrm = 0;
+    if (isEnabled === true && isEnabled2 === true) {
+      cardHrm = 1;
+    } else if (isEnabled === false && isEnabled2 === false) {
+      cardHrm = 0;
+    } else if (isEnabled === true && isEnabled2 === false) {
+      cardHrm = 2;
+    } else if (isEnabled === false && isEnabled2 === true) {
+      cardHrm = 3;
+    }
+
     NavigationService.navigate(Routes.DelyveryMethods, {
       package: route.params.package,
       tarrif: route.params.tarrif,
       packageCardTypes: route.params.packageCardTypes,
       cardTypes: cardTypes,
       cardTarrif: cardTarrif,
-      hrm: isEnabled,
+      hrm: cardHrm,
       orderType: route.params.orderType,
       selectedFromAccount: selectedFromAccount?.accountNumber,
       period: route.params.period,
@@ -428,27 +442,48 @@ const TarriffCalculator: React.FC = props => {
               )}
 
               {tab}
-
-              <Text style={styles.checkTitle}>
-                {translate.t('orderCard.highRiskMerchantTitle')}
-              </Text>
-
-              <View style={styles.toggleBox}>
-                <Switch
-                  style={styles.check}
-                  trackColor={{
-                    false: colors.inputBackGround,
-                    true: colors.primary,
-                  }}
-                  thumbColor={isEnabled ? colors.white : colors.white}
-                  ios_backgroundColor={colors.inputBackGround}
-                  onValueChange={toggleHrmSwitch}
-                  value={isEnabled}
-                />
-                <Text style={styles.checkLabel}>
-                {translate.t('orderCard.highRiskMerchantDesc')}
+             
+         
+              <View style={styles.swiths}>
+                <Text style={styles.checkTitle}>
+                  {translate.t('orderCard.highRiskMerchantTitle')}
                 </Text>
+
+                <View style={styles.toggleBox}>
+                  <Switch
+                    style={styles.check}
+                    trackColor={{
+                      false: colors.inputBackGround,
+                      true: colors.primary,
+                    }}
+                    thumbColor={isEnabled ? colors.white : colors.white}
+                    ios_backgroundColor={colors.inputBackGround}
+                    onValueChange={toggleHrmSwitch}
+                    value={isEnabled}
+                  />
+                  <Text style={styles.checkLabel}>
+                    {translate.t('orderCard.riskLevel_a1')}
+                  </Text>
+                </View>
+
+                <View style={styles.toggleBox}>
+                  <Switch
+                    style={styles.check}
+                    trackColor={{
+                      false: colors.inputBackGround,
+                      true: colors.primary,
+                    }}
+                    thumbColor={isEnabled2 ? colors.white : colors.white}
+                    ios_backgroundColor={colors.inputBackGround}
+                    onValueChange={toggleHrmSwitch2}
+                    value={isEnabled2}
+                  />
+                  <Text style={styles.checkLabel}>
+                    {translate.t('orderCard.riskLevel_a2')}
+                  </Text>
+                </View>
               </View>
+        
             </View>
 
             <View style={styles.bline}>
@@ -609,6 +644,10 @@ const styles = StyleSheet.create({
    top: -5,
    alignSelf: 'flex-start'
    
+  },
+  swiths: {
+    backgroundColor: colors.white,
+    marginBottom: 30,
   },
   button: {
     marginVertical: 40,

@@ -218,7 +218,7 @@ const Settings: React.FC = () => {
   };
 
   const goToVerification = () => {
-    NavigationService.navigate(Routes.VerificationStep4, {verificationStep: 4});
+    NavigationService.navigate(Routes.VerificationStep4, {verificationStep: 4, retry: true});
   }
 
   const init = async () => {

@@ -22,6 +22,7 @@ import {IKCData} from '../../../services/KvalificaServices';
 import {ICitizenshipCountry} from '../../../services/PresentationServive';
 
 interface IProps {
+  notEditable: boolean | undefined;
   selectedCountry: ICitizenshipCountry | undefined;
   selectedCountry2: ICitizenshipCountry | undefined;
   countryes: ICitizenshipCountry[] | undefined;
@@ -101,11 +102,12 @@ const StepEight: React.FC<IProps> = props => {
 
         <AppInput
           placeholder={translate.t('verification.sex')}
-          onChange={sex => setSex(sex)}
+          onChange={sex => !props.notEditable && setSex(sex)}
           value={props.kycData?.sex}
           customKey="sex"
           requireds={[required]}
           style={styles.input}
+          editable={!props.notEditable}
           context={ValidationContext}
         />
 
@@ -115,7 +117,7 @@ const StepEight: React.FC<IProps> = props => {
               itemKey="countryName"
               defaultTitle={translate.t('verification.chooseCountry')}
               item={props.selectedCountry}
-              onItemSelect={() => setCountryVisible(true)}
+              onItemSelect={() => !props.notEditable && setCountryVisible(true)}
               style={styles.countryItem}
             />
           ) : (
@@ -139,7 +141,7 @@ const StepEight: React.FC<IProps> = props => {
               props.onSetCountry(item);
               setCountryVisible(false);
             }}
-            onToggle={() => setCountryVisible(!countryVisible)}
+            onToggle={() => !props.notEditable && setCountryVisible(!countryVisible)}
           />
         </View>
 
@@ -147,7 +149,7 @@ const StepEight: React.FC<IProps> = props => {
           style={styles.checkbox}
           activeColor={colors.primary}
           label={translate.t('verification.dualSitizenship')}
-          clicked={() => setHasDualSitizenship(!hasDualSitizenship)}
+          clicked={() => !props.notEditable && setHasDualSitizenship(!hasDualSitizenship)}
           value={hasDualSitizenship}
           key={'hasDualSitizenship'}
           customKey="hasDualSitizenship"
