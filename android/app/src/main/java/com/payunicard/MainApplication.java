@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.faizal.OtpVerify.RNOtpVerifyPackage;
 import com.kvalifikareactnativesdk.ReactNativeSdkPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.kvalifikareactnativesdk.ReactNativeSdkPackage;
@@ -30,7 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new PDFViewPackage());
+          // packages.add(new RNOtpVerifyPackage());
           return packages;
         }
 
