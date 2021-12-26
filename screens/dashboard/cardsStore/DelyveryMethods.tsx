@@ -57,7 +57,7 @@ type RouteParamList = {
     cardTypes: ICardType[] | undefined;
     cardTarrif: IGetCardOrderingTariffAmountResponse;
     orderType: string;
-    hrm: boolean;
+    hrm: number;
     selectedFromAccount: string | undefined;
     period: string;
   };

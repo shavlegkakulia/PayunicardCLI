@@ -11,6 +11,9 @@ import {
   Dimensions,
   ActivityIndicator,
   Platform,
+  Switch,
+  Modal,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
@@ -29,6 +32,7 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import UserService, {
   IAccountBallance,
+  IChangeConditionRisklevelUFCRequest,
   IFund,
   IGetUserBlockedBlockedFundslistRequest,
 } from '../../../services/UserService';
@@ -69,8 +73,13 @@ import {
 import PresentationService from './../../../services/PresentationServive';
 import CardService, {IGetBarcodeRequest} from '../../../services/CardService';
 import NavigationService from '../../../services/NavigationService';
-import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 import AccountCard from './AccountCard';
+import userStatuses from '../../../constants/userStatuses';
+import {tabHeight} from '../../../navigation/TabNav';
 
 type RouteParamList = {
   Account: {
@@ -109,7 +118,7 @@ const ProductDetail: React.FC = props => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
-  
+
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
@@ -137,6 +146,29 @@ const ProductDetail: React.FC = props => {
   const [selectedFromAccount, setSelectedFromAccount] = useState<
     IAccountBallance | undefined
   >(undefined);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const [isEnabled2, setIsEnabled2] = useState(false);
+  const [hrmLoading, setHrmLoading] = useState<boolean>(false);
+  const [isHrmProcessing, setIsHrmProcessing] = useState<boolean>(false);
+  const {documentVerificationStatusCode, customerVerificationStatusCode} =
+    userData.userDetails || {};
+
+  const isUserVerified =
+    documentVerificationStatusCode === userStatuses.Enum_Verified &&
+    customerVerificationStatusCode === userStatuses.Enum_Verified;
+
+  const toggleHrmSwitch = () => {
+    if (hrmLoading || actionLoading) return;
+    setIsEnabled(previousState => !previousState);
+    setIsHrmProcessing(true);
+    SendPhoneOTP();
+  };
+  const toggleHrmSwitch2 = () => {
+    if (hrmLoading || actionLoading) return;
+    setIsEnabled2(previousState2 => !previousState2);
+    setIsHrmProcessing(true);
+    SendPhoneOTP();
+  };
 
   const PaymentStore = useSelector<IGlobalPaymentState>(
     state => state.PaymentsReducer,
@@ -180,6 +212,7 @@ const ProductDetail: React.FC = props => {
   const routes = useNavigationState(state => state.routes);
 
   const transferBetweenAccounts = () => {
+    if (!isUserVerified) return;
     const currentRoute = routes[routes.length - 1].name;
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
@@ -198,6 +231,7 @@ const ProductDetail: React.FC = props => {
   };
 
   const transferToBank = () => {
+    if (!isUserVerified) return;
     const currentRoute = routes[routes.length - 1].name;
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
@@ -213,6 +247,7 @@ const ProductDetail: React.FC = props => {
   };
 
   const transferToUni = () => {
+    if (!isUserVerified) return;
     const currentRoute = routes[routes.length - 1].name;
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
@@ -228,6 +263,7 @@ const ProductDetail: React.FC = props => {
   };
 
   const transferConvertation = () => {
+    if (!isUserVerified) return;
     const currentRoute = routes[routes.length - 1].name;
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
@@ -339,8 +375,8 @@ const ProductDetail: React.FC = props => {
         );
         AccountService.Block({cardId: cardId}).subscribe({
           next: Response => {
-            console.log(Response.data)
-            if(Response.data.ok) {
+            console.log(Response.data);
+            if (Response.data.ok) {
               setActionSheetStep({
                 actionSheetType,
                 actionSheetStatus: ACTION_SHEET_STATUSES.succes,
@@ -350,7 +386,6 @@ const ProductDetail: React.FC = props => {
           },
           complete: () => {
             setActionLoading(false);
-           
           },
           error: err => {
             setActionLoading(false);
@@ -376,7 +411,7 @@ const ProductDetail: React.FC = props => {
 
   const startAccountTopup = () => {
     NavigationService.navigate(Routes.Topup, {
-      currentAccount: route.params.account
+      currentAccount: route.params.account,
     });
   };
 
@@ -433,7 +468,7 @@ const ProductDetail: React.FC = props => {
         otp: otp,
       }).subscribe({
         next: Response => {
-          if(Response.data.OK) {
+          if (Response.data.OK) {
             setOtp(undefined);
             setActionSheetStep({
               actionSheetType,
@@ -444,7 +479,6 @@ const ProductDetail: React.FC = props => {
         },
         complete: () => {
           setActionLoading(false);
-         
         },
         error: err => {
           setActionLoading(false);
@@ -508,7 +542,9 @@ const ProductDetail: React.FC = props => {
     hasChildren: boolean = false,
     navigate: boolean = false,
     categoryTitle: string = '',
+    accept: boolean = false,
   ) => {
+    if (!accept) return;
     if (PaymentStore.isCategoriesLoading) return;
     // dispatch({
     //   type: PAYMENTS_ACTIONS.PAYMENT_SET_SELECTED_ACCOUNT,
@@ -625,6 +661,55 @@ const ProductDetail: React.FC = props => {
     setActionSheetStep({});
   };
 
+  const changeConditionRisklevelUFC = () => {
+    if (hrmLoading) return;
+    let cardHrm = 0;
+    if (isEnabled === true && isEnabled2 === true) {
+      cardHrm = 1;
+    } else if (isEnabled === false && isEnabled2 === false) {
+      cardHrm = 0;
+    } else if (isEnabled === true && isEnabled2 === false) {
+      cardHrm = 2;
+    } else if (isEnabled === false && isEnabled2 === true) {
+      cardHrm = 3;
+    }
+
+    let cardId = 0;
+
+    if (route?.params?.account.cards) {
+      cardId = getNumber(route?.params?.account.cards[currentCardIndex].cardID);
+    }
+
+    const data: IChangeConditionRisklevelUFCRequest = {
+      status: cardHrm,
+      cardID: cardId,
+      otp: getString(otp),
+    };
+    
+    setHrmLoading(true);
+
+    UserService.changeConditionRisklevelUFC(data).subscribe({
+      next: Response => {
+        if (Response.data.ok) {
+          dispatch(FetchUserAccountStatements({}));
+        }
+      },
+      complete: () => {
+        setHrmLoading(false);
+        setOtp(undefined);
+        setHrmLoading(false);
+        setIsHrmProcessing(false);
+      },
+      error: err => {
+        console.log(err);
+        setHrmLoading(false);
+        setOtp(undefined);
+        setHrmLoading(false);
+        setIsHrmProcessing(false);
+      },
+    });
+  };
+
   useEffect(() => {
     if (route.params.account.type !== TYPE_UNICARD) {
       GetUserBlockedFunds();
@@ -643,6 +728,23 @@ const ProductDetail: React.FC = props => {
 
   useEffect(() => {
     fetchAccountStatements();
+
+    if (route?.params?.account.cards) {
+      const curCardHrm = route?.params?.account.cards[currentCardIndex].hrm;
+      if (curCardHrm === 1) {
+        setIsEnabled(true);
+        setIsEnabled2(true);
+      } else if (curCardHrm === 0) {
+        setIsEnabled(false);
+        setIsEnabled2(false);
+      } else if (curCardHrm === 2) {
+        setIsEnabled(true);
+        setIsEnabled2(false);
+      } else if (curCardHrm === 3) {
+        setIsEnabled(false);
+        setIsEnabled2(true);
+      }
+    }
   }, [route?.params?.account]);
 
   useEffect(() => {
@@ -657,11 +759,14 @@ const ProductDetail: React.FC = props => {
 
   const actionSheetHeight = 410;
 
+  const isDisabled = isUserVerified ? {} : {opacity: 0.5};
+
   return (
     <DashboardLayout>
       {actionLoading && (
         <FullScreenLoader background={colors.none} hideLoader />
       )}
+
       <ReactScroll style={[screenStyles.screenContainer, styles.container]}>
         <View style={styles.transfersSectionContainer}>
           {route.params.account.type !== PACKET_TYPE_IDS.wallet &&
@@ -728,7 +833,9 @@ const ProductDetail: React.FC = props => {
           )}
 
           <View style={styles.transfersSectionContainerHeader}>
-            <Text style={styles.transfersSectionContainerTitle}>{translate.t('tabNavigation.payments')}</Text>
+            <Text style={styles.transfersSectionContainerTitle}>
+              {translate.t('tabNavigation.payments')}
+            </Text>
             {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
               <PaginationDots step={paymentSectionStep} length={2} />
             )}
@@ -751,7 +858,15 @@ const ProductDetail: React.FC = props => {
                 <TouchableOpacity
                   style={styles.sectionContainerItem}
                   onPress={() => {
-                    getCategories(1, false, false, true, true, translate.t('services.utility'));
+                    getCategories(
+                      1,
+                      false,
+                      false,
+                      true,
+                      true,
+                      translate.t('services.utility'),
+                      true,
+                    );
                   }}>
                   <View style={styles.sectionContainerItemImageContainer}>
                     <Image
@@ -777,16 +892,21 @@ const ProductDetail: React.FC = props => {
                           true,
                           true,
                           translate.t('services.tvInternet'),
+                          false,
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
                           source={{uri: `${envs.CDN_PATH}utility/internet.png`}}
-                          style={styles.toolsIcon}
+                          style={[styles.toolsIcon, isDisabled]}
                           resizeMode="contain"
                         />
                       </View>
-                      <View style={styles.sectionContainerItemDetails}>
+                      <View
+                        style={[
+                          styles.sectionContainerItemDetails,
+                          isDisabled,
+                        ]}>
                         {breackWords(translate.t('services.tvInternet'))}
                       </View>
                     </TouchableOpacity>
@@ -794,16 +914,28 @@ const ProductDetail: React.FC = props => {
                     <TouchableOpacity
                       style={styles.sectionContainerItem}
                       onPress={() => {
-                        getCategories(10, false, false, true, true, translate.t('services.telephone'));
+                        getCategories(
+                          10,
+                          false,
+                          false,
+                          true,
+                          true,
+                          translate.t('services.telephone'),
+                          false,
+                        );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
                           source={{uri: `${envs.CDN_PATH}utility/phone.png`}}
-                          style={styles.toolsIcon}
+                          style={[styles.toolsIcon, isDisabled]}
                           resizeMode="contain"
                         />
                       </View>
-                      <View style={styles.sectionContainerItemDetails}>
+                      <View
+                        style={[
+                          styles.sectionContainerItemDetails,
+                          isDisabled,
+                        ]}>
                         {breackWords(translate.t('services.telephone'))}
                       </View>
                     </TouchableOpacity>
@@ -824,6 +956,7 @@ const ProductDetail: React.FC = props => {
                           true,
                           true,
                           translate.t('services.mobile'),
+                          true,
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
@@ -848,16 +981,21 @@ const ProductDetail: React.FC = props => {
                           true,
                           true,
                           translate.t('services.parking'),
+                          false,
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
                           source={{uri: `${envs.CDN_PATH}utility/parking.png`}}
-                          style={styles.toolsIcon}
+                          style={[styles.toolsIcon, isDisabled]}
                           resizeMode="contain"
                         />
                       </View>
-                      <View style={styles.sectionContainerItemDetails}>
+                      <View
+                        style={[
+                          styles.sectionContainerItemDetails,
+                          isDisabled,
+                        ]}>
                         {breackWords(translate.t('services.parking'))}
                       </View>
                     </TouchableOpacity>
@@ -872,16 +1010,21 @@ const ProductDetail: React.FC = props => {
                           true,
                           true,
                           translate.t('services.gambling'),
+                          false,
                         );
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
                           source={{uri: `${envs.CDN_PATH}utility/game.png`}}
-                          style={styles.toolsIcon}
+                          style={[styles.toolsIcon, isDisabled]}
                           resizeMode="contain"
                         />
                       </View>
-                      <View style={styles.sectionContainerItemDetails}>
+                      <View
+                        style={[
+                          styles.sectionContainerItemDetails,
+                          isDisabled,
+                        ]}>
                         {breackWords(translate.t('services.gambling'))}
                       </View>
                     </TouchableOpacity>
@@ -891,15 +1034,16 @@ const ProductDetail: React.FC = props => {
             </View>
           </ScrollView>
 
-          <View style={styles.line}></View>
-
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
-            <View style={styles.transfersSectionContainerHeader}>
-              <Text style={styles.transfersSectionContainerTitle}>
-                {translate.t('tabNavigation.transfers')}
-              </Text>
-              <PaginationDots step={transferSectionStep} length={2} />
-            </View>
+            <>
+              <View style={styles.line}></View>
+              <View style={styles.transfersSectionContainerHeader}>
+                <Text style={styles.transfersSectionContainerTitle}>
+                  {translate.t('tabNavigation.transfers')}
+                </Text>
+                <PaginationDots step={transferSectionStep} length={2} />
+              </View>
+            </>
           )}
 
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
@@ -926,10 +1070,17 @@ const ProductDetail: React.FC = props => {
                       }>
                       <Image
                         source={require('./../../../assets/images/between_accounts.png')}
-                        style={styles.transfersSectionContainerItemImage}
+                        style={[
+                          styles.transfersSectionContainerItemImage,
+                          isDisabled,
+                        ]}
                       />
                     </View>
-                    <View style={styles.transfersSectionContainerItemDetails}>
+                    <View
+                      style={[
+                        styles.transfersSectionContainerItemDetails,
+                        isDisabled,
+                      ]}>
                       {breackWords(translate.t('transfer.betweeenOwnAccounts'))}
                     </View>
                   </TouchableOpacity>
@@ -943,10 +1094,17 @@ const ProductDetail: React.FC = props => {
                       }>
                       <Image
                         source={require('./../../../assets/images/to_wallet.png')}
-                        style={styles.transfersSectionContainerItemImage}
+                        style={[
+                          styles.transfersSectionContainerItemImage,
+                          isDisabled,
+                        ]}
                       />
                     </View>
-                    <View style={styles.transfersSectionContainerItemDetails}>
+                    <View
+                      style={[
+                        styles.transfersSectionContainerItemDetails,
+                        isDisabled,
+                      ]}>
                       {breackWords(translate.t('transfer.toUniWallet'))}
                     </View>
                   </TouchableOpacity>
@@ -960,10 +1118,17 @@ const ProductDetail: React.FC = props => {
                       }>
                       <Image
                         source={require('./../../../assets/images/convertation.png')}
-                        style={styles.transfersSectionContainerItemImage}
+                        style={[
+                          styles.transfersSectionContainerItemImage,
+                          isDisabled,
+                        ]}
                       />
                     </View>
-                    <View style={styles.transfersSectionContainerItemDetails}>
+                    <View
+                      style={[
+                        styles.transfersSectionContainerItemDetails,
+                        isDisabled,
+                      ]}>
                       {breackWords(translate.t('transfer.currencyExchange'))}
                     </View>
                   </TouchableOpacity>
@@ -983,10 +1148,17 @@ const ProductDetail: React.FC = props => {
                       }>
                       <Image
                         source={require('./../../../assets/images/to_bank.png')}
-                        style={styles.transfersSectionContainerItemImage}
+                        style={[
+                          styles.transfersSectionContainerItemImage,
+                          isDisabled,
+                        ]}
                       />
                     </View>
-                    <View style={styles.transfersSectionContainerItemDetails}>
+                    <View
+                      style={[
+                        styles.transfersSectionContainerItemDetails,
+                        isDisabled,
+                      ]}>
                       {breackWords(translate.t('transfer.toBank'))}
                     </View>
                   </TouchableOpacity>
@@ -995,48 +1167,53 @@ const ProductDetail: React.FC = props => {
             </ScrollView>
           )}
 
-          <View style={styles.line}></View>
-
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
-            <View style={styles.transfersSectionContainerHeader}>
-              <Text style={styles.transfersSectionContainerTitle}>
-                {translate.t('products.manageCard')}
-              </Text>
-            </View>
+            <>
+              <View style={styles.line}></View>
+              <View style={styles.transfersSectionContainerHeader}>
+                <Text style={styles.transfersSectionContainerTitle}>
+                  {translate.t('products.manageCard')}
+                </Text>
+              </View>
+            </>
           )}
 
           {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
             <View style={[screenStyles.wraper, styles.toolItemsWraper]}>
               <View style={[styles.sectionContainerColumn, {width: cardWidth}]}>
-                {route.params.account.type !== PACKET_TYPE_IDS.wallet && <TouchableOpacity
-                  style={styles.sectionContainerItem}
-                  onPress={startCardBlock}>
-                  <View style={styles.sectionContainerItemImageContainer}>
-                    <Image
-                      source={require('./../../../assets/images/block-icon.png')}
-                      style={styles.toolsIcon}
-                      resizeMode="contain"
-                    />
-                  </View>
-                  <View style={styles.sectionContainerItemDetails}>
-                    {breackWords(translate.t('products.blockCard'))}
-                  </View>
-                </TouchableOpacity>}
+                {route.params.account.type !== PACKET_TYPE_IDS.wallet && (
+                  <TouchableOpacity
+                    style={styles.sectionContainerItem}
+                    onPress={startCardBlock}>
+                    <View style={styles.sectionContainerItemImageContainer}>
+                      <Image
+                        source={require('./../../../assets/images/block-icon.png')}
+                        style={styles.toolsIcon}
+                        resizeMode="contain"
+                      />
+                    </View>
+                    <View style={styles.sectionContainerItemDetails}>
+                      {breackWords(translate.t('products.blockCard'))}
+                    </View>
+                  </TouchableOpacity>
+                )}
 
-                {route.params.account.type !== PACKET_TYPE_IDS.wallet && <TouchableOpacity
-                  style={styles.sectionContainerItem}
-                  onPress={startPinChange}>
-                  <View style={styles.sectionContainerItemImageContainer}>
-                    <Image
-                      source={require('./../../../assets/images/pin-icon.png')}
-                      style={styles.toolsIcon}
-                      resizeMode="contain"
-                    />
-                  </View>
-                  <View style={styles.sectionContainerItemDetails}>
-                    {breackWords(translate.t('products.changeCardPin'))}
-                  </View>
-                </TouchableOpacity>}
+                {route.params.account.type !== PACKET_TYPE_IDS.wallet && (
+                  <TouchableOpacity
+                    style={styles.sectionContainerItem}
+                    onPress={startPinChange}>
+                    <View style={styles.sectionContainerItemImageContainer}>
+                      <Image
+                        source={require('./../../../assets/images/pin-icon.png')}
+                        style={styles.toolsIcon}
+                        resizeMode="contain"
+                      />
+                    </View>
+                    <View style={styles.sectionContainerItemDetails}>
+                      {breackWords(translate.t('products.changeCardPin'))}
+                    </View>
+                  </TouchableOpacity>
+                )}
 
                 <TouchableOpacity
                   style={styles.sectionContainerItem}
@@ -1057,12 +1234,54 @@ const ProductDetail: React.FC = props => {
           )}
         </View>
 
-        <View style={styles.line}></View>
+        {route.params.account.type !== PACKET_TYPE_IDS.wallet &&
+          route.params.account.type !== PACKET_TYPE_IDS.unicard && (
+            <>
+              <View style={styles.line}></View>
+              <View style={[screenStyles.wraper, styles.swiths]}>
+                <Text style={styles.checkTitle}>
+                  {translate.t('orderCard.highRiskMerchantTitle')}
+                </Text>
 
+                <View style={styles.toggleBox}>
+                  <Switch
+                    style={styles.check}
+                    trackColor={{
+                      false: colors.inputBackGround,
+                      true: colors.primary,
+                    }}
+                    thumbColor={isEnabled ? colors.white : colors.white}
+                    ios_backgroundColor={colors.inputBackGround}
+                    onValueChange={toggleHrmSwitch}
+                    value={isEnabled}
+                  />
+                  <Text style={styles.checkLabel}>
+                    {translate.t('orderCard.riskLevel_a1')}
+                  </Text>
+                </View>
+
+                <View style={styles.toggleBox}>
+                  <Switch
+                    style={styles.check}
+                    trackColor={{
+                      false: colors.inputBackGround,
+                      true: colors.primary,
+                    }}
+                    thumbColor={isEnabled2 ? colors.white : colors.white}
+                    ios_backgroundColor={colors.inputBackGround}
+                    onValueChange={toggleHrmSwitch2}
+                    value={isEnabled2}
+                  />
+                  <Text style={styles.checkLabel}>
+                    {translate.t('orderCard.riskLevel_a2')}
+                  </Text>
+                </View>
+              </View>
+            </>
+          )}
+        <View style={styles.line}></View>
         <View style={[screenStyles.wraper, styles.transactions]}>
-          <TransactionsList
-            hideSeeMoreButton={true}
-          />
+          <TransactionsList hideSeeMoreButton={true} />
         </View>
       </ReactScroll>
       <ActionSheetCustom
@@ -1184,6 +1403,29 @@ const ProductDetail: React.FC = props => {
           </View>
         </View>
       </ActionSheetCustom>
+      <Modal
+        visible={isHrmProcessing}
+        onRequestClose={setIsHrmProcessing.bind(this, false)}
+        animationType="slide">
+        <View style={styles.otpContent}>
+          <FloatingLabelInput
+            Style={styles.otpBox2}
+            label={translate.t('otp.smsCode')}
+            resendTitle={translate.t('otp.resend')}
+            title=""
+            value={otp}
+            onChangeText={setOtp}
+            onRetry={SendPhoneOTP}
+          />
+
+          <AppButton
+            title={translate.t('common.next')}
+            onPress={changeConditionRisklevelUFC}
+            style={styles.otpButton}
+            isLoading={hrmLoading}
+          />
+        </View>
+      </Modal>
     </DashboardLayout>
   );
 };
@@ -1202,7 +1444,7 @@ const styles = StyleSheet.create({
   transfersSectionContainer: {
     flex: 1,
     marginTop: 33,
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
   },
   transfersSectionContainerHeader: {
     flexDirection: 'row',
@@ -1212,7 +1454,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22,
     marginBottom: 14,
     marginTop: 20,
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
   },
   transfersSectionContainerTitle: {
     fontFamily: 'FiraGO-Medium',
@@ -1222,7 +1464,7 @@ const styles = StyleSheet.create({
   },
   transfersSectionContainerColumn: {
     flexDirection: 'row',
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
   },
   transfersSectionContainerItem: {
     overflow: 'hidden',
@@ -1268,7 +1510,7 @@ const styles = StyleSheet.create({
   toolItemsWraper: {
     flexDirection: 'row',
     paddingTop: 10,
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
   },
   sectionContainerColumn: {
     flexDirection: 'row',
@@ -1300,8 +1542,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   transactions: {
-    marginTop: 40,
-    backgroundColor: colors.white
+    marginTop: 0,
+    backgroundColor: colors.white,
   },
   blockContainer: {
     flex: 1,
@@ -1385,8 +1627,48 @@ const styles = StyleSheet.create({
     height: 1,
     flex: 1,
     marginVertical: 10,
-    marginHorizontal: 30
-  }
+    marginHorizontal: 30,
+  },
+  checkTitle: {
+    fontFamily: 'FiraGO-Medium',
+    fontSize: 14,
+    lineHeight: 17,
+    color: colors.black,
+    marginTop: 35,
+  },
+  toggleBox: {
+    flexShrink: 1,
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  check: {
+    alignSelf: 'flex-start',
+  },
+  checkLabel: {
+    fontFamily: 'FiraGO-Book',
+    fontSize: 10,
+    lineHeight: 12,
+    color: colors.black,
+    marginLeft: 18,
+    flex: 1,
+    flexWrap: 'wrap',
+  },
+  swiths: {
+    backgroundColor: colors.white,
+    marginBottom: 30,
+  },
+  otpContent: {
+    justifyContent: 'space-between',
+    flex: 1,
+    paddingHorizontal: 30,
+  },
+  otpButton: {
+    marginBottom: tabHeight + 40,
+  },
+  otpBox2: {
+    top: Dimensions.get('window').height / 4,
+  },
 });
 
 export default ProductDetail;

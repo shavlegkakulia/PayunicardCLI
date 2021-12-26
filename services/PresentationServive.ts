@@ -27,6 +27,7 @@ export interface ICategory {
   merchantCode?: string | undefined;
   merchantServiceCode?: string | undefined;
   categoryName?: string | undefined;
+  cannotPay?:boolean;
 }
 
 interface IData {

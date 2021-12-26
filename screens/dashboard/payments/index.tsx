@@ -34,6 +34,8 @@ import {
 import Routes from '../../../navigation/routes';
 import {getNumber} from '../../../utils/Converter';
 import NavigationService from '../../../services/NavigationService';
+import { IUserState, IGloablState as IUserGlobalState } from '../../../redux/action_types/user_action_types';
+import userStatuses from '../../../constants/userStatuses';
 
 export interface IGetPaymentDetailParams {
   data: IGetPaymentDetailsRequest;
@@ -55,6 +57,16 @@ const Payments: FC<IProps> = props => {
   const PaymentStore = useSelector<IGlobalPaymentState>(
     state => state.PaymentsReducer,
   ) as IPaymentState;
+
+  const userData = useSelector<IUserGlobalState>(
+    state => state.UserReducer,
+  ) as IUserState;
+
+  const {documentVerificationStatusCode, customerVerificationStatusCode} =
+  userData.userDetails || {};
+  
+  const isUserVerified =     documentVerificationStatusCode === userStatuses.Enum_Verified &&
+  customerVerificationStatusCode === userStatuses.Enum_Verified
 
   const startPayFromTemplate = (template: ITemplates) => {
     if (isActionLoading) return;
@@ -233,8 +245,20 @@ const Payments: FC<IProps> = props => {
         getPayCategoriesServices(
           parentID,
           (cats: ICategory[]) => {
-            if (!categories) {
-              setCategories(cats);
+           if (!categories) 
+
+            {
+              if(!isUserVerified) {
+                const filtered = cats.map(c => {
+                  if(c.categoryID !== 1 && c.categoryID != 7 && c.categoryID !== 13) {
+                    c.cannotPay = true;
+                  }
+                  return c;
+                });
+                setCategories(filtered);
+              } else {
+                setCategories(cats);
+              }
             }
             onComplate(cats);
           },

@@ -24,19 +24,19 @@ import {
   ContainsSpecialCharacter,
   TestLength,
 } from './../../utils/Regex';
-// // @ts-ignore
-// TextInput.defaultProps = {
-//   // @ts-ignore
-//   ...TextInput.defaultProps,
-//   maxFontSizeMultiplier: 1,
-// };
+// @ts-ignore
+TextInput.defaultProps = {
+  // @ts-ignore
+  ...TextInput.defaultProps,
+  maxFontSizeMultiplier: 1,
+};
 
-// // @ts-ignore
-// Text.defaultProps = {
-//   // @ts-ignore
-//   ...Text.defaultProps,
-//   maxFontSizeMultiplier: 1,
-// };
+// @ts-ignore
+Text.defaultProps = {
+  // @ts-ignore
+  ...Text.defaultProps,
+  maxFontSizeMultiplier: 1,
+};
 
 export const InputTypes = {
   search: 'search',

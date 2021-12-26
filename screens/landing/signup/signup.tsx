@@ -72,7 +72,7 @@ const SignupForm: React.FC = () => {
     if (Validation.validate(VALIDATION_CONTEXT)) {
       return;
     }
-    const PhoneNumber = code + phone;
+    const PhoneNumber = code.dial_code + phone;
     navigation.navigate(Routes.SignupStepTwo, {
       phone: PhoneNumber,
       name,

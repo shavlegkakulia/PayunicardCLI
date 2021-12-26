@@ -12,6 +12,7 @@ import {IKCData} from '../../../services/KvalificaServices';
 
 interface IProps {
   kycData: IKCData | undefined;
+  notEditable: boolean | undefined;
   onUpdateData: (c: IKCData | undefined) => void;
   onComplate: () => void;
 }
@@ -53,37 +54,40 @@ const StepSeven: React.FC<IProps> = props => {
     data.countryName = value;
     props.onUpdateData(data);
   };
-  
+  console.log('++++++++++++++++', props.notEditable)
   return (
     <View style={styles.container}>
       <View style={styles.addressContainer}>
         <AppInput
           placeholder="პირადი ნომერი"
-          onChange={personalNumber => setPersonalNumber(personalNumber)}
+          onChange={personalNumber => !props.notEditable && setPersonalNumber(personalNumber)}
           value={props.kycData?.personalNumber}
           customKey="personalNumber"
           requireds={[required]}
           style={styles.input}
+          editable={!props.notEditable}
           context={ValidationContext}
         />
 
         <AppInput
           placeholder="სახელი"
-          onChange={firstName => setFirstName(firstName)}
+          onChange={firstName => !props.notEditable && setFirstName(firstName)}
           value={props.kycData?.firstName}
           customKey="setFirstName"
           requireds={[required]}
           style={styles.input}
+          editable={!props.notEditable}
           context={ValidationContext}
         />
 
         <AppInput
           placeholder="გვარი"
-          onChange={lastName => setLastName(lastName)}
+          onChange={lastName => !props.notEditable && setLastName(lastName)}
           value={props.kycData?.lastName}
           customKey="lastName"
           requireds={[required]}
           style={styles.input}
+          editable={!props.notEditable}
           context={ValidationContext}
         />
 

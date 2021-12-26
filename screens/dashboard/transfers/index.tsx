@@ -43,6 +43,7 @@ import {
   IGlobalState as ITranslateGlobalState,
 } from '../../../redux/action_types/translate_action_types';
 import PaginationDots from '../../../components/PaginationDots';
+import userStatuses from '../../../constants/userStatuses';
 
 export const TRANSFER_TYPES = {
   betweenAccounts: 'betweenAccounts',
@@ -84,10 +85,16 @@ const Transfers: React.FC<INavigationProps> = props => {
   const [transferSectionStep, setTransferSectionStep] = useState<number>(0);
 
   const carouselRef = createRef<ScrollView>();
+  const {documentVerificationStatusCode, customerVerificationStatusCode} =
+  userData.userDetails || {};
+  
+  const isUserVerified =     documentVerificationStatusCode === userStatuses.Enum_Verified &&
+  customerVerificationStatusCode === userStatuses.Enum_Verified
 
   const dispatch = useDispatch();
 
   const startTransferFromTemplate = (template: ITransferTemplate) => {
+    if(!isUserVerified) return;
     function initCommon() {
       setIsTemplate(true);
       setAmount(template.amount);
@@ -163,6 +170,7 @@ const Transfers: React.FC<INavigationProps> = props => {
   const routes = useNavigationState(state => state.routes);
 
   const transferBetweenAccounts = () => {
+    if(!isUserVerified) return;
     const currentRoute = routes[routes.length - 1].name;
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
@@ -177,6 +185,7 @@ const Transfers: React.FC<INavigationProps> = props => {
   };
 
   const transferToBank = () => {
+    if(!isUserVerified) return;
     const currentRoute = routes[routes.length - 1].name;
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
@@ -188,6 +197,7 @@ const Transfers: React.FC<INavigationProps> = props => {
   };
 
   const transferToUni = () => {
+    if(!isUserVerified) return;
     const currentRoute = routes[routes.length - 1].name;
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
@@ -199,6 +209,7 @@ const Transfers: React.FC<INavigationProps> = props => {
   };
 
   const transferConvertation = () => {
+    if(!isUserVerified) return;
     const currentRoute = routes[routes.length - 1].name;
     dispatch({
       type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
@@ -288,6 +299,8 @@ const Transfers: React.FC<INavigationProps> = props => {
       );
   }, [userData.userAccounts]);
 
+  const isDisabled = isUserVerified ? {} : {opacity: 0.5};
+
   return (
     <>
       <DashboardLayout>
@@ -326,18 +339,18 @@ const Transfers: React.FC<INavigationProps> = props => {
                 horizontal>
                   <View style={styles.iGroup}>
                 <TouchableOpacity
-                  style={styles.transfersSectionContainerItem}
+                  style={[styles.transfersSectionContainerItem]}
                   onPress={transferBetweenAccounts}>
                   <View
                     style={styles.transfersSectionContainerItemImageContainer}>
                     <Image
                       source={require('./../../../assets/images/between_accounts.png')}
-                      style={styles.transfersSectionContainerItemImage}
+                      style={[styles.transfersSectionContainerItemImage, isDisabled]}
                     />
                   </View>
                   <View style={styles.transfersSectionContainerItemDetails}>
                     <Text
-                      style={styles.transfersSectionContainerItemDetailsTitle}>
+                      style={[styles.transfersSectionContainerItemDetailsTitle, isDisabled]}>
                       {translate.t('transfer.betweeenOwnAccounts')}
                     </Text>
                   </View>
@@ -350,12 +363,12 @@ const Transfers: React.FC<INavigationProps> = props => {
                     style={styles.transfersSectionContainerItemImageContainer}>
                     <Image
                       source={require('./../../../assets/images/convertation.png')}
-                      style={styles.transfersSectionContainerItemImage}
+                      style={[styles.transfersSectionContainerItemImage, isDisabled]}
                     />
                   </View>
                   <View style={styles.transfersSectionContainerItemDetails}>
                     <Text
-                      style={styles.transfersSectionContainerItemDetailsTitle}>
+                      style={[styles.transfersSectionContainerItemDetailsTitle, isDisabled]}>
                       {translate.t('transfer.currencyExchange')}
                     </Text>
                   </View>
@@ -370,12 +383,12 @@ const Transfers: React.FC<INavigationProps> = props => {
                     style={styles.transfersSectionContainerItemImageContainer}>
                     <Image
                       source={require('./../../../assets/images/to_wallet.png')}
-                      style={styles.transfersSectionContainerItemImage}
+                      style={[styles.transfersSectionContainerItemImage, isDisabled]}
                     />
                   </View>
                   <View style={styles.transfersSectionContainerItemDetails}>
                     <Text
-                      style={styles.transfersSectionContainerItemDetailsTitle}>
+                      style={[styles.transfersSectionContainerItemDetailsTitle, isDisabled]}>
                       {translate.t('transfer.toUniWallet')}
                     </Text>
                   </View>
@@ -388,12 +401,12 @@ const Transfers: React.FC<INavigationProps> = props => {
                     style={styles.transfersSectionContainerItemImageContainer}>
                     <Image
                       source={require('./../../../assets/images/to_bank.png')}
-                      style={styles.transfersSectionContainerItemImage}
+                      style={[styles.transfersSectionContainerItemImage, isDisabled]}
                     />
                   </View>
                   <View style={styles.transfersSectionContainerItemDetails}>
                     <Text
-                      style={styles.transfersSectionContainerItemDetailsTitle}>
+                      style={[styles.transfersSectionContainerItemDetailsTitle, isDisabled]}>
                       {translate.t('transfer.toBank')}
                     </Text>
                   </View>
@@ -403,13 +416,14 @@ const Transfers: React.FC<INavigationProps> = props => {
             </View>
           </View>
           <View style={styles.endof}>
-            <View style={screenStyles.wraperWithShadow}>
-              <TransferTemplates
-                isTemplatesFetching={TransfersStore.isTemplatesLoading}
-                templates={TransfersStore.transferTemplates}
-                onStartTransferFromTemplate={startTransferFromTemplate}
-              />
-            </View>
+          <View style={screenStyles.wraperWithShadow}>
+            <TransferTemplates
+              isTemplatesFetching={TransfersStore.isTemplatesLoading}
+              templates={TransfersStore.transferTemplates}
+              onStartTransferFromTemplate={startTransferFromTemplate}
+              isDisabled={!isUserVerified}
+            />
+          </View>
           </View>
         </ScrollView>
       </DashboardLayout>

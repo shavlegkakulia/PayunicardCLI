@@ -57,7 +57,7 @@ const OfferDetails: React.FC = () => {
           <Image
             source={{uri: offer?.imageUrl}}
             style={styles.img}
-            resizeMode="cover"
+            resizeMode="contain"
           />
           <Text style={styles.text}>{offer?.description}</Text>
         </>

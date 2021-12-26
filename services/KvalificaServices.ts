@@ -78,6 +78,14 @@ class KvalificaService {
     return from(promise);
   }
 
+  CheckKycForReprocess() {
+    const promise = axios.get<ICheckKycResponseData>(
+      `${envs.API_URL}Kyc/CheckKycForReprocess`,
+      {objectResponse: true},
+    );
+    return from(promise);
+  }
+
   GetKycSessionData() {
     const promise = axios.get<IGetUserKycDataResponseData>(
       `${envs.API_URL}Kyc/GetSessionData?GetList=false`,

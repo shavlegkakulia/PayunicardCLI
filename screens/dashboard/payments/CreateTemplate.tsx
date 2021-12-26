@@ -23,12 +23,23 @@ import NavigationService from '../../../services/NavigationService';
 import {getNumber} from '../../../utils/Converter';
 import colors from '../../../constants/colors';
 import {tabHeight} from '../../../navigation/TabNav';
+import userStatuses from '../../../constants/userStatuses';
+import { IUserState, IGloablState as IUserGlobalState } from '../../../redux/action_types/user_action_types';
 
 const CreatePayTemplate: React.FC = () => {
   const [categories, setCategories] = useState<ICategory[]>();
   const PaymentStore = useSelector<IGlobalPaymentState>(
     state => state.PaymentsReducer,
   ) as IPaymentState;
+  const userData = useSelector<IUserGlobalState>(
+    state => state.UserReducer,
+  ) as IUserState;
+
+  const {documentVerificationStatusCode, customerVerificationStatusCode} =
+  userData.userDetails || {};
+  
+  const isUserVerified =     documentVerificationStatusCode === userStatuses.Enum_Verified &&
+  customerVerificationStatusCode === userStatuses.Enum_Verified
   const dispatch = useDispatch();
 
   const getCategories = (
@@ -134,7 +145,17 @@ const CreatePayTemplate: React.FC = () => {
           parentID,
           (cats: ICategory[]) => {
             if (!categories) {
-              setCategories(cats);
+              if(!isUserVerified) {
+                const filtered = cats.map(c => {
+                  if(c.categoryID !== 1 && c.categoryID != 7 && c.categoryID !== 13) {
+                    c.cannotPay = true;
+                  }
+                  return c;
+                });
+                setCategories(filtered);
+              } else {
+                setCategories(cats);
+              }
             }
             onComplate(cats);
           },
@@ -185,7 +206,7 @@ const CreatePayTemplate: React.FC = () => {
   useEffect(() => {
     getCategories();
   }, []);
-  console.log(PaymentStore.PayTemplates);
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <CategoriesContainer
@@ -230,6 +251,7 @@ const CreatePayTemplate: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     paddingBottom: tabHeight,
+    flex: 1
   },
   loadingBox: {
     alignSelf: 'center',

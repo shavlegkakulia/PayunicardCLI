@@ -43,7 +43,7 @@ type RouteParamList = {
     deliveryAmount: number | undefined;
     cardAmount: number | undefined;
     tarrifAmount: number | undefined;
-    hrm: boolean;
+    hrm: number;
     address: string;
     city?: ICity;
     village: string;

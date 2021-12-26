@@ -69,11 +69,11 @@ const CategoriesContainer: React.FC<ICategoriesContainerProps> = props => {
 
   const dispatch = useDispatch();
 
-  const matchText = (word?: string, highlight?: string) => {
+  const matchText = (word?: string, highlight?: string, cannotPay?:boolean) => {
     const breackWords = (text: string) => {
       const matchText = highLightWord(text, highlight);
       return (
-        <Text numberOfLines={2} style={styles.categoriesName}>
+        <Text numberOfLines={2} style={[styles.categoriesName, cannotPay && {opacity: 0.5}]}>
           {matchText.startString}
           <Text
             numberOfLines={1}
@@ -180,6 +180,7 @@ const CategoriesContainer: React.FC<ICategoriesContainerProps> = props => {
                   key={index}
                   style={styles.categoriesItem}
                   onPress={() => {
+                    if(category.cannotPay) return;
                     onCategoryView(index, () =>
                       props.onViewCategory(
                         category.categoryID,
@@ -194,9 +195,9 @@ const CategoriesContainer: React.FC<ICategoriesContainerProps> = props => {
                   <Cover
                     imageUrl={category.imageUrl?.replace('svg', 'png')}
                     isLoading={index === loadingIndex}
-                    style={styles.categoriesImage}
+                    style={[styles.categoriesImage, category.cannotPay && {opacity: 0.5}]}
                   />
-                  {matchText(category.name, PaymentStore.SearchServiceName)}
+                  {matchText(category.name, PaymentStore.SearchServiceName, category.cannotPay)}
                 </TouchableOpacity>
               ))}
             </ScrollView>

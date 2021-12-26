@@ -484,7 +484,7 @@ export interface ICustomerPackageRegistrationRequest {
   paymentMethod?: number;
   accountPriority?: string | undefined;
   accountNumberCh?: string | undefined;
-  hrm?: boolean;
+  hrm?: number;
   serviseCenter?: number;
   otp?: string | undefined;
   promoCode?: string | undefined;
@@ -639,6 +639,22 @@ export interface IChangePassBySystemResponseData {
   ok: boolean;
   errors?: IError[] | undefined;
   data?: IChangePassBySystemResponse | undefined;
+}
+
+export interface IChangeConditionRisklevelUFCRequest {
+  cardID: number,
+  status: number,
+  otp: string
+}
+
+export interface IChangeConditionRisklevelUFCResponse {
+
+}
+
+export interface IChangeConditionRisklevelUFCResponseData {
+  ok: boolean;
+  errors?: IError[] | undefined;
+  data?: IChangeConditionRisklevelUFCResponse | undefined;
 }
 
 class UserService {
@@ -866,6 +882,15 @@ class UserService {
   changePassBySystem(data: IChangePassBySystemRequest) {
     const promise = axios.post<IChangePassBySystemResponseData>(
       `${envs.API_URL}User/ChangePassBySystem`,
+      data,
+      {objectResponse: true},
+    );
+    return from(promise);
+  }
+
+  changeConditionRisklevelUFC(data: IChangeConditionRisklevelUFCRequest) {
+    const promise = axios.post<IChangeConditionRisklevelUFCResponseData>(
+      `${envs.API_URL}User/ChangeConditionRisklevelUFC`,
       data,
       {objectResponse: true},
     );
