@@ -32,6 +32,8 @@ import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
 } from '../../../redux/action_types/translate_action_types';
+import SmsRetriever from 'react-native-sms-retriever';
+import { getString } from '../../../utils/Converter';
 
 type RouteParamList = {
   params: {
@@ -159,6 +161,26 @@ const TarrifSetOtp: React.FC = props => {
       error: () => setIsLoading(false),
     });
   };
+
+  const onSmsListener = async () => {
+    try {
+      const registered = await SmsRetriever.startSmsRetriever();
+      if (registered) {
+        SmsRetriever.addSmsListener(event => {
+          const otp = /(\d{4})/g.exec(getString(event.message))![1];
+          setOtp(otp);
+        }); 
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  };
+
+  useEffect(() => {
+    onSmsListener();
+
+    return () => SmsRetriever.removeSmsListener();
+  }, []);
 
   useEffect(() => {
     sendOtp();

@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import {KeyboardAvoidingView, StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import PaginationDots from '../../../components/PaginationDots';
@@ -17,6 +17,8 @@ import FloatingLabelInput from '../../../containers/otp/Otp';
 import {tabHeight} from '../../../navigation/TabNav';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/core';
 import Routes from '../../../navigation/routes';
+import SmsRetriever from 'react-native-sms-retriever';
+import { getString } from '../../../utils/Converter';
 
 type RouteParamList = {
   params: {
@@ -79,6 +81,26 @@ const ResetPasswordOtp: React.FC = () => {
       });
     });
   };
+
+  const onSmsListener = async () => {
+    try {
+      const registered = await SmsRetriever.startSmsRetriever();
+      if (registered) {
+        SmsRetriever.addSmsListener(event => {
+          const otp = /(\d{4})/g.exec(getString(event.message))![1];
+          setOtp(otp);
+        }); 
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  };
+
+  useEffect(() => {
+    onSmsListener();
+
+    return () => SmsRetriever.removeSmsListener();
+  }, []);
 
   return (
     <KeyboardAvoidingView

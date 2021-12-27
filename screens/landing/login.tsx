@@ -9,9 +9,6 @@ import {
   EmitterSubscription,
   KeyboardAvoidingView,
   BackHandler,
-  TextInput,
-  NativeSyntheticEvent,
-  Alert,
 } from 'react-native';
 import AppInput, {autoCapitalize} from './../../components/UI/AppInput';
 import AppButton from './../../components/UI/AppButton';
@@ -46,9 +43,8 @@ import screenStyles from '../../styles/screens';
 import Routes from '../../navigation/routes';
 import {useNavigation} from '@react-navigation/native';
 import SetLoginWithPassCode from './setLoginWithPassCode';
-/* otp pachakes */
-import RNOtpVerify from 'react-native-otp-verify';
-import OtpAutoFillViewManager from 'react-native-otp-auto-fill';
+import SmsRetriever from 'react-native-sms-retriever';
+import { getString } from '../../utils/Converter';
 
 const CONTEXT_TYPE = 'login';
 
@@ -78,36 +74,26 @@ const LoginForm: React.FC = () => {
   });
   const dimension = useDimension();
   const navigation = useNavigation();
-  
-const [text, setText] = useState<string>();
-  const otpHandler = (message: string) => {
-    console.log('SMS :: ',message)
-    Alert.alert(message)
-}
 
-const handleComplete = ({
-  nativeEvent: { code },
-}: NativeSyntheticEvent<{ code: string }>) => {
-  Alert.alert('OTP Code Received!', code);
-};
+  const onSmsListener = async () => {
+    try {
+      const registered = await SmsRetriever.startSmsRetriever();
+      if (registered) {
+        SmsRetriever.addSmsListener(event => {
+          const otp = /(\d{4})/g.exec(getString(event.message))![1];
+          setOtp(otp);
+        }); 
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  };
 
-// This is only needed once to get the Android Signature key for SMS body
-const handleOnAndroidSignature = ({
-  nativeEvent: { code },
-}: NativeSyntheticEvent<{ code: string }>) => {
-  Alert.alert(code)
-  console.log('Android Signature Key for SMS body:', code);
-};
+  useEffect(() => {
+    onSmsListener();
 
-const onChangeText = (value: string)=> {
-    setText(value)
-}
-
-useEffect(() => {
-  RNOtpVerify.getOtp()
-  .then(p => RNOtpVerify.addListener(otpHandler))
-  .catch(p =>   Alert.alert(p));
-}, [])
+    return () => SmsRetriever.removeSmsListener();
+  }, []);
 
   const dismissLoginWIthPassword = () => {
     setUserInfo(null);
@@ -232,7 +218,7 @@ useEffect(() => {
   const sendOtp = () => {
     setIsLoading(true);
     login();
-  }
+  };
 
   const changeUsername = useCallback(
     (username: string) => {
@@ -347,17 +333,6 @@ useEffect(() => {
   return (
     <AppkeyboardAVoidScrollview>
       <View style={styles.container}>
-      <TextInput style= {styles.textInput}
-                    placeholder = "OTP"
-                    maxLength= {6} 
-                    onChangeText= {onChangeText}
-                    value= {text} />
-                     <OtpAutoFillViewManager
-        onComplete={handleComplete}
-        onAndroidSignature={handleOnAndroidSignature}
-        style={styles.box}
-        length={4} // Define the length of OTP code. This is a must.
-      />
         <Header />
         {hasPasCode ? (
           <SetLoginWithPassCode
@@ -552,21 +527,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: 40,
-  },
-  textInput: {
-    marginTop: 20,
-    width:  200,
-    height: 40, 
-    borderColor: 'gray', 
-    borderWidth: 1 
-  },
-  box: {
-    width: 300,
-    height: 55,
-    marginVertical: 20,
-    borderColor: 'red',
-    borderWidth: 1,
-  },
+  }
 });
 
 export default LoginForm;
