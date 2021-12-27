@@ -131,21 +131,10 @@ const CategoriesContainer: React.FC<ICategoriesContainerProps> = props => {
   let services = [...props.Services];
 
   return (
-    <View
-      style={[
-        styles.categoriesContainer,
-        !props.notForTemplate && {
-          ...screenStyles.shadowedCardbr15,
-          marginTop: 30,
-        },
-      ]}>
-      {!props.notForTemplate && (
-        <View style={styles.categoriesHeader}>
-          <Text style={styles.categoriesTitle}>
-            {translate.t('payments.categories')}
-          </Text>
-        </View>
-      )}
+    <View style={[styles.categoriesContainer, !props.notForTemplate && {...screenStyles.shadowedCardbr15, marginTop: 30}]}>
+      {!props.notForTemplate && <View style={styles.categoriesHeader}>
+        <Text style={styles.categoriesTitle}>{translate.t('payments.categories')}</Text>
+      </View>}
       {!props.hideSearchBox && (
         <View style={styles.searchInputBox}>
           <AppInput
@@ -166,16 +155,8 @@ const CategoriesContainer: React.FC<ICategoriesContainerProps> = props => {
         />
       ) : (
         <View style={styles.categoriesItemsContainer}>
-          {!(props.Services.length > 0) ? (
-            <ScrollView
-              ref={carouselRef}
-              onScroll={({nativeEvent}) =>
-                onChangePaymentSectionStep(nativeEvent)
-              }
-              showsHorizontalScrollIndicator={false}
-              pagingEnabled={true}
-              horizontal>
-              {categoryList.map((category, index) => (
+          {!(props.Services.length > 0)
+            ? categoryList.map((category, index) => (
                 <TouchableOpacity
                   key={index}
                   style={styles.categoriesItem}
@@ -199,34 +180,31 @@ const CategoriesContainer: React.FC<ICategoriesContainerProps> = props => {
                   />
                   {matchText(category.name, PaymentStore.SearchServiceName, category.cannotPay)}
                 </TouchableOpacity>
+              ))
+            : services.map((service, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.categoriesItem}
+                  onPress={() => {
+                    onCategoryView(index, () =>
+                      props.onViewCategory(
+                        service?.categoryID || 0,
+                        true,
+                        true,
+                        false,
+                        true,
+                        service?.resourceValue || '',
+                      ),
+                    );
+                  }}>
+                  <Cover
+                    imageUrl={service.merchantServiceURL?.replace('svg', 'png')}
+                    isLoading={index === loadingIndex}
+                    style={styles.categoriesImage}
+                  />
+                  {matchText(service.resourceValue)}
+                </TouchableOpacity>
               ))}
-            </ScrollView>
-          ) : (
-            services.map((service, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.servicesItem}
-                onPress={() => {
-                  onCategoryView(index, () =>
-                    props.onViewCategory(
-                      service?.categoryID || 0,
-                      true,
-                      true,
-                      false,
-                      true,
-                      service?.resourceValue || '',
-                    ),
-                  );
-                }}>
-                <Cover
-                  imageUrl={service.merchantServiceURL?.replace('svg', 'png')}
-                  isLoading={index === loadingIndex}
-                  style={styles.categoriesImage}
-                />
-                {matchText(service.resourceValue)}
-              </TouchableOpacity>
-            ))
-          )}
         </View>
       )}
     </View>
@@ -236,7 +214,7 @@ const CategoriesContainer: React.FC<ICategoriesContainerProps> = props => {
 const styles = StyleSheet.create({
   categoriesContainer: {
     padding: 17,
-    backgroundColor: colors.white,
+    backgroundColor: colors.white
   },
   categoriesHeader: {
     flexDirection: 'row',
@@ -253,18 +231,12 @@ const styles = StyleSheet.create({
     marginVertical: 38,
   },
   categoriesItemsContainer: {
-    //justifyContent: 'space-between',
-    //flexWrap: 'wrap',
-    //flexDirection: 'row',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
     marginTop: 25,
   },
   categoriesItem: {
-    width: '33.3333%',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: 120,
-  },
-  servicesItem: {
     width: '50%',
     justifyContent: 'flex-start',
     alignItems: 'center',

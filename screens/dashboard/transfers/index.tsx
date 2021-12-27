@@ -318,28 +318,15 @@ const Transfers: React.FC<INavigationProps> = props => {
             />
           }>
           <View style={[screenStyles.wraperWithShadow]}>
-            <View
-              style={[
-                styles.transfersSectionContainer,
-                screenStyles.shadowedCardbr15,
-              ]}>
+            <View style={[styles.transfersSectionContainer, screenStyles.shadowedCardbr15]}>
               <View style={styles.transfersSectionContainerHeader}>
                 <Text style={styles.transfersSectionContainerTitle}>
                   {translate.t('tabNavigation.transfers')}
                 </Text>
-                <PaginationDots step={transferSectionStep} length={2} />
               </View>
-              <ScrollView
-                ref={carouselRef}
-                onScroll={({nativeEvent}) =>
-                  onChangeTransferSectionStep(nativeEvent)
-                }
-                showsHorizontalScrollIndicator={false}
-                pagingEnabled={true}
-                horizontal>
-                  <View style={styles.iGroup}>
+              <View style={styles.transfersSectionContainerColumn}>
                 <TouchableOpacity
-                  style={[styles.transfersSectionContainerItem]}
+                  style={styles.transfersSectionContainerItem}
                   onPress={transferBetweenAccounts}>
                   <View
                     style={styles.transfersSectionContainerItemImageContainer}>
@@ -373,9 +360,13 @@ const Transfers: React.FC<INavigationProps> = props => {
                     </Text>
                   </View>
                 </TouchableOpacity>
-                </View>
+              </View>
 
-                <View style={styles.iGroup}>
+              <View
+                style={[
+                  styles.transfersSectionContainerColumn,
+                  styles.transfersSectionContainerItemLast,
+                ]}>
                 <TouchableOpacity
                   style={styles.transfersSectionContainerItem}
                   onPress={transferToUni}>
@@ -408,11 +399,10 @@ const Transfers: React.FC<INavigationProps> = props => {
                     <Text
                       style={[styles.transfersSectionContainerItemDetailsTitle, isDisabled]}>
                       {translate.t('transfer.toBank')}
-                    </Text>
+                    </Text> 
                   </View>
                 </TouchableOpacity>
-                </View>
-              </ScrollView>
+              </View>
             </View>
           </View>
           <View style={styles.endof}>
@@ -439,9 +429,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   transfersSectionContainerHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     height: 18,
     paddingHorizontal: 0,
     marginBottom: 20,
@@ -452,15 +440,18 @@ const styles = StyleSheet.create({
     lineHeight: 17,
     color: colors.black,
   },
+  transfersSectionContainerColumn: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   transfersSectionContainerItem: {
     overflow: 'hidden',
     marginHorizontal: 9,
     alignItems: 'center',
     flex: 1,
   },
-  iGroup: {
-    flexDirection: 'row',
-    width: Dimensions.get("window").width - 66
+  transfersSectionContainerItemLast: {
+    marginTop: 30,
   },
   transfersSectionContainerItemImageContainer: {
     width: 50,
@@ -512,7 +503,7 @@ const styles = StyleSheet.create({
     width: '33.3333333333%',
   },
   endof: {
-    marginBottom: 30,
-  },
+    marginBottom: 30
+  }
 });
 export default Transfers;
