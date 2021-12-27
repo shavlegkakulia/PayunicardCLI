@@ -37,7 +37,7 @@ export const FetchUserDetail =
         if (remember) {
           await storage.setItem(
             AUTH_USER_INFO,
-            JSON.stringify(Response?.data?.data),
+            JSON.stringify({...Response?.data?.data, isBase: true}),
           );
         }
 
@@ -46,7 +46,7 @@ export const FetchUserDetail =
           if (info !== null) {
             storage.setItem(
               AUTH_USER_INFO,
-              JSON.stringify(Response?.data?.data),
+              JSON.stringify({...Response?.data?.data, isBase: true}),
             );
           }
         }

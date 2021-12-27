@@ -60,7 +60,7 @@ const OffersView: React.FC = () => {
   if (!offers || !offers?.length) return null;
 
   return (
-    <View style={[styles.offersContainer, screenStyles.shadowedCardbr15]}>
+    <View style={[styles.offersContainer]}>
       <View style={styles.offersContainerHeader}>
         <Text style={styles.offersContainerTitle}>
           {translate.t('dashboard.myOffer')}

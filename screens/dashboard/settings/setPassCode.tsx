@@ -1,7 +1,16 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity, Dimensions, Platform} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  Platform,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
+import {AUTH_USER_INFO} from '../../../constants/defaults';
 import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
 import {tabHeight} from '../../../navigation/TabNav';
 import {PUSH} from '../../../redux/actions/error_action';
@@ -9,7 +18,10 @@ import {
   IAuthState,
   IGlobalState as AuthState,
 } from '../../../redux/action_types/auth_action_types';
-import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 import {
   IGloablState,
   IUserState,
@@ -24,7 +36,7 @@ const SetPassCode: React.FC = () => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
-  
+
   const [code, setCode] = useState<string>();
   const [baseCode, setBaseCode] = useState<string>();
   const userState = useSelector<IGloablState>(
@@ -42,6 +54,28 @@ const SetPassCode: React.FC = () => {
       setBaseCode(undefined);
       return;
     }
+    const info = await storage.getItem(AUTH_USER_INFO);
+    let isBaseRemembered = false;
+    if (info) {
+      isBaseRemembered = JSON.parse(info).isBase;
+      console.log(JSON.parse(info));
+    } else {
+      const uInfo = {
+        customerID: userState.userDetails?.customerID,
+        email: userState.userDetails?.email,
+        imageUrl: userState.userDetails?.imageUrl,
+        isBase: false,
+        name: userState.userDetails?.name,
+        personalId: userState.userDetails?.personalId,
+        phone: userState.userDetails?.phone,
+        sex: userState.userDetails?.sex,
+        surname: userState.userDetails?.surname,
+        userId: userState.userDetails?.userId,
+        username: userState.userDetails?.username,
+      };
+      storage.setItem(AUTH_USER_INFO, JSON.stringify(uInfo));
+    }
+
     await storage.setItem('PassCode', getString(baseCode));
     await storage.setItem('PassCodeEnbled', '1');
     const {accesToken, refreshToken} = AuthState;
@@ -74,7 +108,7 @@ const SetPassCode: React.FC = () => {
 
   const GoToFaceId = () => {};
 
-  const screenHeight = Dimensions.get("window").height;
+  const screenHeight = Dimensions.get('window').height;
 
   return (
     <View style={[styles.container, screenHeight <= 800 && {paddingTop: 5}]}>
@@ -214,7 +248,7 @@ const styles = StyleSheet.create({
   dots: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: 10
+    marginVertical: 10,
   },
   dot: {
     width: 10,

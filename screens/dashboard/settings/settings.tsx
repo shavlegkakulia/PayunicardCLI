@@ -44,6 +44,7 @@ import FilesService, {
 } from '../../../services/FilesService';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
 import { debounce } from '../../../utils/utils';
+import { AUTH_USER_INFO } from '../../../constants/defaults';
 
 const Settings: React.FC = () => {
  
@@ -72,6 +73,14 @@ const Settings: React.FC = () => {
       } else {
         const isEnabled = await storage.getItem('PassCodeEnbled');
         if (isEnabled !== null) {
+          const info = await storage.getItem(AUTH_USER_INFO);
+          let isBaseRemembered = false;
+          if (info) {
+            isBaseRemembered = JSON.parse(info).isBase;
+            if(isBaseRemembered !== true) {
+              await storage.removeItem(AUTH_USER_INFO);
+            }
+          }
           await storage.removeItem('PassCodeEnbled');
           await storage.removeItem('Biometric');
           setIsPassCodeEnabled(false);
