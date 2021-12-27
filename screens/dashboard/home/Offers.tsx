@@ -8,6 +8,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import PaginationDots from '../../../components/PaginationDots';
@@ -60,7 +61,7 @@ const OffersView: React.FC = () => {
   if (!offers || !offers?.length) return null;
 
   return (
-    <View style={[styles.offersContainer]}>
+    <View style={[styles.offersContainer, Platform.OS === 'ios' && screenStyles.shadowedCardbr15]}>
       <View style={styles.offersContainerHeader}>
         <Text style={styles.offersContainerTitle}>
           {translate.t('dashboard.myOffer')}
