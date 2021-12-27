@@ -10,6 +10,8 @@ import {
   ViewStyle,
   KeyboardAvoidingView,
   ScrollView,
+  Modal,
+  Dimensions,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AccountSelect, {
@@ -191,7 +193,6 @@ const InsertAccointAndAmount: React.FC = props => {
       params.unicardOtpGuid = unicardOtpGuid;
       params.unicardOtp = otp;
     }
-    6841377;
 
     let _abonentCode = PaymentStore.abonentCode;
     if (PaymentStore.carPlate) {
@@ -375,20 +376,27 @@ const InsertAccointAndAmount: React.FC = props => {
       <KeyboardAvoidingView behavior="padding" style={styles.avoid}>
         <View style={[screenStyles.wraper, styles.container]}>
           {otpVisible && (
-            <View style={[screenStyles.wraper, styles.otp]}>
+             <Modal
+             visible={otpVisible}
+             onRequestClose={setOtpVisible.bind(this, false)}
+             animationType="slide">
+                <KeyboardAvoidingView behavior="padding" style={styles.modalAvoid}>
+                 <View style={styles.otpContent}>
               <SetOtp
                 otp={otp}
                 onSetOtp={setOtp}
                 onSendUnicardOTP={SendUnicardOTP}
-                style={styles.otpBox}
+                style={styles.otpBox2}
               />
               <AppButton
                 isLoading={PaymentStore.isActionLoading || isLoading}
                 onPress={next}
                 title={translate.t('common.next')}
-                style={styles.button}
+                style={styles.otpButton}
               />
-            </View>
+              </View>
+              </KeyboardAvoidingView>
+            </Modal>
           )}
           <View>
             <View style={styles.abonentInfo}>
@@ -621,6 +629,20 @@ const styles = StyleSheet.create({
   otpBox: {
     marginTop: 40,
   },
+  otpContent: {
+    justifyContent: 'space-between',
+    flex: 1,
+    paddingHorizontal: 30,
+  },
+  otpButton: {
+    marginBottom: tabHeight + 20,
+  },
+  otpBox2: {
+    top: Dimensions.get('window').height / 4,
+  },
+  modalAvoid: {
+    flexGrow: 1
+  }
 });
 
 export default InsertAccointAndAmount;

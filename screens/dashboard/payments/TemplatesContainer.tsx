@@ -202,7 +202,7 @@ const TemplatesContainer: React.FC<ITemplatesContainerProps> = props => {
                 style={{flex: 1}}>
                 <View style={styles.templatesItemRight}>
                   <View style={styles.templatesItemColumn}>
-                    <Text numberOfLines={1} style={styles.tempatesItemName}>
+                    <Text numberOfLines={1} style={[styles.tempatesItemName, styles.nameColumn]}>
                       {matchText(template.templName, searchTemplateName)}
                     </Text>
                     {(template.canPayWithUnipoints || 0) > 0 && (
@@ -321,6 +321,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between'
   },
   templatesItemColumnTwo: {
     marginTop: 4,
@@ -331,7 +332,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 17,
     color: colors.black,
-    paddingRight: 10
+    paddingRight: 10,
+  },
+  nameColumn: {
+    maxWidth: '90%'
   },
   templatesItemAbonentCode: {
     flex: 1,

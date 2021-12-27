@@ -48,6 +48,7 @@ const SetOtp: React.FC<IProps> = (props) => {
                     Style={styles.otpBox}
                     label={translate.t('otp.smsCode')}
                     title={translate.t('otp.otpSent')}
+                    resendTitle={translate.t('otp.resend')}
                     value={props.otp}
                     onChangeText={props.onSetOtp}
                     onRetry={props.onSendUnicardOTP} />
