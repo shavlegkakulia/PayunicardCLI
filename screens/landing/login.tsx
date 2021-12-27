@@ -44,6 +44,8 @@ import screenStyles from '../../styles/screens';
 import Routes from '../../navigation/routes';
 import {useNavigation} from '@react-navigation/native';
 import SetLoginWithPassCode from './setLoginWithPassCode';
+import SmsRetriever from 'react-native-sms-retriever';
+import { getString } from '../../utils/Converter';
 
 const CONTEXT_TYPE = 'login';
 
@@ -73,6 +75,26 @@ const LoginForm: React.FC = () => {
   });
   const dimension = useDimension();
   const navigation = useNavigation();
+
+  const onSmsListener = async () => {
+    try {
+      const registered = await SmsRetriever.startSmsRetriever();
+      if (registered) {
+        SmsRetriever.addSmsListener(event => {
+          const otp = /(\d{4})/g.exec(getString(event.message))![1];
+          setOtp(otp);
+        }); 
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  };
+
+  useEffect(() => {
+    onSmsListener();
+
+    return () => SmsRetriever.removeSmsListener();
+  }, []);
 
   const dismissLoginWIthPassword = () => {
     setUserInfo(null);
@@ -197,7 +219,7 @@ const LoginForm: React.FC = () => {
   const sendOtp = () => {
     setIsLoading(true);
     login();
-  }
+  };
 
   const changeUsername = useCallback(
     (username: string) => {

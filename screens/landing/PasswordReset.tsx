@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import PaginationDots from '../../components/PaginationDots';
@@ -27,6 +27,8 @@ import UserService, {
   IResetPasswordRequest,
 } from '../../services/UserService';
 import SuccesContent from '../../containers/SuccesContent';
+import SmsRetriever from 'react-native-sms-retriever';
+import { getString } from '../../utils/Converter';
 
 interface IProps {
   onComplate: () => void;
@@ -227,6 +229,26 @@ const PasswordReset: React.FC<IProps> = props => {
     },
     [pwdResetStep],
   );
+
+  const onSmsListener = async () => {
+    try {
+      const registered = await SmsRetriever.startSmsRetriever();
+      if (registered) {
+        SmsRetriever.addSmsListener(event => {
+          const otp = /(\d{4})/g.exec(getString(event.message))![1];
+          setOtp(otp);
+        }); 
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  };
+
+  useEffect(() => {
+    onSmsListener();
+
+    return () => SmsRetriever.removeSmsListener();
+  }, []);
 
   let pwdResetStepView = null,
     pwdResetHeaderText = null,

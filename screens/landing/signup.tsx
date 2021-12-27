@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {
   ITranslateState,
@@ -28,6 +28,8 @@ import NetworkService from '../../services/NetworkService';
 import FloatingLabelInput from '../../containers/otp/Otp';
 import DatePicker from 'react-native-date-picker';
 import {formatDate} from '../../utils/utils';
+import { getString } from '../../utils/Converter';
+import SmsRetriever from 'react-native-sms-retriever';
 
 interface IProps {
   onComplate: (step: number) => void;
@@ -168,6 +170,26 @@ const SignupForm: React.FC<IProps> = props => {
     },
     [regStep],
   );
+
+  const onSmsListener = async () => {
+    try {
+      const registered = await SmsRetriever.startSmsRetriever();
+      if (registered) {
+        SmsRetriever.addSmsListener(event => {
+          const otp = /(\d{4})/g.exec(getString(event.message))![1];
+          setOtpGuid(otp);
+        }); 
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  };
+
+  useEffect(() => {
+    onSmsListener();
+
+    return () => SmsRetriever.removeSmsListener();
+  }, []);
 
   let signupStep = null,
     signupHeaderText = null,

@@ -69,6 +69,7 @@ import Validation, {required} from '../../../components/UI/Validation';
 import {subscriptionService} from '../../../services/subscriptionService';
 import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
 import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
+import SmsRetriever from 'react-native-sms-retriever';
 
 type RouteParamList = {
   params: {
@@ -415,6 +416,26 @@ const TransferToBank: React.FC<INavigationProps> = props => {
       NavigationService.navigate(navStore.parentRoute);
     }
   };
+
+  const onSmsListener = async () => {
+    try {
+      const registered = await SmsRetriever.startSmsRetriever();
+      if (registered) {
+        SmsRetriever.addSmsListener(event => {
+          const otp = /(\d{4})/g.exec(getString(event.message))![1];
+          setOtp(otp);
+        }); 
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  };
+
+  useEffect(() => {
+    onSmsListener();
+
+    return () => SmsRetriever.removeSmsListener();
+  }, []);
 
   const _currency: ICurrency[] = [
     {

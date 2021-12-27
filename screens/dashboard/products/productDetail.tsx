@@ -80,6 +80,7 @@ import {
 import AccountCard from './AccountCard';
 import userStatuses from '../../../constants/userStatuses';
 import {tabHeight} from '../../../navigation/TabNav';
+import SmsRetriever from 'react-native-sms-retriever';
 
 type RouteParamList = {
   Account: {
@@ -752,6 +753,26 @@ const ProductDetail: React.FC = props => {
     if (route.params.account.type === PACKET_TYPE_IDS.unicard)
       GenerateBarcode(getString(route?.params?.account.accountNumber));
   }, [route?.params?.account]);
+
+  const onSmsListener = async () => {
+    try {
+      const registered = await SmsRetriever.startSmsRetriever();
+      if (registered) {
+        SmsRetriever.addSmsListener(event => {
+          const otp = /(\d{4})/g.exec(getString(event.message))![1];
+          setOtp(otp);
+        }); 
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  };
+
+  useEffect(() => {
+    onSmsListener();
+
+    return () => SmsRetriever.removeSmsListener();
+  }, []);
 
   const dimension = Dimensions.get('window');
 

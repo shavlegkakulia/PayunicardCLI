@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, KeyboardAvoidingView} from 'react-native';
 import {
   ITranslateState,
@@ -20,6 +20,8 @@ import {
   REFRESH,
 } from '../../redux/action_types/auth_action_types';
 import {useNavigation} from '@react-navigation/native';
+import { getString } from '../../utils/Converter';
+import SmsRetriever from 'react-native-sms-retriever';
 
 const RefreshTokenOtp: React.FC = () => {
   const translate = useSelector<ITranslateGlobalState>(
@@ -74,6 +76,26 @@ const RefreshTokenOtp: React.FC = () => {
       })
       .finally(() => setIsLoading(false));
   };
+
+  const onSmsListener = async () => {
+    try {
+      const registered = await SmsRetriever.startSmsRetriever();
+      if (registered) {
+        SmsRetriever.addSmsListener(event => {
+          const otp = /(\d{4})/g.exec(getString(event.message))![1];
+          setOtpGuid(otp);
+        }); 
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  };
+
+  useEffect(() => {
+    onSmsListener();
+
+    return () => SmsRetriever.removeSmsListener();
+  }, []);
 
   return (
     <KeyboardAvoidingView

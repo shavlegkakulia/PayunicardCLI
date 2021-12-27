@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import FloatingLabelInput from "../../../../containers/otp/Otp";
 import colors from "../../../../constants/colors";
@@ -7,6 +7,8 @@ import {
     IGlobalState as ITranslateGlobalState,
   }  from "../../../../redux/action_types/translate_action_types";
 import { useSelector } from "react-redux";
+import { getString } from "../../../../utils/Converter";
+import SmsRetriever from 'react-native-sms-retriever';
 
 interface IProps {
     otp?: string;
@@ -16,9 +18,30 @@ interface IProps {
 }
 
 const SetOtp: React.FC<IProps> = (props) => {
+    const onSmsListener = async () => {
+        try {
+          const registered = await SmsRetriever.startSmsRetriever();
+          if (registered) {
+            SmsRetriever.addSmsListener(event => {
+              const otp = /(\d{4})/g.exec(getString(event.message))![1];
+              props.onSetOtp(otp);
+            }); 
+          }
+        } catch (error) {
+          console.log(JSON.stringify(error));
+        }
+      };
+    
+      useEffect(() => {
+        onSmsListener();
+    
+        return () => SmsRetriever.removeSmsListener();
+      }, []);
+
     const translate = useSelector<ITranslateGlobalState>(
         state => state.TranslateReduser,
       ) as ITranslateState;
+      
     return (
         <View style={[styles.container, props.style]}>
             <FloatingLabelInput

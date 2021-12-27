@@ -19,6 +19,7 @@ import FloatingLabelInput from '../../../containers/otp/Otp';
 import AppButton from '../../../components/UI/AppButton';
 import AuthService, {IRegisterRequest} from '../../../services/AuthService';
 import { getString } from '../../../utils/Converter';
+import SmsRetriever from 'react-native-sms-retriever';
 
 type RouteParamList = {
   params: {
@@ -105,6 +106,26 @@ const SignupSteOtp: React.FC = () => {
 
   useEffect(() => {
     SendPhoneOTP();
+  }, []);
+
+  const onSmsListener = async () => {
+    try {
+      const registered = await SmsRetriever.startSmsRetriever();
+      if (registered) {
+        SmsRetriever.addSmsListener(event => {
+          const otp = /(\d{4})/g.exec(getString(event.message))![1];
+          setOtpGuid(otp);
+        }); 
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  };
+
+  useEffect(() => {
+    onSmsListener();
+
+    return () => SmsRetriever.removeSmsListener();
   }, []);
 
   return (
