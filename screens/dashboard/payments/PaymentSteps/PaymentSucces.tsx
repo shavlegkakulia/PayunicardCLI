@@ -96,8 +96,8 @@ const PaymentSucces: React.FC = props => {
         <View style={styles.succesInner}>
           <Text style={styles.succesText}>
             {route.params.withTemplate
-              ? translate.t('payments.paymentTemplateSuccess')
-              : translate.t('payments.paymentSuccessfull')}
+              ? translate.t('template.paymentTemplateSuccess')
+              : translate.t('template.paymentSuccessfull')}
           </Text>
           <Image
             source={require('./../../../../assets/images/succes_icon.png')}

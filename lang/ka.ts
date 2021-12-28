@@ -38,6 +38,7 @@ export default {
         maxTransfAmount: 'მაქსიმალური გადასარიცხი თანხა',
         maxPayfAmount: 'მაქსიმალური გადასახდელი თანხა შეადგენს',
         confirm: 'დადასტურება',
+        bankTransferDetails: 'საბანკო რეკვიზიტები',
     },
 
     generalErrors: {
@@ -233,7 +234,7 @@ export default {
         amountValidationError: ''
     },
     verification: {
-        verification : 'ვერიფიცაკია',
+        verification : 'ვერიფიკაცია',
         thirdPartyRepresentative: 'მესამე პირის წარმომადგენელი ხართ?',
         thirdPartyRepresentativeOption: 'მინდობილობის საფუძველზე შესაძლებელია მესამე პირისთვის უნისაფულის გახსნა',
         enterLegalAddress: 'ჩაწერეთ იურიდიული მისამართი',
@@ -320,7 +321,9 @@ export default {
         orderReceived: 'თქვენი შეკვეთა მიღებულია',
         preOrder: 'წინასწარი შეკვეთა',       
         preOrderReceived: 'თქვენი წინასწარი შეკვეთა მიღებულია',
-        checkCardStatus: '*თქვენი ბარათების სტატუსის შესამოწმებლად, გთხოვთ, ეწვიოთ გვერდს'
+        checkCardStatus: '*თქვენი ბარათების სტატუსის შესამოწმებლად, გთხოვთ, ეწვიოთ გვერდს',
+        noUnicardTitle1: 'შეუკვეთე UNIcard Visa/Mastercard\n',
+        noUnicardTitle2: 'საერთაშორისო საგადახდო ბარათი, გადაიხადე და დააგროვე უნიქულები ყველგან, სადაც Visa/Mastercard დაგხვდება'
     }
 
 

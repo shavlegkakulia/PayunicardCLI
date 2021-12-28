@@ -10,14 +10,18 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import PaginationDots from '../components/PaginationDots';
+import AppButton from '../components/UI/AppButton';
 import {TYPE_UNICARD} from '../constants/accountTypes';
 import colors from '../constants/colors';
+import Routes from '../navigation/routes';
 import {tabHeight} from '../navigation/TabNav';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../redux/action_types/translate_action_types';
 import {
   IUserState,
   IGloablState as IUserGlobalState,
 } from '../redux/action_types/user_action_types';
 import CardService, {IGetBarcodeRequest} from '../services/CardService';
+import NavigationService from '../services/NavigationService';
 import {IAccountBallance} from '../services/UserService';
 import {getString} from '../utils/Converter';
 
@@ -29,6 +33,9 @@ const UnicardView = () => {
   const userState = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const carouselRef = createRef<ScrollView>();
 
   const GenerateBarcode = (accountNumber: string) => {
@@ -71,6 +78,10 @@ const UnicardView = () => {
     height: Dimensions.get('window').height - tabHeight,
   };
 
+  const goOrderCard = () => {
+    NavigationService.navigate(Routes.CardsStore);
+  }
+
   useEffect(() => {
     setUnicards(userState.userAccounts?.filter(ua => ua.type === TYPE_UNICARD));
   }, [userState.userAccounts]);
@@ -78,52 +89,66 @@ const UnicardView = () => {
   return (
     <View style={styles.screenContainer}>
       <View style={styles.carouselContainer}>
-        <ScrollView
-          ref={carouselRef}
-          onScroll={({nativeEvent}) => onChange(nativeEvent)}
-          showsVerticalScrollIndicator={false}
-          pagingEnabled={true}>
-          {unicards?.map((uc, index) => (
-            <View
-              style={{
-                ...styles.unicardItem,
-                ...fragmentStyle,
-                paddingBottom: tabHeight,
-              }}
-              key={uc.accountNumber}>
-              <View>
-                <Text style={styles.barCodeText}>
-                  {unicards[index]?.accountNumber?.replace(
-                    /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
-                    '$1  $2  $3  $4',
-                  )}
-                </Text>
+        {(unicards && unicards?.length > 0) ? (
+          <ScrollView
+            ref={carouselRef}
+            onScroll={({nativeEvent}) => onChange(nativeEvent)}
+            showsVerticalScrollIndicator={false}
+            pagingEnabled={true}>
+            {unicards?.map((uc, index) => (
+              <View
+                style={{
+                  ...styles.unicardItem,
+                  ...fragmentStyle,
+                  paddingBottom: tabHeight,
+                }}
+                key={uc.accountNumber}>
+                <View>
+                  <Text style={styles.barCodeText}>
+                    {unicards[index]?.accountNumber?.replace(
+                      /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
+                      '$1  $2  $3  $4',
+                    )}
+                  </Text>
 
-                <Image
-                  source={require('./../assets/images/unicard-card.png')}
-                  style={styles.unicardCard}
-                  resizeMode="contain"
-                />
-                <Image
-                  source={{
-                    uri: `data:image/png;base64,${(barcodes || [])[index]}`,
-                  }}
-                  style={styles.barCode}
-                />
+                  <Image
+                    source={require('./../assets/images/unicard-card.png')}
+                    style={styles.unicardCard}
+                    resizeMode="contain"
+                  />
+                  <Image
+                    source={{
+                      uri: `data:image/png;base64,${(barcodes || [])[index]}`,
+                    }}
+                    style={styles.barCode}
+                  />
+                </View>
               </View>
-            </View>
-          ))}
-        </ScrollView>
-        <View style={styles.dotsContainer}>
-          {unicards && (
-            <PaginationDots
-              length={unicards?.length}
-              step={step}
-              unactiveDotColor={colors.black}
-              activeDotColor={colors.primary}
-            />
-          )}
-        </View>
+            ))}
+          </ScrollView>
+        ) : (
+          <View style={styles.noUnicard}>
+            <Text style={styles.noUnicardTitle}>
+              <Text style={styles.bolder}>
+                {translate.t('orderCard.noUnicardTitle1')}
+              </Text>
+              {translate.t('orderCard.noUnicardTitle2')}
+            </Text>
+            <AppButton title={translate.t('plusSign.orderCard')} onPress={goOrderCard} style={styles.button} />
+          </View>
+        )}
+        {(unicards && unicards?.length > 0) && (
+          <View style={styles.dotsContainer}>
+            {unicards && (
+              <PaginationDots
+                length={unicards?.length}
+                step={step}
+                unactiveDotColor={colors.black}
+                activeDotColor={colors.primary}
+              />
+            )}
+          </View>
+        )}
       </View>
     </View>
   );
@@ -169,6 +194,28 @@ const styles = StyleSheet.create({
     right: 20,
     transform: [{rotate: '90deg'}],
   },
+  noUnicard: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    paddingHorizontal: 30,
+    height: '100%',
+  },
+  noUnicardTitle: {
+    fontFamily: 'FiraGO-Book',
+    lineHeight: 22,
+    fontSize: 16,
+    color: colors.labelColor,
+    textAlign: 'center',
+    alignSelf: 'center',
+    marginBottom: 50
+  },
+  bolder: {
+    fontWeight: '700',
+  },
+  button: {
+    width: '100%'
+  }
 });
 
 export default UnicardView;

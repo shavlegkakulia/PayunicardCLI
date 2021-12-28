@@ -28,6 +28,10 @@ const TopupFlow: React.FC = () => {
     });
   };
 
+  const goToPaymentMethods = () => {
+    NavigationService.navigate(Routes.paymentMethods);
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
       <View style={[screenStyles.wraper, styles.container]}>
@@ -42,7 +46,7 @@ const TopupFlow: React.FC = () => {
               />
               <Text style={styles.touchableItemText}>{translate.t('topUp.withCard')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.touchableItem}>
+            <TouchableOpacity style={styles.touchableItem} onPress={goToPaymentMethods}>
               <Image
                 source={require('./../../../assets/images/icon-other-bank.png')}
                 style={styles.touchableItemIcon}

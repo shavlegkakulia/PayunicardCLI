@@ -45,6 +45,7 @@ import FilesService, {
 import FingerprintScanner from 'react-native-fingerprint-scanner';
 import { debounce } from '../../../utils/utils';
 import { AUTH_USER_INFO } from '../../../constants/defaults';
+import FullScreenLoader from '../../../components/FullScreenLoading';
 
 const Settings: React.FC = () => {
  
@@ -227,6 +228,7 @@ const Settings: React.FC = () => {
   };
 
   const goToVerification = () => {
+    return;
     NavigationService.navigate(Routes.VerificationStep4, {verificationStep: 4, retry: true});
   }
 
@@ -301,6 +303,7 @@ const Settings: React.FC = () => {
 
   return (
     <DashboardLayout>
+      <FullScreenLoader background={colors.none} visible={isLoading} />
       <BiometricAuthScreen start={startBiometric} returnStatus={getStatus} />
       <SafeAreaView style={styles.content}>
         <ScrollView style={screenStyles.screenContainer}>

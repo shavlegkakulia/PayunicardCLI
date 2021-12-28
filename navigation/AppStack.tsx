@@ -61,6 +61,7 @@ import {
 } from '../redux/action_types/translate_action_types';
 import KvalifcaVerification from '../screens/dashboard/Verification/KvalifcaVerification';
 import OfferDetails from '../containers/OfferDetails';
+import PaymentMethods from '../screens/dashboard/cardsStore/paymentMethods';
 
 const appStack = createStackNavigator();
 
@@ -231,63 +232,71 @@ const AppStack: React.FC = () => {
           />
           <appStack.Screen
             name={Routes.TransferToUni_CHOOSE_ACCOUNTS}
-            options={props =>
-              DefaultOptionsDrawer({
+            options={props => {
+              //@ts-ignore
+              let title = props?.route?.params?.newTemplate ? translate.t('plusSign.crTransferTemplate') : translate.t('transfer.toUniWallet');
+              return DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toUniWallet'),
+                title: title,
                 backText: translate.t('common.back'),
-              })
+              })}
             }
             component={TransferToUni}
           />
           <appStack.Screen
             name={Routes.TransferToUni_SET_CURRENCY}
-            options={props =>
-              DefaultOptionsDrawer({
+            options={props => {
+              //@ts-ignore
+              let title = props?.route?.params?.newTemplate ? translate.t('plusSign.crTransferTemplate') : translate.t('transfer.toUniWallet');
+              return DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toUniWallet'),
+                title: title,
                 backText: translate.t('common.back'),
-              })
+              })}
             }
             component={TransferToUni}
           />
           <appStack.Screen
             name={Routes.TransferToUni_SET_OTP}
-            options={props =>
-              DefaultOptionsDrawer({
+            options={props => {
+              //@ts-ignore
+              let title = props?.route?.params?.newTemplate ? translate.t('plusSign.crTransferTemplate') : translate.t('transfer.toUniWallet');
+              return DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toUniWallet'),
+                title: title,
                 backText: translate.t('common.back'),
-              })
+              })}
             }
             component={TransferToUni}
           />
           <appStack.Screen
             name={Routes.TransferToUni_SUCCES}
-            options={props =>
-              DefaultOptionsDrawer({
+            options={props => {
+              //@ts-ignore
+              let title = props?.route?.params?.newTemplate ? translate.t('plusSign.crTransferTemplate') : translate.t('transfer.toUniWallet');
+              return DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toUniWallet'),
-                hideHeader: true,
+                title: title,
                 backText: translate.t('common.back'),
-              })
+              })}
             }
             component={TransferToUni}
           />
           <appStack.Screen
             name={Routes.TransferToUni_TEMPLATE_IS_SAVED}
-            options={props =>
-              DefaultOptionsDrawer({
+            options={props => {
+              //@ts-ignore
+              let title = props?.route?.params?.newTemplate ? translate.t('plusSign.crTransferTemplate') : translate.t('transfer.toUniWallet');
+              return DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: translate.t('transfer.toUniWallet'),
-                hideHeader: true,
+                title: title,
                 backText: translate.t('common.back'),
-              })
+              })}
             }
             component={TransferToUni}
           />
@@ -981,6 +990,18 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('tabNavigation.offerDetail'),
+                backText: translate.t('common.back'),
+              })
+            }
+          />
+           <appStack.Screen
+            name={Routes.paymentMethods}
+            component={PaymentMethods}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: translate.t('common.bankTransferDetails'),
                 backText: translate.t('common.back'),
               })
             }

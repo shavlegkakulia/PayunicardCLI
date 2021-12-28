@@ -208,7 +208,7 @@ const CreatePayTemplate: React.FC = () => {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView style={styles.scroller} contentContainerStyle={styles.container}>
       <CategoriesContainer
         hideSearchBox={true}
         notForTemplate={true}
@@ -250,14 +250,16 @@ const CreatePayTemplate: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: tabHeight,
-    flex: 1
+    paddingBottom: tabHeight + 40
   },
   loadingBox: {
     alignSelf: 'center',
     flex: 1,
     marginTop: 10,
   },
+  scroller: {
+    backgroundColor: colors.white
+  }
 });
 
 export default CreatePayTemplate;

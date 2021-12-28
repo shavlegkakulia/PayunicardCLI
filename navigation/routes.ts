@@ -87,7 +87,8 @@ const Routes = {
     AgreeTerm: 'AgreeTerm',
     RefreshTokenOtp: 'RefreshTokenOtp',
     KvalifcaVerification: 'KvalifcaVerification',
-    OfferDetails: 'OfferDetails'
+    OfferDetails: 'OfferDetails',
+    paymentMethods: 'paymentMethods'
 }
 
 export default Routes;

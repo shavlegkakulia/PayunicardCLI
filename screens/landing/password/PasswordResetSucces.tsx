@@ -26,7 +26,7 @@ const PasswordResetSucces: React.FC = () => {
       <View style={styles.succesInner}>
         <View style={styles.succesView}>
           <Image source={require('./../../../assets/images/succes_icon.png')} />
-          <Text style={styles.succesText}>{translate.t('pasChanged.pasChanged')}</Text>
+          <Text style={styles.succesText}>{translate.t('password.pasChanged')}</Text>
         </View>
         <AppButton title={translate.t('common.close')} onPress={complate} style={styles.button} />
       </View>

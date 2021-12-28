@@ -161,7 +161,7 @@ const EditUserInfo: React.FC = () => {
                 <Text style={styles.label}>{translate.t('common.birthDate')}</Text>
                 <AppInput
                   editable={false}
-                  value={profileDataEdited?.birthDate}
+                  value={new Date(profileDataEdited?.birthDate).getFullYear().toString()}
                   onChange={() => {}}
                   placeholder="00/00/00"
                   customKey="date"

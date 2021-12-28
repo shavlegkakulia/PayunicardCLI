@@ -153,6 +153,7 @@ const ProductDetail: React.FC = props => {
   const [isHrmProcessing, setIsHrmProcessing] = useState<boolean>(false);
   const {documentVerificationStatusCode, customerVerificationStatusCode} =
     userData.userDetails || {};
+    const [currentHRMAction, setCurrentHRMAction] = useState<number>(0);
 
   const isUserVerified =
     documentVerificationStatusCode === userStatuses.Enum_Verified &&
@@ -160,12 +161,14 @@ const ProductDetail: React.FC = props => {
 
   const toggleHrmSwitch = () => {
     if (hrmLoading || actionLoading) return;
+    setCurrentHRMAction(1);
     setIsEnabled(previousState => !previousState);
     setIsHrmProcessing(true);
     SendPhoneOTP();
   };
   const toggleHrmSwitch2 = () => {
     if (hrmLoading || actionLoading) return;
+    setCurrentHRMAction(2);
     setIsEnabled2(previousState2 => !previousState2);
     setIsHrmProcessing(true);
     SendPhoneOTP();
@@ -448,6 +451,7 @@ const ProductDetail: React.FC = props => {
       let OTP: GeneratePhoneOtpByUserRequest = {
         userName: userData.userDetails?.username,
       };
+      console.log('++++++++++++++++++++++++++++++++++++++++++', OTP)
       OTPService.GeneratePhoneOtpByUser({OTP}).subscribe({
         next: Response => {
           if (Response.data.ok) {
@@ -455,9 +459,18 @@ const ProductDetail: React.FC = props => {
           }
         },
         error: err => {
+          console.log('++++++++++++++++++++++++++++++++++++++++++', currentHRMAction)
           setActionLoading(false);
+          if(currentHRMAction === 1) {
+            setIsEnabled(false)
+          } else if(currentHRMAction === 2) {
+            setIsEnabled2(false)
+          }
         },
-        complete: () => setActionLoading(false),
+        complete: () => {
+          console.log('----------------------------------', currentHRMAction)
+          setActionLoading(false)
+        },
       });
     });
   };
@@ -700,8 +713,16 @@ const ProductDetail: React.FC = props => {
         setOtp(undefined);
         setHrmLoading(false);
         setIsHrmProcessing(false);
+        setCurrentHRMAction(0);
       },
       error: err => {
+        console.log('/////////////////////////////', currentHRMAction)
+        if(currentHRMAction === 1) {
+          setIsEnabled(false)
+        } else if(currentHRMAction === 2) {
+          setIsEnabled2(false)
+        }
+        setCurrentHRMAction(0);
         console.log(err);
         setHrmLoading(false);
         setOtp(undefined);
@@ -731,7 +752,7 @@ const ProductDetail: React.FC = props => {
     fetchAccountStatements();
 
     if (route?.params?.account.cards) {
-      const curCardHrm = route?.params?.account.cards[currentCardIndex].hrm;
+      const curCardHrm = route?.params?.account.cards[currentCardIndex]?.hrm;
       if (curCardHrm === 1) {
         setIsEnabled(true);
         setIsEnabled2(true);

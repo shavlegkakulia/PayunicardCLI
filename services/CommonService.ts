@@ -35,24 +35,24 @@ class CommonService {
 
     let responseInterceptor = axios.interceptors.response.use(
       (response: any) => {
-   
+        const stringTranslator = Store.getState().TranslateReduser;
         if (!response.config.objectResponse || response.data.expires_in)
           return Promise.resolve(response);
 
         if (!response.data.ok && !response.data.Ok) {
           try{
             response.errorMessage =
-            response?.data?.errors[0]?.ErrorMessage || 'validation.error';
+            response?.data?.errors[0]?.ErrorMessage || 'generalErrors.errorOccurred';
             }
             catch(err) {
               response.errorMessage =
-              response?.data?.Errors[0]?.DisplayText || 'validation.error';
+              response?.data?.Errors[0]?.DisplayText || 'generalErrors.errorOccurred';
             }
           response.customError = true;
           if (!response.config.skipCustomErrorHandling)
             store.dispatch<IErrorAction>({
               type: PUSH_ERROR,
-              error: response.errorMessage,
+              error: stringTranslator.t(response.errorMessage),
             });
 
           return Promise.reject(response);

@@ -36,7 +36,8 @@ export default {
         maxAmount: 'Maximum Amount',
         maxTransfAmount: 'Maxsimum Transfer Amount',
         saveTemplate: 'Save As Template',
-        confirm: 'Confirm'
+        confirm: 'Confirm',
+        bankTransferDetails: 'Bank Transfer Details'
 
     },
     generalErrors: {
@@ -316,7 +317,9 @@ export default {
         orderReceived: 'Order Recieved',
         preOrder: 'Preorder',       
         preOrderReceived: 'Preorder Recieved',
-        checkCardStatus: 'To Check the Status of Your Cards, Please Visi'
+        checkCardStatus: 'To Check the Status of Your Cards, Please Visi',
+        noUnicardTitle1: 'Order International UNICard Visa/ UNICard Mastercard,\n',
+        noUnicardTitle2: 'Pay & Collect UNIpoints Everywhere Visa/Mastercard is Accepted'
     }
 
 
