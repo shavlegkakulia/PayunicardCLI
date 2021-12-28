@@ -27,6 +27,7 @@
     "react": "17.0.1",
     "react-native": "0.64.0",
     "react-native-date-picker": "^4.0.0",
+    "react-native-device-info": "^8.4.8",
     "react-native-dotenv": "^2.5.5",
     "react-native-exception-handler": "^2.10.10",
     "react-native-fingerprint-scanner": "^6.0.0",

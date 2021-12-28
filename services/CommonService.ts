@@ -9,19 +9,32 @@ import {ka_ge, LANG_KEYS} from '../lang';
 import {stringToObject} from '../utils/utils';
 import {invalid_username_or_password, require_otp} from '../constants/errorCodes';
 import Store from './../redux/store';
+import DeviceInfro from 'react-native-device-info';
 
 class CommonService {
+  constructor() {
+    DeviceInfro.getUserAgent().then(r => {
+      this.DeviceData = JSON.stringify({
+        deviceId: DeviceInfro.getDeviceId(),
+        userAgent: r
+      })
+    })
+  }
+  DeviceData: string = '';
   //register common interseptors for normalzing response
   //when objectResponse is passed in config returns noly ObjectResponse
   registerCommonInterceptor() {
     let requestInterceptor = axios.interceptors.request.use(config => {
       let langKey = store.getState().TranslateReduser.key || ka_ge;
       config.headers['langcode'] = LANG_KEYS[langKey];
+      config.headers['User-Agent'] = this.DeviceData;
+
       return config;
     });
 
     let responseInterceptor = axios.interceptors.response.use(
       (response: any) => {
+   
         if (!response.config.objectResponse || response.data.expires_in)
           return Promise.resolve(response);
 

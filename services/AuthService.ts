@@ -6,10 +6,9 @@ import envs from './../config/env';
 import { stringToObject } from '../utils/utils';
 import { invalid_username_or_password, otp_not_valid, require_otp } from '../constants/errorCodes';
 import Store from './../redux/store';
-import { subscriptionService } from './subscriptionService';
-import SUBSCRIBTION_KEYS from '../constants/subscribtionKeys';
 import { IAuthAction, REFRESH } from '../redux/action_types/auth_action_types';
 import { AUTH_USER_INFO } from '../constants/defaults';
+import DeviceInfro from 'react-native-device-info';
 
 declare module 'axios' {
   interface AxiosRequestConfig {
@@ -62,6 +61,15 @@ export interface IRegisterResponse {
 }
 
 class AuthService {
+  constructor() {
+    DeviceInfro.getUserAgent().then(r => {
+      this.DeviceData = JSON.stringify({
+        deviceId: DeviceInfro.getDeviceId(),
+        userAgent: r
+      })
+    })
+  }
+  DeviceData: string = '';
   refreshStarted: boolean = false;
 
   async getToken(): Promise<string | null> {
@@ -137,6 +145,8 @@ class AuthService {
   
       if (accesToken)
         config.headers.Authorization = `Bearer ${accesToken}`;
+
+        config.headers['User-Agent'] = this.DeviceData;
     };
 
     const waitForRefresh = (config?: AxiosRequestConfig) => {
