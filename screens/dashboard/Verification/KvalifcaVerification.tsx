@@ -100,7 +100,9 @@ const KvalifcaVerification: React.FC = () => {
     KvalifikaSDK.initialize({
       appId: __DEV__ ? kIds.dev : kIds.prod,
       locale: (translate.key === ka_ge) ?  KvalifikaSDKLocale.GE: KvalifikaSDKLocale.EN,
-      development: __DEV__ ? true : false
+      development: __DEV__ ? true : false,
+      logo: 'logo',
+      documentIcon: 'document_icon'
     });
   }, []);
 

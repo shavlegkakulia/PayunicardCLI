@@ -147,6 +147,7 @@ class AuthService {
         config.headers.Authorization = `Bearer ${accesToken}`;
 
         config.headers['User-Agent'] = this.DeviceData;
+        config.headers['appVersion'] = DeviceInfro.getVersion();
     };
 
     const waitForRefresh = (config?: AxiosRequestConfig) => {

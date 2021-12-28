@@ -28,6 +28,7 @@ class CommonService {
       let langKey = store.getState().TranslateReduser.key || ka_ge;
       config.headers['langcode'] = LANG_KEYS[langKey];
       config.headers['User-Agent'] = this.DeviceData;
+      config.headers['appVersion'] = DeviceInfro.getVersion();
 
       return config;
     });
