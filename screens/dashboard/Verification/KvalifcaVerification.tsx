@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import colors from '../../../constants/colors';
 import { ka_ge } from '../../../lang';
 import Routes from '../../../navigation/routes';
+import { PUSH } from '../../../redux/actions/error_action';
 import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import { SET_VER_USERKYCDATA } from '../../../redux/action_types/verification_action_types';
 import KvalificaServices, { getKycFullYear, IKCData } from '../../../services/KvalificaServices';
@@ -27,8 +28,9 @@ const KvalifcaVerification: React.FC = () => {
   const dispatch = useDispatch();
 
   const closeKvalificaVerification = () => {
-    NavigationService.navigate(Routes.VerificationStep4, {
-      verificationStep: 4
+
+    NavigationService.navigate(Routes.VerificationStep6, {
+      verificationStep: 6
     })
   };
 
@@ -74,8 +76,11 @@ const KvalifcaVerification: React.FC = () => {
   };
   
   const closeKycSession = (sessionId: string | undefined, complated: boolean) => {
+  
     if (!sessionId) {
-      closeKvalificaVerification();
+      NavigationService.navigate(Routes.VerificationStep4, {
+        verificationStep: 4
+      })
       return;
     }
     KvalificaServices.CloseKycSession(sessionId).subscribe({
@@ -124,7 +129,11 @@ const KvalifcaVerification: React.FC = () => {
       });
 
       KvalifikaSDK.onError((error, message) => {
-        console.log(error, message);
+        console.log('********************************', error, message);
+
+        if(error !== 'USER_CANCELLED') {
+          dispatch(PUSH(message));
+        }
         closeKycSession(sesId, false);
       });
 

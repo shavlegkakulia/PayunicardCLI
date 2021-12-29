@@ -322,7 +322,7 @@ const DelyveryMethods: React.FC = props => {
                 )}
                 ₾
               </Text>
-              {route.params.package?.priceAnnual && (
+              {route.params.package?.priceAnnual !== undefined && (
                 <Text style={styles.li}>
                  {translate.t('orderCard.tariffPrice')}:{' '}
                   {CurrencyConverter(

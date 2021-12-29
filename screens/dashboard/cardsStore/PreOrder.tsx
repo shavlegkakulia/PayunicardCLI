@@ -90,7 +90,7 @@ const PreOrder: React.FC = props => {
       village: route.params.village,
       selectedFromAccount: route.params.selectedFromAccount,
       cardTypes: route.params.cardTypes,
-      delyveryMethod: delyveryMethods,
+      delyveryMethod: route.params.delyveryMethod,
       hasTotalFee: hasTotalFee,
       tarrif: route.params.tarrif,
       packageCardTypes: route.params.packageCardTypes,

@@ -444,7 +444,7 @@ const TarriffCalculator: React.FC = props => {
               {tab}
              
          
-              <View style={styles.swiths}>
+              {route.params.package.paketTypeId !== 2 && <View style={styles.swiths}>
                 <Text style={styles.checkTitle}>
                   {translate.t('orderCard.highRiskMerchantTitle')}
                 </Text>
@@ -482,7 +482,7 @@ const TarriffCalculator: React.FC = props => {
                     {translate.t('orderCard.riskLevel_a2')}
                   </Text>
                 </View>
-              </View>
+              </View>}
         
             </View>
 

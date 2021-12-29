@@ -42,7 +42,7 @@ class CommonService {
         if (!response.data.ok && !response.data.Ok) {
           try{
             response.errorMessage =
-            response?.data?.errors[0]?.ErrorMessage || 'generalErrors.errorOccurred';
+            response?.data?.errors[0]?.ErrorMessage || response?.data?.errors[0]?.displayText || 'generalErrors.errorOccurred';
             }
             catch(err) {
               response.errorMessage =
@@ -52,7 +52,7 @@ class CommonService {
           if (!response.config.skipCustomErrorHandling)
             store.dispatch<IErrorAction>({
               type: PUSH_ERROR,
-              error: stringTranslator.t(response.errorMessage),
+              error: response.errorMessage === 'generalErrors.errorOccurred' ? stringTranslator.t(response.errorMessage) : response.errorMessage,
             });
 
           return Promise.reject(response);

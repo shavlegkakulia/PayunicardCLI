@@ -85,7 +85,7 @@ const TarrifSetOtp: React.FC = props => {
 
     let data: ICustomerPackageRegistrationRequest = {
       paketTypeid: route.params.package.paketTypeId,
-      accountNumberCh: route.params.selectedFromAccount,
+      
       cardTypeID: route.params.cardTypes?.every(ct => ct.willCount)
         ? 3
         : route.params.cardTypes?.filter(ct => ct.willCount)[0].typeId,
@@ -97,6 +97,10 @@ const TarrifSetOtp: React.FC = props => {
       accountPriority: tarifPriority.join('/'),
       paymentMethod: route.params.period === Periodes.Quarter ? 2 : 3,
     };
+
+    // if(route.params.orderType !== StoreActionType.TarrifPlan) {
+    //   data = {...data, accountNumberCh: route.params.selectedFromAccount}
+    // }
 
     if (route.params.delyveryMethod === delyveryMethods.inServiceCenter) {
       data = {...data, serviseCenter: 1};
@@ -197,6 +201,7 @@ const TarrifSetOtp: React.FC = props => {
             Style={styles.otpBox}
             label={translate.t('otp.smsCode')}
             title={translate.t('otp.otpSentBlank')}
+            resendTitle={translate.t('otp.resend')}
             value={otp}
             onChangeText={setOtp}
             onRetry={sendOtp}

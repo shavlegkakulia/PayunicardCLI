@@ -68,8 +68,8 @@ const PrintInfo: React.FC = props => {
           />
           <Text style={styles.infoHeader}>
             {route.params.hasTotalFee
-              ? 'შეკვეთა\nმიღებულია'
-              : 'თქვენი წინასწარი შეკვეთა\nმიღებულია'}
+              ? translate.t('orderCard.orderReceived')
+              : translate.t('orderCard.preOrderReceived')}
           </Text>
           {!route.params.hasTotalFee && (
             <Text style={styles.info}>
@@ -84,13 +84,13 @@ const PrintInfo: React.FC = props => {
           )}
           <View style={styles.bottomInfo}>
             <View style={styles.ul}>
-              <Text style={styles.li}>ადგილზე მიტანის საკომისიო:</Text>
+              <Text style={styles.li}>{translate.t('orderCard.deliveryPrice')}:</Text>
               <Text style={styles.li}>
                 {CurrencyConverter(route.params.deliveryAmount)}₾
               </Text>
             </View>
             <View style={styles.ul}>
-              <Text style={styles.li}>ბარათების ღირებულება:</Text>
+              <Text style={styles.li}>{translate.t('orderCard.cardPrice')}:</Text>
               <Text style={styles.li}>
                 {CurrencyConverter(getNumber(route.params.cardAmount))}₾
               </Text>
@@ -112,11 +112,11 @@ const PrintInfo: React.FC = props => {
           </View>
 
           <View style={styles.delyveryInfo}>
-            <Text style={styles.addrTitle}>მიწოდების მისამართი</Text>
+            <Text style={styles.addrTitle}>{translate.t('orderCard.deliveryAddress')}</Text>
             <Text style={styles.addrValue}>
               {route.params.delyveryMethod === delyveryMethods.inAddress
                 ? `${getString(route.params?.city?.name)}, ${getString(route.params.address)}, ${getString(route.params.village)}`
-                : 'სერვის ცენტრი'}
+                : translate.t('orderCard.ServiceDeskAddress')}
             </Text>
           </View>
 
