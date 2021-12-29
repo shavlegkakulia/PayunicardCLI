@@ -66,7 +66,6 @@ const TransactionsList: React.FC<IProps> = props => {
     setIsFundsLoading(true);
     UserService.getUserBlockedFunds().subscribe({
       next: Response => {
-        console.log(Response.data.data?.funds);
         if (Response.data.ok) {
           setFunds(Response.data.data?.funds);
         }

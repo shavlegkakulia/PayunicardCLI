@@ -166,7 +166,7 @@ const Transactions: React.FC = () => {
     if (selectedAccount) {
       data = {...data, accountID: selectedAccount?.accountId};
     }
-    console.log(data)
+
     setIsStatementsLoading(true);
     UserService.GetUserAccountStatements(data).subscribe({
       next: Response => {
@@ -312,7 +312,7 @@ const Transactions: React.FC = () => {
       event.nativeEvent.layoutMeasurement.height +
         event.nativeEvent.contentOffset.y >=
       event.nativeEvent.contentSize.height - paddingToBottom;
-   console.log({isChunk})
+ 
     if (isChunk && !fetchingMore) {
       setFetchingMore(true);
       setRowIndex(prev => {

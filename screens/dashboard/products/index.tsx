@@ -81,7 +81,6 @@ const Products: React.FC = props => {
   const fetchAccounts = () => {
     NetworkService.CheckConnection(() => {
       dispatch(FetchUserAccounts());
-      console.log('FETCH_USER_ACCOUNTS', 'Products');
     });
   };
 
@@ -156,7 +155,6 @@ const Products: React.FC = props => {
           _orderedCards.cardStatuses = tempOrder;
           setOrderedCards(_orderedCards);
         }
-        console.log(orderedCards);
       },
       complete: () => setOrderedsLoading(false),
       error: () => setOrderedsLoading(false),

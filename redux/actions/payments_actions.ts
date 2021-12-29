@@ -232,8 +232,7 @@ export const startPaymentTransaction =
         });
         callback(true);
       },
-      error: (err) => {
-        console.log(data, err)
+      error: () => {
         dispatch({
           type: PAYMENTS_ACTIONS.SET_IS_PAYMENT_ACTION_LOADING,
           isActionLoading: false,

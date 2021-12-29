@@ -62,7 +62,7 @@ const PasswordChangeStepFour: React.FC = () => {
         confirmNewPassword: confirmPassword,
         userName: email,
       };
-      console.log(User);
+     
       UserService.changePassBySystem(User).subscribe({
         next: Response => {
           if (Response.data.ok) {

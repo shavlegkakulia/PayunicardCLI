@@ -281,7 +281,6 @@ const Transfers: React.FC<INavigationProps> = props => {
   };
 
   useEffect(() => {
-    console.log(TransfersStore.transferTemplates);
     NetworkService.CheckConnection(() => {
       if (!userData.userAccounts?.length) dispatch(FetchUserAccounts());
       if (!TransfersStore.transferTemplates?.length)

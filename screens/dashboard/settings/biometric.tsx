@@ -18,7 +18,6 @@ const BiometricAuthScreen: React.FC<IProps> = props => {
       })
       .catch(error => {
         props.returnStatus(error, false);
-        console.log('isSensorAvailable error => ', error);
       });
   }, []);
 
@@ -31,22 +30,18 @@ const BiometricAuthScreen: React.FC<IProps> = props => {
           onAttempt: handleAuthenticationAttempted
         })
           .then(() => {
-              console.log('****************************succes')
               props.onSucces && props.onSucces();
           })
           .catch(error => {
-            console.log('Authentication error is => ', error);
             props.returnStatus(false);
-          }).finally(() =>  console.log('finally'));
+          });
       } else {
         props.returnStatus(false);
-        console.log('biometric authentication is not available');
       }
     }
 
     return () => FingerprintScanner.release();
   }, [props.start]);
-console.log(props.start, biometryType)
   const getMessage = () => {
     if (biometryType == 'Face ID') {
       return 'Scan your Face on the device to continue';
@@ -58,8 +53,6 @@ console.log(props.start, biometryType)
   const handleAuthenticationAttempted = (error: FingerprintScannerError) => {
     props.returnStatus(false);
   }
-
-  console.log(`biometryType is  ${biometryType}`);
 
   return null;
 };

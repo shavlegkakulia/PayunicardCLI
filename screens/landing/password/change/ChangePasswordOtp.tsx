@@ -80,7 +80,7 @@ const ChangePasswordOtp: React.FC = () => {
         confirmPassword: route.params.confirmPassword,
         otp,
       };
-      console.log(User);
+  
       UserService.ChangeUserPassword(User).subscribe({
         next: Response => {
           if (Response.data.ok) {

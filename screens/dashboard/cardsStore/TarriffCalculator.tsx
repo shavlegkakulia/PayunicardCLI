@@ -292,8 +292,8 @@ const TarriffCalculator: React.FC = props => {
     } else {
       setFromAccountErrorStyle({});
     }
-    console.log('aq tu shemodis', route.params.orderType)
-   // if (route.params.orderType === StoreActionType.PurchaseCard) {
+ 
+ 
       const isChoosed = cardTypes?.filter(
         ct => ct.willCount && ct.willCount > 0,
       );
@@ -302,7 +302,7 @@ const TarriffCalculator: React.FC = props => {
         dispatch(PUSH('გთხოვთ აირჩიეთ ბარათი'));
         return;
       }
-    //}
+ 
 
     let cardHrm = 0;
     if (isEnabled === true && isEnabled2 === true) {
@@ -344,7 +344,6 @@ const TarriffCalculator: React.FC = props => {
       complete: () => setIsLoading(false),
       error: err => {
         setIsLoading(false);
-        console.log(err);
       },
     });
   }, []);

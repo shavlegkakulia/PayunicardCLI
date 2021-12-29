@@ -116,7 +116,6 @@ const TarrifSetOtp: React.FC = props => {
 
     UserService.customerPackageRegistration(data).subscribe({
       next: Response => {
-        console.log(Response)
         if(Response.data.ok) {
           NavigationService.navigate(Routes.PrintInfo, {
             orderType: route.params.orderType,
@@ -155,8 +154,8 @@ const TarrifSetOtp: React.FC = props => {
     };
 
     OTPService.GeneratePhoneOtpByUser({OTP}).subscribe({
-      next: Response => {
-        console.log(Response.data.data);
+      next: () => {
+    
       },
       complete: () => {
         setIsLoading(false);

@@ -98,9 +98,6 @@ const TransferTemplates: React.FC<ITransferTemplatesProps> = props => {
         }
       },
       complete: () => {},
-      error: err => {
-        console.log(err);
-      },
     });
   };
 

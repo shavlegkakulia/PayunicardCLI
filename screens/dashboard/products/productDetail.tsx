@@ -356,7 +356,6 @@ const ProductDetail: React.FC = props => {
     }
     UserService.getUserBlockedFunds(data).subscribe({
       next: Response => {
-        console.log(Response.data.data?.funds);
         if (Response.data.ok) {
           setFunds(Response.data.data?.funds);
         }
@@ -379,7 +378,6 @@ const ProductDetail: React.FC = props => {
         );
         AccountService.Block({cardId: cardId}).subscribe({
           next: Response => {
-            console.log(Response.data);
             if (Response.data.ok) {
               setActionSheetStep({
                 actionSheetType,
@@ -398,7 +396,6 @@ const ProductDetail: React.FC = props => {
               actionSheetType,
               actionSheetTitle: 'დაფიქსირდა შეცდომა',
             });
-            console.log(err);
           },
         });
       }
@@ -451,15 +448,13 @@ const ProductDetail: React.FC = props => {
       let OTP: GeneratePhoneOtpByUserRequest = {
         userName: userData.userDetails?.username,
       };
-      console.log('++++++++++++++++++++++++++++++++++++++++++', OTP)
       OTPService.GeneratePhoneOtpByUser({OTP}).subscribe({
         next: Response => {
           if (Response.data.ok) {
             setMaskedNumber(Response.data.data?.phoneMask);
           }
         },
-        error: err => {
-          console.log('++++++++++++++++++++++++++++++++++++++++++', currentHRMAction)
+        error: () => {
           setActionLoading(false);
           if(currentHRMAction === 1) {
             setIsEnabled(false)
@@ -468,7 +463,6 @@ const ProductDetail: React.FC = props => {
           }
         },
         complete: () => {
-          console.log('----------------------------------', currentHRMAction)
           setActionLoading(false)
         },
       });
@@ -502,7 +496,6 @@ const ProductDetail: React.FC = props => {
             actionSheetType,
             actionSheetTitle: 'დაფიქსირდა შეცდომა',
           });
-          console.log(err);
         },
       });
     }
@@ -619,7 +612,7 @@ const ProductDetail: React.FC = props => {
         type: PAYMENTS_ACTIONS.SET_CURRENT_PAYMENT_SERVICE,
         currentService: currentService[0],
       });
-      console.log('*************first');
+  
       dispatch({
         type: PAYMENTS_ACTIONS.SET_IS_PAYMENT_SERVICE,
         isService: true,
@@ -642,20 +635,20 @@ const ProductDetail: React.FC = props => {
 
     /* categories contains merchant and also service */
     if (!isService && hasService && !hasChildren) {
-      console.log('*****************second');
+     
       GetMerchantServices({CategoryID: parentID}, onComplate, onError);
     } /* categories contains merchants */ else if (
       !isService &&
       hasService &&
       hasChildren
     ) {
-      console.log('****************thirt');
+     
       dispatch(getPayCategoriesServices(parentID, onComplate, onError));
     } /* categories contains only services */ else if (
       !isService &&
       !hasService
     ) {
-      console.log('*************fourty');
+  
       dispatch(
         getPayCategoriesServices(
           parentID,
@@ -716,14 +709,13 @@ const ProductDetail: React.FC = props => {
         setCurrentHRMAction(0);
       },
       error: err => {
-        console.log('/////////////////////////////', currentHRMAction)
+     
         if(currentHRMAction === 1) {
           setIsEnabled(false)
         } else if(currentHRMAction === 2) {
           setIsEnabled2(false)
         }
         setCurrentHRMAction(0);
-        console.log(err);
         setHrmLoading(false);
         setOtp(undefined);
         setHrmLoading(false);

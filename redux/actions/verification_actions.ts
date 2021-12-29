@@ -47,7 +47,7 @@ export const GetCustomerEmploymentStatusTypes = () => (dispatch: any) => {
 export const GetCustomerWorkTypes = () => (dispatch: any) => {
   dispatch({type: SET_VER_ISLOADING, isLoading: true});
   UserService.GetCustomerWorkTypes().subscribe({
-    next: Response => {console.log(Response.data?.data?.types)
+    next: Response => {
       dispatch({
         type: SET_VER_WORKTTYPES,
         customerWorkTypes: Response.data?.data?.types,

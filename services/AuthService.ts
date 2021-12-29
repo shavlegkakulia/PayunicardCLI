@@ -185,13 +185,11 @@ class AuthService {
     // if unauthorized refetch
     let responseInterceptor = axios.interceptors.response.use(
       response => {
-        //console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@', response)
         return response;
       },
       async (error: any) => {
         let { refreshToken } = Store.getState().AuthReducer || await this.getRefreshToken();
         const stringTranslator = Store.getState().TranslateReduser;
-        //console.log('+++++++++error in auth interceptor++++++++++', JSON.stringify(error.response), JSON.parse(JSON.stringify(error.response)).data.error)
         error.response = error.response || {};
 
         //Reject promise if usual error

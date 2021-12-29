@@ -12,7 +12,6 @@ export const addTransactionTemplate =
     dispatch({type: TRANSFERS_ACTION_TYPES.SET_ISLOADING, isLoading: true});
     TemplatesService.addTransactionTemplate(data).subscribe({
       next: Response => {
-        console.log(Response);
         if (Response.data.ok) {
           callBack && callBack();
         }

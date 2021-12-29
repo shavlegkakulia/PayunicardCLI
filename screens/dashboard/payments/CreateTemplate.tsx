@@ -106,7 +106,7 @@ const CreatePayTemplate: React.FC = () => {
         type: PAYMENTS_ACTIONS.SET_CURRENT_PAYMENT_SERVICE,
         currentService: currentService[0],
       });
-      console.log('*************first');
+ 
       dispatch({
         type: PAYMENTS_ACTIONS.SET_IS_PAYMENT_SERVICE,
         isService: true,

@@ -146,7 +146,6 @@ const Settings: React.FC = () => {
         closeChoosePhotos();
       },
       error: err => {
-        console.log(err);
         setIsLoading(false);
         closeChoosePhotos();
       },
@@ -164,9 +163,7 @@ const Settings: React.FC = () => {
     });
     if (result.assets) {
       const {base64, fileName} = result.assets[0];
-      //console.log(base64)
       uploadImage(getString(fileName), getString(base64));
-      // updateUserProfileImage(getString(base64).replace(/'/g, "'"));
     }
   };
 

@@ -54,7 +54,7 @@ const StepSeven: React.FC<IProps> = props => {
     data.countryName = value;
     props.onUpdateData(data);
   };
-  console.log('++++++++++++++++', props.notEditable)
+
   return (
     <View style={styles.container}>
       <View style={styles.addressContainer}>

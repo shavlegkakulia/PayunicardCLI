@@ -144,17 +144,6 @@ const ActionSheetAndroid: React.FC<IProps> = props => {
     }
   }, [props.visible]);
 
-  // useEffect(() => {
-  //   if (props.visible) {
-  //     Animated.timing(animatedHeight.current, {
-  //       toValue: props.height,
-  //       duration: 400,
-  //       useNativeDriver: false,
-  //     }).start();
-  //   }
-  // }, [props.heightIsChanged]);
-
-  //console.log('actionsheet', props.height);
   const {
     children,
     hasDraggableIcon,

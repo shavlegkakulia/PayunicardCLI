@@ -42,17 +42,15 @@ interface ILoading {
 }
 
 const LogError = (error: string) => {
-  console.log('***********************************');
   let _error = error + '*' + new Date().toLocaleDateString();
   PresentationServive.LogError({error: _error}).subscribe({
     next: () => {},
-    //error: (err) => {console.log(err)},
     complete: () => {},
   });
 };
 
 const handleError = (error: Error, isFatal: boolean) => {
-  //console.log(JSON.stringify(error), isFatal)
+
 };
 
 LogError('fdsfdsfdfdfds');
@@ -63,7 +61,6 @@ setJSExceptionHandler((error, isFatal) => {
 
 //For most use cases:
 setNativeExceptionHandler(exceptionString => {
-  console.log('exceptionString', exceptionString);
   // This is your custom global error handler
   // You do stuff likehit google analytics to track crashes.
   // or hit a custom api to inform the dev team.
@@ -74,7 +71,6 @@ setNativeExceptionHandler(exceptionString => {
 // ADVANCED use case:
 const exceptionhandler = (exceptionString: string) => {
   // your exception handler code here
-  console.log('exceptionString', exceptionString);
 };
 setNativeExceptionHandler(exceptionhandler, false, true);
 

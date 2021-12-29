@@ -64,7 +64,6 @@ const EditUserInfo: React.FC = () => {
       UserService.getUserProfileData().subscribe({
         next: Response => {
           if (Response.data.ok) {
-            console.log(Response.data.data);
             setProfileData(Response.data.data);
             setProfileDataEdited(Response.data.data);
           }

@@ -260,7 +260,7 @@ class TransactionService {
     } else if (ForFundsSPExternalTranID) {
       uri += `ForFundsSPExternalTranID=${ForFundsSPExternalTranID}`;
     }
-    console.log(uri);
+   
     const promise = axios.get<IGetPayBillsResponseData>(
       `${envs.API_URL}Transaction/GetPayBills${uri}`,
       {objectResponse: true},

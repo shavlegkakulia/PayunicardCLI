@@ -324,7 +324,6 @@ const Verification: React.FC = () => {
   };
 
   const CheckKycForReprocess = () => {
-    console.log('aqaaa***************************')
     setIsLoading(true);
     KvalificaServices.CheckKycForReprocess().subscribe({
       next: Response => {
@@ -443,7 +442,7 @@ const Verification: React.FC = () => {
       otherDesctiption: VerficationStore.anotherTransactionCategory,
       termID: 1,
     };
-    console.log(data)
+
     UserService.CustomerRegistration(data).subscribe({
       next: Response => {
         if (Response.data.ok) {
@@ -514,11 +513,7 @@ const Verification: React.FC = () => {
       error: () => {},
     });
   };
-  console.log(
-    '***',
-    VerficationStore.employmentStatuses?.length,
-    VerficationStore.customerWorkTypes?.length,
-  );
+
   useEffect(() => {
     if (
       VerficationStore.employmentStatuses &&

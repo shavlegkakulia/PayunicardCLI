@@ -75,7 +75,7 @@ const addBankCard: React.FC = () => {
     }
 
     const retriveUrl = webViewState.url.toString().trim();
-    console.log(webViewState.url);
+   
     if (retriveUrl.endsWith('Payment_Success')) {
       setIsEcommerce(undefined);
       CheckTransaction();
@@ -85,7 +85,7 @@ const addBankCard: React.FC = () => {
       NavigationService.GoBack();
     }
   };
-  console.log('tranId', tranId);
+
   useEffect(() => {
     addBankCard();
   }, []);

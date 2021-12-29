@@ -41,8 +41,6 @@ const ErrorWrapper: FC = (props) => {
         extrapolate: 'extend'
     })
 
-    console.log(errors?.errors)
-
     return (
         <View style={styles.container}>
             {errors?.errors !== undefined &&

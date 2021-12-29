@@ -135,7 +135,6 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
 
   const setAmount = (amount: string | undefined) => {
     setFromAmount(amount);
-    console.log('/////////////', amount)
   };
 
   const navigation = useNavigation();
@@ -238,7 +237,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
       fromBaseAmount: fromBaseAmount,
       amountFROM: isNaN(parseInt(_amount)) ? 0 : parseInt(_amount),
     };
-    console.log(fromAmount)
+
     calculationTimeoutRef.current = setTimeout(() => {
       setIsLoading(true);
       setIsToDefault(false);

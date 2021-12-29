@@ -133,7 +133,6 @@ const PreOrder: React.FC = props => {
       }
     })
 
-    console.log('//////////////////', packages)
 
     const data: ICustomerBatchPackageRegistrationRequest = {
       packages: [...packages],
@@ -141,7 +140,6 @@ const PreOrder: React.FC = props => {
 
     UserService.CustomerBatchPackageRegistration(data).subscribe({
       next: Response => {
-        console.log('Response', Response)
         if(Response.data.ok) {
           NavigationService.navigate(Routes.PrintInfo, p);
         }
@@ -151,7 +149,6 @@ const PreOrder: React.FC = props => {
       },
       error: err => {
         setIsLoading(false);
-        console.log('**********', err);
       },
     });
   };

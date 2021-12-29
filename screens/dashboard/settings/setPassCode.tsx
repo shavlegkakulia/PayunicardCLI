@@ -58,7 +58,6 @@ const SetPassCode: React.FC = () => {
     let isBaseRemembered = false;
     if (info) {
       isBaseRemembered = JSON.parse(info).isBase;
-      console.log(JSON.parse(info));
     } else {
       const uInfo = {
         customerID: userState.userDetails?.customerID,

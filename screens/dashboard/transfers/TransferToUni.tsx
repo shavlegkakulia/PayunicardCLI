@@ -311,7 +311,7 @@ const TransferToUni: React.FC = () => {
           TransfersStore.selectedFromAccount?.accountId;
         data.forToExternalAccount = TransfersStore.benificarAccount;
       }
-      console.log(data);
+  
       dispatch(
         addTransactionTemplate(data, () => {
           setTransferStep(Routes.TransferToUni_TEMPLATE_IS_SAVED);

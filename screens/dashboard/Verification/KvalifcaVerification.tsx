@@ -129,7 +129,7 @@ const KvalifcaVerification: React.FC = () => {
       });
 
       KvalifikaSDK.onError((error, message) => {
-        console.log('********************************', error, message);
+        console.log('OnKvalifikaError --->', error, message);
 
         if(error !== 'USER_CANCELLED') {
           dispatch(PUSH(message));
@@ -138,7 +138,7 @@ const KvalifcaVerification: React.FC = () => {
       });
 
     return () => {
-      console.log('removed');
+      console.log('Kvalifika Unmounted');
       // Remove callbacks to avoid duplicate listeners if useEffect runs multiple times or remounts
       KvalifikaSDK.removeCallbacks();
     };

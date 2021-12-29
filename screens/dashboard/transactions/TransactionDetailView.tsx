@@ -45,7 +45,7 @@ const ViewCliring: React.FC<IProps> = props => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
-  console.log(props.statement)
+
   return (
     <>
       {(props.statement?.mccGroupName !== undefined ||
@@ -589,7 +589,7 @@ const TransactionDetailView: React.FC<IProps> = props => {
             );
             RNFetchBlob.ios.previewDocument(configfb.addAndroidDownloads.path);
           }
-          console.log('The file saved to ', res);
+  
         });
     });
   };

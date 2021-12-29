@@ -171,7 +171,6 @@ const LoginForm: React.FC = () => {
       };
       AuthService.SignIn({User}).subscribe({
         next: Response => {
-          console.log(Response.data);
           dispatch(
             Login(
               Response.data.access_token,

@@ -26,7 +26,7 @@ const initialState: ITransfersState = {
 export default function TransfersReducer(
   state: ITransfersState = initialState,
   action: ITransfersActions,
-) { console.log(action.type)
+) { 
   switch (action.type) {
     case TRANSFERS_ACTION_TYPES.SET_ISTEMPLATES_LOADING:
       return {...state, isTemplatesLoading: action.isTemplatesLoading};
