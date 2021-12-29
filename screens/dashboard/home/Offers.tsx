@@ -50,7 +50,7 @@ const OffersView: React.FC = () => {
 
   useEffect(() => {
     get_GetOffers();
-  }, [offers]);
+  }, []);
 
   const viewOffer = (id: number) => {
     NavigationService.navigate(Routes.OfferDetails, {
