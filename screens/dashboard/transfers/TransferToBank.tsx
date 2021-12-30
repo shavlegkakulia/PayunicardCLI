@@ -195,6 +195,13 @@ const TransferToBank: React.FC<INavigationProps> = props => {
     dispatch(MakeTransaction(toBank, data));
   };
 
+      //cleare state on succes
+      useEffect(() => {
+        if (route.params.transferStep === Routes.TransferToBank_SUCCES) {
+          dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
+        }
+      }, [route.params.transferStep]);
+
   const setBenificarAccount = (account: string | undefined) => {
     dispatch({
       type: TRANSFERS_ACTION_TYPES.SET_BENIFICARY_ACCOUNT,
@@ -384,7 +391,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
         setNominationErrorStyle({});
       }
 
-      if (getNumber(TransfersStore.amount) < 1) {
+      if (getNumber(TransfersStore.amount) < 0.1) {
         dispatch(
           PUSH(
             `მინიმალური გადასარიცხი თანხა 0.1 ${CurrencySimbolConverter(GEL)}`,

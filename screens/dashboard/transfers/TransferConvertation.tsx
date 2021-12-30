@@ -377,7 +377,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
       toAccountNumber: TransfersStore.selectedToAccount?.accountNumber,
       fromAccountNumber: TransfersStore.selectedFromAccount?.accountNumber,
       nomination: TransfersStore.nomination,
-      ccy: TransfersStore.selectedToCurrency?.key,
+      ccy: TransfersStore.selectedFromCurrency?.key,
       ccyto: TransfersStore.selectedToCurrency?.key,
       amount: getNumber(fromAmount),
       otp: null,
@@ -385,6 +385,14 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
 
     dispatch(MakeTransaction(toBank, data));
   };
+
+  //cleare state on succes
+  useEffect(() => {
+    if (route.params.transferStep === Routes.TransferConvertation_SUCCES) {
+      setAmount(undefined);
+      dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
+    }
+  }, [route.params.transferStep]);
 
   const onOperationHandle = () => {
     if (route.params.transferStep === Routes.TransferConvertation_SUCCES) {

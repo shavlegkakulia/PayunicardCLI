@@ -60,6 +60,9 @@ class CommonService {
         return Promise.resolve(response);
       },
       async error => {
+        if(error?.response?.status === 401) {
+          return Promise.reject(error);
+        }
         console.log('*****error in common interceptor******', error);
         const stringTranslator = Store.getState().TranslateReduser;
         let netInfo = await NetInfo.fetch();

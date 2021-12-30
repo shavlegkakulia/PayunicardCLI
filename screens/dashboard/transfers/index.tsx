@@ -205,6 +205,7 @@ const Transfers: React.FC<INavigationProps> = props => {
     });
     props.navigation?.navigate(Routes.TransferToUni_CHOOSE_ACCOUNTS, {
       transferStep: Routes.TransferToUni_CHOOSE_ACCOUNTS,
+      withTemplate: true
     });
   };
 
