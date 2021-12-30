@@ -443,7 +443,7 @@ const TarriffCalculator: React.FC = props => {
               {tab}
              
          
-              {route.params.package.paketTypeId !== 2 && <View style={styles.swiths}>
+              {route.params?.package?.paketTypeId !== 2 && <View style={styles.swiths}>
                 <Text style={styles.checkTitle}>
                   {translate.t('orderCard.highRiskMerchantTitle')}
                 </Text>

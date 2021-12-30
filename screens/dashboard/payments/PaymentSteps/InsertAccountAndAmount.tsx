@@ -262,10 +262,11 @@ const InsertAccointAndAmount: React.FC = props => {
   useEffect(() => {
     if (
       PaymentStore.selectedAccount &&
-      PaymentStore.amount &&
-      !PaymentStore.isTemplate
+      PaymentStore.amount //&&
+      //PaymentStore.isTemplate
     ) {
       if (Validation.validate(ValidationContext)) return;
+     
       dispatch(
         GetPaymentDetails(
           {
