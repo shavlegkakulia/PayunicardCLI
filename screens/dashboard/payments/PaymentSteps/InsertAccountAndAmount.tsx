@@ -474,9 +474,10 @@ const InsertAccointAndAmount: React.FC = props => {
                   <Text style={styles.amountValue}>
                     {translate.t('payments.totalDue')}:{' '}
                     {CurrencyConverter(
-                      PaymentStore.isTemplate
-                        ? PaymentStore.amount
-                        : getNumber(PaymentStore.paymentDetails?.amount),
+                     // PaymentStore.isTemplate
+                       // ? PaymentStore.amount
+                       // : 
+                        getNumber(PaymentStore.paymentDetails?.amount),
                     )}{' '}
                     {CurrencySimbolConverter(GEL)}
                   </Text>

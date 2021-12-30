@@ -167,6 +167,13 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
     dispatch(MakeTransaction(toBank, data));
   };
 
+    //cleare state on succes
+    useEffect(() => {
+      if (route.params.transferStep === Routes.TransferBetweenAcctounts_SUCCES) {
+        dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
+      }
+    }, [route.params.transferStep]);
+
   const setTransferType = (type: string | undefined) => {
     dispatch({
       type: TRANSFERS_ACTION_TYPES.SET_TRASNSFER_TYPE,
@@ -257,7 +264,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
         setNominationErrorStyle({});
       }
 
-      if (getNumber(TransfersStore.amount) < 1) {
+      if (getNumber(TransfersStore.amount) < 0.1) {
         dispatch(
           PUSH(
             `${translate.t('common.minTransfAmount')} 0.1 ${CurrencySimbolConverter(GEL)}`,

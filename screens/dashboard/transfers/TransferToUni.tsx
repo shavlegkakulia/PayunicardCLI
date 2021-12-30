@@ -353,13 +353,21 @@ const TransferToUni: React.FC = () => {
     dispatch(MakeTransaction(toBank, data));
   };
 
+        //cleare state on succes
+        useEffect(() => {
+          if (route.params.transferStep === Routes.TransferToUni_SUCCES) {
+            dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
+          }
+        }, [route.params.transferStep]);
+
   useEffect(() => {
     setNomination(translate.t('common.toUniWallet'));
     setTransferType(TRANSFER_TYPES.toUni);
   }, []);
 
   useEffect(() => {
-    if ((route.params.withTemplate || route.params.newTemplate) && TransfersStore.benificarAccount) {
+    if ((route.params.withTemplate || route.params.newTemplate) && TransfersStore.benificarAccount && route.params.transferStep === Routes.TransferToUni_CHOOSE_ACCOUNTS) {
+     
       GetUserDataByAccountNumber(TransfersStore.benificarAccount);
     }
   }, [route.params.withTemplate, route.params.newTemplate]);
@@ -455,7 +463,7 @@ const TransferToUni: React.FC = () => {
         setNominationErrorStyle({});
       }
 
-      if (getNumber(TransfersStore.amount) < 1) {
+      if (getNumber(TransfersStore.amount) < 0.1) {
         dispatch(
           PUSH(
             `მინიმალური გადასარიცხი თანხა 0.1 ${CurrencySimbolConverter(GEL)}`,
@@ -667,7 +675,7 @@ const TransferToUni: React.FC = () => {
                     context={ValidationContext}
                     requireds={[required]}
                     placeholder={translate.t('transfer.nomination')}
-                    value={TransfersStore.nomination}
+                    value={TransfersStore.nomination || translate.t('transfer.toUniWallet')}
                     style={nominationErrorStyle}
                     onChange={setNomination}
                   />
@@ -696,7 +704,7 @@ const TransferToUni: React.FC = () => {
                 <FloatingLabelInput
                   Style={styles.otpBox}
                   label={translate.t('otp.smsCode')}
-                  title={`${translate.t('otp.otpSent')} ${maskedNumber}`}
+                  title={`${translate.t('otp.otpSent')} ${getString(maskedNumber)}`}
                   resendTitle={translate.t('otp.resend')}
                   value={otp}
                   onChangeText={setOtp}
@@ -773,7 +781,7 @@ const TransferToUni: React.FC = () => {
               route.params.transferStep ===
                 Routes.TransferToUni_TEMPLATE_IS_SAVED
                 ? translate.t('common.close')
-                : route.params.withTemplate
+                : route.params.newTemplate
                 ? translate.t('common.save')
                 : translate.t('common.next')
             }
