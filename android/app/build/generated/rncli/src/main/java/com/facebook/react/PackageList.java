@@ -21,10 +21,10 @@ import com.reactnativecommunity.clipboard.ClipboardPackage;
 import org.reactnative.maskedview.RNCMaskedViewPackage;
 // @react-native-community/netinfo
 import com.reactnativecommunity.netinfo.NetInfoPackage;
-// @sentry/react-native
-import io.sentry.react.RNSentryPackage;
 // react-native-date-picker
 import com.henninghall.date_picker.DatePickerPackage;
+// react-native-device-info
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 // react-native-exception-handler
 import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;
 // react-native-fingerprint-scanner
@@ -39,10 +39,10 @@ import com.swmansion.reanimated.ReanimatedPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
+// react-native-sms-retriever
+import me.furtado.smsretriever.RNSmsRetrieverPackage;
 // react-native-splash-screen
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
-// react-native-view-pdf
-import com.rumax.reactnative.pdfviewer.PDFViewPackage;
 // react-native-webview
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 // rn-fetch-blob
@@ -97,8 +97,8 @@ public class PackageList {
       new ClipboardPackage(),
       new RNCMaskedViewPackage(),
       new NetInfoPackage(),
-      new RNSentryPackage(),
       new DatePickerPackage(),
+      new RNDeviceInfo(),
       new ReactNativeExceptionHandlerPackage(),
       new ReactNativeFingerprintScannerPackage(),
       new RNGestureHandlerPackage(),
@@ -106,8 +106,8 @@ public class PackageList {
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
+      new RNSmsRetrieverPackage(),
       new SplashScreenReactPackage(),
-      new PDFViewPackage(),
       new RNCWebViewPackage(),
       new RNFetchBlobPackage()
     ));
