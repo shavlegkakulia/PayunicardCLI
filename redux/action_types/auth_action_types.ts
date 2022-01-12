@@ -1,23 +1,31 @@
+import { IDevices } from "../../services/deviceService";
+
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const START_LOGIN = 'START_LOGIN';
 export const AUT_SET_IS_LOADING = 'AUT_SET_IS_LOADING';
 export const REFRESH = 'REFRESH';
+export const SET_DEVICE_ID = 'SET_DEVICE_ID';
+export const SET_ACTIVE_DEVICES = 'SET_ACTIVE_DEVICES';
 
 export interface IAuthState {
     isAuthenticated: boolean,
     isLoading: boolean,
     accesToken: string,
     refreshToken: string,
-    remember: boolean
+    remember: boolean,
+    deviceId: string | undefined,
+    devices: IDevices[]
 }
 
 export interface IAuthAction {
     isLoading?: boolean,
-    accesToken: string,
-    refreshToken: string,
+    accesToken?: string,
+    refreshToken?: string,
     type: string,
-    remember?: boolean
+    remember?: boolean,
+    deviceId?: string | undefined,
+    devices?: IDevices[]
 }
 
 export interface IGlobalState {

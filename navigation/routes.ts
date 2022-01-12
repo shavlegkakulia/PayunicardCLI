@@ -88,7 +88,8 @@ const Routes = {
     RefreshTokenOtp: 'RefreshTokenOtp',
     KvalifcaVerification: 'KvalifcaVerification',
     OfferDetails: 'OfferDetails',
-    paymentMethods: 'paymentMethods'
+    paymentMethods: 'paymentMethods',
+    TrustedDevices: 'TrustedDevices'
 }
 
 export default Routes;

@@ -37,8 +37,8 @@ export default {
         maxTransfAmount: 'Maxsimum Transfer Amount',
         saveTemplate: 'Save As Template',
         confirm: 'Confirm',
-        bankTransferDetails: 'Bank Transfer Details'
-
+        bankTransferDetails: 'Bank Transfer Details',
+        trustedDevices: 'Trusted Devices'
     },
     generalErrors: {
         errorOccurred: 'An Error Occurred',

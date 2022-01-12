@@ -6,9 +6,10 @@ import envs from './../config/env';
 import { stringToObject } from '../utils/utils';
 import { invalid_username_or_password, otp_not_valid, require_otp } from '../constants/errorCodes';
 import Store from './../redux/store';
-import { IAuthAction, REFRESH } from '../redux/action_types/auth_action_types';
-import { AUTH_USER_INFO } from '../constants/defaults';
+import { IAuthAction, REFRESH, SET_DEVICE_ID } from '../redux/action_types/auth_action_types';
+import { AUTH_USER_INFO, DEVICE_ID } from '../constants/defaults';
 import DeviceInfro from 'react-native-device-info';
+import { getString } from '../utils/Converter';
 
 declare module 'axios' {
   interface AxiosRequestConfig {
@@ -139,12 +140,21 @@ class AuthService {
   }
 
   registerAuthInterceptor(callBack: () => void) {
+    storage.getItem(DEVICE_ID).then(data => {
+      if(data !== null) {
+        Store.dispatch<IAuthAction>({type: SET_DEVICE_ID, deviceId: getString(data)});
+      }
+    })
     const setAuthToken = async (config: AxiosRequestConfig) => {
       config.headers = config.headers || {};
-      let { accesToken } = Store.getState().AuthReducer;
+      let { accesToken, deviceId } = Store.getState().AuthReducer;
+      if(deviceId) {
+        config.headers['x-device-id'] = deviceId;
+      }
   
-      if (accesToken)
+      if (accesToken) {
         config.headers.Authorization = `Bearer ${accesToken}`;
+      }
 
         config.headers['User-Agent'] = this.DeviceData;
         config.headers['appVersion'] = DeviceInfro.getVersion();

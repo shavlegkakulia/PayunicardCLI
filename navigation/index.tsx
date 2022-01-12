@@ -10,13 +10,11 @@ import LandingNavigator from './LandingNavigation';
 import {
   IAuthState,
   IGlobalState as AuthState,
-  LOGIN,
-  REFRESH,
 } from './../redux/action_types/auth_action_types';
 import AuthService, {IInterceptop} from './../services/AuthService';
 import CommonService from './../services/CommonService';
 import {use} from './../redux/actions/translate_actions';
-import {AUTH_USER_INFO, LOCALE_IN_STORAGE} from './../constants/defaults';
+import { LOCALE_IN_STORAGE} from './../constants/defaults';
 import ErrorWrapper from '../components/ErrorWrapper';
 import storage from './../services/StorageService';
 import {
@@ -30,9 +28,6 @@ import {SafeAreaView} from 'react-navigation';
 import {StyleSheet} from 'react-native';
 import colors from '../constants/colors';
 import {ka_ge} from '../lang';
-import {subscriptionService} from '../services/subscriptionService';
-import SUBSCRIBTION_KEYS from '../constants/subscribtionKeys';
-import Routes from './routes';
 import { Logout } from '../redux/actions/auth_actions';
 import { debounce, sleep } from '../utils/utils';
 

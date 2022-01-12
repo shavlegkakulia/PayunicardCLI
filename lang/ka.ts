@@ -39,6 +39,7 @@ export default {
         maxPayfAmount: 'მაქსიმალური გადასახდელი თანხა შეადგენს',
         confirm: 'დადასტურება',
         bankTransferDetails: 'საბანკო რეკვიზიტები',
+        trustedDevices: 'სანდო მოწყობილობები'
     },
 
     generalErrors: {

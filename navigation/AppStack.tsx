@@ -62,6 +62,7 @@ import {
 import KvalifcaVerification from '../screens/dashboard/Verification/KvalifcaVerification';
 import OfferDetails from '../containers/OfferDetails';
 import PaymentMethods from '../screens/dashboard/cardsStore/paymentMethods';
+import TrustedDevices from '../screens/dashboard/settings/truestedDevices';
 
 const appStack = createStackNavigator();
 
@@ -1002,6 +1003,18 @@ const AppStack: React.FC = () => {
                 navigation: props.navigation,
                 route: props.route,
                 title: translate.t('common.bankTransferDetails'),
+                backText: translate.t('common.back'),
+              })
+            }
+          />
+          <appStack.Screen
+            name={Routes.TrustedDevices}
+            component={TrustedDevices}
+            options={props =>
+              DefaultOptionsDrawer({
+                navigation: props.navigation,
+                route: props.route,
+                title: translate.t('common.trustedDevices'),
                 backText: translate.t('common.back'),
               })
             }
