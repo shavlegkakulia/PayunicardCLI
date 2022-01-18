@@ -30,6 +30,7 @@ import ActionSheetCustom from './../../../components/actionSheet';
 import AccountSelect from '../../../components/AccountSelect/AccountSelect';
 import UserService, {
   IAccountBallance,
+  ICurrency,
   IFund,
   IGetUserAccountsStatementResponse,
   IGetUserBlockedBlockedFundslistRequest,
@@ -50,11 +51,21 @@ import CardService, {
   ITransaction,
 } from '../../../services/CardService';
 import {TYPE_UNICARD} from '../../../constants/accountTypes';
-import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
+import PaginationDots from '../../../components/PaginationDots';
+import CurrencySelect, {
+  CurrencyItem,
+} from '../../../components/CurrencySelect/CurrencySelect';
 
 const filter_items = {
   selectedAccount: 'selectedAccount',
   selectedDate: 'selectedDate',
+  selectedCurrency: 'selectedCurrency',
+  amountFrom: 'amountFrom',
+  amountTo: 'amountTo',
 };
 
 const Transactions: React.FC = () => {
@@ -86,6 +97,7 @@ const Transactions: React.FC = () => {
   >();
   const [searchValue, setSearchValue] = useState<string | undefined>();
   const [fromVisible, setFromVisible] = useState(false);
+  const [fromCurrencyVisible, setFromCurrencyVisible] = useState(false);
   const [toVisible, setToVisible] = useState(false);
   const [dateVisible, setDateVisible] = useState(false);
   const [accountVisible, setAccountVisible] = useState(false);
@@ -97,7 +109,25 @@ const Transactions: React.FC = () => {
   const [isStatementsLoading, setIsStatementsLoading] = useState<boolean>(true);
   const [funds, setFunds] = useState<IFund[] | undefined>();
   const scrollRef = useRef<ScrollView | null>(null);
+  const [accountNumberList, setAccountNumberList] = useState<
+    string | undefined
+  >();
+  const [amountFrom, setAmountFrom] = useState<string>();
+  const [amountTo, setAmountTo] = useState<string>();
+  const [offersStep, setOffersStep] = useState<number>(0);
+  const [selectedFromCurrency, setSelectedFromCurrency] = useState<
+    ICurrency | undefined
+  >();
+  const [currenciesFrom, setCurrenciesFrom] = useState<ICurrency[] | undefined>(
+    undefined,
+  );
+  const [isAmountShown, setIsAmountShown] = useState<boolean>(false);
   const dispatch = useDispatch();
+
+  const onFromCurrencySelect = (currency: ICurrency) => {
+    setSelectedFromCurrency(currency);
+    setFromCurrencyVisible(!fromCurrencyVisible);
+  };
 
   const rowCount = 20;
 
@@ -164,23 +194,49 @@ const Transactions: React.FC = () => {
     }
 
     if (selectedAccount) {
-      data = {...data, accountID: selectedAccount?.accountId};
+      if (selectedFromCurrency)
+        data = {
+          ...data,
+          accountNumberList:
+            selectedAccount?.accountNumber?.toString() +
+            getString(selectedFromCurrency.key),
+        };
+      else
+        data = {
+          ...data,
+          accountNumberList: selectedAccount?.accountNumber?.toString(),
+        };
+    } else {
+      data = {
+        ...data,
+        accountNumberList: null,
+      };
+    }
+
+    if (amountFrom) {
+      data = {...data, amountFrom: getNumber(amountFrom)};
+    }
+
+    if (amountTo) {
+      data = {...data, amountTo: getNumber(amountTo)};
+
+      if(!amountFrom) {
+        data = {...data, amountFrom: 0};
+      }
     }
 
     setIsStatementsLoading(true);
     UserService.GetUserAccountStatements(data).subscribe({
       next: Response => {
         if (Response.data.ok) {
-          let _useAccountStatements: IGetUserAccountsStatementResponse  = {};
-          if(!stopFetching) {
+          let _useAccountStatements: IGetUserAccountsStatementResponse = {};
+          if (!stopFetching) {
             _useAccountStatements = {...useAccountStatements};
           }
 
-          let _statements = [
-            ...(Response.data.data?.statements || []),
-          ];
+          let _statements = [...(Response.data.data?.statements || [])];
 
-          if(!stopFetching) {
+          if (!stopFetching) {
             _statements = [
               ...(_useAccountStatements?.statements || []),
               ..._statements,
@@ -199,7 +255,7 @@ const Transactions: React.FC = () => {
           setUseAccountStatements(UseAccountStatements);
         }
       },
-      error: () => {
+      error: err => {
         setFetchingMore(false);
         setIsStatementsLoading(false);
       },
@@ -215,9 +271,7 @@ const Transactions: React.FC = () => {
     let data: IGetUserBlockedBlockedFundslistRequest | undefined = {
       accountNumer: selectedAccount?.accountNumber,
     };
-    if (
-      !selectedAccount?.accountNumber
-    ) {
+    if (!selectedAccount?.accountNumber) {
       data = undefined;
     }
     UserService.getUserBlockedFunds(data).subscribe({
@@ -252,6 +306,22 @@ const Transactions: React.FC = () => {
           return prev;
         });
         refreshStatementDebounce(() => getStatements());
+        break;
+      }
+      case filter_items.selectedCurrency: {
+        setSelectedFromCurrency(undefined);
+        break;
+      }
+      case filter_items.amountFrom: {
+        setAmountFrom(undefined);
+        break;
+      }
+      case filter_items.amountTo: {
+        setAmountTo(undefined);
+        break;
+      }
+      case filter_items.selectedCurrency: {
+        setSelectedFromCurrency(undefined);
         break;
       }
       default:
@@ -291,19 +361,42 @@ const Transactions: React.FC = () => {
   };
 
   useEffect(() => {
-    if(selectedAccount?.type !== TYPE_UNICARD) {
+    if (selectedAccount?.type !== TYPE_UNICARD) {
       GetUserBlockedFunds();
     }
   }, []);
 
   useEffect(() => {
     getStatements();
-  }, [selectedAccount, rowIndex]);
+  }, [selectedAccount, rowIndex, selectedFromCurrency, amountFrom, amountTo]);
 
   useEffect(() => {
     setStartBalance(useAccountStatements?.statementBallances?.startBallance);
     setEndBalance(useAccountStatements?.statementBallances?.endBallance);
   }, [useAccountStatements]);
+
+  useEffect(() => {
+    if (!currenciesFrom) {
+      let lempCurrencyes: ICurrency[] | undefined = [];
+      [...(userData.userAccounts || [])].map(acc => {
+        lempCurrencyes = [...(lempCurrencyes || []), ...(acc.currencies || [])];
+      });
+      lempCurrencyes = lempCurrencyes.filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex(t => t.key === value.key && t.value === value.value),
+      );
+      setCurrenciesFrom(lempCurrencyes);
+    }
+  }, [userData.userAccounts]);
+
+  const handleOffersScroll = (
+    event: NativeSyntheticEvent<NativeScrollEvent>,
+  ) => {
+    let overView =
+      event.nativeEvent.contentOffset.x / (Dimensions.get('window').width - 30);
+    setOffersStep(Math.round(overView));
+  };
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (stopFetching) return;
@@ -312,7 +405,7 @@ const Transactions: React.FC = () => {
       event.nativeEvent.layoutMeasurement.height +
         event.nativeEvent.contentOffset.y >=
       event.nativeEvent.contentSize.height - paddingToBottom;
- 
+
     if (isChunk && !fetchingMore) {
       setFetchingMore(true);
       setRowIndex(prev => {
@@ -326,6 +419,15 @@ const Transactions: React.FC = () => {
       });
     }
   };
+
+  const toggleAmountFilters = () => {
+    setIsAmountShown(as => !as);
+
+    if(isAmountShown) {
+      setAmountFrom(undefined);
+      setAmountTo(undefined);
+    }
+  }
 
   const sheetHeight = Dimensions.get('window').height - 120;
 
@@ -379,21 +481,92 @@ const Transactions: React.FC = () => {
             onChange={setSearchValue}
           />
         </View>
+        <PaginationDots
+          step={offersStep}
+          length={2}
+          style={styles.pagination}
+        />
+        <ScrollView
+          onScroll={handleOffersScroll}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.filterActionsContent}>
+          <View
+            style={[
+              {width: Dimensions.get('window').width - 30},
+              styles.filterButtons,
+            ]}>
+            <AppButton
+              title="ანგარიში"
+              onPress={chooseAccounts}
+              backgroundColor={
+                selectedAccount ? colors.primary : colors.inputBackGround
+              }
+              color={selectedAccount ? colors.white : colors.labelColor}
+            />
+            <View style={styles.currencyBox}>
+              <AppButton
+                title="ვალუტა"
+                onPress={() => setFromCurrencyVisible(true)}
+                backgroundColor={
+                  selectedFromCurrency ? colors.primary : colors.inputBackGround
+                }
+                color={selectedFromCurrency ? colors.white : colors.labelColor}
+              />
 
-        <View style={[screenStyles.wraper, styles.filterButtons]}>
-          <AppButton
-            title="ანგარიში"
-            onPress={chooseAccounts}
-            backgroundColor={colors.inputBackGround}
-            color={colors.labelColor}
-          />
-          <AppButton
-            title="თარიღი"
-            onPress={() => setDateVisible(true)}
-            backgroundColor={colors.inputBackGround}
-            color={colors.labelColor}
-          />
-        </View>
+              <CurrencySelect
+                currencies={currenciesFrom}
+                selectedCurrency={selectedFromCurrency}
+                currencyVisible={fromCurrencyVisible}
+                onSelect={currency => onFromCurrencySelect(currency)}
+                onToggle={() => setFromCurrencyVisible(!fromCurrencyVisible)}
+              />
+            </View>
+            <AppButton
+              title="თარიღი"
+              onPress={() => setDateVisible(true)}
+              backgroundColor={
+                !isBaseDate ? colors.primary : colors.inputBackGround
+              }
+              color={!isBaseDate ? colors.white : colors.labelColor}
+            />
+          </View>
+          <View
+            style={[
+              {width: Dimensions.get('window').width - 30},
+              styles.filterButtons,
+              styles.filterButtonsSecTwo
+            ]}>
+            <AppButton
+              title="თანხა"
+              onPress={toggleAmountFilters}
+              backgroundColor={
+                isAmountShown ? colors.primary : colors.inputBackGround
+              }
+              color={isAmountShown ? colors.white : colors.labelColor}
+            />
+          </View>
+        </ScrollView>
+
+        {isAmountShown && <View style={styles.amounts}>
+        <AppInput
+              onChange={setAmountFrom}
+              value={amountFrom}
+              customKey="from"
+              context=""
+              placeholder="დან"
+              style={[styles.amountInput, styles.amountFrom]}
+            />
+            <AppInput
+              onChange={setAmountTo}
+              value={amountTo}
+              customKey="from"
+              context=""
+              placeholder="მდე"
+              style={styles.amountInput}
+            />
+        </View>}
 
         <AccountSelect
           accounts={userData.userAccounts}
@@ -427,6 +600,47 @@ const Transactions: React.FC = () => {
               <TouchableOpacity
                 style={styles.activeFilterRemove}
                 onPress={removeFilter.bind(this, filter_items.selectedAccount)}>
+                <Image
+                  source={require('./../../../assets/images/x-10x10-red.png')}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+          {selectedFromCurrency && (
+            <View style={styles.activeFilterBox}>
+              <Text style={styles.filterItem}>
+                ვალუტა: {selectedFromCurrency.key}
+              </Text>
+              <TouchableOpacity
+                style={styles.activeFilterRemove}
+                onPress={removeFilter.bind(
+                  this,
+                  filter_items.selectedCurrency,
+                )}>
+                <Image
+                  source={require('./../../../assets/images/x-10x10-red.png')}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+          {amountFrom !== undefined && (
+            <View style={styles.activeFilterBox}>
+              <Text style={styles.filterItem}>დან: {amountFrom}</Text>
+              <TouchableOpacity
+                style={styles.activeFilterRemove}
+                onPress={removeFilter.bind(this, filter_items.amountFrom)}>
+                <Image
+                  source={require('./../../../assets/images/x-10x10-red.png')}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+          {amountTo !== undefined && (
+            <View style={styles.activeFilterBox}>
+              <Text style={styles.filterItem}>მდე: {amountTo}</Text>
+              <TouchableOpacity
+                style={styles.activeFilterRemove}
+                onPress={removeFilter.bind(this, filter_items.amountTo)}>
                 <Image
                   source={require('./../../../assets/images/x-10x10-red.png')}
                 />
@@ -638,6 +852,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginTop: 20,
   },
+  filterButtonsSecTwo: {
+    justifyContent: 'flex-start'
+  },
   searchInputBox: {
     marginTop: 15,
   },
@@ -694,11 +911,11 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: colors.white,
-    marginBottom: Platform.OS === 'ios' ? 40 : 0
+    marginBottom: Platform.OS === 'ios' ? 40 : 0,
   },
   button: {
     marginVertical: 30,
-    marginBottom: Platform.OS === 'ios' ? 30 : 0
+    marginBottom: Platform.OS === 'ios' ? 30 : 0,
   },
   activeFilterBox: {
     flexDirection: 'row',
@@ -736,6 +953,41 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 30,
   },
+  filterActionsContent: {
+    paddingLeft: 10,
+  },
+  pagination: {
+    alignSelf: 'flex-end',
+    paddingRight: 20,
+    marginTop: 30,
+  },
+  activeButton: {
+    backgroundColor: colors.primary,
+  },
+  currencyBox: {
+    height: 50,
+    marginTop: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.baseBackgroundColor,
+  },
+  currencyItem: {
+    backgroundColor: colors.none,
+    borderTopColor: colors.none,
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+    borderBottomColor: colors.none,
+  },
+  amountInput: {
+    width: 120,
+  },
+  amounts: {
+    paddingLeft: 25,
+    flexDirection: 'row',
+    marginTop: 20
+  },
+  amountFrom: {
+    marginRight: 20
+  }
 });
 
 export default Transactions;

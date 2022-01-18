@@ -87,7 +87,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
         refreshObj,
         {anonymous: true},
       )
-      .then(async response => {
+      .then(async response => { 
         if (!response.data.access_token) throw response;
 
         await AuthService.removeToken();

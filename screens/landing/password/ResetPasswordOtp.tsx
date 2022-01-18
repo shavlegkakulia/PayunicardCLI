@@ -92,7 +92,7 @@ const ResetPasswordOtp: React.FC = () => {
         }); 
       }
     } catch (error) {
-      console.log(JSON.stringify(error));
+     
     }
   };
 

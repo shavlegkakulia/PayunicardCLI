@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import {View, Image, Text, StyleSheet, NativeScrollEvent} from 'react-native';
+import {View, Image, Text, StyleSheet, NativeScrollEvent, Platform, TouchableOpacity} from 'react-native';
 import AppButton from './../../components/UI/AppButton';
 import PaginationDots from './../../components/PaginationDots';
 import Colors from './../../constants/colors';
@@ -7,10 +7,12 @@ import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
 } from './../../redux/action_types/translate_action_types';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useDimension} from '../../hooks/useDimension';
 import {ScrollView} from 'react-native-gesture-handler';
 import {createRef} from 'react';
+import { use } from '../../redux/actions/translate_actions';
+import colors from './../../constants/colors';
 
 interface IPageProps {
   Complate: () => void;
@@ -23,6 +25,7 @@ const FirstLoad: React.FC<IPageProps> = props => {
   ) as ITranslateState;
   const carouselRef = createRef<ScrollView>();
   const dimension = useDimension();
+  const dispatch = useDispatch();
 
   const onChange = (nativeEvent: NativeScrollEvent) => {
     if (nativeEvent) {
@@ -78,6 +81,19 @@ const FirstLoad: React.FC<IPageProps> = props => {
   return (
     <View style={styles.screenContainer}>
       <View style={styles.carouselContainer}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.authorizeText}>
+          {' '}
+        </Text>
+        <TouchableOpacity
+          onPress={async () => {
+            dispatch(use(translate.next()));
+          }}>
+          <Text style={styles.langSwitchText}>{`Switch to ${
+            translate.key === 'en' ? 'GE' : 'EN'
+          }`}</Text>
+        </TouchableOpacity>
+      </View>
         <ScrollView
           ref={carouselRef}
           onScroll={({nativeEvent}) => onChange(nativeEvent)}
@@ -147,6 +163,26 @@ const styles = StyleSheet.create({
     maxWidth: 327,
     paddingBottom: 54,
     alignSelf: 'center',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 25,
+    width: '100%',
+    marginTop: Platform.OS === 'ios' ? 20 : 0,
+    paddingHorizontal: 30
+  },
+  authorizeText: {
+    fontFamily: 'FiraGO-Medium',
+    fontSize: 14,
+    lineHeight: 16,
+    color: colors.black,
+  },
+  langSwitchText: {
+    fontFamily: 'FiraGO-Regular',
+    fontSize: 14,
+    lineHeight: 16,
+    color: colors.black,
   },
 });
 

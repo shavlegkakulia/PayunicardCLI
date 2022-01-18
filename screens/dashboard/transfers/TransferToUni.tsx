@@ -517,7 +517,7 @@ const TransferToUni: React.FC = () => {
         }); 
       }
     } catch (error) {
-      console.log(JSON.stringify(error));
+  
     }
   };
 

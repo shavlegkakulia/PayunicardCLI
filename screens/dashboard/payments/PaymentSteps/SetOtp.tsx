@@ -28,7 +28,7 @@ const SetOtp: React.FC<IProps> = (props) => {
             }); 
           }
         } catch (error) {
-          console.log(JSON.stringify(error));
+        
         }
       };
     

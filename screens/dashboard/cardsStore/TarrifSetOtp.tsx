@@ -142,7 +142,7 @@ const TarrifSetOtp: React.FC = props => {
       },
       error: err => {
         setIsLoading(false);
-        console.log(err);
+       
       },
     });
   };
@@ -175,7 +175,7 @@ const TarrifSetOtp: React.FC = props => {
         }); 
       }
     } catch (error) {
-      console.log(JSON.stringify(error));
+      
     }
   };
 

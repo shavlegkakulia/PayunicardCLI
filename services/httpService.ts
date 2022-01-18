@@ -6,6 +6,6 @@ export const post = ( Url: string, Data: any, Config: AxiosRequestConfig) => {
         const promise = axios.post<any>(Url, Data, Config);
     return from(promise);
     } catch(err) {
-        console.log(err)
+    
     }
 }

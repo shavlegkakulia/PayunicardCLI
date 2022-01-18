@@ -7,7 +7,7 @@ import {
   Text,
   Image,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import FullScreenLoader from '../../../components/FullScreenLoading';
 import AppInput from '../../../components/UI/AppInput';
 import colors from '../../../constants/colors';
@@ -40,6 +40,11 @@ const EditUserInfo: React.FC = () => {
   const [countryes, setCountries] = useState<
     ICitizenshipCountry[] | undefined
   >();
+
+  //   factAddress: დიდი დიღომი, თავდადებულის 41
+  // factCity: თბილისი
+  // factCountryID: 79
+  // factPostalCode: 0131
 
   const getCitizenshipCountries = () => {
     if (isLoading) return;
@@ -100,7 +105,7 @@ const EditUserInfo: React.FC = () => {
           {profileDataEdited?.phone !== undefined && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>{translate.t('common.mobile')}</Text>
-              <AppInput
+              {/* <AppInput
                 editable={false}
                 value={profileDataEdited?.phone}
                 onChange={phone => {
@@ -113,162 +118,109 @@ const EditUserInfo: React.FC = () => {
                 placeholder={translate.t('common.mobile')}
                 customKey="mobile"
                 context={USERCONTEXT}
-              />
+              /> */}
+              <View style={styles.infoNode}>
+                <Text style={styles.infoValue}>{profileDataEdited?.phone}</Text>
+              </View>
             </View>
           )}
-           {profileDataEdited?.name !== undefined && (
+          {profileDataEdited?.name !== undefined && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>{translate.t('common.name')}</Text>
-              <AppInput
-                editable={false}
-                value={profileDataEdited?.name}
-                onChange={name => {
-                  setProfileDataEdited(prev => {
-                    const user = {...prev};
-                    user.name = name;
-                    return user;
-                  });
-                }}
-                placeholder={translate.t('common.name')}
-                customKey="name"
-                context={USERCONTEXT}
-              />
+              <View style={styles.infoNode}>
+                <Text style={styles.infoValue}>{profileDataEdited?.name}</Text>
+              </View>
             </View>
           )}
           {profileDataEdited?.surname !== undefined && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>{translate.t('common.lname')}</Text>
-              <AppInput
-                editable={false}
-                value={profileDataEdited?.surname}
-                onChange={surname => {
-                  setProfileDataEdited(prev => {
-                    const user = {...prev};
-                    user.surname = surname;
-                    return user;
-                  });
-                }}
-                placeholder={translate.t('common.lname')}
-                customKey="lname"
-                context={USERCONTEXT}
-              />
+              <View style={styles.infoNode}>
+                <Text style={styles.infoValue}>
+                  {profileDataEdited?.surname}
+                </Text>
+              </View>
             </View>
           )}
           {profileDataEdited?.birthDate !== undefined &&
             profileDataEdited?.birthDate !== null && (
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>{translate.t('common.birthDate')}</Text>
-                <AppInput
-                  editable={false}
-                  value={new Date(profileDataEdited?.birthDate).getFullYear().toString()}
-                  onChange={() => {}}
-                  placeholder="00/00/00"
-                  customKey="date"
-                  context={USERCONTEXT}
-                />
+                <Text style={styles.label}>
+                  {translate.t('common.birthDate')}
+                </Text>
+                <View style={styles.infoNode}>
+                  <Text style={styles.infoValue}>
+                    {new Date(profileDataEdited?.birthDate)
+                      .getFullYear()
+                      .toString()}
+                  </Text>
+                </View>
               </View>
             )}
           {profileDataEdited?.personalID !== undefined &&
             profileDataEdited?.personalID !== null && (
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>{translate.t('common.personalNumber')}</Text>
-                <AppInput
-                  value={profileDataEdited?.personalID}
-                  onChange={() => {}}
-                  placeholder={translate.t('common.personalNumber')}
-                  customKey="pn"
-                  context={USERCONTEXT}
-                />
+                <Text style={styles.label}>
+                  {translate.t('common.personalNumber')}
+                </Text>
+                <View style={styles.infoNode}>
+                  <Text style={styles.infoValue}>
+                    {profileDataEdited?.personalID}
+                  </Text>
+                </View>
               </View>
             )}
-          {profileDataEdited?.email !== undefined && (
+          {profileDataEdited?.email?.trim() !== undefined && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>{translate.t('common.email')}</Text>
-              <AppInput
-                editable={false}
-                value={profileDataEdited?.email}
-                onChange={email => {
-                  setProfileDataEdited(prev => {
-                    const user = {...prev};
-                    user.email = email;
-                    return user;
-                  });
-                }}
-                placeholder={translate.t('common.email')}
-                customKey="email"
-                context={USERCONTEXT}
-              />
+              <View style={styles.infoNode}>
+                <Text style={styles.infoValue}>{profileDataEdited?.email}</Text>
+              </View>
             </View>
           )}
           {profileDataEdited?.factAddress !== undefined && (
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>{translate.t('verification.address')}</Text>
-              <AppInput
-                editable={false}
-                value={profileDataEdited?.factAddress}
-                onChange={factAddress => {
-                  setProfileDataEdited(prev => {
-                    const user = {...prev};
-                    user.factAddress = factAddress;
-                    return user;
-                  });
-                }}
-                placeholder={translate.t('verification.address')}
-                customKey="address"
-                context={USERCONTEXT}
-              />
+              <Text style={styles.label}>
+                {translate.t('verification.address')}
+              </Text>
+              <View style={styles.infoNode}>
+                <Text style={styles.infoValue}>
+                  {profileDataEdited?.factAddress}
+                </Text>
+              </View>
             </View>
           )}
-        
-          {(country && country[0]?.countryName) && (
+
+          {country && country[0]?.countryName && (
             <View style={styles.inputContainer}>
               <Text style={styles.label}>{translate.t('common.country')}</Text>
-              <AppInput
-                editable={false}
-                value={country[0]?.countryName}
-                onChange={() => {}}
-                placeholder={translate.t('common.country')}
-                customKey="mobile"
-                context={USERCONTEXT}
-              />
+              <View style={styles.infoNode}>
+                <Text style={styles.infoValue}>{country[0]?.countryName}</Text>
+              </View>
             </View>
           )}
-         {profileDataEdited?.factCity !== undefined && (
+          {profileDataEdited?.factCity !== undefined && (
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>{translate.t('verification.city')}</Text>
-              <AppInput
-                editable={false}
-                value={profileDataEdited?.factCity}
-                onChange={factCity => {
-                  setProfileDataEdited(prev => {
-                    const user = {...prev};
-                    user.factCity = factCity;
-                    return user;
-                  });
-                }}
-                placeholder={translate.t('verification.city')}
-                customKey="city"
-                context={USERCONTEXT}
-              />
+              <Text style={styles.label}>
+                {translate.t('verification.city')}
+              </Text>
+              <View style={styles.infoNode}>
+                <Text style={styles.infoValue}>
+                  {profileDataEdited?.factCity}
+                </Text>
+              </View>
             </View>
           )}
           {profileDataEdited?.factPostalCode !== undefined && (
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>{translate.t('verification.zipCode')}</Text>
-              <AppInput
-                editable={false}
-                value={profileDataEdited?.factPostalCode}
-                onChange={factPostalCode => {
-                  setProfileDataEdited(prev => {
-                    const user = {...prev};
-                    user.factPostalCode = factPostalCode;
-                    return user;
-                  });
-                }}
-                placeholder={translate.t('verification.zipCode')}
-                customKey="postal"
-                context={USERCONTEXT}
-              />
+              <Text style={styles.label}>
+                {translate.t('verification.zipCode')}
+              </Text>
+              <View style={styles.infoNode}>
+                <Text style={styles.infoValue}>
+                  {profileDataEdited?.factPostalCode}
+                </Text>
+              </View>
             </View>
           )}
 
@@ -317,13 +269,21 @@ const styles = StyleSheet.create({
     fontSize: 10,
     lineHeight: 12,
     color: colors.labelColor,
-    marginLeft: 20,
+    marginLeft: 0,
     marginBottom: 6,
   },
   docImages: {
     width: 100,
     height: 100,
     borderRadius: 10,
+  },
+  infoNode: {
+    marginHorizontal: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.inputBackGround,
+  },
+  infoValue: {
+    paddingBottom: 5,
   },
 });
 

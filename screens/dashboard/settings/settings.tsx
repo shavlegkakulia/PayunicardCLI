@@ -208,7 +208,7 @@ const Settings: React.FC = () => {
         maxHeight: 300,
       },
       r => {
-        console.log(r);
+      
       },
     );
     if (result.assets) {
@@ -395,7 +395,7 @@ const Settings: React.FC = () => {
         });
       }
     } catch (error) {
-      console.log(JSON.stringify(error));
+      
     }
   };
 

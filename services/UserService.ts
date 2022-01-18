@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {from} from 'rxjs';
+import {minusMonthFromDate} from '../utils/utils';
 import envs from './../config/env';
 import {IError} from './TemplatesService';
 
@@ -148,6 +149,10 @@ export interface IUserAccountsStatementRequest {
   endDate?: Date | undefined;
   opClass?: string | undefined;
   opExclude?: boolean | undefined;
+  accountNumberList?: string | null;
+  mccGroupids?: string;
+  amountFrom?: number;
+  amountTo?: number;
 }
 
 export interface IUserAccountsStatement {
@@ -615,8 +620,7 @@ export interface IGetUserProfileDataResponseData {
   data?: IGetUserProfileDataResponse | undefined;
 }
 
-export interface IChangeUserPasswordResponse {
-}
+export interface IChangeUserPasswordResponse {}
 
 export interface IChangeUserPasswordResponseData {
   ok: boolean;
@@ -631,9 +635,7 @@ export interface IChangePassBySystemRequest {
   confirmNewPassword?: string | undefined;
 }
 
-export interface IChangePassBySystemResponse {
-}
-
+export interface IChangePassBySystemResponse {}
 
 export interface IChangePassBySystemResponseData {
   ok: boolean;
@@ -642,19 +644,34 @@ export interface IChangePassBySystemResponseData {
 }
 
 export interface IChangeConditionRisklevelUFCRequest {
-  cardID: number,
-  status: number,
-  otp: string
+  cardID: number;
+  status: number;
+  otp: string;
 }
 
-export interface IChangeConditionRisklevelUFCResponse {
-
-}
+export interface IChangeConditionRisklevelUFCResponse {}
 
 export interface IChangeConditionRisklevelUFCResponseData {
   ok: boolean;
   errors?: IError[] | undefined;
   data?: IChangeConditionRisklevelUFCResponse | undefined;
+}
+
+export interface IEditUserProfileDataRequest {
+  factAddress?: string | undefined;
+  factCity?: string | undefined;
+  factCountryID?: number;
+  factPostalCode?: string | undefined;
+}
+
+export interface IEditUserProfileDataResponse {
+  response?: string | undefined;
+}
+
+export interface IIEditUserProfileDataResponseData {
+  ok: boolean;
+  errors?: IError[] | undefined;
+  data?: IEditUserProfileDataResponse | undefined;
 }
 
 class UserService {
@@ -684,8 +701,17 @@ class UserService {
       data.rowCount = 10;
     }
 
+    if (!data.rowIndex) {
+      data.rowIndex = 0;
+    }
+
+    if (!data.endDate) {
+      data.endDate = new Date();
+      data.startDate = minusMonthFromDate(10 * 12);
+    }
+
     const promise = axios.post<IUserAccountsStatement>(
-      `${envs.API_URL}User/GetUserAccountsStatement`,
+      `${envs.API_URL}User/GetUserAccountsStatementNew`,
       data,
     );
     return from(promise);
@@ -862,12 +888,13 @@ class UserService {
     return from(promise);
   }
 
-  editUserProfileData() {
-    // const promise = axios.put<>(
-    //   `${envs.API_URL}User/EditUserProfileData`,
-    //   {objectResponse: true},
-    // );
-    // return from(promise);
+  editUserProfileData(data: IEditUserProfileDataRequest) {
+    const promise = axios.put<IIEditUserProfileDataResponseData>(
+      `${envs.API_URL}User/EditUserProfileData`,
+      {data},
+      {objectResponse: true},
+    );
+    return from(promise);
   }
 
   ChangeUserPassword(data: IChangeUserPasswordRequest) {

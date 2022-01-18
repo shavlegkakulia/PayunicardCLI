@@ -117,7 +117,7 @@ class CardService {
     if (data.to) {
       qString += `&to=${data.to}`;
     }
-    console.log(qString)
+    
     const promise = axios.get<IGetUnicardStatementResponseData>(
       `${envs.API_URL}Card/GetUnicardStatement${qString}`,
     );

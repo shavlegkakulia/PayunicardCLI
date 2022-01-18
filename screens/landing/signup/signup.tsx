@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -79,6 +79,16 @@ const SignupForm: React.FC = () => {
       surname,
     });
   };
+
+  useEffect(() => {
+    if(countryCodes) {
+      const c = countryCodes.filter(c => c.dial_code === '+995');
+    
+      if(c.length) {
+        setCode(c[0]);
+      }
+    } 
+  }, [countryCodes])
 
   const isKeyboardOpen = keyboard.height > 0;
 

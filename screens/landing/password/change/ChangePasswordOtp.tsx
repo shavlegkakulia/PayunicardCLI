@@ -115,7 +115,7 @@ const ChangePasswordOtp: React.FC = () => {
         }); 
       }
     } catch (error) {
-      console.log(JSON.stringify(error));
+    
     }
   };
 

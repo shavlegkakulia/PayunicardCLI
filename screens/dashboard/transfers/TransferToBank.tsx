@@ -434,7 +434,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
         }); 
       }
     } catch (error) {
-      console.log(JSON.stringify(error));
+  
     }
   };
 

@@ -7,6 +7,7 @@ import {
 } from '../redux/action_types/auth_action_types';
 import NetworkService from '../services/NetworkService';
 import DashboardLayoutRightDarwer from '../navigation/DashboardLayoutRightDarwer';
+import IdleHook from './idleHook';
 
 const DashboardLayout: React.FC = props => {
   const dispatch = useDispatch();
@@ -20,7 +21,11 @@ const DashboardLayout: React.FC = props => {
     });
   }, []);
 
-  return <DashboardLayoutRightDarwer children={props.children} />;
+  return (
+    <DashboardLayoutRightDarwer>
+      <IdleHook>{props.children}</IdleHook>
+    </DashboardLayoutRightDarwer>
+  );
 };
 
 export default DashboardLayout;

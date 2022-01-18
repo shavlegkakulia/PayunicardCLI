@@ -777,7 +777,7 @@ const ProductDetail: React.FC = props => {
         }); 
       }
     } catch (error) {
-      console.log(JSON.stringify(error));
+      
     }
   };
 

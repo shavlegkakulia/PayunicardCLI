@@ -134,7 +134,7 @@ const TarriffCalculator: React.FC = props => {
       },
       complete: () => {},
       error: err => {
-        console.log(err);
+       
       },
     });
   };

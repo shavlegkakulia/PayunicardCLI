@@ -87,7 +87,7 @@ const RefreshTokenOtp: React.FC = () => {
         }); 
       }
     } catch (error) {
-      console.log(JSON.stringify(error));
+   
     }
   };
 

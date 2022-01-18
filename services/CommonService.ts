@@ -21,6 +21,7 @@ class CommonService {
     })
   }
   DeviceData: string = '';
+  intervals: Array<NodeJS.Timeout> = [];
   //register common interseptors for normalzing response
   //when objectResponse is passed in config returns noly ObjectResponse
   registerCommonInterceptor() {
@@ -63,7 +64,8 @@ class CommonService {
         if(error?.response?.status === 401) {
           return Promise.reject(error);
         }
-        console.log('*****error in common interceptor******', error);
+       // console.log('*****error in common interceptor******', error);
+       console.log('*****error in common interceptor******', error.toJSON());
         const stringTranslator = Store.getState().TranslateReduser;
         let netInfo = await NetInfo.fetch();
         if (!netInfo.isConnected) {
@@ -93,6 +95,7 @@ class CommonService {
       },
     };
   }
+
 }
 
 export default new CommonService();
