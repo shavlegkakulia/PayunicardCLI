@@ -61,7 +61,7 @@ const TrustedDevices: React.FC = () => {
   const renderItem = ({item}: {item: IDevices}) => (
     <View style={[styles.item, item.isCurrent && styles.isCurrent]}>
       <View style={styles.navItemDetail}>
-        <Text style={styles.navItemTitle} numberOfLines={1}>{item.deviceDescription}gfdgf gfgfgfgf dgf</Text>
+        <Text style={styles.navItemTitle} numberOfLines={1}>{item.deviceDescription}</Text>
       </View>
       <Switch
         style={styles.check}
@@ -133,7 +133,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   isCurrent: {
-      backgroundColor: colors.primary
+      borderColor: colors.primary,
+      borderWidth: 1
   }
 });
 

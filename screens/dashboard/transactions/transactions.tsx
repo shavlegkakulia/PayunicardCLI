@@ -194,18 +194,26 @@ const Transactions: React.FC = () => {
     }
 
     if (selectedAccount) {
-      if (selectedFromCurrency)
+      if (selectedFromCurrency) {
         data = {
           ...data,
           accountNumberList:
             selectedAccount?.accountNumber?.toString() +
             getString(selectedFromCurrency.key),
         };
-      else
+      }
+      else {
+        let _accountNumberList: Array<string> = [];
+        const accountNumber = selectedAccount?.accountNumber?.toString();
+        selectedAccount.currencies?.forEach(c => {
+          _accountNumberList.push(getString(accountNumber?.concat(getString(c.key))));
+        });
+
         data = {
           ...data,
-          accountNumberList: selectedAccount?.accountNumber?.toString(),
+          accountNumberList: _accountNumberList.join(","),
         };
+      }
     } else {
       data = {
         ...data,

@@ -642,7 +642,7 @@ const TransactionDetailView: React.FC<IProps> = props => {
 
   return (
     <View style={styles.container}>
-      {transactionType === TRANSACTION_TYPES.CLIRING || transactionType === TRANSACTION_TYPES.TRANPOS && (
+      {(transactionType === TRANSACTION_TYPES.CLIRING || transactionType === TRANSACTION_TYPES.TRANPOS) && (
         <ViewCliring {...props} onDownload={downloadPdf} />
       )}
 
