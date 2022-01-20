@@ -85,7 +85,7 @@ const OffersView: React.FC = () => {
             <Image
               source={{uri: o.imageUrl}}
               style={styles.offersContainerItemImage}
-              resizeMode="cover"
+              resizeMode="stretch"
             />
             <View style={styles.offersContainerItemDetails}>
               <Text style={styles.offersContainerItemDetailsTitle} numberOfLines={1}>
