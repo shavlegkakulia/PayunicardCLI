@@ -1,8 +1,10 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
+  KeyboardAvoidingView,
   Modal,
+  Platform,
   ScrollView,
   StyleSheet,
   Switch,
@@ -10,13 +12,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {SafeAreaView} from 'react-navigation';
-import {useDispatch, useSelector} from 'react-redux';
+import { SafeAreaView } from 'react-navigation';
+import { useDispatch, useSelector } from 'react-redux';
 import colors from '../../../constants/colors';
 import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
-import {en_us, ka_ge} from '../../../lang';
+import { en_us, ka_ge } from '../../../lang';
 import Routes from '../../../navigation/routes';
-import {use} from '../../../redux/actions/translate_actions';
+import { use } from '../../../redux/actions/translate_actions';
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
@@ -26,15 +28,15 @@ import {
   IUserState,
 } from '../../../redux/action_types/user_action_types';
 import NavigationService from '../../../services/NavigationService';
-import {subscriptionService} from '../../../services/subscriptionService';
+import { subscriptionService } from '../../../services/subscriptionService';
 import screenStyles from '../../../styles/screens';
 import DashboardLayout from '../../DashboardLayout';
 import storage from './../../../services/StorageService';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import UserService, {
   IUpdateUserProfileImageRequest,
 } from '../../../services/UserService';
-import {getString} from '../../../utils/Converter';
+import { getString } from '../../../utils/Converter';
 import Cover from '../../../components/Cover';
 import {
   FetchUserAccounts,
@@ -51,10 +53,10 @@ import FilesService, {
   IUploadFileRequest,
 } from '../../../services/FilesService';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
-import {debounce} from '../../../utils/utils';
-import {AUTH_USER_INFO, DEVICE_ID} from '../../../constants/defaults';
+import { debounce } from '../../../utils/utils';
+import { AUTH_USER_INFO, DEVICE_ID } from '../../../constants/defaults';
 import FullScreenLoader from '../../../components/FullScreenLoading';
-import {tabHeight} from '../../../navigation/TabNav';
+import { tabHeight } from '../../../navigation/TabNav';
 import deviceService, {
   IGenerateDeviceIdRequest,
 } from '../../../services/deviceService';
@@ -70,7 +72,7 @@ import {
   SET_ACTIVE_DEVICES,
   SET_DEVICE_ID,
 } from '../../../redux/action_types/auth_action_types';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const Settings: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -82,7 +84,7 @@ const Settings: React.FC = () => {
   const [isSensorAvailable, setIsSensorAvailable] = useState<
     boolean | undefined
   >(undefined);
-  const [{ka, en}, setLangActive] = useState({ka: false, en: false});
+  const [{ ka, en }, setLangActive] = useState({ ka: false, en: false });
   const userState = useSelector<IGloablState>(
     state => state.UserReducer,
   ) as IUserState;
@@ -193,7 +195,7 @@ const Settings: React.FC = () => {
       maxHeight: 300,
     });
     if (result.assets) {
-      const {base64, fileName} = result.assets[0];
+      const { base64, fileName } = result.assets[0];
       uploadImage(getString(fileName), getString(base64));
     }
   };
@@ -208,11 +210,11 @@ const Settings: React.FC = () => {
         maxHeight: 300,
       },
       r => {
-      
+
       },
     );
     if (result.assets) {
-      const {base64, fileName} = result.assets[0];
+      const { base64, fileName } = result.assets[0];
       uploadImage(getString(fileName), getString(base64));
       //updateUserProfileImage(getString(base64).replace(/'/g, "'"));
     }
@@ -295,7 +297,7 @@ const Settings: React.FC = () => {
       let OTP: GeneratePhoneOtpByUserRequest = {
         userName: userState.userDetails?.username,
       };
-      OTPService.GeneratePhoneOtpByUser({OTP}).subscribe({
+      OTPService.GeneratePhoneOtpByUser({ OTP }).subscribe({
         next: Response => {
           if (Response.data.ok) {
             setOtpModalVisible(true);
@@ -312,7 +314,7 @@ const Settings: React.FC = () => {
   };
 
   const onSwitch = (value: boolean) => {
-    if(!value) {
+    if (!value) {
       onOffTrustDevice();
       return;
     } else {
@@ -358,7 +360,7 @@ const Settings: React.FC = () => {
   const onOffTrustDevice = () => {
     if (isTrstedProcessing) return;
     const current = [...(authData.devices || [])].filter(device => device.isCurrent === true);
-    if(!current.length) return;
+    if (!current.length) return;
     setIsTrustedProcessing(true);
     deviceService.UpdateDeviceStatus(current[0].id).subscribe({
       next: Response => {
@@ -368,9 +370,9 @@ const Settings: React.FC = () => {
           );
 
           storage.removeItem(DEVICE_ID);
-          dispatch({type: SET_DEVICE_ID, deviceId: undefined});
+          dispatch({ type: SET_DEVICE_ID, deviceId: undefined });
 
-          dispatch({type: SET_ACTIVE_DEVICES, devices: _ds});
+          dispatch({ type: SET_ACTIVE_DEVICES, devices: _ds });
           onTrust(false);
         }
       },
@@ -395,7 +397,7 @@ const Settings: React.FC = () => {
         });
       }
     } catch (error) {
-      
+
     }
   };
 
@@ -409,7 +411,7 @@ const Settings: React.FC = () => {
     deviceService.GetDevices().subscribe({
       next: Response => {
         if (Response.data.ok) {
-          dispatch({type: SET_ACTIVE_DEVICES, devices: Response.data.data?.devices});
+          dispatch({ type: SET_ACTIVE_DEVICES, devices: Response.data.data?.devices });
         }
       },
       complete: () => setIsTrustedProcessing(false),
@@ -501,7 +503,7 @@ const Settings: React.FC = () => {
             <View style={styles.profile}>
               <View style={styles.coverBox}>
                 <Image
-                  source={{uri: userState.userDetails?.imageUrl}}
+                  source={{ uri: userState.userDetails?.imageUrl }}
                   style={styles.userImg}
                 />
               </View>
@@ -682,36 +684,56 @@ const Settings: React.FC = () => {
             />
           </View>
         </ActionSheetCustom>
-
+      </SafeAreaView>
       <Modal
         visible={otpModalVisible}
         onRequestClose={onOtpModalClose}
         animationType="slide">
-        <View style={styles.otpContent}>
-          <FloatingLabelInput
-            Style={styles.otpBox2}
-            label={translate.t('otp.smsCode')}
-            resendTitle={translate.t('otp.resend')}
-            title=""
-            value={otp}
-            onChangeText={setOtp}
-            onRetry={SendPhoneOTP}
-          />
+        <KeyboardAvoidingView
+          behavior="padding"
+          keyboardVerticalOffset={0}
+          style={styles.avoid}>
+          <View style={styles.modalBody}>
+            <View>
+              <View style={styles.insertOtpSTep}>
+                <Text style={styles.insertOtpCode}>{translate.t('otp.enterOtp')}</Text>
+                <FloatingLabelInput
+                  Style={styles.otpBox}
+                  label={translate.t('otp.smsCode')}
+                  title={translate.t('otp.otpSentBlank')}
+                  resendTitle={translate.t('otp.resend')}
+                  value={otp}
+                  onChangeText={setOtp}
+                  onRetry={SendPhoneOTP}
+                />
+              </View>
+            </View>
+            <AppButton
+              title={translate.t('common.next')}
+              onPress={onTrustDevice}
+              isLoading={isLoading}
+            />
+          </View>
+        </KeyboardAvoidingView>
 
-          <AppButton
-            title={translate.t('common.next')}
-            onPress={onTrustDevice}
-            style={styles.otpButton}
-            isLoading={isTrstedProcessing}
-          />
-        </View>
       </Modal>
-      </SafeAreaView>
+
     </DashboardLayout>
   );
 };
 
 const styles = StyleSheet.create({
+  avoid: {
+    flexGrow: 1,
+    padding: 24,
+    backgroundColor: colors.white,
+  },
+  modalBody: {
+    paddingTop: 50,
+    justifyContent: 'space-between',
+    flex: 1,
+    paddingBottom: Platform.OS === 'ios' ? 20 : tabHeight + 40,
+  },
   container: {
     paddingBottom: tabHeight,
   },
@@ -719,16 +741,19 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: colors.white,
   },
-  otpContent: {
-    justifyContent: 'space-between',
-    flex: 1,
-    paddingHorizontal: 30,
+  insertOtpSTep: {
+    marginTop: 25,
   },
-  otpButton: {
-    marginBottom: tabHeight + 40,
+  insertOtpCode: {
+    fontFamily: 'FiraGO-Bold',
+    fontWeight: '500',
+    color: colors.black,
+    fontSize: 24,
+    lineHeight: 29,
+    textAlign: 'left',
   },
-  otpBox2: {
-    top: Dimensions.get('window').height / 4,
+  otpBox: {
+    marginTop: 40,
   },
   coverBox: {
     width: 40,

@@ -22,7 +22,7 @@ const IdleHook: React.FC = props => {
         resetInactivityTimeout();
         return true;
       },
-      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => false,
       onStartShouldSetPanResponderCapture: () => {
         resetInactivityTimeout();
         return false;

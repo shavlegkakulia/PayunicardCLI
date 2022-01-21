@@ -112,6 +112,7 @@ const RefreshTokenOtp: React.FC = () => {
               Style={styles.otpBox}
               label={translate.t('otp.smsCode')}
               title={translate.t('otp.otpSentBlank')}
+              resendTitle={translate.t('otp.resend')}
               value={otpGuid}
               onChangeText={setOtpGuid}
               onRetry={goRefreshToken}

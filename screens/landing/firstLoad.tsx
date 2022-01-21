@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 25,
     width: '100%',
-    marginTop: Platform.OS === 'ios' ? 20 : 0,
+    marginTop: Platform.OS === 'ios' ? 40 : 0,
     paddingHorizontal: 30
   },
   authorizeText: {
