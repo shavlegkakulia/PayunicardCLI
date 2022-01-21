@@ -147,11 +147,8 @@ class AuthService {
     })
     const setAuthToken = async (config: AxiosRequestConfig) => {
       config.headers = config.headers || {};
-      let { accesToken, deviceId } = Store.getState().AuthReducer;
-      if(deviceId) {
-        config.headers['x-device-id'] = deviceId;
-      }
-  
+      let { accesToken } = Store.getState().AuthReducer;
+
       if (accesToken) {
         config.headers.Authorization = `Bearer ${accesToken}`;
       }
@@ -174,7 +171,11 @@ class AuthService {
     //add auth header
     let requestInterceptor = axios.interceptors.request.use(
       async (config: AxiosRequestConfig) => {
-        let { accesToken, isAuthenticated } = Store.getState().AuthReducer;
+        let { accesToken, isAuthenticated, deviceId } = Store.getState().AuthReducer;
+        if(deviceId) {
+          config.headers['x-device-id'] = deviceId;
+        }
+        
         if (isAuthenticated && !config.anonymous) {
           //if refreshStarted wait
           if (this.refreshStarted && !config.skipRefresh) {
