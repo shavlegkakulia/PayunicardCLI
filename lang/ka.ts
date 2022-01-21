@@ -39,7 +39,11 @@ export default {
         maxPayfAmount: 'მაქსიმალური გადასახდელი თანხა შეადგენს',
         confirm: 'დადასტურება',
         bankTransferDetails: 'საბანკო რეკვიზიტები',
-        trustedDevices: 'სანდო მოწყობილობები'
+        trustedDevices: 'სანდო მოწყობილობები',
+        choose: "არჩევა",
+        date: 'თარიღი',
+        from: 'დან',
+        to: 'მდე'
     },
 
     generalErrors: {
@@ -97,7 +101,8 @@ export default {
         myPayments: "ჩემი გადახდები",
         myTransfers: "ჩემი გადარიცხვები",
         myTransactions: 'ჩემი ტრანზაქციები',
-        offerDetail: ''
+        offerDetail: '',
+        transactions: 'ტრანზაქციები'
     },
     settings: {
         personalInfo: 'პერსონალური ინფორმაცია',
@@ -195,7 +200,13 @@ export default {
         provider: 'პროვაიდერის დასახელება',
         bankCode: 'ბანკის კოდი',
         blockedFunds: 'ბლოკირებული თანხა',
-        terminalNumber: 'ტერმინალის ნომერი'
+        terminalNumber: 'ტერმინალის ნომერი',
+        lastMonth: 'ბოლო ერთი თვე',
+        lastThreeMonths: 'ბოლო სამი თვე',
+        lastSixMonths: 'ბოლო ექვსი თვე',
+        lastYear: 'ბოლო ერთი წელი',
+        startDate: 'თარიღიდან',
+        endDate: 'თარიღამდე'
     }, 
     transfer: {
         transferTemplates: 'გადარიცხვის შაბლონები',
@@ -222,7 +233,10 @@ export default {
         currencyRate: 'ვალუტის კურსი',
         confirmTransfer: 'გადარიცხვის დადასტურება',
         transactionSuccessfull: 'ტრანზაქცია წარმატებით შესრულდა',
-        freeOfCharge: '* ანგარიშებს შორის გადარიცხვა უფასოა'
+        freeOfCharge: '* ანგარიშებს შორის გადარიცხვა უფასოა',
+        account: 'ანგარიში',
+        startBalance: 'საწყისი ნაშთი',
+        endBalance: 'საბოლოო ნაშთი'
     },
     topUp: {
         withCard: 'ბარათით',

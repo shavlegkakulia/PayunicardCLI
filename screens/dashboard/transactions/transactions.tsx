@@ -476,7 +476,7 @@ const Transactions: React.FC = () => {
           />
         }>
         <View style={[screenStyles.wraper, styles.titleContainer]}>
-          <Text style={styles.title}>ტრანზაქციები</Text>
+          <Text style={styles.title}>{translate.t('tabNavigation.transactions')}</Text>
         </View>
 
         <View style={[screenStyles.wraper, styles.searchInputBox]}>
@@ -506,7 +506,7 @@ const Transactions: React.FC = () => {
               styles.filterButtons,
             ]}>
             <AppButton
-              title="ანგარიში"
+              title={translate.t('transfer.account')}
               onPress={chooseAccounts}
               backgroundColor={
                 selectedAccount ? colors.primary : colors.inputBackGround
@@ -515,7 +515,7 @@ const Transactions: React.FC = () => {
             />
             <View style={styles.currencyBox}>
               <AppButton
-                title="ვალუტა"
+                title={translate.t('transfer.currency')}
                 onPress={() => setFromCurrencyVisible(true)}
                 backgroundColor={
                   selectedFromCurrency ? colors.primary : colors.inputBackGround
@@ -532,7 +532,7 @@ const Transactions: React.FC = () => {
               />
             </View>
             <AppButton
-              title="თარიღი"
+              title={translate.t('common.date')}
               onPress={() => setDateVisible(true)}
               backgroundColor={
                 !isBaseDate ? colors.primary : colors.inputBackGround
@@ -547,7 +547,7 @@ const Transactions: React.FC = () => {
               styles.filterButtonsSecTwo
             ]}>
             <AppButton
-              title="თანხა"
+              title={translate.t('common.amount')}
               onPress={toggleAmountFilters}
               backgroundColor={
                 isAmountShown ? colors.primary : colors.inputBackGround
@@ -563,7 +563,7 @@ const Transactions: React.FC = () => {
               value={amountFrom}
               customKey="from"
               context=""
-              placeholder="დან"
+              placeholder={translate.t('common.from')}
               style={[styles.amountInput, styles.amountFrom]}
             />
             <AppInput
@@ -571,7 +571,7 @@ const Transactions: React.FC = () => {
               value={amountTo}
               customKey="from"
               context=""
-              placeholder="მდე"
+              placeholder={translate.t('common.to')}
               style={styles.amountInput}
             />
         </View>}
@@ -587,7 +587,7 @@ const Transactions: React.FC = () => {
         <View style={[styles.filterValues, screenStyles.wraper]}>
           <View style={styles.activeFilterBox}>
             <Text style={styles.filterItem}>
-              თარიღი: {selectedStartDate.toLocaleDateString()} -{' '}
+            {translate.t('common.date')}: {selectedStartDate.toLocaleDateString()} -{' '}
               {selectedEndDate.toLocaleDateString()}
             </Text>
             {!isBaseDate && (
@@ -603,7 +603,7 @@ const Transactions: React.FC = () => {
           {selectedAccount && (
             <View style={styles.activeFilterBox}>
               <Text style={styles.filterItem}>
-                ანგარიში: {selectedAccount?.accountNumber}
+                {translate.t('transfer.account')}: {selectedAccount?.accountNumber}
               </Text>
               <TouchableOpacity
                 style={styles.activeFilterRemove}
@@ -617,7 +617,7 @@ const Transactions: React.FC = () => {
           {selectedFromCurrency && (
             <View style={styles.activeFilterBox}>
               <Text style={styles.filterItem}>
-                ვალუტა: {selectedFromCurrency.key}
+              {translate.t('transfer.currency')}: {selectedFromCurrency.key}
               </Text>
               <TouchableOpacity
                 style={styles.activeFilterRemove}
@@ -633,7 +633,7 @@ const Transactions: React.FC = () => {
           )}
           {amountFrom !== undefined && (
             <View style={styles.activeFilterBox}>
-              <Text style={styles.filterItem}>დან: {amountFrom}</Text>
+              <Text style={styles.filterItem}> {translate.t('common.from')}: {amountFrom}</Text>
               <TouchableOpacity
                 style={styles.activeFilterRemove}
                 onPress={removeFilter.bind(this, filter_items.amountFrom)}>
@@ -645,7 +645,7 @@ const Transactions: React.FC = () => {
           )}
           {amountTo !== undefined && (
             <View style={styles.activeFilterBox}>
-              <Text style={styles.filterItem}>მდე: {amountTo}</Text>
+              <Text style={styles.filterItem}>{translate.t('common.to')}: {amountTo}</Text>
               <TouchableOpacity
                 style={styles.activeFilterRemove}
                 onPress={removeFilter.bind(this, filter_items.amountTo)}>
@@ -658,11 +658,11 @@ const Transactions: React.FC = () => {
           {!unicardStatements && (
             <>
               <Text style={styles.filterItem}>
-                საბოლოო ნაშთი: {CurrencyConverter(endBalance)}{' '}
+              {translate.t('transfer.startBalance')}: {CurrencyConverter(endBalance)}{' '}
                 {CurrencySimbolConverter(GEL)}
               </Text>
               <Text style={styles.filterItem}>
-                საწყისი ნაშთი: {CurrencyConverter(startBalance)}{' '}
+              {translate.t('transfer.endBalance')}: {CurrencyConverter(startBalance)}{' '}
                 {CurrencySimbolConverter(GEL)}
               </Text>
             </>
@@ -698,7 +698,7 @@ const Transactions: React.FC = () => {
         onPress={closeSheet}>
         <View style={styles.topContainer}>
           <View>
-            <Text style={styles.actionSheetTitle}>თარიღი</Text>
+            <Text style={styles.actionSheetTitle}>{translate.t('common.date')}</Text>
 
             <View style={styles.chooseDates}>
               <TouchableOpacity
@@ -706,7 +706,7 @@ const Transactions: React.FC = () => {
                   setFromVisible(true);
                   setToVisible(false);
                 }}>
-                <Text style={styles.dateTitle}>თარიღიდან</Text>
+                <Text style={styles.dateTitle}>{translate.t('transaction.startDate')}</Text>
                 <Text style={styles.dateValue}>
                   {selectedStartDate.toLocaleDateString()}
                 </Text>
@@ -717,7 +717,7 @@ const Transactions: React.FC = () => {
                   setFromVisible(false);
                   setToVisible(true);
                 }}>
-                <Text style={styles.dateTitle}>თარიღამდე</Text>
+                <Text style={styles.dateTitle}>{translate.t('transaction.endDate')}</Text>
                 <Text style={styles.dateValue}>
                   {selectedEndDate.toLocaleDateString()}
                 </Text>
@@ -729,12 +729,12 @@ const Transactions: React.FC = () => {
                 <TouchableOpacity
                   style={styles.lastDate}
                   onPress={getLast.bind(this, 1)}>
-                  <Text style={styles.lastDateText}>ბოლო თვე</Text>
+                  <Text style={styles.lastDateText}>{translate.t('transaction.lastMonth')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.lastDate}
                   onPress={getLast.bind(this, 3)}>
-                  <Text style={styles.lastDateText}>ბოლო სამი თვე</Text>
+                  <Text style={styles.lastDateText}>{translate.t('transaction.lastThreeMonths')}</Text>
                 </TouchableOpacity>
               </View>
 
@@ -742,12 +742,12 @@ const Transactions: React.FC = () => {
                 <TouchableOpacity
                   style={styles.lastDate}
                   onPress={getLast.bind(this, 6)}>
-                  <Text style={styles.lastDateText}>ბოლო ექვსი თვე</Text>
+                  <Text style={styles.lastDateText}>{translate.t('transaction.lastSixMonths')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.lastDate}
                   onPress={getLast.bind(this, 12)}>
-                  <Text style={styles.lastDateText}>ბოლო წელი</Text>
+                  <Text style={styles.lastDateText}>{translate.t('transaction.lastYear')}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -761,7 +761,7 @@ const Transactions: React.FC = () => {
                   setFromVisible(false);
                 }}
                 style={styles.datePickerAction}>
-                <Text style={styles.startDatePickerActionTitle}>არჩევა</Text>
+                <Text style={styles.startDatePickerActionTitle}>{translate.t('common.choose')}</Text>
               </TouchableOpacity>
 
               <DatePicker
@@ -789,7 +789,7 @@ const Transactions: React.FC = () => {
                   setToVisible(false);
                 }}
                 style={styles.datePickerAction}>
-                <Text style={styles.endDatePickerActionTitle}>არჩევა</Text>
+                <Text style={styles.endDatePickerActionTitle}>{translate.t('common.choose')}</Text>
               </TouchableOpacity>
 
               <DatePicker

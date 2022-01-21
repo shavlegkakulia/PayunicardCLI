@@ -418,7 +418,7 @@ const Verification: React.FC = () => {
       employmentStatusCode:
         VerficationStore.selectedEmploymentStatus?.employmentStatusCode,
       employmentTypeCode:
-        VerficationStore.selectedEmploymentStatus?.employmentStatus,
+        VerficationStore.selectedJobType?.customerEmploymentTypeCode,
       employer: VerficationStore.complimentary,
       workPosition: VerficationStore.occupiedPosition,
       expectedTurnoverCode:

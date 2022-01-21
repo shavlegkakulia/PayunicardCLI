@@ -682,7 +682,7 @@ const Settings: React.FC = () => {
             />
           </View>
         </ActionSheetCustom>
-      </SafeAreaView>
+
       <Modal
         visible={otpModalVisible}
         onRequestClose={onOtpModalClose}
@@ -706,6 +706,7 @@ const Settings: React.FC = () => {
           />
         </View>
       </Modal>
+      </SafeAreaView>
     </DashboardLayout>
   );
 };

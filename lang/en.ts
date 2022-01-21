@@ -38,7 +38,11 @@ export default {
         saveTemplate: 'Save As Template',
         confirm: 'Confirm',
         bankTransferDetails: 'Bank Transfer Details',
-        trustedDevices: 'Trusted Devices'
+        trustedDevices: 'Trusted Devices',
+        choose: "Choose",
+        date: 'Date',
+        from: 'From',
+        to: 'To'
     },
     generalErrors: {
         errorOccurred: 'An Error Occurred',
@@ -81,7 +85,8 @@ export default {
         myPayments: "My Payments",
         myTransfers: "My Transfers",
         myTransactions: 'My Transactions',
-        offerDetail: ''
+        offerDetail: '',
+        transactions: 'Transactions'
     },
     forgotPassword: {
         resetPassword: 'Reset Password',
@@ -156,8 +161,13 @@ export default {
         provider: 'Provider Name',
         bankCode: 'Bank Code',
         blockedFunds: 'Blocked Funds',
-        terminalNumber: 'Terminal Number'
-
+        terminalNumber: 'Terminal Number',
+        lastMonth: 'Last Month',
+        lastThreeMonths: 'Last Three Months',
+        lastSixMonths: 'Last Six Months',
+        lastYear: 'Last Year',
+        startDate: 'Start Date',
+        endDate: 'End Date'
     },
     dashboard: {
         userVerifyStatus1: 'In order to use all features of your wallet please complete identification.',
@@ -216,7 +226,10 @@ export default {
         currencyRate: 'Exchange Rate',
         confirmTransfer: 'Confirm Transfer',
         transactionSuccessfull: 'Transaction Successful',
-        freeOfCharge: '* Transfer Between Accounts Is Free Of Charge'
+        freeOfCharge: '* Transfer Between Accounts Is Free Of Charge',
+        account: 'Account',
+        startBalance: 'Start Balance',
+        endBalance: 'End Balance'
     },
     topUp: {
         withAnotherCard: 'Use Another Card',
