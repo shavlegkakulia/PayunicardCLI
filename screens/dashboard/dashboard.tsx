@@ -238,7 +238,7 @@ const Dashboard: React.FC<IProps> = props => {
         </View>
         <OffersView />
         <View style={screenStyles.wraper}>
-          <TransactionsList />
+          <TransactionsList statements={[...(userData.useAccountStatements?.statements || [])]} />
         </View>
       </ScrollView>
 

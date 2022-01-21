@@ -1315,7 +1315,7 @@ const ProductDetail: React.FC = props => {
           )}
         <View style={styles.line}></View>
         <View style={[screenStyles.wraper, styles.transactions]}>
-          <TransactionsList hideSeeMoreButton={true} />
+          <TransactionsList hideSeeMoreButton={true} statements={[...(userData.useAccountStatements?.statements || [])]} />
         </View>
       </ReactScroll>
       <ActionSheetCustom
