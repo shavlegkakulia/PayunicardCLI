@@ -80,7 +80,7 @@ const Transactions: React.FC = () => {
   const [stopFetching, setStopFetching] = useState(false);
   const [startBalance, setStartBalance] = useState<number | undefined>();
   const [endBalance, setEndBalance] = useState<number | undefined>();
-  const [rowIndex, setRowIndex] = useState<number>(1);
+  const [rowIndex, setRowIndex] = useState<number>(0);
   const [selectedAccount, setSelectedAccount] = useState<
     IAccountBallance | undefined
   >();
@@ -201,23 +201,33 @@ const Transactions: React.FC = () => {
             selectedAccount?.accountNumber?.toString() +
             getString(selectedFromCurrency.key),
         };
-      }
-      else {
+      } else {
         let _accountNumberList: Array<string> = [];
         const accountNumber = selectedAccount?.accountNumber?.toString();
         selectedAccount.currencies?.forEach(c => {
-          _accountNumberList.push(getString(accountNumber?.concat(getString(c.key))));
+          _accountNumberList.push(
+            getString(accountNumber?.concat(getString(c.key))),
+          );
         });
 
         data = {
           ...data,
-          accountNumberList: _accountNumberList.join(","),
+          accountNumberList: _accountNumberList.join(','),
         };
       }
     } else {
+      let _accountNumberList: Array<string> = [];
+      if (selectedFromCurrency) {
+        const currency = selectedFromCurrency?.key;
+        userData.userAccounts?.forEach(a => {
+          _accountNumberList.push(
+            getString(a.accountNumber?.concat(getString(currency))),
+          );
+        });
+      }
       data = {
         ...data,
-        accountNumberList: null,
+        accountNumberList: _accountNumberList ? _accountNumberList.join(',') : null,
       };
     }
 
@@ -228,7 +238,7 @@ const Transactions: React.FC = () => {
     if (amountTo) {
       data = {...data, amountTo: getNumber(amountTo)};
 
-      if(!amountFrom) {
+      if (!amountFrom) {
         data = {...data, amountFrom: 0};
       }
     }
@@ -431,11 +441,11 @@ const Transactions: React.FC = () => {
   const toggleAmountFilters = () => {
     setIsAmountShown(as => !as);
 
-    if(isAmountShown) {
+    if (isAmountShown) {
       setAmountFrom(undefined);
       setAmountTo(undefined);
     }
-  }
+  };
 
   const sheetHeight = Dimensions.get('window').height - 120;
 
@@ -476,7 +486,9 @@ const Transactions: React.FC = () => {
           />
         }>
         <View style={[screenStyles.wraper, styles.titleContainer]}>
-          <Text style={styles.title}>{translate.t('tabNavigation.transactions')}</Text>
+          <Text style={styles.title}>
+            {translate.t('tabNavigation.transactions')}
+          </Text>
         </View>
 
         <View style={[screenStyles.wraper, styles.searchInputBox]}>
@@ -544,7 +556,7 @@ const Transactions: React.FC = () => {
             style={[
               {width: Dimensions.get('window').width - 30},
               styles.filterButtons,
-              styles.filterButtonsSecTwo
+              styles.filterButtonsSecTwo,
             ]}>
             <AppButton
               title={translate.t('common.amount')}
@@ -557,8 +569,9 @@ const Transactions: React.FC = () => {
           </View>
         </ScrollView>
 
-        {isAmountShown && <View style={styles.amounts}>
-        <AppInput
+        {isAmountShown && (
+          <View style={styles.amounts}>
+            <AppInput
               onChange={setAmountFrom}
               value={amountFrom}
               customKey="from"
@@ -574,7 +587,8 @@ const Transactions: React.FC = () => {
               placeholder={translate.t('common.to')}
               style={styles.amountInput}
             />
-        </View>}
+          </View>
+        )}
 
         <AccountSelect
           accounts={userData.userAccounts}
@@ -587,7 +601,8 @@ const Transactions: React.FC = () => {
         <View style={[styles.filterValues, screenStyles.wraper]}>
           <View style={styles.activeFilterBox}>
             <Text style={styles.filterItem}>
-            {translate.t('common.date')}: {selectedStartDate.toLocaleDateString()} -{' '}
+              {translate.t('common.date')}:{' '}
+              {selectedStartDate.toLocaleDateString()} -{' '}
               {selectedEndDate.toLocaleDateString()}
             </Text>
             {!isBaseDate && (
@@ -603,7 +618,8 @@ const Transactions: React.FC = () => {
           {selectedAccount && (
             <View style={styles.activeFilterBox}>
               <Text style={styles.filterItem}>
-                {translate.t('transfer.account')}: {selectedAccount?.accountNumber}
+                {translate.t('transfer.account')}:{' '}
+                {selectedAccount?.accountNumber}
               </Text>
               <TouchableOpacity
                 style={styles.activeFilterRemove}
@@ -617,7 +633,7 @@ const Transactions: React.FC = () => {
           {selectedFromCurrency && (
             <View style={styles.activeFilterBox}>
               <Text style={styles.filterItem}>
-              {translate.t('transfer.currency')}: {selectedFromCurrency.key}
+                {translate.t('transfer.currency')}: {selectedFromCurrency.key}
               </Text>
               <TouchableOpacity
                 style={styles.activeFilterRemove}
@@ -633,7 +649,10 @@ const Transactions: React.FC = () => {
           )}
           {amountFrom !== undefined && (
             <View style={styles.activeFilterBox}>
-              <Text style={styles.filterItem}> {translate.t('common.from')}: {amountFrom}</Text>
+              <Text style={styles.filterItem}>
+                {' '}
+                {translate.t('common.from')}: {amountFrom}
+              </Text>
               <TouchableOpacity
                 style={styles.activeFilterRemove}
                 onPress={removeFilter.bind(this, filter_items.amountFrom)}>
@@ -645,7 +664,9 @@ const Transactions: React.FC = () => {
           )}
           {amountTo !== undefined && (
             <View style={styles.activeFilterBox}>
-              <Text style={styles.filterItem}>{translate.t('common.to')}: {amountTo}</Text>
+              <Text style={styles.filterItem}>
+                {translate.t('common.to')}: {amountTo}
+              </Text>
               <TouchableOpacity
                 style={styles.activeFilterRemove}
                 onPress={removeFilter.bind(this, filter_items.amountTo)}>
@@ -658,12 +679,12 @@ const Transactions: React.FC = () => {
           {!unicardStatements && (
             <>
               <Text style={styles.filterItem}>
-              {translate.t('transfer.startBalance')}: {CurrencyConverter(endBalance)}{' '}
-                {CurrencySimbolConverter(GEL)}
+                {translate.t('transfer.startBalance')}:{' '}
+                {CurrencyConverter(endBalance)} {CurrencySimbolConverter(GEL)}
               </Text>
               <Text style={styles.filterItem}>
-              {translate.t('transfer.endBalance')}: {CurrencyConverter(startBalance)}{' '}
-                {CurrencySimbolConverter(GEL)}
+                {translate.t('transfer.endBalance')}:{' '}
+                {CurrencyConverter(startBalance)} {CurrencySimbolConverter(GEL)}
               </Text>
             </>
           )}
@@ -698,7 +719,9 @@ const Transactions: React.FC = () => {
         onPress={closeSheet}>
         <View style={styles.topContainer}>
           <View>
-            <Text style={styles.actionSheetTitle}>{translate.t('common.date')}</Text>
+            <Text style={styles.actionSheetTitle}>
+              {translate.t('common.date')}
+            </Text>
 
             <View style={styles.chooseDates}>
               <TouchableOpacity
@@ -706,7 +729,9 @@ const Transactions: React.FC = () => {
                   setFromVisible(true);
                   setToVisible(false);
                 }}>
-                <Text style={styles.dateTitle}>{translate.t('transaction.startDate')}</Text>
+                <Text style={styles.dateTitle}>
+                  {translate.t('transaction.startDate')}
+                </Text>
                 <Text style={styles.dateValue}>
                   {selectedStartDate.toLocaleDateString()}
                 </Text>
@@ -717,7 +742,9 @@ const Transactions: React.FC = () => {
                   setFromVisible(false);
                   setToVisible(true);
                 }}>
-                <Text style={styles.dateTitle}>{translate.t('transaction.endDate')}</Text>
+                <Text style={styles.dateTitle}>
+                  {translate.t('transaction.endDate')}
+                </Text>
                 <Text style={styles.dateValue}>
                   {selectedEndDate.toLocaleDateString()}
                 </Text>
@@ -729,12 +756,16 @@ const Transactions: React.FC = () => {
                 <TouchableOpacity
                   style={styles.lastDate}
                   onPress={getLast.bind(this, 1)}>
-                  <Text style={styles.lastDateText}>{translate.t('transaction.lastMonth')}</Text>
+                  <Text style={styles.lastDateText}>
+                    {translate.t('transaction.lastMonth')}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.lastDate}
                   onPress={getLast.bind(this, 3)}>
-                  <Text style={styles.lastDateText}>{translate.t('transaction.lastThreeMonths')}</Text>
+                  <Text style={styles.lastDateText}>
+                    {translate.t('transaction.lastThreeMonths')}
+                  </Text>
                 </TouchableOpacity>
               </View>
 
@@ -742,12 +773,16 @@ const Transactions: React.FC = () => {
                 <TouchableOpacity
                   style={styles.lastDate}
                   onPress={getLast.bind(this, 6)}>
-                  <Text style={styles.lastDateText}>{translate.t('transaction.lastSixMonths')}</Text>
+                  <Text style={styles.lastDateText}>
+                    {translate.t('transaction.lastSixMonths')}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.lastDate}
                   onPress={getLast.bind(this, 12)}>
-                  <Text style={styles.lastDateText}>{translate.t('transaction.lastYear')}</Text>
+                  <Text style={styles.lastDateText}>
+                    {translate.t('transaction.lastYear')}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -761,7 +796,9 @@ const Transactions: React.FC = () => {
                   setFromVisible(false);
                 }}
                 style={styles.datePickerAction}>
-                <Text style={styles.startDatePickerActionTitle}>{translate.t('common.choose')}</Text>
+                <Text style={styles.startDatePickerActionTitle}>
+                  {translate.t('common.choose')}
+                </Text>
               </TouchableOpacity>
 
               <DatePicker
@@ -789,7 +826,9 @@ const Transactions: React.FC = () => {
                   setToVisible(false);
                 }}
                 style={styles.datePickerAction}>
-                <Text style={styles.endDatePickerActionTitle}>{translate.t('common.choose')}</Text>
+                <Text style={styles.endDatePickerActionTitle}>
+                  {translate.t('common.choose')}
+                </Text>
               </TouchableOpacity>
 
               <DatePicker
@@ -861,7 +900,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   filterButtonsSecTwo: {
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
   searchInputBox: {
     marginTop: 15,
@@ -991,11 +1030,11 @@ const styles = StyleSheet.create({
   amounts: {
     paddingLeft: 25,
     flexDirection: 'row',
-    marginTop: 20
+    marginTop: 20,
   },
   amountFrom: {
-    marginRight: 20
-  }
+    marginRight: 20,
+  },
 });
 
 export default Transactions;

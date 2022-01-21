@@ -123,11 +123,13 @@ const TransactionsList: React.FC<IProps> = props => {
   let statements: IStatements[] = [];
   let _funds: IFund[] = [];
 
-  if (props.statements && props.statements.length) {
-    statements = [...(props.statements || [])];
-  } else {
-    statements = [...(userData.useAccountStatements?.statements || [])];
-  }
+  // if (props.statements && props.statements.length) {
+  //   statements = [...(props.statements || [])];
+  // } else {
+  //   statements = [...(userData.useAccountStatements?.statements || [])];
+  // }
+
+  statements = [...(props.statements || [])];
 
   if (props.funds && props.funds.length) {
     _funds = [...(props.funds || [])];
