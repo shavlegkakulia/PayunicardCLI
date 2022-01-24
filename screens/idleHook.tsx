@@ -18,18 +18,10 @@ const IdleHook: React.FC = props => {
 
   useEffect(() => {
     panResponder.current = PanResponder.create({
-      onStartShouldSetPanResponder: () => {
-        resetInactivityTimeout();
-        return true;
-      },
-      onMoveShouldSetPanResponder: () => false,
       onStartShouldSetPanResponderCapture: () => {
         resetInactivityTimeout();
         return false;
       },
-      onMoveShouldSetPanResponderCapture: () => false,
-      onPanResponderTerminationRequest: () => true,
-      onShouldBlockNativeResponder: () => false,
     });
     resetInactivityTimeout();
 
