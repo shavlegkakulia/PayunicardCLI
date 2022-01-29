@@ -79,7 +79,7 @@ const ViewCliring: React.FC<IProps> = props => {
             </Text>
           </View>
 
-          {props.statement?.tranDate && (
+          {props.statement?.tranDate !== undefined && (
             <View style={styles.tranDateColumn}>
               <Text style={styles.textDescStyle}>
                 {formatDate(props.statement?.tranDate)}
@@ -101,8 +101,8 @@ const ViewCliring: React.FC<IProps> = props => {
             </Text>
           </View>
         )}
-        {props.statement?.abvrName &&
-          props.statement?.abvrName?.trim().length > 0 && (
+        {(props.statement?.abvrName &&
+          props.statement?.abvrName?.trim().length > 0) && (
             <View style={styles.directionRow}>
               <Text style={styles.textDescStyle}>{translate.t('transaction.merchantName')}</Text>
               <Text style={styles.textDescValueStyle}>
@@ -110,7 +110,7 @@ const ViewCliring: React.FC<IProps> = props => {
               </Text>
             </View>
           )}
-        {props.statement?.uniBonus && (
+        {props.statement?.uniBonus !== undefined && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('dashboard.uniPoints')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -118,7 +118,7 @@ const ViewCliring: React.FC<IProps> = props => {
             </Text>
           </View>
         )}
-        {props.statement?.senderMaskedCardNumber && (
+        {props.statement?.senderMaskedCardNumber !== undefined && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.cardNumber')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -126,7 +126,7 @@ const ViewCliring: React.FC<IProps> = props => {
             </Text>
           </View>
         )}
-        {props.statement?.tranDate && (
+        {props.statement?.tranDate !== undefined && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.payDate')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -134,7 +134,7 @@ const ViewCliring: React.FC<IProps> = props => {
             </Text>
           </View>
         )}
-        {props.statement?.dateCreated && (
+        {props.statement?.dateCreated !== undefined && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.postDate')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -152,7 +152,7 @@ const ViewCliring: React.FC<IProps> = props => {
 
       <View style={[styles.detailBox, styles.defDetail]}>
         <Text style={styles.textHeaderStyle}>{translate.t('transaction.tranDetails')}</Text>
-        {props.statement?.aprCode &&
+        {props.statement?.aprCode !== undefined &&
           props.statement?.aprCode.trim().length > 0 && (
             <View style={styles.directionRow}>
               <Text style={styles.textDescStyle}>{translate.t('transaction.tranAprovalCode')}</Text>
@@ -161,7 +161,7 @@ const ViewCliring: React.FC<IProps> = props => {
               </Text>
             </View>
           )}
-        {props.statement?.tranid && (
+        {props.statement?.tranid !== undefined && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('transaction.tranId')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -226,7 +226,7 @@ const ViewTransfer: React.FC<IProps> = props => {
 
       <View style={styles.detailBox}>
         <Text style={styles.textHeaderStyle}>{translate.t('transfer.from')}</Text>
-        {props.statement?.senderName && (
+        {props.statement?.senderName !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('transfer.senderName')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -234,7 +234,7 @@ const ViewTransfer: React.FC<IProps> = props => {
             </Text>
           </View>
         )}
-        {props.statement?.senderaccount && (
+        {props.statement?.senderaccount !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.accountNumber')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -243,7 +243,7 @@ const ViewTransfer: React.FC<IProps> = props => {
           </View>
         )}
 
-        {props.statement?.senderBankCode && (
+        {props.statement?.senderBankCode !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('transaction.bankCode')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -257,7 +257,7 @@ const ViewTransfer: React.FC<IProps> = props => {
 
       <View style={styles.detailBox}>
         <Text style={styles.textHeaderStyle}>{translate.t('transfer.to')}</Text>
-        {props.statement?.receivername && (
+        {props.statement?.receivername !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('transfer.beneficiary')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -265,7 +265,7 @@ const ViewTransfer: React.FC<IProps> = props => {
             </Text>
           </View>
         )}
-        {props.statement?.receiveraccount && (
+        {props.statement?.receiveraccount !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.accountNumber')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -279,7 +279,7 @@ const ViewTransfer: React.FC<IProps> = props => {
 
       <View style={styles.detailBox}>
         <Text style={styles.textHeaderStyle}>{translate.t('common.details')}</Text>
-        {props.statement?.amount && (
+        {props.statement?.amount !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.amount')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -287,7 +287,7 @@ const ViewTransfer: React.FC<IProps> = props => {
             </Text>
           </View>
         )}
-        {props.statement?.description && (
+        {props.statement?.description !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('transfer.nomination')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -295,7 +295,7 @@ const ViewTransfer: React.FC<IProps> = props => {
             </Text>
           </View>
         )}
-        {props.statement?.tranDate && (
+        {props.statement?.tranDate !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.payDate')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -303,7 +303,7 @@ const ViewTransfer: React.FC<IProps> = props => {
             </Text>
           </View>
         )}
-        {props.statement?.dateCreated && (
+        {props.statement?.dateCreated !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.postDate')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -321,7 +321,7 @@ const ViewTransfer: React.FC<IProps> = props => {
 
       <View style={[styles.detailBox, styles.defDetail]}>
         <Text style={styles.textHeaderStyle}>{translate.t('transaction.tranDetails')}</Text>
-        {props.statement?.tranid && (
+        {props.statement?.tranid !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('transaction.tranId')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -386,7 +386,7 @@ const ViewUtility: React.FC<IProps> = props => {
       <View style={styles.detailBox}>
         <Text style={styles.textHeaderStyle}>{translate.t('transfer.from')}</Text>
 
-        {props.statement?.senderMaskedCardNumber && (
+        {props.statement?.senderMaskedCardNumber !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.cardNumber')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -400,7 +400,7 @@ const ViewUtility: React.FC<IProps> = props => {
 
       <View style={styles.detailBox}>
         <Text style={styles.textHeaderStyle}>{translate.t('transfer.to')}</Text>
-        {props.statement?.description && (
+        {props.statement?.description !== undefined  && (
           <>
             <View style={styles.directionRow}>
               <Text style={styles.textDescStyle}>{translate.t('transaction.provider')}</Text>
@@ -423,7 +423,7 @@ const ViewUtility: React.FC<IProps> = props => {
 
       <View style={styles.detailBox}>
         <Text style={styles.textHeaderStyle}>{translate.t('common.details')}</Text>
-        {props.statement?.amount && (
+        {props.statement?.amount !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.amount')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -437,7 +437,7 @@ const ViewUtility: React.FC<IProps> = props => {
 
       <View style={[styles.detailBox, styles.defDetail]}>
         <Text style={styles.textHeaderStyle}>{translate.t('transaction.tranDetails')}</Text>
-        {props.statement?.tranid && (
+        {props.statement?.tranid !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('transaction.tranId')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -485,7 +485,7 @@ const ViewBlocked: React.FC<IProps> = props => {
             </Text>
           </View>
 
-          {props.fundStatement?.transactionDate && (
+          {props.fundStatement?.transactionDate !== undefined  && (
             <View style={styles.tranDateColumn}>
               <Text style={styles.textDescStyle}>
                 {formatDate(props.fundStatement?.transactionDate)}
@@ -500,14 +500,14 @@ const ViewBlocked: React.FC<IProps> = props => {
       <View style={styles.detailBox}>
       <Text style={[styles.textHeaderStyle, styles.bolder]}>{translate.t('transaction.blockedFunds')}</Text>
         <Text style={styles.textHeaderStyle}>{translate.t('transaction.merchantName')}</Text>
-        {props.fundStatement?.merchantDescription && (
+        {props.fundStatement?.merchantDescription !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>
               {props.fundStatement?.merchantDescription}
             </Text>
           </View>
         )}
-        {props.fundStatement?.terminalNumber && (
+        {props.fundStatement?.terminalNumber !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('transaction.terminalNumber')}</Text>
             <Text style={styles.textDescValueStyle}>
@@ -515,7 +515,7 @@ const ViewBlocked: React.FC<IProps> = props => {
             </Text>
           </View>
         )}
-        {props.fundStatement?.cardNumber && (
+        {props.fundStatement?.cardNumber !== undefined  && (
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('common.cardNumber')}</Text>
             <Text style={styles.textDescValueStyle}>
