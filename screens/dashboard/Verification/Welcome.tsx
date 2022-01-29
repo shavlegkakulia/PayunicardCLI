@@ -1,6 +1,8 @@
 import React from "react"
 import { View, StyleSheet, Image, Text } from "react-native"
+import { useSelector } from "react-redux";
 import AppButton from "../../../components/UI/AppButton";
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from "../../../redux/action_types/translate_action_types";
 import colors from './../../../constants/colors';
 
 interface IProps {
@@ -9,7 +11,10 @@ interface IProps {
 }
 
 const Welcome: React.FC<IProps> = (props) => {
-
+    const translate = useSelector<ITranslateGlobalState>(
+        state => state.TranslateReduser,
+      ) as ITranslateState;
+      
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -17,15 +22,15 @@ const Welcome: React.FC<IProps> = (props) => {
             </View>
             <View style={styles.wrapper}>
                 <Text style={styles.title}>
-                    მესამე პირის წარმომადგენელი ხართ?
+                    {translate.t('verification.aThirdParty')}
                 </Text>
                 <Text style={styles.desc}>
-                    მინდობილობის საფუძველზე შესაძლებელია მესამე პირისთის უნისაფულის გახსნა
+                    {translate.t('verification.attorneyPossible')}
                 </Text>
 
                 <View style={styles.inputsGroup}>
-                    <AppButton title='არა' onPress={() => props.onActionClick(0)} backgroundColor={colors.inputBackGround} color={colors.black} loaderColor={colors.black} style={styles.button} isLoading={props.loading} />
-                    <AppButton title='დიახ' disabled={props.loading} onPress={() => props.onActionClick(1)} backgroundColor={colors.inputBackGround} color={colors.black} style={styles.button} />
+                    <AppButton title={translate.t('common.no')} onPress={() => props.onActionClick(0)} backgroundColor={colors.inputBackGround} color={colors.black} loaderColor={colors.black} style={styles.button} isLoading={props.loading} />
+                    <AppButton title={translate.t('common.yes')} disabled={props.loading} onPress={() => props.onActionClick(1)} backgroundColor={colors.inputBackGround} color={colors.black} style={styles.button} />
                 </View>
             </View>
         </View>

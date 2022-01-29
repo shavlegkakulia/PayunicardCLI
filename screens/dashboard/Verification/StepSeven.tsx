@@ -59,7 +59,7 @@ const StepSeven: React.FC<IProps> = props => {
     <View style={styles.container}>
       <View style={styles.addressContainer}>
         <AppInput
-          placeholder="პირადი ნომერი"
+          placeholder={translate.t('common.personalNumber')}
           onChange={personalNumber => !props.notEditable && setPersonalNumber(personalNumber)}
           value={props.kycData?.personalNumber}
           customKey="personalNumber"
@@ -70,7 +70,7 @@ const StepSeven: React.FC<IProps> = props => {
         />
 
         <AppInput
-          placeholder="სახელი"
+          placeholder={translate.t('common.name')}
           onChange={firstName => !props.notEditable && setFirstName(firstName)}
           value={props.kycData?.firstName}
           customKey="setFirstName"
@@ -81,7 +81,7 @@ const StepSeven: React.FC<IProps> = props => {
         />
 
         <AppInput
-          placeholder="გვარი"
+          placeholder={translate.t('common.lname')}
           onChange={lastName => !props.notEditable && setLastName(lastName)}
           value={props.kycData?.lastName}
           customKey="lastName"
@@ -92,7 +92,7 @@ const StepSeven: React.FC<IProps> = props => {
         />
 
         <AppInput
-          placeholder="დაბადების ადგილი (ქალაქი და ქვეყანა)"
+          placeholder={translate.t('verification.birthDetail')}
           onChange={countryName => setCountryName(countryName)}
           value={props.kycData?.countryName}
           customKey="countryName"

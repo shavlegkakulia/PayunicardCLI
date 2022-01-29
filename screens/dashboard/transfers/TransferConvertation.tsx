@@ -457,7 +457,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
       if (getNumber(fromAmount) < 1) {
         dispatch(
           PUSH(
-            `მინიმალური გადასარიცხი თანხა 0.1 ${CurrencySimbolConverter(GEL)}`,
+            `${translate.t('transfer.minimumTransferAmount')} ${CurrencySimbolConverter(GEL)}`,
           ),
         );
         setIsLoading(false);

@@ -300,7 +300,7 @@ const PasswordReset: React.FC<IProps> = props => {
             style={styles.pwdResetInput}
             value={personalNumber}
             onChange={setPersonalNumber}
-            placeholder={'პირადი ნომერი'}
+            placeholder={translate.t('common.personalNumber')}
           />
         ) : null}
       </View>

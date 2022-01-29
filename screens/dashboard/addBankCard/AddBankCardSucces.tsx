@@ -33,7 +33,7 @@ const AddBankCardSucces: React.FC = () => {
       style={styles.avoid}>
       <View style={[screenStyles.wraper, styles.container]}>
         <View style={styles.succesInner}>
-          <Text style={styles.succesText}>ბარათის დამატება დასრულდა წარმატებით</Text>
+          <Text style={styles.succesText}>{translate.t('orderCard.cardAddingComplate')}</Text>
           <Image
             source={require('./../../../assets/images/succes_icon.png')}
             style={styles.succesImg}

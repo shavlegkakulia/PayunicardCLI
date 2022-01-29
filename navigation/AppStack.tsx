@@ -176,7 +176,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ტრანზაქციები',
+                title: translate.t('tabNavigation.transactions'),
                 backText: translate.t('common.back'),
               })
             }
@@ -478,7 +478,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'შაბლონის რედაქტირება',
+                title: translate.t('template.editTemplate'),
                 backText: translate.t('common.back'),
               })
             }
@@ -490,7 +490,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბევრის გადახდა',
+                title: translate.t('payments.payAll'),
                 backText: translate.t('common.back'),
               })
             }
@@ -502,7 +502,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბევრის გადახდა',
+                title: translate.t('payments.payAll'),
                 backText: translate.t('common.back'),
               })
             }
@@ -514,7 +514,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბევრის გადახდა',
+                title: translate.t('payments.payAll'),
                 hideHeader: true,
                 backText: translate.t('common.back'),
               })
@@ -527,7 +527,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'ბევრის გადახდა',
+                title: translate.t('payments.payAll'),
                 backText: translate.t('common.back'),
               })
             }
@@ -624,7 +624,7 @@ const AppStack: React.FC = () => {
               DefaultOptionsDrawer({
                 navigation: props.navigation,
                 route: props.route,
-                title: 'შაბლონის რედაქტირება',
+                title: translate.t('template.editTemplate'),
                 backText: translate.t('common.back'),
               })
             }

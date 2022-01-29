@@ -117,7 +117,7 @@ const ResetPasswordOtp: React.FC = () => {
             <FloatingLabelInput
               Style={styles.otpBox}
               label={translate.t('otp.smsCode')}
-              title="პაროლის შეცვლისათვის საჭირო სმს კოდი გამოგზავნილია"
+              title={translate.t('otp.otpSent')}
               value={otp}
               onChangeText={setOtp}
               onRetry={SendPhoneOTP}

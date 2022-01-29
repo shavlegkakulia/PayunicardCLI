@@ -358,7 +358,7 @@ const Products: React.FC = props => {
           <View style={styles.orderedContainer}>
             <View style={styles.orderedContainerHeader}>
               <Text style={styles.offersContainerTitle}>
-                შეკვეთილი ბარათები
+                {translate.t('products.orderedCards')}
               </Text>
               {getNumber(orderedCards?.cardStatuses?.length) > 1 && (
                 <PaginationDots

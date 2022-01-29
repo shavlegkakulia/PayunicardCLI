@@ -75,7 +75,7 @@ const SignupStepTwo: React.FC = () => {
           </Text>
           <TouchableOpacity onPress={() => setChooseDate(true)}>
             <View style={styles.InputBox}>
-              <Text style={styles.InputBoxTitle}>დაბადების თარიღი</Text>
+              <Text style={styles.InputBoxTitle}>{translate.t('common.birthDate')}</Text>
 
               <Text style={styles.birthDateValue}>
                 {formatDate(birthDate?.toString()).split('.').join('/')}
@@ -113,9 +113,9 @@ const SignupStepTwo: React.FC = () => {
       <DatePicker
         modal
         mode="date"
-        title="მიუთითეთ თარიღი"
-        cancelText="გაუქმება"
-        confirmText="დადასტურება"
+        title={translate.t('common.setDate')}
+        cancelText={translate.t('common.cancel')}
+        confirmText={translate.t('common.confirm')}
         locale="ka-GE"
         open={chooseDate}
         date={birthDate}

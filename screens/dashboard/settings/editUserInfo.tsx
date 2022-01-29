@@ -41,11 +41,6 @@ const EditUserInfo: React.FC = () => {
     ICitizenshipCountry[] | undefined
   >();
 
-  //   factAddress: დიდი დიღომი, თავდადებულის 41
-  // factCity: თბილისი
-  // factCountryID: 79
-  // factPostalCode: 0131
-
   const getCitizenshipCountries = () => {
     if (isLoading) return;
 

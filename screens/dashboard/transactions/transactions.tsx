@@ -850,7 +850,7 @@ const Transactions: React.FC = () => {
 
           <View style={[screenStyles.wraper, styles.buttonContainer]}>
             <AppButton
-              title="მაჩვენე"
+              title={translate.t('common.showMe')}
               onPress={filterWithDates}
               style={styles.button}
               disabled={isBaseDate}

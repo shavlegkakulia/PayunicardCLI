@@ -27,6 +27,7 @@ import {
 } from '../../../services/PresentationServive';
 import screenStyles from '../../../styles/screens';
 import {CurrencyConverter, getNumber, getString} from '../../../utils/Converter';
+import { futureDay } from '../../../utils/utils';
 import { delyveryMethods } from './DelyveryMethods';
 
 type RouteParamList = {
@@ -58,6 +59,10 @@ const PrintInfo: React.FC = props => {
     NavigationService.navigate(Routes.Dashboard);
   };
 
+  const after10DayDate = futureDay(10);
+
+  const totalAmount = getNumber(route.params.deliveryAmount) + getNumber(route.params.cardAmount) + getNumber(route.params.tarrifAmount);
+
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
       <View style={[screenStyles.wraper, styles.container]}>
@@ -73,13 +78,13 @@ const PrintInfo: React.FC = props => {
           </Text>
           {!route.params.hasTotalFee && (
             <Text style={styles.info}>
-              გთხოვთ ანგარიში შეავსოთ <Text style={styles.bold}>90 ლარით</Text>{' '}
-              არაუგვიანეს{'\n'}
+              {translate.t('orderCard.warning1')} <Text style={styles.bold}>{translate.t('orderCard.warning2').replace('{amount}', totalAmount.toString())}</Text>{' '}
+              {translate.t('orderCard.warning3')}{'\n'}
               <Text style={styles.bold}>
-                2021 წლის 24 თებერვლის 00:00 საათისა,
+              {translate.t('orderCard.warning4').replace('{year}', new Date(after10DayDate).getFullYear().toString()).replace('{day}', new Date(after10DayDate).getDay().toString()).replace('{month}', new Date(after10DayDate).getMonth().toString())}
               </Text>
               {'\n'}
-              წინააღმდეგ შემთხვევაში თქვენი შეკვეთა გაუქმდება
+              {translate.t('orderCard.warning5')}
             </Text>
           )}
           <View style={styles.bottomInfo}>
@@ -130,8 +135,8 @@ const PrintInfo: React.FC = props => {
 
           {!route.params.hasTotalFee && (
             <Text style={styles.description}>
-              {
-                '*თანხის ანგარიშზე შემოტანის შემდეგ მოხდება\nმიწოდების სერვისისთვის დროის ათვლა '
+              *{
+                translate.t('orderCard.seeAfterTopup')
               }
             </Text>
           )}

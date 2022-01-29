@@ -74,8 +74,9 @@ const TransactionItem: React.FC<IProps> = (props) => {
                   <View style={styles.transactionsViewItemFund}>
                     <Image
                       source={
-                        st.imageUrl?.includes('Visa')
-                          ? require('./../../../assets/images/visa_35x14.png')
+                        st.accounttype === 'VS'
+                          ? require('./../../../assets/images/visa_35x14.png') : 
+                          st.accounttype === 'WL' ? require('./../../../assets/images/accountCardsTypeIcon.png')
                           : require('./../../../assets/images/mastercard_24x15.png')
                       }
                       style={styles.transactionsViewItemImageFund}

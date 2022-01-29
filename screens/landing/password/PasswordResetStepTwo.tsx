@@ -104,7 +104,7 @@ const PasswordResetStepTwo: React.FC = () => {
                   style={styles.pwdResetInput}
                   value={personalNumber}
                   onChange={setPersonalNumber}
-                  placeholder={'პირადი ნომერი'}
+                  placeholder={translate.t('common.personalNumber')}
                 />
             </View>
           </View>

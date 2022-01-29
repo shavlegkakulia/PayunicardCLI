@@ -44,7 +44,7 @@ const TransferTemplateEdit = () => {
   const submit = () => {
     if (isLoading) return;
     if (Validation.validate(ValidationContext)) {
-      dispatch(PUSH('შეავსეთ შაბლონის სახელი'));
+      dispatch(PUSH(translate.t('template.fillTemplateName')));
       return;
     }
     setIsLoading(true);

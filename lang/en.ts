@@ -42,7 +42,10 @@ export default {
         choose: "Choose",
         date: 'Date',
         from: 'From',
-        to: 'To'
+        to: 'To',
+        showMe: 'Show me',
+        setDate: 'Set Date',
+        block: 'Block'
     },
     generalErrors: {
         errorOccurred: 'An Error Occurred',
@@ -71,7 +74,8 @@ export default {
         takePhoto: 'Take Photo',
         galery: 'Phone Galery',
         newPasscode: 'Enter New Passcode',
-        confirmPasscode: 'Confirm New Passcode'
+        confirmPasscode: 'Confirm New Passcode',
+        trustedDevice: 'Trusted Device'
 
         
     },
@@ -86,7 +90,9 @@ export default {
         myTransfers: "My Transfers",
         myTransactions: 'My Transactions',
         offerDetail: '',
-        transactions: 'Transactions'
+        transactions: 'Transactions',
+        resetPassword: 'Reset Password',
+        termsAndCondition: 'Terms And Conditions'
     },
     forgotPassword: {
         resetPassword: 'Reset Password',
@@ -95,8 +101,7 @@ export default {
         newPassword: 'New Password'
     },
     password: {
-        pasChanged: 'Password Has Been Changed Successfully'
-    },
+        pasChanged: 'Password Has Been Changed Successfully',    },
     otp: {
         enterOtp: 'Enter Sms Code',
         otpSent: 'Sms Code Has Been Sent to Number ',
@@ -109,7 +114,8 @@ export default {
         templateName: 'Template Name',
         transfTemplateSuccess: 'Transfer Template Has Been  \n Created Successfully',
         paymentTemplateSuccess: 'Payment Template Has Been  \n Created Successfully',
-        editTemplate: 'Edit Template'
+        editTemplate: 'Edit Template',
+        fillTemplateName: 'Enter Template Name'
     },
 
     onboard: {
@@ -141,7 +147,7 @@ export default {
         passwordValidationSection5: 'One Number',
         passwordValidationSection6: 'One Special Character (Except the Dot and @ Symbol)',
         simpleRegistrationComplate: 'მარტივი რეგისტრაცია დასრულებულია',
-        addCardsToPoints: 'დაამატეთ ლოიალობის ბარათები და დააგროვეთ ქულები'
+        addCardsToPoints: 'Add Loyalty Card and Collect Point'
     },
     plusSign: {
         chooseService: 'Choose Service',
@@ -188,7 +194,18 @@ export default {
         transfer: 'Trasfer',
         payment: 'Payment',
         blockCard: 'Block Card',
-        changeCardPin: 'Change Card Pin'
+        changeCardPin: 'Change Card Pin',
+        orderedCards: 'Ordered Cards',
+        orderedCard: 'Ordered Card',
+        cardBlocked: 'Card is Blocked',
+        confirmPinCodeChange: 'Please Confirm the \nPIN Code Change',
+        reallyNeedBlockCard: 'Are You Sure You \nWant to Block the Card?',
+        wilResavePinCode: 'You will Receive New PIN Code via \nSMS & Your Current PIN Code will Be Invalid.',
+        pinCodeChanged: 'Your PIN Code Was Changed!',
+        topupWallet: 'WALLET TOP UP',
+        bankDetails: 'Bank Details',
+        widthCard: 'With Card',
+        withPayBox: 'With Pay Box'
     },
     payments: {
         categories: 'Categories',
@@ -199,6 +216,7 @@ export default {
         abonentNumber: 'Subscriber Number',
         totalDue: 'Total Due',
         paymentSuccessfull: 'Payment Successful',
+        payAll: 'Pay All'
     },
     transfer: {
         transferTemplates: 'Transfer Templates',
@@ -229,7 +247,8 @@ export default {
         freeOfCharge: '* Transfer Between Accounts Is Free Of Charge',
         account: 'Account',
         startBalance: 'Start Balance',
-        endBalance: 'End Balance'
+        endBalance: 'End Balance',
+        minimumTransferAmount: 'Minimum transfer amount 0.1'
     },
     topUp: {
         withAnotherCard: 'Use Another Card',
@@ -285,7 +304,13 @@ export default {
         uploadedDocuments: 'Uploaded Document',
         agreePayUniTerms: 'Agree Payunicard Service Terms of Use & PayUnicard Website Terms of Use',
         requestAccepted: 'Your Request Has Been Received and Is Being Processed',
-        notifyTime: 'We Will Notify You the Approval of Your Request by SMS in No Later than 3 Business Days.'
+        notifyTime: 'We Will Notify You the Approval of Your Request by SMS in No Later than 3 Business Days.',
+        birthDetail: 'City/Country of Birth',
+        aThirdParty: 'Are You a Third Party Representative?',
+        attorneyPossible: 'A UNIwallet Can Be Opened for a Third Party with a Power of Attorney',
+        comAndUtils: 'Utilities and Communications',
+        intertransactions: 'International transactions',
+        gamblings: 'Casino, Bookmakers, Lottery (7995MCC) - Restriction/Access',
     },
 
     orderCard: {
@@ -332,7 +357,18 @@ export default {
         preOrderReceived: 'Preorder Recieved',
         checkCardStatus: 'To Check the Status of Your Cards, Please Visi',
         noUnicardTitle1: 'Order International UNICard Visa/ UNICard Mastercard,\n',
-        noUnicardTitle2: 'Pay & Collect UNIpoints Everywhere Visa/Mastercard is Accepted'
+        noUnicardTitle2: 'Pay & Collect UNIpoints Everywhere Visa/Mastercard is Accepted',
+        forGetCardMustIdentity: 'To Get the Card,\nPlease Complete Identification.',
+        orderCancellDate: 'Order cancellation date',
+        cardAddingComplate: 'Adding card completed successfully',
+        chooseCard: 'Please select a card',
+        warning1: 'Please top up the Balance',
+        warning2: '{amount} GEL',
+        warning3: 'no later than',
+        warning4: '{year} {day} {month} 00:00 AM',
+        warning5: 'Otherwise your order will be cancelled',
+        seeAfterTopup: 'Once the Amount is Credited to the Account, \nthe Delivery Time will be Calculated',
+        maxOrderCards: 'You Can Order 6 Cards. You Have Already Ordered {count} Card(s)'
     }
 
 

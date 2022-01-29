@@ -126,7 +126,7 @@ const ChooseAmountAndAccount: React.FC = () => {
             }, 3000);
           } else {
             if (payBillTimeout.current) clearTimeout(payBillTimeout.current);
-            dispatch(PUSH('დაფიქსირდა შეცდომა'));
+            dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
             setIsLoading(false);
             return;
           }
@@ -171,7 +171,7 @@ const ChooseAmountAndAccount: React.FC = () => {
           }
         } else {
           setIsLoading(false);
-          dispatch(PUSH('დაფიქსირდა შეცდომა'));
+          dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
           return;
         }
       },

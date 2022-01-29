@@ -382,7 +382,7 @@ const ProductDetail: React.FC = props => {
               setActionSheetStep({
                 actionSheetType,
                 actionSheetStatus: ACTION_SHEET_STATUSES.succes,
-                actionSheetTitle: 'ბარათი დაბლოკილია',
+                actionSheetTitle: translate.t('products.cardBlocked'),
               });
             }
           },
@@ -394,7 +394,7 @@ const ProductDetail: React.FC = props => {
             setActionSheetStep({
               actionSheetStatus: ACTION_SHEET_STATUSES.error,
               actionSheetType,
-              actionSheetTitle: 'დაფიქსირდა შეცდომა',
+              actionSheetTitle: translate.t('generalErrors.errorOccurred'),
             });
           },
         });
@@ -404,7 +404,7 @@ const ProductDetail: React.FC = props => {
 
   const startPinChange = () => {
     setActionSheetStep({
-      actionSheetTitle: 'გთხოვთ დაადასტუროთ\nპინ კოდის ცვლილება',
+      actionSheetTitle: translate.t('products.confirmPinCodeChange'),
       actionSheetStatus: ACTION_SHEET_STATUSES.start,
       actionSheetType: CARD_ACTIONS.change_pin,
     });
@@ -418,7 +418,7 @@ const ProductDetail: React.FC = props => {
 
   const startCardBlock = () => {
     setActionSheetStep({
-      actionSheetTitle: 'ნამდვილად გსურთ\nბარათის დაბლოკვა?',
+      actionSheetTitle: translate.t('products.reallyNeedBlockCard'),
       actionSheetStatus: ACTION_SHEET_STATUSES.start,
       actionSheetType: CARD_ACTIONS.card_block,
     });
@@ -481,7 +481,7 @@ const ProductDetail: React.FC = props => {
             setActionSheetStep({
               actionSheetType,
               actionSheetStatus: ACTION_SHEET_STATUSES.succes,
-              actionSheetTitle: 'პინ კოდი წარმატებით შეიცვალა!',
+              actionSheetTitle: translate.t('products.pinCodeChanged'),
             });
           }
         },
@@ -494,7 +494,7 @@ const ProductDetail: React.FC = props => {
           setActionSheetStep({
             actionSheetStatus: ACTION_SHEET_STATUSES.error,
             actionSheetType,
-            actionSheetTitle: 'დაფიქსირდა შეცდომა',
+            actionSheetTitle: translate.t('generalErrors.errorOccurred'),
           });
         },
       });
@@ -1342,7 +1342,7 @@ const ProductDetail: React.FC = props => {
           <View style={styles.actionButtons}>
             {actionSheetStatus === ACTION_SHEET_STATUSES.start && (
               <AppButton
-                title="დაბლოკვა"
+                title={translate.t('common.block')}
                 onPress={cardBlock}
                 backgroundColor={colors.danger}
                 style={styles.actionButton}
@@ -1352,7 +1352,7 @@ const ProductDetail: React.FC = props => {
             <AppButton
               title={`${
                 actionSheetStatus === ACTION_SHEET_STATUSES.start
-                  ? 'არა'
+                  ? translate.t('common.no')
                   : translate.t('common.close')
               }`}
               onPress={closeActionSheet}
@@ -1372,7 +1372,7 @@ const ProductDetail: React.FC = props => {
         <View style={styles.blockContainer}>
           {actionSheetStatus === ACTION_SHEET_STATUSES.otp ? (
             <View style={styles.otpHeader}>
-              <Text style={styles.otpTitle}>კოდი გამოგზავნილია ნომერზე: </Text>
+              <Text style={styles.otpTitle}>{translate.t('otp.otpSent')}: </Text>
               <Text style={styles.otpVewPhone}>{maskedPhoneNumber}</Text>
             </View>
           ) : (
@@ -1382,8 +1382,7 @@ const ProductDetail: React.FC = props => {
             <>
               <View style={styles.descContainer}>
                 <Text style={styles.description}>
-                  გაცნობებთ, რომ ახალ პინ კოდს მიიღებთ სმს-ით, ხოლო იმ პინ
-                  კოდით, რომელიც ამჟამად გაქვთ, ვეღარ ისარგებლებთ
+                  {translate.t('products.wilResavePinCode')}
                 </Text>
               </View>
               <Text style={styles.blockCardMask}>
@@ -1426,7 +1425,7 @@ const ProductDetail: React.FC = props => {
             <AppButton
               title={`${
                 actionSheetStatus === ACTION_SHEET_STATUSES.start
-                  ? 'დადასტურება'
+                  ? translate.t('common.confirm')
                   : actionSheetStatus === ACTION_SHEET_STATUSES.otp
                   ? translate.t('common.next')
                   : translate.t('common.close')

@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import {TYPE_UNICARD} from '../../../constants/accountTypes';
 import colors from '../../../constants/colors';
 import {CURRENCY_DETAILS} from '../../../constants/currencies';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import {
   IUserState,
   IGloablState as IUserGlobalState,
@@ -14,6 +15,9 @@ import {CurrencySimbolConverter, getString} from '../../../utils/Converter';
 import envs from './../../../config/env';
 
 const PaymentMethods: React.FC = () => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const userData = useSelector<IUserGlobalState>(
     state => state.UserReducer,
   ) as IUserState;
@@ -55,10 +59,10 @@ const PaymentMethods: React.FC = () => {
         <View
           style={[styles.productsViewContainer, screenStyles.shadowedCardbr15]}>
           <View style={styles.productsViewHeader}>
-            <Text style={styles.productsViewTitle}>საფულის შევსება</Text>
+            <Text style={styles.productsViewTitle}>{translate.t('products.topupWallet')}</Text>
           </View>
 
-          <Text style={styles.sectionTitle}>საბანკო რეკვიზიტები</Text>
+          <Text style={styles.sectionTitle}>{translate.t('products.bankDetails')}</Text>
 
           <View style={styles.bankDetails}>
             {detailCurrencies?.map(currency => (
@@ -84,7 +88,7 @@ const PaymentMethods: React.FC = () => {
             ))}
           </View>
 
-          <Text style={styles.sectionTitle}>ბარათით</Text>
+          <Text style={styles.sectionTitle}>{translate.t('products.widthCard')}</Text>
 
           <View style={styles.otherDetailContainer}>
             <View style={styles.otherDetailVisaMc}>
@@ -96,9 +100,9 @@ const PaymentMethods: React.FC = () => {
                 source={require('./../../../assets/images/mastercard_big.png')}
               />
             </View>
-            <View style={styles.otherDetail}>
+            {/* <View style={styles.otherDetail}>
               <View>
-                <Text style={styles.otherDetailItem}>*საკომისიო:</Text>
+                <Text style={styles.otherDetailItem}>*{translate.t('common.commission')}:</Text>
               </View>
               <View>
                 <Text style={styles.otherDetailItem}>
@@ -110,10 +114,10 @@ const PaymentMethods: React.FC = () => {
                   უცხოური ბანკის ბარათი - 2.5%
                 </Text>
               </View>
-            </View>
+            </View> */}
           </View>
 
-          <Text style={styles.sectionTitle}>სწრაფი გადახდის აპარატებით</Text>
+          <Text style={styles.sectionTitle}>{translate.t('products.withPayBox')}</Text>
 
           <View style={styles.terminals}>
             <View style={styles.terminalItemContainer}>

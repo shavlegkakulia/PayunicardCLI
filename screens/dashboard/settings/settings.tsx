@@ -615,7 +615,7 @@ const Settings: React.FC = () => {
                   source={require('./../../../assets/images/icon-finger-primary-40x40.png')}
                   style={styles.navItemIcon}
                 />
-                <Text style={styles.navItemTitle}>სანდო მოწყობილობა</Text>
+                <Text style={styles.navItemTitle}>{translate.t('settings.trustedDevice')}</Text>
               </View>
               <Switch
                 style={styles.check}

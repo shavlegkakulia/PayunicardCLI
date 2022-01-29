@@ -78,7 +78,7 @@ const OrderedCard: React.FC<IProps> = props => {
               {props.card.packagecode}****
               {props.card.status === 0
                 ? translate.t('orderCard.preOrder')
-                : 'შეკვეთილი ბარათი'}
+                : translate.t('products.orderedCard')}
             </Text>
           </View>
           <View style={[styles.cardCurrencies]}>
@@ -125,13 +125,13 @@ const OrderedCard: React.FC<IProps> = props => {
                 </Text>
 
                 <Text style={styles.orderedCardCancellation}>
-                  შეკვეთის გაუქმების თარიღი:{' '}
+                  {translate.t('orderCard.orderCancellDate')}:{' '}
                   <Text style={styles.bolder}>
                     {formatDate(props.card.orderCancelDate?.toString())
                       .split('.')
                       .join('/')
                       .toString()}
-                    , 00:00 საათი
+                    , 00:00
                   </Text>{' '}
                 </Text>
               </>
@@ -158,7 +158,7 @@ const OrderedCard: React.FC<IProps> = props => {
             style={styles.notVerifiedAlertIcon}
           />
           <Text style={styles.notVerifiedBlockText}>
-            ბარათის მისაღებად გთხოვთ{'\n'}გაიაროთ იდენტიფიკაცია
+            {translate.t('orderCard.forGetCardMustIdentity')}
           </Text>
         </View>
       )}

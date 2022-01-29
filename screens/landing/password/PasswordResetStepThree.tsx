@@ -103,7 +103,7 @@ const PasswordResetStepThree: React.FC = () => {
               style={styles.pwdResetInput}
               value={route.params.personalNumber}
               onChange={() => {}}
-              placeholder={'პირადი ნომერი'}
+              placeholder={translate.t('common.personalNumber')}
             />
 
             <Appinput
@@ -113,7 +113,7 @@ const PasswordResetStepThree: React.FC = () => {
               style={styles.pwdResetInput}
               value={phone}
               onChange={setPhone}
-              placeholder={'ტელეფონი'}
+              placeholder={translate.t('services.telephone')}
             />
           </View>
           <AppButton

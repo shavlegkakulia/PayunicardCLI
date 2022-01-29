@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import FingerprintScanner, { FingerprintScannerError } from 'react-native-fingerprint-scanner';
+import { useSelector } from 'react-redux';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 
 interface IProps {
   start: boolean;
@@ -10,7 +12,10 @@ interface IProps {
 
 const BiometricAuthScreen: React.FC<IProps> = props => {
   const [biometryType, setBiometryType] = useState<unknown>(null);
-
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
+  
   useEffect(() => {
     FingerprintScanner.isSensorAvailable()
       .then(biometryType => {
@@ -26,7 +31,7 @@ const BiometricAuthScreen: React.FC<IProps> = props => {
       if (biometryType !== null && biometryType !== undefined) {
         FingerprintScanner.authenticate({
           description: getMessage(),
-          cancelButton: 'გაუქმება',
+          cancelButton: translate.t('common.cancel'),
           onAttempt: handleAuthenticationAttempted
         })
           .then(() => {

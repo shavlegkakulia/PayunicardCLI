@@ -26,11 +26,11 @@ import {
 } from '../action_types/verification_action_types';
 
 export const TransactionCategories: ITransactionCategoryInterface[] = [
-  {id: 1, value: 'კომუნალური და კომუნიკაციები', active: false},
-  {id: 2, value: 'ტრანსპორტი', active: false},
-  {id: 3, value: 'საერთაშორისო ტრანზაქციები', active: false},
-  {id: 4, value: 'ტოტალიზატორი, აზარტული ონლაინ თამაშები', active: false},
-  {id: 5, value: 'სხვა', active: false},
+  {id: 1, value: 'verification.comAndUtils', active: false},
+  {id: 2, value: 'verification.transport', active: false},
+  {id: 3, value: 'verification.intertransactions', active: false},
+  {id: 4, value: 'verification.gamblings', active: false},
+  {id: 5, value: 'verification.other', active: false},
 ];
 
 const initialState: IVerficationState = {

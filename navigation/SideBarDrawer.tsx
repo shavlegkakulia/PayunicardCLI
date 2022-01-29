@@ -100,7 +100,7 @@ const SideBarDrawer: React.FC<any> = props => {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={styles.avoid}>
+    <ScrollView contentContainerStyle={styles.avoid} showsVerticalScrollIndicator={false}>
       <View style={styles.sidebarContainer}>
         <View>
           <View style={styles.profile}>

@@ -414,7 +414,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                   <AppInput
                     customKey="transfer"
                     context={ValidationContext}
-                    placeholder="საკუთარ ანგარიშებს შორის"
+                    placeholder={translate.t('transfer.betweeenOwnAccounts')}
                     value={TransfersStore.nomination}
                     style={nominationErrorStyle}
                     onChange={setNomination}

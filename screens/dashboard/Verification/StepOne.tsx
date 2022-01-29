@@ -58,7 +58,7 @@ const StepOne: React.FC<IProps> = (props) => {
                     {props.selectedCountry ?
                         <SelectItem
                             itemKey='countryName'
-                            defaultTitle='აირჩიეთ ქვეყანა'
+                            defaultTitle={translate.t('verification.chooseCountry')}
                             item={props.selectedCountry}
                             onItemSelect={() => setCountryVisible(true)}
                             style={styles.countryItem} />

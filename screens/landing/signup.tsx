@@ -247,7 +247,7 @@ const SignupForm: React.FC<IProps> = props => {
         <TouchableOpacity onPress={() => setChooseDate(true)}>
           <View style={styles.InputBox}>
            
-              <Text style={styles.InputBoxTitle}>დაბადების თარიღი</Text>
+              <Text style={styles.InputBoxTitle}>{translate.t('common.birthDate')}</Text>
             
               <Text style={styles.birthDateValue}>{formatDate(birthDate?.toString()).split('.').join('/')}</Text>
             

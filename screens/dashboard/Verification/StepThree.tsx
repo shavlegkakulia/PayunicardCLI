@@ -50,6 +50,12 @@ const StepThree: React.FC<IProps> = (props) => {
 
     let isAnotherSelected = props.transactionCategories.some(tc => tc.id === 5 && tc.active); //another
 
+    const transactionCategories = [...props.transactionCategories].map(category => {
+        const v = {...category};
+        v.value = translate.t(v.value);
+        return v;
+      });
+
     return (
         <View style={styles.container}>
             <View style={styles.sectionContainer}>
@@ -82,7 +88,7 @@ const StepThree: React.FC<IProps> = (props) => {
 
                 <View style={styles.categories}>
                     <Text style={styles.BoxTitle}>{translate.t('verification.chooseTransactionOptions')}</Text>
-                    {props.transactionCategories.map((category, index) =>
+                    {transactionCategories.map((category, index) =>
                         <View key={index} style={styles.categoryItem}>
                             <TouchableOpacity
                                 onPress={() => props.onToggleTransactionCategory(category)}

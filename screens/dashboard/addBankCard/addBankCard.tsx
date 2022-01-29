@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, ScrollView, KeyboardAvoidingView} from 'react-native';
 import {WebView, WebViewNavigation} from 'react-native-webview';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import FullScreenLoader from '../../../components/FullScreenLoading';
 import colors from '../../../constants/colors';
 import Routes from '../../../navigation/routes';
 import {PUSH} from '../../../redux/actions/error_action';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import CardService from '../../../services/CardService';
 import NavigationService from '../../../services/NavigationService';
 import TransactionService from '../../../services/TransactionService';
@@ -16,6 +17,9 @@ const addBankCard: React.FC = () => {
   const [tranId, setTranId] = useState<string | null | undefined>();
   const [isEcommerce, setIsEcommerce] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const dispatch = useDispatch();
 
   const addBankCard = () => {
@@ -24,12 +28,12 @@ const addBankCard: React.FC = () => {
         if (Response.data.ok) {
           setIsEcommerce(Response.data.data?.redirectUrl);
         } else {
-          dispatch(PUSH('დაფიქსირდა შეცდომა'));
+          dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
         }
       },
       complete: () => setIsLoading(false),
       error: () => {
-        dispatch(PUSH('დაფიქსირდა შეცდომა'));
+        dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
         setIsLoading(false);
       },
     });
@@ -47,11 +51,11 @@ const addBankCard: React.FC = () => {
           ) {
             NavigationService.navigate(Routes.AddBankCardSucces);
           } else {
-            dispatch(PUSH('დაფიქსირდა შეცდომა'));
+            dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
             NavigationService.GoBack();
           }
         } else {
-          dispatch(PUSH('დაფიქსირდა შეცდომა'));
+          dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
           setIsLoading(false)
           NavigationService.GoBack();
         }
@@ -81,7 +85,7 @@ const addBankCard: React.FC = () => {
       CheckTransaction();
     } else if (retriveUrl.endsWith('Payment_Failure')) {
       setIsEcommerce(undefined);
-      dispatch(PUSH('დაფიქსირდა შეცდომა'));
+      dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
       NavigationService.GoBack();
     }
   };

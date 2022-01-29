@@ -58,7 +58,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'რეგისტრაცია',
+            title: translate.t('signup.title'),
             backText: translate.t('common.back'),
           })
         }
@@ -69,7 +69,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'რეგისტრაცია',
+            title: translate.t('signup.title'),
             backText: translate.t('common.back'),
           })
         }
@@ -80,7 +80,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'რეგისტრაცია',
+            title: translate.t('signup.title'),
             backText: translate.t('common.back'),
           })
         }
@@ -92,7 +92,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის დარესეტება',
+            title: translate.t('signup.title'),
             backText: translate.t('common.back'),
           })
         }
@@ -103,7 +103,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის დარესეტება',
+            title: translate.t('tabNavigation.resetPassword'),
             backText: translate.t('common.back'),
           })
         }
@@ -114,7 +114,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის დარესეტება',
+            title: translate.t('tabNavigation.resetPassword'),
             backText: translate.t('common.back'),
           })
         }
@@ -125,7 +125,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის დარესეტება',
+            title: translate.t('tabNavigation.resetPassword'),
             backText: translate.t('common.back'),
           })
         }
@@ -136,7 +136,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის დარესეტება',
+            title: translate.t('tabNavigation.resetPassword'),
             backText: translate.t('common.back'),
           })
         }
@@ -147,7 +147,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'პაროლის დარესეტება',
+            title: translate.t('tabNavigation.resetPassword'),
             hideHeader: true,
             backText: translate.t('common.back'),
           })
@@ -186,7 +186,7 @@ function LandingNavigator() {
         options={props =>
           UnauthScreenOptionsDrawer({
             navigation: props.navigation,
-            title: 'წესები და პირობები',
+            title: translate.t('tabNavigation.termsAndCondition'),
             backText: translate.t('common.back'),
           })
         }

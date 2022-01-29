@@ -43,7 +43,10 @@ export default {
         choose: "არჩევა",
         date: 'თარიღი',
         from: 'დან',
-        to: 'მდე'
+        to: 'მდე',
+        showMe: 'მაჩვენე',
+        setDate: 'მიუთითეთ თარიღი',
+        block: 'დაბლოკვა'
     },
 
     generalErrors: {
@@ -71,7 +74,8 @@ export default {
         templateName:'შაბლონის სახელი',
         transfTemplateSuccess: 'გადარიცხვის შაბლონი \n წარმატებით შეიქმნა',
         paymentTemplateSuccess: 'გადახდის შაბლონი \n წარმატებით შეიქმნა ',
-        editTemplate: 'შაბლონის რედაქტირება'
+        editTemplate: 'შაბლონის რედაქტირება',
+        fillTemplateName: 'შეავსეთ შაბლონის სახელი'
     },
 
     services: {
@@ -83,7 +87,7 @@ export default {
         gambling: 'აზარტული თამაშები'
     },
     password: {
-        pasChanged: 'პაროლი წარმატებით შეიცვალა'
+        pasChanged: 'პაროლი წარმატებით შეიცვალა',
     },
     forgotPassword: {
         resetPassword: 'პაროლის ცვლილება',
@@ -102,7 +106,9 @@ export default {
         myTransfers: "ჩემი გადარიცხვები",
         myTransactions: 'ჩემი ტრანზაქციები',
         offerDetail: '',
-        transactions: 'ტრანზაქციები'
+        transactions: 'ტრანზაქციები',
+        resetPassword: 'პაროლის დარესეტება',
+        termsAndCondition: 'წესები და პირობები'
     },
     settings: {
         personalInfo: 'პერსონალური ინფორმაცია',
@@ -113,8 +119,8 @@ export default {
         takePhoto: 'სურათის გადაღება',
         galery: 'ტელეფონის გალერეა',
         newPasscode: 'შეიყვანეთ ახალი პასკოდი',
-        confirmPasscode: 'დაადასტურეთ ახალი პასკოდი'
-        
+        confirmPasscode: 'დაადასტურეთ ახალი პასკოდი',
+        trustedDevice: 'სანდო მოწყობილობა'
         
 
     },
@@ -178,7 +184,18 @@ export default {
         transfer: 'გადარიცხვა',
         payment: 'გადახდა',
         blockCard: 'ბარათის დაბლოკვა',
-        changeCardPin: 'ბარათის PIN კოდის შეცვლა'
+        changeCardPin: 'ბარათის PIN კოდის შეცვლა',
+        orderedCards: 'შეკვეთილი ბარათები',
+        orderedCard: 'შეკვეთილი ბარათი',
+        cardBlocked: 'ბარათი დაბლოკილია',
+        confirmPinCodeChange: 'გთხოვთ დაადასტუროთ\nპინ კოდის ცვლილება',
+        reallyNeedBlockCard: 'ნამდვილად გსურთ\nბარათის დაბლოკვა?',
+        wilResavePinCode: 'გაცნობებთ, რომ ახალ პინ კოდს მიიღებთ სმს-ით, ხოლო იმ პინ \nკოდით, რომელიც ამჟამად გაქვთ, ვეღარ ისარგებლებთ',
+        pinCodeChanged: 'პინ კოდი წარმატებით შეიცვალა!',
+        topupWallet: 'საფულის შევსება',
+        bankDetails: 'საბანკო რეკვიზიტები',
+        widthCard: 'ბარათით',
+        withPayBox: 'სწრაფი გადახდის აპარატებით'
     },
     payments: {
         categories: 'კატეგორიები',
@@ -189,6 +206,7 @@ export default {
         debt: 'დავალიანება',
         totalDue: 'სულ გადასახდელი',
         paymentSuccessfull: 'გადახდა წარმატებით დასრულდა',
+        payAll: 'ბევრის გადახდა',
     },
     transaction: {
         transactions: 'ტრანზაქციები',
@@ -236,7 +254,8 @@ export default {
         freeOfCharge: '* ანგარიშებს შორის გადარიცხვა უფასოა',
         account: 'ანგარიში',
         startBalance: 'საწყისი ნაშთი',
-        endBalance: 'საბოლოო ნაშთი'
+        endBalance: 'საბოლოო ნაშთი',
+        minimumTransferAmount: 'მინიმალური გადასარიცხი თანხა 0.1'
     },
     topUp: {
         withCard: 'ბარათით',
@@ -292,7 +311,14 @@ export default {
         uploadedDocuments: 'ატვირთული დოკუმენტები',
         agreePayUniTerms: 'ვეთანხმები ფეიუნიქარდის მომსახურებით სარებლობის პირობებს და ფეიუნიქარდის ვებგვერდით სარგებლობის პირობებს',
         requestAccepted: 'თქვენი მოთხოვნა მიღებულია და მუშავდება',
-        notifyTime: 'თქვენი მოთხოვნის დაკმაყოფილების შემთხვევაში, მიიღებთ SMS შეტყობინებას არაუგვიანეს 3 სამუშაო დღისა.'
+        notifyTime: 'თქვენი მოთხოვნის დაკმაყოფილების შემთხვევაში, მიიღებთ SMS შეტყობინებას არაუგვიანეს 3 სამუშაო დღისა.',
+        birthDetail: 'დაბადების ადგილი (ქალაქი და ქვეყანა)',
+        aThirdParty: 'მესამე პირის წარმომადგენელი ხართ?',
+        attorneyPossible: 'მინდობილობის საფუძველზე შესაძლებელია მესამე პირისთის უნისაფულის გახსნა',
+        comAndUtils: 'კომუნალური და კომუნიკაციები',
+        intertransactions: 'საერთაშორისო ტრანზაქციები',
+        gamblings: 'ტოტალიზატორი, აზარტული ონლაინ თამაშები',
+
     },
     orderCard: {
         tariff: 'ტარიფი',
@@ -338,7 +364,18 @@ export default {
         preOrderReceived: 'თქვენი წინასწარი შეკვეთა მიღებულია',
         checkCardStatus: '*თქვენი ბარათების სტატუსის შესამოწმებლად, გთხოვთ, ეწვიოთ გვერდს',
         noUnicardTitle1: 'შეუკვეთე UNIcard Visa/Mastercard\n',
-        noUnicardTitle2: 'საერთაშორისო საგადახდო ბარათი, გადაიხადე და დააგროვე უნიქულები ყველგან, სადაც Visa/Mastercard დაგხვდება'
+        noUnicardTitle2: 'საერთაშორისო საგადახდო ბარათი, გადაიხადე და დააგროვე უნიქულები ყველგან, სადაც Visa/Mastercard დაგხვდება',
+        forGetCardMustIdentity: 'ბარათის მისაღებად გთხოვთ \nგაიაროთ იდენტიფიკაცია',
+        orderCancellDate: 'შეკვეთის გაუქმების თარიღი',
+        cardAddingComplate: 'ბარათის დამატება დასრულდა წარმატებით',
+        chooseCard: 'გთხოვთ აირჩიეთ ბარათი',
+        warning1: 'გთხოვთ ბალანსი შეავსოთ',
+        warning2: '{amount} ლარით',
+        warning3: 'არაუგვიანეს',
+        warning4: '{year} წლის {day} {month} 00:00 საათისა',
+        warning5: 'წინააღმდეგ შემთხვევაში თქვენი შეკვეთა გაუქმდება',
+        seeAfterTopup: 'თანხის ანგარიშზე შემოტანის შემდეგ მოხდება\nმიწოდების სერვისისთვის დროის ათვლა',
+        maxOrderCards: 'თქვენ შეგიძლიათ შეგვიკვეთოთ 6 ბარათი. თქვენ შეკვეთილი გაქვთ {count} ბარათი'
     }
 
 

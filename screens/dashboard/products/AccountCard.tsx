@@ -23,6 +23,8 @@ import {
 } from '../../../utils/Converter';
 import TemporaryText from '../../../components/TemporaryText';
 import colors from '../../../constants/colors';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
+import { useSelector } from 'react-redux';
 
 interface OProps {
   account: IAccountBallance;
@@ -38,6 +40,9 @@ const AccountCard: React.FC<OProps> = props => {
   const [outer, setOuter] = useState(true);
   const [copiedText, setCopiedText] = useState<string | undefined>();
   const copiedTextTtl = useRef<NodeJS.Timeout>();
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const clickPropagationDebounce = debounce((e: Function) => e(), 500);
 
   const goDetail = () => {
@@ -183,7 +188,7 @@ const AccountCard: React.FC<OProps> = props => {
                   />
                 )}
                 <TemporaryText
-                  text="დაკოპირდა"
+                  text={translate.t('common.copied')}
                   show={props.account.accountNumber === copiedText}
                 />
               </TouchableOpacity>

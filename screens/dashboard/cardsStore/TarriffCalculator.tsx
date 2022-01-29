@@ -246,11 +246,7 @@ const TarriffCalculator: React.FC = props => {
         setCardTypes(c);
       }
       dispatch(
-        PUSH(
-          `თქვენ შეგიძლიათ შეგვიკვეთოთ 6 ბარათი. თქვენ შეკვეთილი გაქვთ ${
-            visaCount + mcCount
-          } ბარათი`,
-        ),
+        PUSH(translate.t('orderCard.maxOrderCards').replace('{count}', (visaCount + mcCount).toString())),
       );
       return;
     }
@@ -263,7 +259,7 @@ const TarriffCalculator: React.FC = props => {
         }
         dispatch(
           PUSH(
-            `თქვენ შეგიძლიათ შეგვიკვეთოთ 6 ბარათი. თქვენ შეკვეთილი გაქვთ ${cardCount} ბარათი`,
+            translate.t('orderCard.maxOrderCards').replace('{count}', (cardCount).toString()),
           ),
         );
         return;
@@ -299,7 +295,7 @@ const TarriffCalculator: React.FC = props => {
       );
      
       if (getNumber(isChoosed?.length) <= 0) {
-        dispatch(PUSH('გთხოვთ აირჩიეთ ბარათი'));
+        dispatch(PUSH(translate.t('orderCard.chooseCard')));
         return;
       }
  
