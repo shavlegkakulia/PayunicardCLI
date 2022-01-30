@@ -114,7 +114,7 @@ const ViewCliring: React.FC<IProps> = props => {
           <View style={styles.directionRow}>
             <Text style={styles.textDescStyle}>{translate.t('dashboard.uniPoints')}</Text>
             <Text style={styles.textDescValueStyle}>
-              {CurrencyConverter(props.statement?.uniBonus)}
+              {CurrencyConverter(props.statement?.uniBonus || 0) || 0}
             </Text>
           </View>
         )}
@@ -620,6 +620,7 @@ const TransactionDetailView: React.FC<IProps> = props => {
       props.statement?.opClass == 'B2P.F' ||
       props.statement?.opClass == 'P2B_FEE' ||
       props.statement?.opClass == 'P2P.EXCHANGE' ||
+      props.statement?.opClass == 'P2P.EXCHANGE.out' ||
       props.statement?.opClass == 'P2P.INTER.out' ||
       props.statement?.opClass == 'P2P.INTER.in' ||
       props.statement?.opClass == 'P2B.Bank' ||

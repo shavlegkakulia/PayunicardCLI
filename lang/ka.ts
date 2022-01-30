@@ -120,8 +120,8 @@ export default {
         galery: 'ტელეფონის გალერეა',
         newPasscode: 'შეიყვანეთ ახალი პასკოდი',
         confirmPasscode: 'დაადასტურეთ ახალი პასკოდი',
-        trustedDevice: 'სანდო მოწყობილობა'
-        
+        trustedDevice: 'სანდო მოწყობილობა',
+        easyLogin: 'მარტივი შესვლა'
 
     },
     onboard: {

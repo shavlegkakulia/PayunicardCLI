@@ -1,6 +1,6 @@
 /*Author shavleg kakulia*/
 
-import React, {useState, useEffect, useRef, memo} from 'react';
+import React, {useState, useEffect, useRef, memo, createRef} from 'react';
 
 import {
   View,
@@ -33,6 +33,7 @@ export interface IProps {
   scrollable?: boolean;
   header?:JSX.Element | null;
   from?:string;
+  context?: string
 }
 
 const ActionSheetAndroid: React.FC<IProps> = props => {
@@ -40,6 +41,7 @@ const ActionSheetAndroid: React.FC<IProps> = props => {
   const animatedHeight = useRef<Animated.Value>(new Animated.Value(0));
   const pan = useRef<Animated.ValueXY>(new Animated.ValueXY());
   const panResponder = useRef<PanResponderInstance>();
+  const timSubs = useRef<NodeJS.Timeout>();
 
   const createPanResponder = (props: IProps) => {
     const {height} = props;
@@ -93,7 +95,7 @@ const ActionSheetAndroid: React.FC<IProps> = props => {
   };
 
   const onSlideUp = () => {
-    setTimeout(() => {
+    timSubs.current = setTimeout(() => {
       Animated.timing(animatedHeight.current, {
         toValue: props.height,
         duration: 400,
@@ -135,12 +137,17 @@ const ActionSheetAndroid: React.FC<IProps> = props => {
   useEffect(() => {
     createPanResponder(props);
   }, []);
-
+console.log(props.visible)
   useEffect(() => {
     if (props.visible) {
       show();
     } else {
+      if(props.height)
       close();
+    }
+
+    return () => {
+      if(timSubs.current) clearTimeout(timSubs.current)
     }
   }, [props.visible]);
 

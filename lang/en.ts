@@ -75,8 +75,8 @@ export default {
         galery: 'Phone Galery',
         newPasscode: 'Enter New Passcode',
         confirmPasscode: 'Confirm New Passcode',
-        trustedDevice: 'Trusted Device'
-
+        trustedDevice: 'Trusted Device',
+        easyLogin: 'Log in with Biometrics'
         
     },
     tabNavigation: {

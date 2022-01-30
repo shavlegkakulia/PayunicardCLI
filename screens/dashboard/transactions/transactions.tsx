@@ -177,7 +177,7 @@ const Transactions: React.FC = () => {
     });
   };
 
-  const getStatements = () => {
+  const getStatements = (renew?: boolean) => {
     if (selectedAccount?.type === TYPE_UNICARD) {
       getUnicardStatement();
       return;
@@ -254,7 +254,7 @@ const Transactions: React.FC = () => {
 
           let _statements = [...(Response.data.data?.statements || [])];
 
-          if (!stopFetching) {
+          if (!stopFetching && !renew) {
             _statements = [
               ...(_useAccountStatements?.statements || []),
               ..._statements,
@@ -347,7 +347,7 @@ const Transactions: React.FC = () => {
     }
     setUseAccountStatements(undefined);
     setStopFetching(false);
-    setRowIndex(1);
+    setRowIndex(0);
   };
 
   const filterWithDates = () => {
@@ -385,8 +385,12 @@ const Transactions: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    getStatements(true);
+  }, [selectedAccount, selectedFromCurrency, amountFrom, amountTo]);
+
+  useEffect(() => {
     getStatements();
-  }, [selectedAccount, rowIndex, selectedFromCurrency, amountFrom, amountTo]);
+  }, [rowIndex]);
 
   useEffect(() => {
     setStartBalance(useAccountStatements?.statementBallances?.startBallance);
