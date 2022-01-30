@@ -12,7 +12,7 @@ import CommonService from '../services/CommonService';
 const IdleHook: React.FC = props => {
   const panResponder = useRef<PanResponderInstance>();
   const timer = useRef<NodeJS.Timeout>();
-  let activeTTL = 800;
+  let activeTTL = 80;
   let currentTime = 0;
   const dispatch = useDispatch();
 
