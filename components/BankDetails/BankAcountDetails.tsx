@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         paddingHorizontal: 10,
-        marginBottom: 20
+        marginBottom: 20,
+        borderColor: colors.inputBackGround
     },
     titleText: {
         fontFamily: 'FiraGO-Regular',

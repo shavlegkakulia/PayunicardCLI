@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Text, TouchableOpacity, View, StyleSheet, ImageSourcePropType} from 'react-native';
+import {Image, Text, TouchableOpacity, View, StyleSheet, ImageSourcePropType, ScrollView} from 'react-native';
 import {useSelector} from 'react-redux';
 import BankAcountDetails from '../../../components/BankDetails/BankAcountDetails';
 import {TYPE_UNICARD} from '../../../constants/accountTypes';
 import colors from '../../../constants/colors';
 import {CURRENCY_DETAILS} from '../../../constants/currencies';
+import { tabHeight } from '../../../navigation/TabNav';
 import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import {
   IUserState,
@@ -17,7 +18,8 @@ import envs from './../../../config/env';
 
 interface IBankName {
   ka: string,
-  en: string
+  en: string,
+  getName: (key: string) => string
 }
 
 export interface IBankTransferDetails {
@@ -25,7 +27,7 @@ export interface IBankTransferDetails {
   bankName: IBankName,
   accountNumber: string,
   swiftCode: string,
-  logoUrl: ImageSourcePropType
+  logoUrl: ImageSourcePropType,
 }
 
 
@@ -34,7 +36,10 @@ const GelAccountDetails: IBankTransferDetails[] = [
     id: 1,
     bankName: {
       ka: 'ს.ს "საქართველოს ბანკი"',
-      en: 'JSC "Bank Of Georgia"'
+      en: 'JSC "Bank Of Georgia"',
+      getName(key: string) {
+        return this[key]
+      }
     },
     accountNumber: 'GE74BG0000000162455757',
     swiftCode: 'BAGAGE22',
@@ -44,7 +49,10 @@ const GelAccountDetails: IBankTransferDetails[] = [
     id: 2,
     bankName: {
       ka: 'ს.ს "საქართველოს ბანკი"',
-      en: 'JSC "TBC Bank"'
+      en: 'JSC "TBC Bank"',
+      getName(key: string) {
+        return this[key]
+      }
     },
     accountNumber: 'GE13TB7251636090000001',
     swiftCode: 'TBCBGE22',
@@ -54,7 +62,10 @@ const GelAccountDetails: IBankTransferDetails[] = [
     id: 3,
     bankName: {
       ka: 'ს.ს "ვითიბი ბანკი ჯორჯია"',
-      en: 'JSC "VTB Bank Georgia"'
+      en: 'JSC "VTB Bank Georgia"',
+      getName(key: string) {
+        return this[key]
+      }
     },
     accountNumber: 'GE23VT6600000000343609',
     swiftCode: 'UGEBGE22',
@@ -67,7 +78,10 @@ const MultiAccountDetails: IBankTransferDetails[] = [
     id: 1,
     bankName: {
       ka: 'ს.ს "საქართველოს ბანკი"',
-      en: 'JSC "Bank Of Georgia"'
+      en: 'JSC "Bank Of Georgia"',
+      getName(key: string) {
+        return this[key]
+      }
     },
     accountNumber: 'GE74BG0000000162455757',
     swiftCode: 'BAGAGE22',
@@ -77,7 +91,10 @@ const MultiAccountDetails: IBankTransferDetails[] = [
     id: 2,
     bankName: {
       ka: 'ს.ს "საქართველოს ბანკი"',
-      en: 'JSC "TBC Bank"'
+      en: 'JSC "TBC Bank"',
+      getName(key: string) {
+        return this[key]
+      }
     },
     accountNumber: 'GE57TB7251636190000001',
     swiftCode: 'TBCBGE22',
@@ -87,7 +104,10 @@ const MultiAccountDetails: IBankTransferDetails[] = [
     id: 3,
     bankName: {
       ka: 'ს.ს "ვითიბი ბანკი ჯორჯია"',
-      en: 'JSC "VTB Bank Georgia"'
+      en: 'JSC "VTB Bank Georgia"',
+      getName(key: string) {
+        return this[key]
+      }
     },
     accountNumber: 'GE23VT6600000000343609',
     swiftCode: 'UGEBGE22',
@@ -106,6 +126,7 @@ const PaymentMethods: React.FC = () => {
     IAccountBallance[] | undefined
   >();
   let detailCurrencies: ICurrency[] = [];
+
   useEffect(() => {
     let userAccounts = [...(userData?.userAccounts || [])];
     let activeCards = userAccounts.filter(account => {
@@ -135,7 +156,7 @@ const PaymentMethods: React.FC = () => {
       });
   }, [userData.userAccounts]);
   return (
-
+<ScrollView contentContainerStyle={styles.container} style={{backgroundColor: colors.baseBackgroundColor}}>
       <View style={[screenStyles.wraperWithShadow, styles.bankDetailSection]}>
         <View
           style={[styles.productsViewContainer, screenStyles.shadowedCardbr15]}>
@@ -238,11 +259,14 @@ const PaymentMethods: React.FC = () => {
           </View>
         </View>
       </View>
-
+      </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    paddingBottom: tabHeight
+  },
   bankDetailSection: {
     marginBottom: 30,
   },
