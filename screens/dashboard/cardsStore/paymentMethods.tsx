@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import {Image, Text, TouchableOpacity, View, StyleSheet, ImageSourcePropType} from 'react-native';
 import {useSelector} from 'react-redux';
+import BankAcountDetails from '../../../components/BankDetails/BankAcountDetails';
 import {TYPE_UNICARD} from '../../../constants/accountTypes';
 import colors from '../../../constants/colors';
 import {CURRENCY_DETAILS} from '../../../constants/currencies';
@@ -13,6 +14,86 @@ import {IAccountBallance, ICurrency} from '../../../services/UserService';
 import screenStyles from '../../../styles/screens';
 import {CurrencySimbolConverter, getString} from '../../../utils/Converter';
 import envs from './../../../config/env';
+
+interface IBankName {
+  ka: string,
+  en: string
+}
+
+export interface IBankTransferDetails {
+  id: number,
+  bankName: IBankName,
+  accountNumber: string,
+  swiftCode: string,
+  logoUrl: ImageSourcePropType
+}
+
+
+const GelAccountDetails: IBankTransferDetails[] = [
+  {
+    id: 1,
+    bankName: {
+      ka: 'ს.ს "საქართველოს ბანკი"',
+      en: 'JSC "Bank Of Georgia"'
+    },
+    accountNumber: 'GE74BG0000000162455757',
+    swiftCode: 'BAGAGE22',
+    logoUrl: require('../../../assets/images/BOG-logo.png')
+  },
+  {
+    id: 2,
+    bankName: {
+      ka: 'ს.ს "საქართველოს ბანკი"',
+      en: 'JSC "TBC Bank"'
+    },
+    accountNumber: 'GE13TB7251636090000001',
+    swiftCode: 'TBCBGE22',
+    logoUrl: require('../../../assets/images/TBC-logo.png')
+  },
+  {
+    id: 3,
+    bankName: {
+      ka: 'ს.ს "ვითიბი ბანკი ჯორჯია"',
+      en: 'JSC "VTB Bank Georgia"'
+    },
+    accountNumber: 'GE23VT6600000000343609',
+    swiftCode: 'UGEBGE22',
+    logoUrl: require('../../../assets/images/VTB-logo.png')
+  }
+]
+
+const MultiAccountDetails: IBankTransferDetails[] = [
+  {
+    id: 1,
+    bankName: {
+      ka: 'ს.ს "საქართველოს ბანკი"',
+      en: 'JSC "Bank Of Georgia"'
+    },
+    accountNumber: 'GE74BG0000000162455757',
+    swiftCode: 'BAGAGE22',
+    logoUrl: require('../../../assets/images/BOG-logo.png')
+  },
+  {
+    id: 2,
+    bankName: {
+      ka: 'ს.ს "საქართველოს ბანკი"',
+      en: 'JSC "TBC Bank"'
+    },
+    accountNumber: 'GE57TB7251636190000001',
+    swiftCode: 'TBCBGE22',
+    logoUrl: require('../../../assets/images/TBC-logo.png')
+  },
+  {
+    id: 3,
+    bankName: {
+      ka: 'ს.ს "ვითიბი ბანკი ჯორჯია"',
+      en: 'JSC "VTB Bank Georgia"'
+    },
+    accountNumber: 'GE23VT6600000000343609',
+    swiftCode: 'UGEBGE22',
+    logoUrl: require('../../../assets/images/VTB-logo.png')
+  }
+]
 
 const PaymentMethods: React.FC = () => {
   const translate = useSelector<ITranslateGlobalState>(
@@ -59,10 +140,15 @@ const PaymentMethods: React.FC = () => {
         <View
           style={[styles.productsViewContainer, screenStyles.shadowedCardbr15]}>
           <View style={styles.productsViewHeader}>
-            <Text style={styles.productsViewTitle}>{translate.t('products.topupWallet')}</Text>
+            <Text style={styles.productsViewTitle}>{translate.t('topUp.withBanktransf')}</Text>
           </View>
-
-          <Text style={styles.sectionTitle}>{translate.t('products.bankDetails')}</Text>
+          <Text style={styles.sectionTitle}>{translate.t('topUp.withBankDescription')}</Text>
+          <View style={{flexDirection: 'row', alignItems: 'center',  marginVertical: 20}}>
+            <Text  style={{color: 'red', marginRight: 5}}>*</Text>
+            <Text  style={[styles.sectionTitle, {marginTop: 0}]}>{translate.t('topUp.descriptionMandatory')}</Text>
+          </View>
+          <BankAcountDetails title = {translate.t('topUp.gelAccount')} data ={GelAccountDetails}/>
+          <BankAcountDetails title = {translate.t('topUp.multyAccount')} data ={MultiAccountDetails}/>
 
           <View style={styles.bankDetails}>
             {detailCurrencies?.map(currency => (

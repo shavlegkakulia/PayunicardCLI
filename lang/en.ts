@@ -257,7 +257,11 @@ export default {
         linkCardText1: ' Once you add your bank card to the system you will be able to top up the balance without entering card details. Please note, that added card only enables the top up feature.',
         linkCardText2: ' After clicking "Add" button, you will be redirected to the secure page of the bank where you will enter your card details once. As a result, 0.01 GEL will be deducted and refunded to your account. Once the operation is successful, your card will be added to PayUnicard system, on the page “Accounts & Cards”.',
         linkCardText3: ' PayUnicard.ge does not store your bank card data. Data is stored solely in processing systems protected according the international security standards.',
-        whichAccount: 'Which Account Would You Like to Top Up'
+        whichAccount: 'Which Account Would You Like to Top Up',
+        descriptionMandatory: 'Entering the description properly is mandatory',
+        gelAccount:'Georgian Lari Account',
+        multyAccount: 'Multi Currency Account',
+        withBankDescription: 'Plsease, chose the Currency and Bank of your preference. In Description field please enter your ID Number or an Account Number you would like to TopUp'
         
     },
     verification: {
