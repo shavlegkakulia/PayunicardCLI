@@ -593,6 +593,8 @@ const TransactionDetailView: React.FC<IPageProps> = props => {
             RNFetchBlob.ios.previewDocument(configfb.addAndroidDownloads.path);
           }
         }).finally(() => callback()).catch(() => callback());
+    }).catch(() => {
+      callback();
     });
   };
 

@@ -505,6 +505,8 @@ const Transactions: React.FC = () => {
             RNFetchBlob.ios.previewDocument(configfb.addAndroidDownloads.path);
           }
         }).finally(() => callback()).catch(() => callback());
+    }).catch(() => {
+      callback();
     });
   };
 
