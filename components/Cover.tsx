@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Image,
   ImageProps,
+  ImageStyle,
   StyleProp,
   StyleSheet,
   View,
@@ -15,6 +16,7 @@ interface IProps {
   isLoading?: boolean;
   localImage?: ImageProps;
   style?: StyleProp<ViewStyle>;
+  imgStyle?:  StyleProp<ImageStyle>;
 }
 
 const Cover: React.FC<IProps> = props => {
@@ -25,9 +27,9 @@ const Cover: React.FC<IProps> = props => {
           <ActivityIndicator size="small" color={colors.primary} />
         </View>
       ) : props.localImage ? (
-        <Image source={props.localImage} style={styles.logo} />
+        <Image source={props.localImage} style={[styles.logo, props.imgStyle]} />
       ) : (
-        <Image source={{uri: props.imageUrl}} style={styles.logo} />
+        <Image source={{uri: props.imageUrl}} style={[styles.logo, props.imgStyle]} />
       )}
     </View>
   );

@@ -674,6 +674,25 @@ export interface IIEditUserProfileDataResponseData {
   data?: IEditUserProfileDataResponse | undefined;
 }
 
+export interface IExportStatementsAsPdfMobileRequest {
+  AccountNumber? :string;
+  Ccy? :string;
+  StartDate?: string;
+  EndDate? :string;
+}
+
+export interface IExportStatementsAsPdfMobileResponse {
+  color: null | string;
+  imageUrl: null | string;
+  path: string | undefined;
+}
+
+export interface IExportStatementsAsPdfMobileResponseData {
+  ok: boolean;
+  errors?: IError[] | undefined;
+  data?: IExportStatementsAsPdfMobileResponse | undefined;
+}
+
 class UserService {
   GetUserDetails() {
     const promise = axios.get<IUserResponse>(
@@ -919,6 +938,36 @@ class UserService {
     const promise = axios.post<IChangeConditionRisklevelUFCResponseData>(
       `${envs.API_URL}User/ChangeConditionRisklevelUFC`,
       data,
+      {objectResponse: true},
+    );
+    return from(promise);
+  }
+
+  ExportStatementsAsPdfMobile(data: IExportStatementsAsPdfMobileRequest) {
+    let query = '';
+    if(data.AccountNumber) {
+      query += `AccountNumber=${data.AccountNumber}&`
+    }
+    if(data.Ccy) {
+      query += `Ccy=${data.Ccy}&`
+    }
+    if(data.EndDate) {
+      query += `EndDate=${data.EndDate}&`
+    }
+    if(data.StartDate) {
+      query += `StartDate=${data.StartDate}`
+    }
+    console.log(`${envs.API_URL}User/ExportStatementsAsPdfMobile?${query}`)
+    const promise = axios.get<IExportStatementsAsPdfMobileResponseData>(
+      `${envs.API_URL}User/ExportStatementsAsPdfMobile?${query}`,
+      {objectResponse: true},
+    );
+    return from(promise);
+  }
+
+  ExportUserAccountStatementsAsPdfMobile(TranID: number) {
+    const promise = axios.get<IExportStatementsAsPdfMobileResponseData>(
+      `${envs.API_URL}User/ExportUserAccountStatementsAsPdfMobile?TranID=${TranID}`,
       {objectResponse: true},
     );
     return from(promise);

@@ -1,5 +1,4 @@
 import {getNumber, getString} from './Converter';
-
 export const sleep = async (callBack: Function, timeout: number = 0) => {
   await new Promise(res => setTimeout(res, timeout));
   return callBack;
@@ -16,7 +15,10 @@ export const stringToObject = (value: string) => {
   }
 };
 
-export const formatDate = (dateString: string | undefined, includeTime?: boolean) => {
+export const formatDate = (
+  dateString: string | undefined,
+  includeTime?: boolean,
+) => {
   if (!dateString) return '';
   let dateObj = new Date(dateString),
     month = dateObj.getUTCMonth() + 1, //months from 1-12
@@ -29,11 +31,10 @@ export const formatDate = (dateString: string | undefined, includeTime?: boolean
       '.' +
       ('0' + month).slice(-2) +
       '.' +
-      year + (includeTime ? 
-      ' ' +
-      ('0' + hour).slice(-2) +
-      ':' +
-      ('0' + minutes).slice(-2) : '')
+      year +
+      (includeTime
+        ? ' ' + ('0' + hour).slice(-2) + ':' + ('0' + minutes).slice(-2)
+        : '');
   return newdate;
 };
 
@@ -55,8 +56,10 @@ export const minusMonthFromDate = (
 };
 
 export const futureDay = (daysLeft: number) => {
-  return new Date(Date.now() + getNumber(daysLeft) * 24 * 60 * 60 * 1000).toDateString();
-}
+  return new Date(
+    Date.now() + getNumber(daysLeft) * 24 * 60 * 60 * 1000,
+  ).toDateString();
+};
 
 export const dateDiff = (date1: Date, date2: Date) => {
   const d1 = new Date(date1);
@@ -64,7 +67,7 @@ export const dateDiff = (date1: Date, date2: Date) => {
   const diffTime = d2 - d1;
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return diffDays;
-}
+};
 
 export const debounce = (func: Function, wait: number, immediate?: boolean) => {
   let timeout: NodeJS.Timeout | null;
@@ -105,3 +108,5 @@ export const highLightWord = (
     endString,
   };
 };
+
+

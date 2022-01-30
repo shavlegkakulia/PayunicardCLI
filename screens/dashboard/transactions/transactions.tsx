@@ -12,6 +12,7 @@ import {
   NativeScrollEvent,
   ActivityIndicator,
   Platform,
+  PermissionsAndroid,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../../components/UI/AppButton';
@@ -31,6 +32,7 @@ import AccountSelect from '../../../components/AccountSelect/AccountSelect';
 import UserService, {
   IAccountBallance,
   ICurrency,
+  IExportStatementsAsPdfMobileRequest,
   IFund,
   IGetUserAccountsStatementResponse,
   IGetUserBlockedBlockedFundslistRequest,
@@ -45,7 +47,11 @@ import {
   getString,
 } from '../../../utils/Converter';
 import {GEL} from '../../../constants/currencies';
-import {dateDiff, debounce, minusMonthFromDate} from '../../../utils/utils';
+import {
+  dateDiff,
+  debounce,
+  minusMonthFromDate,
+} from '../../../utils/utils';
 import CardService, {
   IGetUnicardStatementRequest,
   ITransaction,
@@ -56,9 +62,9 @@ import {
   IGlobalState as ITranslateGlobalState,
 } from '../../../redux/action_types/translate_action_types';
 import PaginationDots from '../../../components/PaginationDots';
-import CurrencySelect, {
-  CurrencyItem,
-} from '../../../components/CurrencySelect/CurrencySelect';
+import CurrencySelect from '../../../components/CurrencySelect/CurrencySelect';
+import Cover from '../../../components/Cover';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const filter_items = {
   selectedAccount: 'selectedAccount',
@@ -122,6 +128,7 @@ const Transactions: React.FC = () => {
     undefined,
   );
   const [isAmountShown, setIsAmountShown] = useState<boolean>(false);
+  const [isPdfDownloading, setIsPdfDownloading] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const onFromCurrencySelect = (currency: ICurrency) => {
@@ -227,7 +234,9 @@ const Transactions: React.FC = () => {
       }
       data = {
         ...data,
-        accountNumberList: _accountNumberList ? _accountNumberList.join(',') : null,
+        accountNumberList: _accountNumberList
+          ? _accountNumberList.join(',')
+          : null,
       };
     }
 
@@ -449,6 +458,79 @@ const Transactions: React.FC = () => {
       setAmountFrom(undefined);
       setAmountTo(undefined);
     }
+  };
+
+  const downloadPdfFromPath = async (path: string, callback: () => void) => {
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+    ).then(() => {
+      const {dirs} = RNFetchBlob.fs;
+      const dirToSave =
+        Platform.OS == 'ios' ? dirs.DocumentDir : dirs.DownloadDir;
+      const configfb = {
+        addAndroidDownloads: {
+          fileCache: true,
+          useDownloadManager: true,
+          notification: true,
+          description: 'An Pdf file.',
+          mediaScannable: true,
+          title: 'Statements.pdf',
+          path: `${dirToSave}/Statements.pdf`,
+        },
+      };
+      const configOptions = Platform.select({
+        ios: {
+          fileCache: configfb.addAndroidDownloads.fileCache,
+          title: configfb.addAndroidDownloads.title,
+          path: configfb.addAndroidDownloads.path,
+        },
+        android: {...configfb},
+      });
+  
+      RNFetchBlob.config({
+        ...configOptions,
+      })
+        .fetch('GET', `${path}`, {
+          'Content-Type': 'application/json',
+          Accept: 'application/pdf',
+          responseType: 'blob',
+        })
+        .then(res => {
+          if (Platform.OS === 'ios') {
+            RNFetchBlob.fs.writeFile(
+              configfb.addAndroidDownloads.path,
+              res.data,
+              'base64',
+            );
+            RNFetchBlob.ios.previewDocument(configfb.addAndroidDownloads.path);
+          }
+        }).finally(() => callback()).catch(() => callback());
+    });
+  };
+
+  const downloadTransactionDetails = () => {
+    if (isPdfDownloading) return;
+
+    const data: IExportStatementsAsPdfMobileRequest = {
+      AccountNumber: selectedAccount?.accountNumber,
+      StartDate: `${selectedStartDate.getFullYear()}-${
+        selectedStartDate.getMonth() + 1
+      }-${selectedStartDate.getDate()}`,
+      EndDate: `${selectedEndDate.getFullYear()}-${
+        selectedEndDate.getMonth() + 1
+      }-${selectedEndDate.getDate()}`,
+      Ccy: selectedFromCurrency?.key,
+    };
+
+    setIsPdfDownloading(true);
+    UserService.ExportStatementsAsPdfMobile(data).subscribe({
+      next: async Response => {
+        if (Response.data.ok) {
+          await downloadPdfFromPath(getString(Response.data.data?.path), () => setIsPdfDownloading(false));
+        }
+      },
+      error: () => setIsPdfDownloading(false),
+    });
   };
 
   const sheetHeight = Dimensions.get('window').height - 120;
@@ -693,6 +775,18 @@ const Transactions: React.FC = () => {
             </>
           )}
         </View>
+        <View style={styles.download}>
+          <TouchableOpacity
+            style={styles.downloadBtn}
+            onPress={downloadTransactionDetails}>
+            <Cover
+              style={styles.downloadBg}
+              imgStyle={styles.downIcon}
+              localImage={require('./../../../assets/images/icon-download-primary.png')}
+              isLoading={isPdfDownloading}
+            />
+          </TouchableOpacity>
+        </View>
 
         <View style={screenStyles.wraper}>
           <TransactionsList
@@ -889,7 +983,7 @@ const styles = StyleSheet.create({
   },
   filterValues: {
     marginTop: 40,
-    marginBottom: 50,
+    marginBottom: 20,
   },
   filterItem: {
     fontFamily: 'FiraGO-Medium',
@@ -1038,6 +1132,26 @@ const styles = StyleSheet.create({
   },
   amountFrom: {
     marginRight: 20,
+  },
+  download: {
+    paddingLeft: 15,
+  },
+  downloadBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  downloadBg: {
+    backgroundColor: colors.inputBackGround,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 40,
+    height: 40,
+  },
+  downIcon: {
+    width: 14,
+    height: 17,
   },
 });
 

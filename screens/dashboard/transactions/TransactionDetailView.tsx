@@ -11,25 +11,33 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 import colors from '../../../constants/colors';
-import {
+import UserService, {
   IFund,
   IGetTransactionDetailsResponse,
 } from '../../../services/UserService';
 import {
   CurrencyConverter,
   CurrencySimbolConverter,
+  getNumber,
+  getString,
 } from '../../../utils/Converter';
-import {formatDate} from '../../../utils/utils';
+import { formatDate} from '../../../utils/utils';
 import envs from './../../../config/env';
-import RNFetchBlob from 'rn-fetch-blob';
-import AuthService from '../../../services/AuthService';
 import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import { useSelector } from 'react-redux';
+import Cover from '../../../components/Cover';
+import RNFetchBlob from 'rn-fetch-blob';
 
 interface IProps {
   statement: IGetTransactionDetailsResponse | undefined;
   fundStatement: IFund | undefined;
   onDownload?: (tranID: number | undefined) => void;
+  isPdfDownloading: boolean;
+}
+
+interface IPageProps {
+  statement: IGetTransactionDetailsResponse | undefined;
+  fundStatement: IFund | undefined;
   sendHeader: (element: JSX.Element | null) => void;
 }
 
@@ -174,11 +182,12 @@ const ViewCliring: React.FC<IProps> = props => {
         <TouchableOpacity
           style={styles.downloadBtn}
           onPress={props.onDownload?.bind(this, props.statement?.tranid)}>
-          <View style={styles.downloadBg}>
-            <Image
-              source={require('./../../../assets/images/icon-download-primary.png')}
+           <Cover
+              style={styles.downloadBg}
+              imgStyle={styles.downIcon}
+              localImage={require('./../../../assets/images/icon-download-primary.png')}
+              isLoading={props.isPdfDownloading}
             />
-          </View>
         </TouchableOpacity>
       </View>
     </>
@@ -334,11 +343,12 @@ const ViewTransfer: React.FC<IProps> = props => {
         <TouchableOpacity
           style={styles.downloadBtn}
           onPress={props.onDownload?.bind(this, props.statement?.tranid)}>
-          <View style={styles.downloadBg}>
-            <Image
-              source={require('./../../../assets/images/icon-download-primary.png')}
+            <Cover
+              style={styles.downloadBg}
+              imgStyle={styles.downIcon}
+              localImage={require('./../../../assets/images/icon-download-primary.png')}
+              isLoading={props.isPdfDownloading}
             />
-          </View>
         </TouchableOpacity>
       </View>
     </>
@@ -450,11 +460,12 @@ const ViewUtility: React.FC<IProps> = props => {
         <TouchableOpacity
           style={styles.downloadBtn}
           onPress={props.onDownload?.bind(this, props.statement?.tranid)}>
-          <View style={styles.downloadBg}>
-            <Image
-              source={require('./../../../assets/images/icon-download-primary.png')}
+          <Cover
+              style={styles.downloadBg}
+              imgStyle={styles.downIcon}
+              localImage={require('./../../../assets/images/icon-download-primary.png')}
+              isLoading={props.isPdfDownloading}
             />
-          </View>
         </TouchableOpacity>
       </View>
     </>
@@ -528,17 +539,16 @@ const ViewBlocked: React.FC<IProps> = props => {
   );
 };
 
-const TransactionDetailView: React.FC<IProps> = props => {
+const TransactionDetailView: React.FC<IPageProps> = props => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
   const [transactionType, setTransactionType] = useState<number | undefined>(
     TRANSACTION_TYPES.CLIRING,
   );
+  const [isPdfDownloading, setIsPdfDownloading] = useState<boolean>(false);
 
-  const downloadPdf = async (tranID: number | undefined) => {
-    let token = await AuthService.getToken();
-
+  const downloadPdfFromPath = async (path: string, callback: () => void) => {
     PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
     ).then(() => {
@@ -553,7 +563,6 @@ const TransactionDetailView: React.FC<IProps> = props => {
           description: 'An Pdf file.',
           mediaScannable: true,
           title: 'Statements.pdf',
-          mime: 'application/pdf',
           path: `${dirToSave}/Statements.pdf`,
         },
       };
@@ -562,24 +571,18 @@ const TransactionDetailView: React.FC<IProps> = props => {
           fileCache: configfb.addAndroidDownloads.fileCache,
           title: configfb.addAndroidDownloads.title,
           path: configfb.addAndroidDownloads.path,
-          appendExt: 'pdf',
         },
         android: {...configfb},
       });
-
+  
       RNFetchBlob.config({
         ...configOptions,
       })
-        .fetch(
-          'GET',
-          `${envs.API_URL}User/ExportUserAccountStatementsAsPdf?TranID=${tranID}`,
-          {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-            Accept: 'application/pdf',
-            responseType: 'blob',
-          },
-        )
+        .fetch('GET', `${path}`, {
+          'Content-Type': 'application/json',
+          Accept: 'application/pdf',
+          responseType: 'blob',
+        })
         .then(res => {
           if (Platform.OS === 'ios') {
             RNFetchBlob.fs.writeFile(
@@ -589,10 +592,22 @@ const TransactionDetailView: React.FC<IProps> = props => {
             );
             RNFetchBlob.ios.previewDocument(configfb.addAndroidDownloads.path);
           }
-  
-        });
+        }).finally(() => callback()).catch(() => callback());
     });
   };
+
+  const ExporPdf = (tranID: number | undefined) => {
+    if(isPdfDownloading) return;
+    setIsPdfDownloading(true);
+    UserService.ExportUserAccountStatementsAsPdfMobile(getNumber(tranID)).subscribe({
+      next: async Response => {
+        if(Response.data.ok) {
+          await downloadPdfFromPath(getString(Response.data.data?.path), () => setIsPdfDownloading(false));
+        }
+      },
+      error: () => setIsPdfDownloading(false)
+    })
+  }
 
   useEffect(() => {
     if (props.fundStatement) {
@@ -640,23 +655,23 @@ const TransactionDetailView: React.FC<IProps> = props => {
     );
     props.sendHeader(data);
   }, []);
-
+  
   return (
     <View style={styles.container}>
       {(transactionType === TRANSACTION_TYPES.CLIRING || transactionType === TRANSACTION_TYPES.TRANPOS) && (
-        <ViewCliring {...props} onDownload={downloadPdf} />
+        <ViewCliring isPdfDownloading={isPdfDownloading} {...props} onDownload={ExporPdf} />
       )}
 
       {transactionType === TRANSACTION_TYPES.TRANCONVERT && (
-        <ViewTransfer {...props} onDownload={downloadPdf} />
+        <ViewTransfer isPdfDownloading={isPdfDownloading} {...props} onDownload={ExporPdf} />
       )}
 
       {transactionType === TRANSACTION_TYPES.TRANUTILITY && (
-        <ViewUtility {...props} onDownload={downloadPdf} />
+        <ViewUtility isPdfDownloading={isPdfDownloading} {...props} onDownload={ExporPdf} />
       )}
 
       {transactionType === TRANSACTION_TYPES.BLOCKED && (
-        <ViewBlocked {...props} onDownload={downloadPdf} />
+        <ViewBlocked isPdfDownloading={isPdfDownloading} {...props} onDownload={ExporPdf} />
       )}
     </View>
   );
@@ -793,7 +808,11 @@ const styles = StyleSheet.create({
   bolder: {
     color: colors.black,
     marginBottom: 10
-  }
+  },
+  downIcon: {
+    width: 14,
+    height: 17,
+  },
 });
 
 export default TransactionDetailView;
