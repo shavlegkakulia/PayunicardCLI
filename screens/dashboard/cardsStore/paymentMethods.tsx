@@ -41,24 +41,24 @@ const GelAccountDetails: IBankTransferDetails[] = [
     logoUrl: require('../../../assets/images/BOG-logo.png')
   },
   {
-    id: 1,
+    id: 2,
     bankName: {
       ka: 'ს.ს "საქართველოს ბანკი"',
       en: 'JSC "TBC Bank"'
     },
     accountNumber: 'GE13TB7251636090000001',
     swiftCode: 'TBCBGE22',
-    logoUrl: require('../../../assets/images/BOG-logo.png')
+    logoUrl: require('../../../assets/images/TBC-logo.png')
   },
   {
-    id: 1,
+    id: 3,
     bankName: {
       ka: 'ს.ს "ვითიბი ბანკი ჯორჯია"',
       en: 'JSC "VTB Bank Georgia"'
     },
     accountNumber: 'GE23VT6600000000343609',
     swiftCode: 'UGEBGE22',
-    logoUrl: require('../../../assets/images/BOG-logo.png')
+    logoUrl: require('../../../assets/images/VTB-logo.png')
   }
 ]
 
@@ -74,24 +74,24 @@ const MultiAccountDetails: IBankTransferDetails[] = [
     logoUrl: require('../../../assets/images/BOG-logo.png')
   },
   {
-    id: 1,
+    id: 2,
     bankName: {
       ka: 'ს.ს "საქართველოს ბანკი"',
       en: 'JSC "TBC Bank"'
     },
     accountNumber: 'GE57TB7251636190000001',
     swiftCode: 'TBCBGE22',
-    logoUrl: require('../../../assets/images/BOG-logo.png')
+    logoUrl: require('../../../assets/images/TBC-logo.png')
   },
   {
-    id: 1,
+    id: 3,
     bankName: {
       ka: 'ს.ს "ვითიბი ბანკი ჯორჯია"',
       en: 'JSC "VTB Bank Georgia"'
     },
     accountNumber: 'GE23VT6600000000343609',
     swiftCode: 'UGEBGE22',
-    logoUrl: require('../../../assets/images/BOG-logo.png')
+    logoUrl: require('../../../assets/images/VTB-logo.png')
   }
 ]
 
