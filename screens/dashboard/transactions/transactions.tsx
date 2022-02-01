@@ -278,6 +278,8 @@ const Transactions: React.FC = () => {
             getNumber(Response.data.data?.statements?.length) <= 0
           ) {
             setStopFetching(true);
+          } else {
+            setStopFetching(false);
           }
           setUseAccountStatements(UseAccountStatements);
         }
