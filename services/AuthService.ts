@@ -34,7 +34,7 @@ export interface IAuthorizationResponse {
   userId?: number | undefined;
   refresh_token: string;
   access_token: string;
-  expires_in: Number;
+  expires_in: number;
   scope: string;
   token_type: string;
   requireOtp?: boolean;

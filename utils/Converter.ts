@@ -53,9 +53,9 @@ export const getNumber = (value: string | number | undefined) => {
   }
 };
 
-export const getString = (value: string | undefined) => {
+export const getString = (value: string | undefined | null) => {
   let string = '';
-  if (value === undefined) {
+  if (value === undefined || value === null) {
     string = '';
   }
 

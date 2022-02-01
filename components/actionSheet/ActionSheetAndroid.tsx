@@ -137,7 +137,7 @@ const ActionSheetAndroid: React.FC<IProps> = props => {
   useEffect(() => {
     createPanResponder(props);
   }, []);
-console.log(props.visible)
+
   useEffect(() => {
     if (props.visible) {
       show();

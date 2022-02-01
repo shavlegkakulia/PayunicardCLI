@@ -30,7 +30,7 @@ import {use} from './../../redux/actions/translate_actions';
 import Validation, {required} from './../../components/UI/Validation';
 import LoginWithPassword from './loginWithPassword';
 import storage from './../../services/StorageService';
-import {AUTH_USER_INFO} from '../../constants/defaults';
+import {AUTH_USER_INFO, TOKEN_EXPIRE} from '../../constants/defaults';
 import FullScreenLoader from '../../components/FullScreenLoading';
 import {IUserDetails} from '../../services/UserService';
 import {AppkeyboardAVoidScrollview} from '../../components/UI/AppkeyboardAVoidScrollview';
@@ -170,7 +170,15 @@ const LoginForm: React.FC = () => {
         otp: otp,
       };
       AuthService.SignIn({User}).subscribe({
-        next: Response => {
+        next: async Response => {
+          const date = new Date();
+          date.setSeconds(date.getSeconds() + Response.data.expires_in);
+          const expObject = {
+            expDate: date
+          };
+
+          await storage.setItem(TOKEN_EXPIRE, JSON.stringify(expObject));
+    
           dispatch(
             Login(
               Response.data.access_token,

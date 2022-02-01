@@ -21,7 +21,8 @@ class CommonService {
     })
   }
   DeviceData: string = '';
-  intervals: Array<NodeJS.Timeout> = [];
+  uactionIntervals: Array<NodeJS.Timeout> = [];
+  ttlIntervals: Array<NodeJS.Timeout> = [];
   //register common interseptors for normalzing response
   //when objectResponse is passed in config returns noly ObjectResponse
   registerCommonInterceptor() {
