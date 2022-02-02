@@ -114,6 +114,7 @@ const PreOrder: React.FC = props => {
       cardDeliveryCountryID: 79,
       customerId: userData.userDetails?.customerID,
       termID: 1,
+      hrm: route.params.hrm,
     };
 
     if (route.params.delyveryMethod === delyveryMethods.inServiceCenter) {
@@ -124,6 +125,7 @@ const PreOrder: React.FC = props => {
         cardDeliveryCityID: route.params?.city?.cityId,
         cardDeliveryCity: route.params?.city?.name,
         cardDeliveryAddress: route.params.address + route.params.village,
+        serviseCenter: 0
       };
     }
     choosenCardTypes?.map(ct => {
