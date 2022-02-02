@@ -162,14 +162,14 @@ const ProductDetail: React.FC = props => {
   const toggleHrmSwitch = () => {
     if (hrmLoading || actionLoading) return;
     setCurrentHRMAction(1);
-    setIsEnabled(previousState => !previousState);
+    //setIsEnabled(previousState => !previousState);
     setIsHrmProcessing(true);
     SendPhoneOTP();
   };
   const toggleHrmSwitch2 = () => {
     if (hrmLoading || actionLoading) return;
     setCurrentHRMAction(2);
-    setIsEnabled2(previousState2 => !previousState2);
+    //setIsEnabled2(previousState2 => !previousState2);
     setIsHrmProcessing(true);
     SendPhoneOTP();
   };
@@ -676,9 +676,9 @@ const ProductDetail: React.FC = props => {
     } else if (isEnabled === false && isEnabled2 === false) {
       cardHrm = 0;
     } else if (isEnabled === true && isEnabled2 === false) {
-      cardHrm = 2;
-    } else if (isEnabled === false && isEnabled2 === true) {
       cardHrm = 3;
+    } else if (isEnabled === false && isEnabled2 === true) {
+      cardHrm = 2;
     }
 
     let cardId = 0;
@@ -707,6 +707,12 @@ const ProductDetail: React.FC = props => {
         setHrmLoading(false);
         setIsHrmProcessing(false);
         setCurrentHRMAction(0);
+
+        if(currentHRMAction === 1) {
+          setIsEnabled(previousState => !previousState);
+        } else if(currentHRMAction === 2) {
+          setIsEnabled2(previousState2 => !previousState2);
+        }
       },
       error: err => {
      
@@ -745,6 +751,7 @@ const ProductDetail: React.FC = props => {
 
     if (route?.params?.account.cards) {
       const curCardHrm = route?.params?.account.cards[currentCardIndex]?.hrm;
+      console.log('hrm', curCardHrm)
       if (curCardHrm === 1) {
         setIsEnabled(true);
         setIsEnabled2(true);
@@ -752,11 +759,11 @@ const ProductDetail: React.FC = props => {
         setIsEnabled(false);
         setIsEnabled2(false);
       } else if (curCardHrm === 2) {
-        setIsEnabled(true);
-        setIsEnabled2(false);
-      } else if (curCardHrm === 3) {
         setIsEnabled(false);
         setIsEnabled2(true);
+      } else if (curCardHrm === 3) {
+        setIsEnabled(true);
+        setIsEnabled2(false);
       }
     }
   }, [route?.params?.account]);

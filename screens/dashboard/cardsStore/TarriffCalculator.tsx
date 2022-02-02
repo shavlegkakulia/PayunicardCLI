@@ -306,9 +306,9 @@ const TarriffCalculator: React.FC = props => {
     } else if (isEnabled === false && isEnabled2 === false) {
       cardHrm = 0;
     } else if (isEnabled === true && isEnabled2 === false) {
-      cardHrm = 2;
-    } else if (isEnabled === false && isEnabled2 === true) {
       cardHrm = 3;
+    } else if (isEnabled === false && isEnabled2 === true) {
+      cardHrm = 2;
     }
 
     NavigationService.navigate(Routes.DelyveryMethods, {
