@@ -63,6 +63,7 @@ const IdleHook: React.FC = props => {
         const expObject = {
           expDate: date,
         };
+        await AsyncStorage.removeItem(TOKEN_EXPIRE);
         await AsyncStorage.setItem(TOKEN_EXPIRE, JSON.stringify(expObject));
         expireDate.current = JSON.stringify(expObject);
 

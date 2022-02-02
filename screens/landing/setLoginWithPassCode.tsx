@@ -30,6 +30,7 @@ import {stringToObject} from '../../utils/utils';
 import {require_otp} from '../../constants/errorCodes';
 import {useNavigation} from '@react-navigation/native';
 import Routes from '../../navigation/routes';
+import { TOKEN_EXPIRE } from '../../constants/defaults';
 
 interface IProps {
   access_token: string;
@@ -89,6 +90,14 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
       )
       .then(async response => { 
         if (!response.data.access_token) throw response;
+
+        const date = new Date();
+        date.setSeconds(date.getSeconds() + response.data.expires_in);
+        const expObject = {
+          expDate: date,
+        };
+        await storage.removeItem(TOKEN_EXPIRE);
+        await storage.setItem(TOKEN_EXPIRE, JSON.stringify(expObject));
 
         await AuthService.removeToken();
         await AuthService.setToken(

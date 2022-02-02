@@ -22,6 +22,8 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import { getString } from '../../utils/Converter';
 import SmsRetriever from 'react-native-sms-retriever';
+import AsyncStorage from '../../services/StorageService';
+import { TOKEN_EXPIRE } from '../../constants/defaults';
 
 const RefreshTokenOtp: React.FC = () => {
   const translate = useSelector<ITranslateGlobalState>(
@@ -51,6 +53,14 @@ const RefreshTokenOtp: React.FC = () => {
         if (!response.data.access_token) {
           nav.goBack();
         }
+
+        const date = new Date();
+        date.setSeconds(date.getSeconds() + response.data.expires_in);
+        const expObject = {
+          expDate: date,
+        };
+        await AsyncStorage.removeItem(TOKEN_EXPIRE);
+        await AsyncStorage.setItem(TOKEN_EXPIRE, JSON.stringify(expObject));
 
         await AuthService.removeToken();
         await AuthService.setToken(

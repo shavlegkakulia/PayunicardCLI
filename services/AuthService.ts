@@ -7,7 +7,7 @@ import { stringToObject } from '../utils/utils';
 import { invalid_username_or_password, otp_not_valid, require_otp } from '../constants/errorCodes';
 import Store from './../redux/store';
 import { IAuthAction, REFRESH, SET_DEVICE_ID } from '../redux/action_types/auth_action_types';
-import { AUTH_USER_INFO, DEVICE_ID } from '../constants/defaults';
+import { AUTH_USER_INFO, DEVICE_ID, TOKEN_EXPIRE } from '../constants/defaults';
 import DeviceInfro from 'react-native-device-info';
 import { getString } from '../utils/Converter';
 
@@ -262,6 +262,14 @@ class AuthService {
                 response.data.refresh_token,
               );
             }
+
+            const date = new Date();
+            date.setSeconds(date.getSeconds() + response.data.expires_in);
+            const expObject = {
+              expDate: date,
+            };
+            await storage.removeItem(TOKEN_EXPIRE);
+            await storage.setItem(TOKEN_EXPIRE, JSON.stringify(expObject));
 
             Store.dispatch<IAuthAction>({
               type: REFRESH,
