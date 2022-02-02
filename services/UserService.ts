@@ -138,7 +138,7 @@ export interface IBallances {
 
 export interface IGetUserAccountsStatementResponse {
   statements?: IStatements[] | undefined;
-  statementBallances?: IBallances | undefined;
+  statement_Ballances?: IBallances | undefined;
 }
 
 export interface IUserAccountsStatementRequest {

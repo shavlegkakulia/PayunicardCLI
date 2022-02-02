@@ -76,7 +76,7 @@ function UserReducer(state = initalState, action: IUserAction) {
         ];
         useAccountStatements = {
           statements: statements,
-          statementBallances: useAccountStatements.statementBallances,
+          statement_Ballances: useAccountStatements.statement_Ballances,
         };
       }
 

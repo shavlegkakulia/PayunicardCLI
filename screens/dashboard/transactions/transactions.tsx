@@ -270,7 +270,7 @@ const Transactions: React.FC = () => {
             ];
           }
           const UseAccountStatements = {
-            statementBallances: Response.data.data?.statementBallances,
+            statement_Ballances: Response.data.data?.statement_Ballances,
             statements: _statements,
           };
           if (
@@ -404,8 +404,8 @@ const Transactions: React.FC = () => {
   }, [rowIndex]);
 
   useEffect(() => {
-    setStartBalance(useAccountStatements?.statementBallances?.startBallance);
-    setEndBalance(useAccountStatements?.statementBallances?.endBallance);
+    setStartBalance(useAccountStatements?.statement_Ballances?.startBallance);
+    setEndBalance(useAccountStatements?.statement_Ballances?.endBallance);
   }, [useAccountStatements]);
 
   useEffect(() => {
@@ -770,11 +770,11 @@ const Transactions: React.FC = () => {
             <>
               <Text style={styles.filterItem}>
                 {translate.t('transfer.startBalance')}:{' '}
-                {CurrencyConverter(endBalance)} {CurrencySimbolConverter(GEL)}
+                {CurrencyConverter(startBalance)} {CurrencySimbolConverter(GEL)}
               </Text>
               <Text style={styles.filterItem}>
                 {translate.t('transfer.endBalance')}:{' '}
-                {CurrencyConverter(startBalance)} {CurrencySimbolConverter(GEL)}
+                {CurrencyConverter(endBalance)} {CurrencySimbolConverter(GEL)}
               </Text>
             </>
           )}
