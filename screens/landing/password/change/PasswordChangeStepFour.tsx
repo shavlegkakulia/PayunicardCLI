@@ -136,7 +136,7 @@ const PasswordChangeStepFour: React.FC = () => {
             )}
 
             <Appinput
-              requireds={[required, hasLower, hasUpper, hasNumeric, hasSpecial]}
+              requireds={[required]}
               minLength={8}
               customKey="aldpassword"
               context={VALIDATION_CONTEXT}
