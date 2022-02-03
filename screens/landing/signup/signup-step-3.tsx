@@ -34,7 +34,7 @@ type RouteParamList = {
     phone: string;
     name: string;
     surname: string;
-    birthDate: Date;
+    birthDate: string;
     personalId: string;
     userName: string;
   };

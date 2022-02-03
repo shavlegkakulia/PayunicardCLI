@@ -55,7 +55,7 @@ const SignupStepTwo: React.FC = () => {
       phone: route.params.phone,
       name: route.params.name,
       surname: route.params.surname,
-      birthDate,
+      birthDate: birthDate.toISOString(),
       personalId,
       userName,
     });

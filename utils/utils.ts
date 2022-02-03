@@ -17,6 +17,7 @@ export const stringToObject = (value: string) => {
 
 export const formatDate = (
   dateString: string | undefined,
+  separate?: string,
   includeTime?: boolean,
 ) => {
   if (!dateString) return '';
@@ -28,9 +29,9 @@ export const formatDate = (
     hour = dateObj.getHours(),
     newdate =
       ('0' + day).slice(-2) +
-      '.' +
+      (separate || '.') +
       ('0' + month).slice(-2) +
-      '.' +
+      (separate || '.') +
       year +
       (includeTime
         ? ' ' + ('0' + hour).slice(-2) + ':' + ('0' + minutes).slice(-2)

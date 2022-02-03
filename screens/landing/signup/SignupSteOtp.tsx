@@ -75,7 +75,7 @@ const SignupSteOtp: React.FC = () => {
         phone: route.params.phone,
         name: route.params.name,
         surname: route.params.surname,
-        birthDate: route.params.birthDate.toLocaleDateString(),
+        birthDate: route.params.birthDate,
         personalId: route.params.personalId,
         userName: route.params.userName,
         password: route.params.password,
