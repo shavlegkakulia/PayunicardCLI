@@ -93,7 +93,7 @@ const Transfers: React.FC<INavigationProps> = props => {
 
   const dispatch = useDispatch();
 
-  const startTransferFromTemplate = (template: ITransferTemplate) => {
+  const startTransferFromTemplate = (template: ITransferTemplate, wt: boolean = false) => {
     if(!isUserVerified) return;
     function initCommon() {
       setIsTemplate(true);
@@ -129,7 +129,7 @@ const Transfers: React.FC<INavigationProps> = props => {
         }
       }
 
-      transferToUni();
+      transferToUni(wt);
     } else if (
       template.opClassCode?.toLocaleUpperCase() === opClassCodes.toBank
     ) {
@@ -196,7 +196,7 @@ const Transfers: React.FC<INavigationProps> = props => {
     });
   };
 
-  const transferToUni = () => {
+  const transferToUni = (wt:boolean = false) => {
     if(!isUserVerified) return;
     const currentRoute = routes[routes.length - 1].name;
     dispatch({
@@ -205,7 +205,7 @@ const Transfers: React.FC<INavigationProps> = props => {
     });
     props.navigation?.navigate(Routes.TransferToUni_CHOOSE_ACCOUNTS, {
       transferStep: Routes.TransferToUni_CHOOSE_ACCOUNTS,
-      withTemplate: true
+      withTemplate: wt
     });
   };
 
@@ -369,7 +369,7 @@ const Transfers: React.FC<INavigationProps> = props => {
                 ]}>
                 <TouchableOpacity
                   style={styles.transfersSectionContainerItem}
-                  onPress={transferToUni}>
+                  onPress={() => transferToUni(false)}>
                   <View
                     style={styles.transfersSectionContainerItemImageContainer}>
                     <Image

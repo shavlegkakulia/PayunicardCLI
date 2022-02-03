@@ -31,7 +31,7 @@ import {highLightWord} from '../../../utils/utils';
 interface ITransferTemplatesProps {
   templates: ITransferTemplate[];
   isTemplatesFetching: boolean;
-  onStartTransferFromTemplate: (template: ITransferTemplate) => void;
+  onStartTransferFromTemplate: (template: ITransferTemplate, wt: boolean) => void;
   isDisabled?: boolean;
 }
 
@@ -219,7 +219,7 @@ const TransferTemplates: React.FC<ITransferTemplatesProps> = props => {
               </View>
               <TouchableOpacity
                 key={index}
-                onPress={() => props.onStartTransferFromTemplate(template)}
+                onPress={() => props.onStartTransferFromTemplate(template, true)}
                 style={styles.transfersItem}>
                 <View style={styles.templatesItemRight}>
                   <View style={styles.templatesItemColumn}>

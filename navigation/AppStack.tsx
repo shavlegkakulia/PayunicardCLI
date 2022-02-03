@@ -106,6 +106,7 @@ const AppStack: React.FC = () => {
         />
         <appStack.Navigator
           screenOptions={{
+            gestureEnabled: false,
             headerShown: false,
           }}>
           <appStack.Screen
