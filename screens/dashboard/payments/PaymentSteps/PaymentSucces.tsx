@@ -86,7 +86,7 @@ const PaymentSucces: React.FC = props => {
   useEffect(() => {
     dispatch({type: NAVIGATION_ACTIONS.SET_HIDER_VISIBLE, visible: false});
   }, []);
-console.log(route.params)
+
   return (
     <KeyboardAvoidingView
       behavior="padding"
