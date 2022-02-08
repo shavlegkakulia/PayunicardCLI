@@ -522,6 +522,12 @@ const TransferToUni: React.FC = () => {
   };
 
   useEffect(() => {
+    if(!TransfersStore.nomination?.trim()) {
+      setNomination(translate.t('transfer.toUniWallet'));
+    }
+  }, [])
+
+  useEffect(() => {
     onSmsListener();
 
     return () => SmsRetriever.removeSmsListener();
