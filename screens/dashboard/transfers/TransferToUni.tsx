@@ -400,11 +400,7 @@ const TransferToUni: React.FC = () => {
   useEffect(() => {
     if (userData.userAccounts && !userData.isAccountsLoading) {
       let uac = [...(userData.userAccounts || [])];
-      if (route.params.withTemplate) {
-        uac = uac.filter(account => account.type !== TYPE_UNICARD);
-        setAccounts(uac);
-        return;
-      }
+      uac = uac.filter(account => account.type !== TYPE_UNICARD);
       setAccounts(uac);
     }
   }, [userData.isAccountsLoading]);

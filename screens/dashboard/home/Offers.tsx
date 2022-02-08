@@ -9,6 +9,7 @@ import {
   NativeScrollEvent,
   TouchableOpacity,
   Platform,
+  ImageStyle,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import PaginationDots from '../../../components/PaginationDots';
@@ -59,14 +60,28 @@ const OffersView: React.FC = () => {
   };
 
   if (!offers || !offers?.length) return null;
+  const ratio =
+    (offers.length === 1 ? screenSize.width - 32 : screenSize.width - 92) / 541; //541 is actual image width
+  const imageStyle: ImageStyle = {
+    width: offers.length === 1 ? screenSize.width - 32 : screenSize.width - 92,
+    height: 362 * ratio, //362 is actual height of image
+    position: 'absolute',
+    top: -52,
+  };
 
   return (
-    <View style={[styles.offersContainer, Platform.OS === 'ios' && screenStyles.shadowedCardbr15]}>
+    <View
+      style={[
+        styles.offersContainer,
+        Platform.OS === 'ios' && screenStyles.shadowedCardbr15,
+      ]}>
       <View style={styles.offersContainerHeader}>
         <Text style={styles.offersContainerTitle}>
           {translate.t('dashboard.myOffer')}
         </Text>
-        {offers.length > 1 && <PaginationDots step={offersStep} length={offers?.length} />}
+        {offers.length > 1 && (
+          <PaginationDots step={offersStep} length={offers?.length} />
+        )}
       </View>
       <ScrollView
         onScroll={handleOffersScroll}
@@ -75,23 +90,33 @@ const OffersView: React.FC = () => {
         {offers?.map((o, index) => (
           <TouchableOpacity
             onPress={viewOffer.bind(this, o.id)}
+            activeOpacity={1}
             style={[
               styles.offersContainerItem,
               screenStyles.shadowedCardbr15,
-              {width: offers.length === 1 ? screenSize.width - 32 : screenSize.width - 92},
+              {
+                width:
+                  offers.length === 1
+                    ? screenSize.width - 32
+                    : screenSize.width - 92,
+              },
               index === 0 && {marginLeft: 11},
             ]}
             key={`offer${index}`}>
             <Image
               source={{uri: o.imageUrl}}
-              style={styles.offersContainerItemImage}
-              resizeMode="stretch"
+              style={imageStyle}
+              resizeMode="contain"
             />
             <View style={styles.offersContainerItemDetails}>
-              <Text style={styles.offersContainerItemDetailsTitle} numberOfLines={1}>
+              <Text
+                style={styles.offersContainerItemDetailsTitle}
+                numberOfLines={1}>
                 {o.title}
               </Text>
-              <Text style={styles.offersContainerItemDetailsSubTitle} numberOfLines={2}>
+              <Text
+                style={styles.offersContainerItemDetailsSubTitle}
+                numberOfLines={2}>
                 {o.text}
               </Text>
             </View>
@@ -127,10 +152,8 @@ const styles = StyleSheet.create({
     height: 143,
     marginHorizontal: 9,
     backgroundColor: colors.white,
-  },
-  offersContainerItemImage: {
-    width: '100%',
-    height: 82,
+    flex: 1,
+    justifyContent: 'flex-end',
   },
   offersContainerItemDetails: {
     height: 61,
