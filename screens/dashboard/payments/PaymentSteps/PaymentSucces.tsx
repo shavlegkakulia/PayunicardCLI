@@ -86,7 +86,7 @@ const PaymentSucces: React.FC = props => {
   useEffect(() => {
     dispatch({type: NAVIGATION_ACTIONS.SET_HIDER_VISIBLE, visible: false});
   }, []);
-
+console.log(route.params)
   return (
     <KeyboardAvoidingView
       behavior="padding"
@@ -97,7 +97,7 @@ const PaymentSucces: React.FC = props => {
           <Text style={styles.succesText}>
             {route.params.withTemplate
               ? translate.t('template.paymentTemplateSuccess')
-              : translate.t('template.paymentSuccessfull')}
+              : translate.t('payments.paymentSuccessfull')}
           </Text>
           <Image
             source={require('./../../../../assets/images/succes_icon.png')}

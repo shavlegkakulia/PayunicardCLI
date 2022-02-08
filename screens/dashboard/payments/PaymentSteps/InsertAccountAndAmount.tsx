@@ -43,7 +43,7 @@ import {
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
-}  from '../../../../redux/action_types/translate_action_types';
+} from '../../../../redux/action_types/translate_action_types';
 import {
   IUserState,
   IGloablState as IUserGlobalState,
@@ -62,7 +62,6 @@ import {
   getString,
 } from '../../../../utils/Converter';
 import SetOtp from './SetOtp';
-
 
 type RouteParamList = {
   params: {
@@ -171,7 +170,7 @@ const InsertAccointAndAmount: React.FC = props => {
     }
     startPay();
   };
- 
+
   const onAccountSelect = (account: IAccountBallance) => {
     dispatch({
       type: PAYMENTS_ACTIONS.PAYMENT_SET_SELECTED_ACCOUNT,
@@ -218,6 +217,9 @@ const InsertAccointAndAmount: React.FC = props => {
         },
         status => {
           if (status) {
+            setOtpVisible(false);
+            setOtp(undefined);
+            setUnicardOtpGuid(undefined);
             NavigationService.navigate(Routes.Payments_SUCCES, {
               withTemplate: route.params.withTemplate,
             });
@@ -233,7 +235,7 @@ const InsertAccointAndAmount: React.FC = props => {
       let OTP: ISendUnicardOtpRequest = {
         card: PaymentStore.selectedAccount?.accountNumber,
       };
-     
+
       TransactionService.UnicardOtp(OTP).subscribe({
         next: Response => {
           if (Response.data.ok) {
@@ -266,7 +268,7 @@ const InsertAccointAndAmount: React.FC = props => {
       //PaymentStore.isTemplate
     ) {
       if (Validation.validate(ValidationContext)) return;
-     
+
       dispatch(
         GetPaymentDetails(
           {
@@ -338,7 +340,12 @@ const InsertAccointAndAmount: React.FC = props => {
   useEffect(() => {
     if (PaymentStore.currentService?.categoryID === 8) {
       setAccounts(accounts => {
-        return accounts?.filter(acc => acc.type !== TYPE_UNICARD && acc.customerPaketId !== 2 && acc.type !== 0);
+        return accounts?.filter(
+          acc =>
+            acc.type !== TYPE_UNICARD &&
+            acc.customerPaketId !== 2 &&
+            acc.type !== 0,
+        );
       });
     }
   }, [PaymentStore.currentService]);
@@ -350,8 +357,8 @@ const InsertAccointAndAmount: React.FC = props => {
       i.FieldCode === 'TotalDebt' ||
       i.FieldCode === 'Balance',
   );
-  if(!debt || debt.length) {
-    debt = []
+  if (!debt || debt.length) {
+    debt = [];
   }
   let custumer = PaymentStore.debtData?.filter(
     i =>
@@ -373,144 +380,147 @@ const InsertAccointAndAmount: React.FC = props => {
     PaymentStore.currentPayTemplate?.imageUrl;
 
   return (
-    <ScrollView contentContainerStyle={styles.avoid}>
-      <KeyboardAvoidingView behavior="padding" style={styles.avoid}>
-        <View style={[screenStyles.wraper, styles.container]}>
-          {otpVisible && (
-             <Modal
-             visible={otpVisible}
-             onRequestClose={setOtpVisible.bind(this, false)}
-             animationType="slide">
-                <KeyboardAvoidingView behavior="padding" style={styles.modalAvoid}>
-                 <View style={styles.otpContent}>
-              <SetOtp
-                otp={otp}
-                onSetOtp={setOtp}
-                onSendUnicardOTP={SendUnicardOTP}
-                style={styles.otpBox2}
-              />
-              <AppButton
-                isLoading={PaymentStore.isActionLoading || isLoading}
-                onPress={next}
-                title={translate.t('common.next')}
-                style={styles.otpButton}
-              />
-              </View>
-              </KeyboardAvoidingView>
-            </Modal>
-          )}
-          <View>
-            <View style={styles.abonentInfo}>
-              <Image style={styles.logo} source={{uri: _serviceImageUrl}} />
-              <View>
-                <Text numberOfLines={1} style={styles.serviceName}>
-                  {_serviceName}
-                </Text>
+    <>
+      <ScrollView contentContainerStyle={styles.avoid}>
+        <KeyboardAvoidingView behavior="padding" style={styles.avoid}>
+          <View style={[screenStyles.wraper, styles.container]}>
+            <View>
+              <View style={styles.abonentInfo}>
+                <Image style={styles.logo} source={{uri: _serviceImageUrl}} />
                 <View>
-                  <Text style={styles.address}>
-                    {custumer?.length && custumer[0].Value}
-                    {cosumerAddress?.length && cosumerAddress[0].Value}
+                  <Text numberOfLines={1} style={styles.serviceName}>
+                    {_serviceName}
                   </Text>
-                  <Text style={styles.debt}>
-                    {PaymentStore.abonentCode}/{debt?.length && debt[0].Value}
-                    {debt.length && CurrencySimbolConverter(getString(debt[0].CCY))}
-                  </Text>
+                  <View>
+                    <Text style={styles.address}>
+                      {custumer?.length && custumer[0].Value}
+                      {cosumerAddress?.length && cosumerAddress[0].Value}
+                    </Text>
+                    <Text style={styles.debt}>
+                      {PaymentStore.abonentCode}/{debt?.length && debt[0].Value}
+                      {debt.length &&
+                        CurrencySimbolConverter(getString(debt[0].CCY))}
+                    </Text>
+                  </View>
                 </View>
               </View>
-            </View>
 
-            <View style={styles.accountBox}>
-              <Text style={styles.accountBoxTitle}>{translate.t('common.selectAccount')}</Text>
-
-              {PaymentStore.selectedAccount ? (
-                <AccountItem
-                  account={PaymentStore.selectedAccount}
-                  onAccountSelect={() => setAccountVisible(true)}
-                  style={styles.accountItem}
-                />
-              ) : (
-                <TouchableOpacity
-                  onPress={() => setAccountVisible(true)}
-                  style={[styles.accountSelectHandler, accountErrorStyle]}>
-                  <Image
-                    style={styles.dropImg}
-                    source={require('./../../../../assets/images/down-arrow.png')}
-                  />
-                </TouchableOpacity>
-              )}
-
-              <AccountSelect
-                accounts={_accounts}
-                selectedAccount={PaymentStore.selectedAccount}
-                accountVisible={accountVisible}
-                onSelect={account => onAccountSelect(account)}
-                onToggle={() => setAccountVisible(!accountVisible)}
-              />
-            </View>
-
-            <View style={styles.amountColumn}>
-              <Text style={styles.amountLabel}>{translate.t('common.amount')}</Text>
-              <AppInput
-                keyboardType="numeric"
-                value={PaymentStore.amount}
-                onChange={amount => onSetAmount(amount)}
-                context={ValidationContext}
-                customKey="amount"
-                requireds={[required, hasNumeric]}
-                style={styles.amountInput}
-              />
-            </View>
-
-            {!route.params.withTemplate && (
-              <View style={styles.amountBox}>
-                <Text style={[styles.amountLabel, styles.amountFeeLabel]}>
-                {translate.t('common.commission')}:{' '}
-                  {CurrencyConverter(
-                    getNumber(PaymentStore.paymentDetails?.amountFee),
-                  )}{' '}
-                  {CurrencySimbolConverter(GEL)}
+              <View style={styles.accountBox}>
+                <Text style={styles.accountBoxTitle}>
+                  {translate.t('common.selectAccount')}
                 </Text>
-                {PaymentStore.paymentDetails?.amount !== undefined && (
-                  <Text style={styles.amountValue}>
-                    {translate.t('payments.totalDue')}:{' '}
-                    {CurrencyConverter(
-                     // PaymentStore.isTemplate
-                       // ? PaymentStore.amount
-                       // : 
-                        getNumber(PaymentStore.paymentDetails?.amount),
-                    )}{' '}
-                    {CurrencySimbolConverter(GEL)}
-                  </Text>
+
+                {PaymentStore.selectedAccount ? (
+                  <AccountItem
+                    account={PaymentStore.selectedAccount}
+                    onAccountSelect={() => setAccountVisible(true)}
+                    style={styles.accountItem}
+                  />
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => setAccountVisible(true)}
+                    style={[styles.accountSelectHandler, accountErrorStyle]}>
+                    <Image
+                      style={styles.dropImg}
+                      source={require('./../../../../assets/images/down-arrow.png')}
+                    />
+                  </TouchableOpacity>
                 )}
 
-                <View>
-                  <Text style={[styles.amountRange]}>
-                  {translate.t('common.minAmount')}:{' '}
-                    {CurrencyConverter(
-                      getNumber(PaymentStore.paymentDetails?.minAmount),
-                    )}{' '}
-                    {CurrencySimbolConverter(GEL)}
-                  </Text>
-                  <Text style={[styles.amountRange]}>
-                  {translate.t('common.maxAmount')}:{' '}
-                    {CurrencyConverter(
-                      getNumber(PaymentStore.paymentDetails?.maxAmount),
-                    )}{' '}
-                    {CurrencySimbolConverter(GEL)}
-                  </Text>
-                </View>
+                <AccountSelect
+                  accounts={_accounts}
+                  selectedAccount={PaymentStore.selectedAccount}
+                  accountVisible={accountVisible}
+                  onSelect={account => onAccountSelect(account)}
+                  onToggle={() => setAccountVisible(!accountVisible)}
+                />
               </View>
-            )}
+
+              <View style={styles.amountColumn}>
+                <Text style={styles.amountLabel}>
+                  {translate.t('common.amount')}
+                </Text>
+                <AppInput
+                  keyboardType="numeric"
+                  value={PaymentStore.amount}
+                  onChange={amount => onSetAmount(amount)}
+                  context={ValidationContext}
+                  customKey="amount"
+                  requireds={[required, hasNumeric]}
+                  style={styles.amountInput}
+                />
+              </View>
+
+              {!route.params.withTemplate && (
+                <View style={styles.amountBox}>
+                  <Text style={[styles.amountLabel, styles.amountFeeLabel]}>
+                    {translate.t('common.commission')}:{' '}
+                    {CurrencyConverter(
+                      getNumber(PaymentStore.paymentDetails?.amountFee),
+                    )}{' '}
+                    {CurrencySimbolConverter(GEL)}
+                  </Text>
+                  {PaymentStore.paymentDetails?.amount !== undefined && (
+                    <Text style={styles.amountValue}>
+                      {translate.t('payments.totalDue')}:{' '}
+                      {CurrencyConverter(
+                        // PaymentStore.isTemplate
+                        // ? PaymentStore.amount
+                        // :
+                        getNumber(PaymentStore.paymentDetails?.amount),
+                      )}{' '}
+                      {CurrencySimbolConverter(GEL)}
+                    </Text>
+                  )}
+
+                  <View>
+                    <Text style={[styles.amountRange]}>
+                      {translate.t('common.minAmount')}:{' '}
+                      {CurrencyConverter(
+                        getNumber(PaymentStore.paymentDetails?.minAmount),
+                      )}{' '}
+                      {CurrencySimbolConverter(GEL)}
+                    </Text>
+                    <Text style={[styles.amountRange]}>
+                      {translate.t('common.maxAmount')}:{' '}
+                      {CurrencyConverter(
+                        getNumber(PaymentStore.paymentDetails?.maxAmount),
+                      )}{' '}
+                      {CurrencySimbolConverter(GEL)}
+                    </Text>
+                  </View>
+                </View>
+              )}
+            </View>
+            <AppButton
+              isLoading={PaymentStore.isActionLoading || isLoading}
+              onPress={next}
+              title={translate.t('common.next')}
+              style={styles.button}
+            />
           </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
+      <Modal
+        visible={otpVisible}
+        onRequestClose={setOtpVisible.bind(this, false)}
+        animationType="slide">
+        <View style={styles.otpContent}>
+          <SetOtp
+            otp={otp}
+            onSetOtp={setOtp}
+            onSendUnicardOTP={SendUnicardOTP}
+          />
+        </View>
+        <View style={styles.buttons}>
           <AppButton
             isLoading={PaymentStore.isActionLoading || isLoading}
             onPress={next}
             title={translate.t('common.next')}
-            style={styles.button}
           />
         </View>
-      </KeyboardAvoidingView>
-    </ScrollView>
+      </Modal>
+    </>
   );
 };
 
@@ -632,19 +642,17 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   otpContent: {
-    justifyContent: 'space-between',
-    flex: 1,
-    paddingHorizontal: 30,
+    flex: 8,
+    justifyContent: 'center',
+    paddingHorizontal: 20
   },
-  otpButton: {
-    marginBottom: tabHeight + 20,
+  buttons: {
+    flex: 2,
+    paddingHorizontal: 20
   },
   otpBox2: {
     top: Dimensions.get('window').height / 4,
   },
-  modalAvoid: {
-    flexGrow: 1
-  }
 });
 
 export default InsertAccointAndAmount;
