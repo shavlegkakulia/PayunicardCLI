@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   BackHandler,
+  Modal,
 } from 'react-native';
 import AppInput, {autoCapitalize} from './../../components/UI/AppInput';
 import AppButton from './../../components/UI/AppButton';
@@ -45,7 +46,9 @@ import Routes from '../../navigation/routes';
 import {useNavigation} from '@react-navigation/native';
 import SetLoginWithPassCode from './setLoginWithPassCode';
 import SmsRetriever from 'react-native-sms-retriever';
-import { getString } from '../../utils/Converter';
+import {getString} from '../../utils/Converter';
+import SetOtp from '../dashboard/payments/PaymentSteps/SetOtp';
+import OtpModal from '../../components/OtpModal';
 
 const CONTEXT_TYPE = 'login';
 
@@ -83,11 +86,9 @@ const LoginForm: React.FC = () => {
         SmsRetriever.addSmsListener(event => {
           const otp = /(\d{4})/g.exec(getString(event.message))![1];
           setOtp(otp);
-        }); 
+        });
       }
-    } catch (error) {
-     
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -174,11 +175,11 @@ const LoginForm: React.FC = () => {
           const date = new Date();
           date.setSeconds(date.getSeconds() + Response.data.expires_in);
           const expObject = {
-            expDate: date
+            expDate: date,
           };
 
           await storage.setItem(TOKEN_EXPIRE, JSON.stringify(expObject));
-    
+
           dispatch(
             Login(
               Response.data.access_token,
@@ -291,34 +292,34 @@ const LoginForm: React.FC = () => {
     return () => sub.remove();
   }, [otpVisible]);
 
-  if (otpVisible) {
-    return (
-      <KeyboardAvoidingView
-        behavior="padding"
-        keyboardVerticalOffset={0}
-        style={styles.avoid}>
-        <View style={[screenStyles.wraper, styles.container]}>
-          <View style={styles.content}>
-            <FloatingLabelInput
-              Style={styles.otpBox}
-              label={translate.t('otp.smsCode')}
-              title={translate.t('otp.otpSentBlank')}
-              resendTitle={translate.t('otp.resend')}
-              value={otp}
-              onChangeText={otp => setOtp(otp)}
-              onRetry={onResendOtp}
-            />
-          </View>
-          <AppButton
-            style={styles.button}
-            onPress={sendOtp}
-            isLoading={state.isLoading || isLoading}
-            title={translate.t('common.confirm')}
-          />
-        </View>
-      </KeyboardAvoidingView>
-    );
-  }
+  // if (otpVisible) {
+  //   return (
+  //     <KeyboardAvoidingView
+  //       behavior="padding"
+  //       keyboardVerticalOffset={0}
+  //       style={styles.avoid}>
+  //       <View style={[screenStyles.wraper, styles.container]}>
+  //         <View style={styles.content}>
+  //           <FloatingLabelInput
+  //             Style={styles.otpBox}
+  //             label={translate.t('otp.smsCode')}
+  //             title={translate.t('otp.otpSentBlank')}
+  //             resendTitle={translate.t('otp.resend')}
+  //             value={otp}
+  //             onChangeText={otp => setOtp(otp)}
+  //             onRetry={onResendOtp}
+  //           />
+  //         </View>
+  //         <AppButton
+  //           style={styles.button}
+  //           onPress={sendOtp}
+  //           isLoading={state.isLoading || isLoading}
+  //           title={translate.t('common.confirm')}
+  //         />
+  //       </View>
+  //     </KeyboardAvoidingView>
+  //   );
+  // }
 
   const NavigateToRegister = () => {
     navigation.navigate(Routes.Signup);
@@ -339,106 +340,120 @@ const LoginForm: React.FC = () => {
   const imgHeight = dimension.height < 735 ? {height: 100} : {};
 
   return (
-    <AppkeyboardAVoidScrollview>
-      <View style={styles.container}>
-        <Header />
-        {hasPasCode ? (
-          <SetLoginWithPassCode
-            UserData={userInfo}
-            access_token={access_token}
-            refresh_token={refresh_token}
-            onDismiss={hidePasscode}
-          />
-        ) : userInfo ? (
-          <LoginWithPassword
-            UserData={userInfo}
-            userPassword={password}
-            onSetPassword={setPassword}
-            onLogin={login}
-            isLoading={isUserLoading}
-            onDismiss={dismissLoginWIthPassword}
-          />
-        ) : (
-          <View style={{flex: 1, justifyContent: 'space-between'}}>
-            <Text style={styles.welcomeText}>
-              {translate.t('login.welcome')}
-            </Text>
-            {!focused && (
-              <View style={styles.imageContainer}>
-                <Image
-                  resizeMode={'contain'}
-                  style={[imgHeight]}
-                  source={require('./../../assets/images/LoginScreen_1.png')}
+    <>
+      <OtpModal
+        modalVisible={otpVisible}
+        otp={otp}
+        onSetOtp={setOtp}
+        onSendOTP={onResendOtp}
+        onComplate={sendOtp}
+        onClose={() => setOtpVisible(false)}
+        isLoading={state.isLoading || isLoading}
+        label={translate.t('otp.smsCode')}
+        buttonText={translate.t('common.confirm')}
+      />
+
+      <AppkeyboardAVoidScrollview>
+        <View style={styles.container}>
+          <Header />
+          {hasPasCode ? (
+            <SetLoginWithPassCode
+              UserData={userInfo}
+              access_token={access_token}
+              refresh_token={refresh_token}
+              onDismiss={hidePasscode}
+            />
+          ) : userInfo ? (
+            <LoginWithPassword
+              UserData={userInfo}
+              userPassword={password}
+              onSetPassword={setPassword}
+              onLogin={login}
+              isLoading={isUserLoading}
+              onDismiss={dismissLoginWIthPassword}
+            />
+          ) : (
+            <View style={{flex: 1, justifyContent: 'space-between'}}>
+              <Text style={styles.welcomeText}>
+                {translate.t('login.welcome')}
+              </Text>
+              {!focused && (
+                <View style={styles.imageContainer}>
+                  <Image
+                    resizeMode={'contain'}
+                    style={[imgHeight]}
+                    source={require('./../../assets/images/LoginScreen_1.png')}
+                  />
+                </View>
+              )}
+              <View style={styles.inputsContainer}>
+                <AppInput
+                  placeholder={translate.t('login.usernameEmail')}
+                  onBlur={onBlur}
+                  onFocus={onFocus}
+                  value={username}
+                  requireds={[required]}
+                  customKey="username"
+                  context={CONTEXT_TYPE}
+                  onChange={username => {
+                    changeUsername(username);
+                  }}
+                  autoCapitalize={autoCapitalize.none}
+                  style={styles.firstInput}
+                />
+                <AppInput
+                  placeholder={translate.t('login.password')}
+                  onBlur={onBlur}
+                  onFocus={onFocus}
+                  value={password}
+                  requireds={[required]}
+                  customKey="password"
+                  context={CONTEXT_TYPE}
+                  secureTextEntry={true}
+                  onChange={password => {
+                    changePassword(password);
+                  }}
                 />
               </View>
-            )}
-            <View style={styles.inputsContainer}>
-              <AppInput
-                placeholder={translate.t('login.usernameEmail')}
-                onBlur={onBlur}
-                onFocus={onFocus}
-                value={username}
-                requireds={[required]}
-                customKey="username"
-                context={CONTEXT_TYPE}
-                onChange={username => {
-                  changeUsername(username);
-                }}
-                autoCapitalize={autoCapitalize.none}
-                style={styles.firstInput}
-              />
-              <AppInput
-                placeholder={translate.t('login.password')}
-                onBlur={onBlur}
-                onFocus={onFocus}
-                value={password}
-                requireds={[required]}
-                customKey="password"
-                context={CONTEXT_TYPE}
-                secureTextEntry={true}
-                onChange={password => {
-                  changePassword(password);
-                }}
-              />
-            </View>
-            <View style={styles.toolContainer}>
-              <AppCheckbox
-                label={translate.t('login.remember')}
-                labelStyle={styles.forgotLabelColor}
-                activeColor={colors.primary}
-                customKey="remember"
-                context={CONTEXT_TYPE}
-                value={remember != 0}
-                clicked={_remember}
-              />
-              <AppButton
-                backgroundColor={`${colors.white}`}
-                color={`${colors.black}`}
-                style={styles.forgotPasswordHandler}
-                TextStyle={styles.forgotLabel}
-                title={translate.t('login.forgotpassword')}
-                onPress={NavigateToResetPassword}
-              />
-            </View>
-            <View style={buttonContainerStyle}>
-              <AppButton
-                title={translate.t('login.login')}
-                onPress={login}
-                isLoading={state.isLoading || isUserLoading}
-              />
+              <View style={styles.toolContainer}>
+                <AppCheckbox
+                  label={translate.t('login.remember')}
+                  labelStyle={styles.forgotLabelColor}
+                  activeColor={colors.primary}
+                  customKey="remember"
+                  context={CONTEXT_TYPE}
+                  value={remember != 0}
+                  clicked={_remember}
+                />
+                <AppButton
+                  backgroundColor={`${colors.white}`}
+                  color={`${colors.black}`}
+                  style={styles.forgotPasswordHandler}
+                  TextStyle={styles.forgotLabel}
+                  title={translate.t('login.forgotpassword')}
+                  onPress={NavigateToResetPassword}
+                />
+              </View>
+              <View style={buttonContainerStyle}>
+                <AppButton
+                  title={translate.t('login.login')}
+                  onPress={login}
+                  isLoading={state.isLoading || isUserLoading}
+                />
 
-              <AppButton
-                backgroundColor={`${colors.white}`}
-                color={`${colors.black}`}
-                style={styles.btnForgotPassword}
-                title={translate.t('login.signup')}
-                onPress={NavigateToRegister}
-              />
+                <AppButton
+                  backgroundColor={`${colors.white}`}
+                  color={`${colors.black}`}
+                  style={styles.btnForgotPassword}
+                  title={translate.t('login.signup')}
+                  onPress={NavigateToRegister}
+                />
+              </View>
             </View>
-          </View>
-        )}
-      </View>
-    </AppkeyboardAVoidScrollview>
+          )}
+        </View>
+      </AppkeyboardAVoidScrollview>
+    </>
   );
 };
 
@@ -458,7 +473,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 25,
     width: '100%',
-    marginTop: Platform.OS === 'ios' ? 20 : 0
+    marginTop: Platform.OS === 'ios' ? 20 : 0,
   },
   avoid: {
     flexGrow: 1,

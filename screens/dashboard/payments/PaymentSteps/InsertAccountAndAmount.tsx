@@ -17,6 +17,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import AccountSelect, {
   AccountItem,
 } from '../../../../components/AccountSelect/AccountSelect';
+import OtpModal from '../../../../components/OtpModal';
 import AppButton from '../../../../components/UI/AppButton';
 import AppInput from '../../../../components/UI/AppInput';
 import Validation, {
@@ -501,25 +502,17 @@ const InsertAccointAndAmount: React.FC = props => {
           </View>
         </KeyboardAvoidingView>
       </ScrollView>
-      <Modal
-        visible={otpVisible}
-        onRequestClose={setOtpVisible.bind(this, false)}
-        animationType="slide">
-        <View style={styles.otpContent}>
-          <SetOtp
-            otp={otp}
-            onSetOtp={setOtp}
-            onSendUnicardOTP={SendUnicardOTP}
-          />
-        </View>
-        <View style={styles.buttons}>
-          <AppButton
-            isLoading={PaymentStore.isActionLoading || isLoading}
-            onPress={next}
-            title={translate.t('common.next')}
-          />
-        </View>
-      </Modal>
+      <OtpModal
+        modalVisible={otpVisible}
+        otp={otp}
+        onSetOtp={setOtp}
+        onSendOTP={SendUnicardOTP}
+        onComplate={next}
+        isLoading={PaymentStore.isActionLoading || isLoading}
+        label={translate.t('otp.smsCode')}
+        buttonText={translate.t('common.next')}
+        onClose={setOtpVisible.bind(this, false)}
+      />
     </>
   );
 };
@@ -625,33 +618,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginVertical: 40,
-  },
-  otp: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: colors.white,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    flex: 1,
-    elevation: 3,
-  },
-  otpBox: {
-    marginTop: 40,
-  },
-  otpContent: {
-    flex: 8,
-    justifyContent: 'center',
-    paddingHorizontal: 20
-  },
-  buttons: {
-    flex: 2,
-    paddingHorizontal: 20
-  },
-  otpBox2: {
-    top: Dimensions.get('window').height / 4,
   },
 });
 
