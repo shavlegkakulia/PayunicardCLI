@@ -17,15 +17,10 @@ import AsyncStorage from '../services/StorageService';
 import {getString} from '../utils/Converter';
 import envs from './../config/env';
 import Store from './../redux/store';
-import BackgroundTimer from 'react-native-background-timer';
 
 const IdleHook: React.FC = props => {
-  const panResponder = useRef<PanResponderInstance>();
-  const timer = useRef<number>();
   const tokenTTLTime = useRef<NodeJS.Timeout>();
   const accesRefresh = useRef<NodeJS.Timeout>();
-  let activeTTL = 80;
-  let currentTime = 0;
   const ttlWarningValue = 5 * 60; //5 minutes
   const expireDate = useRef<string | null>();
   const isrefresfing = useRef<boolean>(false);
@@ -95,59 +90,6 @@ const IdleHook: React.FC = props => {
       });
   };
 
-  const resetInactivityTimeout = () => {
-    if (timer.current) BackgroundTimer.clearInterval(timer.current);
-    currentTime = 0;
-    CommonService.uactionIntervals?.forEach(() => {
-      const id = CommonService.uactionIntervals?.shift();
-      if (id) BackgroundTimer.clearInterval(id);
-    });
-
-    CommonService.uactionIntervals.push(
-      ...(CommonService.uactionIntervals || []),
-      (timer.current = BackgroundTimer.setInterval(() => {
-        if (currentTime >= activeTTL) {
-          CommonService.uactionIntervals = [];
-          if (timer.current) BackgroundTimer.clearInterval(timer.current);
-          dispatch(Logout());
-        }
-        console.log(currentTime);
-        currentTime = currentTime + 1;
-      }, 1000)),
-    );
-  };
-
-  useEffect(() => {
-    if (Platform.OS == 'ios') {
-      BackgroundTimer.start();
-    }
-
-    return () => {
-      if (Platform.OS == 'ios') {
-        BackgroundTimer.stop();
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    panResponder.current = PanResponder.create({
-      onStartShouldSetPanResponderCapture: () => {
-        resetInactivityTimeout();
-        return false;
-      },
-    });
-    resetInactivityTimeout();
-
-    return () => {
-      currentTime = 0;
-      CommonService.uactionIntervals?.forEach(() => {
-        const id = CommonService.uactionIntervals?.shift();
-        if (id) BackgroundTimer.clearInterval(id);
-      });
-      if (timer.current) BackgroundTimer.clearInterval(timer.current);
-    };
-  }, []);
-
   useEffect(() => {
     CommonService.ttlIntervals?.forEach(() => {
       const id = CommonService.ttlIntervals?.shift();
@@ -166,8 +108,7 @@ const IdleHook: React.FC = props => {
             (new Date(formatedDate.expDate).getTime() - new Date().getTime()) /
             100 /
             10;
-          let {refreshToken} = Store.getState().AuthReducer;
-          //console.log(Math.round(ttl), refreshToken);
+
           if (Math.round(ttl) <= ttlWarningValue) {
             await goRefreshToken();
           }
@@ -186,10 +127,8 @@ const IdleHook: React.FC = props => {
 
   return (
     <View
-      style={styles.content}
-      {...(panResponder.current?.panHandlers &&
-        panResponder.current.panHandlers)}>
-      {props.children}
+      style={styles.content} >
+        {props.children}
     </View>
   );
 };

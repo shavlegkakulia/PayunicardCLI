@@ -30,6 +30,7 @@ import colors from '../constants/colors';
 import {ka_ge} from '../lang';
 import { Logout } from '../redux/actions/auth_actions';
 import { debounce, sleep } from '../utils/utils';
+import UserInactivity from './../screens/activity';
 
 interface ILoading {
   locale: boolean;
@@ -141,14 +142,16 @@ const AppContainer: FC = () => {
           <LandingNavigator />
         </NavigationContainer>
       ) : (
-        <NavigationContainer
-          ref={(navigatorRef: NavigationContainerRef) => {
-            NavigationService.setTopLevelNavigator(navigatorRef);
-          }}>
-          <SafeAreaView style={styles.container}>
-            <AppStack />
-          </SafeAreaView>
-        </NavigationContainer>
+        <UserInactivity timeForInactivity={80 * 1000} checkInterval={1000}>
+          <NavigationContainer
+            ref={(navigatorRef: NavigationContainerRef) => {
+              NavigationService.setTopLevelNavigator(navigatorRef);
+            }}>
+            <SafeAreaView style={styles.container}>
+              <AppStack />
+            </SafeAreaView>
+          </NavigationContainer>
+        </UserInactivity>
       )}
     </ErrorWrapper>
   );
