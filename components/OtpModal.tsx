@@ -1,5 +1,14 @@
 import React, {useEffect} from 'react';
-import {View, StyleSheet, StyleProp, ViewStyle, Modal} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+  Modal,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView,
+} from 'react-native';
 import FloatingLabelInput from '../containers/otp/Otp';
 import {
   ITranslateState,
@@ -53,23 +62,27 @@ const OtpModal: React.FC<IProps> = props => {
       visible={props.modalVisible}
       onRequestClose={props.onClose}
       animationType="slide">
-      <View style={styles.otpContent}>
-        <FloatingLabelInput
-          value={props.otp}
-          onChangeText={props.onSetOtp}
-          onRetry={props.onSendOTP}
-          title={props.title || translate.t('otp.otpSentBlank')}
-          resendTitle={props.resendTitle || translate.t('otp.resend')}
-          label={props.label || translate.t('otp.smsCode')}
-        />
-      </View>
-      <View style={styles.buttons}>
-        <AppButton
-          isLoading={props.isLoading}
-          onPress={props.onComplate}
-          title={props.buttonText || translate.t('common.next')}
-        />
-      </View>
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        keyboardShouldPersistTaps="handled">
+        <View style={styles.otpContent}>
+          <FloatingLabelInput
+            value={props.otp}
+            onChangeText={props.onSetOtp}
+            onRetry={props.onSendOTP}
+            title={props.title || translate.t('otp.otpSentBlank')}
+            resendTitle={props.resendTitle || translate.t('otp.resend')}
+            label={props.label || translate.t('otp.smsCode')}
+          />
+        </View>
+        <View style={styles.buttons}>
+          <AppButton
+            isLoading={props.isLoading}
+            onPress={props.onComplate}
+            title={props.buttonText || translate.t('common.next')}
+          />
+        </View>
+      </ScrollView>
     </Modal>
   );
 };
