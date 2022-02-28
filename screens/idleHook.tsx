@@ -5,6 +5,7 @@ import {
   PanResponderInstance,
   View,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {TOKEN_EXPIRE} from '../constants/defaults';
@@ -16,10 +17,11 @@ import AsyncStorage from '../services/StorageService';
 import {getString} from '../utils/Converter';
 import envs from './../config/env';
 import Store from './../redux/store';
+import BackgroundTimer from 'react-native-background-timer';
 
 const IdleHook: React.FC = props => {
   const panResponder = useRef<PanResponderInstance>();
-  const timer = useRef<NodeJS.Timeout>();
+  const timer = useRef<number>();
   const tokenTTLTime = useRef<NodeJS.Timeout>();
   const accesRefresh = useRef<NodeJS.Timeout>();
   let activeTTL = 80;
@@ -41,7 +43,7 @@ const IdleHook: React.FC = props => {
     if (isrefresfing.current) return;
     isrefresfing.current = true;
 
-    if(accesRefresh.current) clearTimeout(accesRefresh.current);
+    if (accesRefresh.current) clearTimeout(accesRefresh.current);
     console.log(refreshToken, accesToken);
 
     return axios
@@ -93,6 +95,40 @@ const IdleHook: React.FC = props => {
       });
   };
 
+  const resetInactivityTimeout = () => {
+    if (timer.current) BackgroundTimer.clearInterval(timer.current);
+    currentTime = 0;
+    CommonService.uactionIntervals?.forEach(() => {
+      const id = CommonService.uactionIntervals?.shift();
+      if (id) BackgroundTimer.clearInterval(id);
+    });
+
+    CommonService.uactionIntervals.push(
+      ...(CommonService.uactionIntervals || []),
+      (timer.current = BackgroundTimer.setInterval(() => {
+        if (currentTime >= activeTTL) {
+          CommonService.uactionIntervals = [];
+          if (timer.current) BackgroundTimer.clearInterval(timer.current);
+          dispatch(Logout());
+        }
+        console.log(currentTime);
+        currentTime = currentTime + 1;
+      }, 1000)),
+    );
+  };
+
+  useEffect(() => {
+    if (Platform.OS == 'ios') {
+      BackgroundTimer.start();
+    }
+
+    return () => {
+      if (Platform.OS == 'ios') {
+        BackgroundTimer.stop();
+      }
+    }
+  }, []);
+
   useEffect(() => {
     panResponder.current = PanResponder.create({
       onStartShouldSetPanResponderCapture: () => {
@@ -106,33 +142,11 @@ const IdleHook: React.FC = props => {
       currentTime = 0;
       CommonService.uactionIntervals?.forEach(() => {
         const id = CommonService.uactionIntervals?.shift();
-        if (id) clearInterval(id);
+        if (id) BackgroundTimer.clearInterval(id);
       });
-      if (timer.current) clearInterval(timer.current);
+      if (timer.current) BackgroundTimer.clearInterval(timer.current);
     };
   }, []);
-
-  const resetInactivityTimeout = () => {
-    if (timer.current) clearInterval(timer.current);
-    currentTime = 0;
-    CommonService.uactionIntervals?.forEach(() => {
-      const id = CommonService.uactionIntervals?.shift();
-      if (id) clearInterval(id);
-    });
-
-    CommonService.uactionIntervals.push(
-      ...(CommonService.uactionIntervals || []),
-      (timer.current = setInterval(() => {
-        if (currentTime >= activeTTL) {
-          CommonService.uactionIntervals = [];
-          if (timer.current) clearInterval(timer.current);
-          dispatch(Logout());
-        }
-
-        currentTime = currentTime + 1;
-      }, 1000)),
-    );
-  };
 
   useEffect(() => {
     CommonService.ttlIntervals?.forEach(() => {
@@ -149,9 +163,11 @@ const IdleHook: React.FC = props => {
         (tokenTTLTime.current = setInterval(async () => {
           const formatedDate = JSON.parse(getString(expireDate.current));
           const ttl =
-          (((new Date(formatedDate.expDate).getTime() - new Date().getTime())) / 100) / 10;
+            (new Date(formatedDate.expDate).getTime() - new Date().getTime()) /
+            100 /
+            10;
           let {refreshToken} = Store.getState().AuthReducer;
-          console.log(Math.round(ttl), refreshToken);
+          //console.log(Math.round(ttl), refreshToken);
           if (Math.round(ttl) <= ttlWarningValue) {
             await goRefreshToken();
           }

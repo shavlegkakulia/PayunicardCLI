@@ -58,19 +58,19 @@ const GelAccountDetails: IBankTransferDetails[] = [
     swiftCode: 'TBCBGE22',
     logoUrl: require('../../../assets/images/TBC-logo.png')
   },
-  {
-    id: 3,
-    bankName: {
-      ka: 'ს.ს "ვითიბი ბანკი ჯორჯია"',
-      en: 'JSC "VTB Bank Georgia"',
-      getName(key: string) {
-        return this[key]
-      }
-    },
-    accountNumber: 'GE23VT6600000000343609',
-    swiftCode: 'UGEBGE22',
-    logoUrl: require('../../../assets/images/VTB-logo.png')
-  }
+  // {
+  //   id: 3,
+  //   bankName: {
+  //     ka: 'ს.ს "ვითიბი ბანკი ჯორჯია"',
+  //     en: 'JSC "VTB Bank Georgia"',
+  //     getName(key: string) {
+  //       return this[key]
+  //     }
+  //   },
+  //   accountNumber: 'GE23VT6600000000343609',
+  //   swiftCode: 'UGEBGE22',
+  //   logoUrl: require('../../../assets/images/VTB-logo.png')
+  // }
 ]
 
 const MultiAccountDetails: IBankTransferDetails[] = [
@@ -100,19 +100,19 @@ const MultiAccountDetails: IBankTransferDetails[] = [
     swiftCode: 'TBCBGE22',
     logoUrl: require('../../../assets/images/TBC-logo.png')
   },
-  {
-    id: 3,
-    bankName: {
-      ka: 'ს.ს "ვითიბი ბანკი ჯორჯია"',
-      en: 'JSC "VTB Bank Georgia"',
-      getName(key: string) {
-        return this[key]
-      }
-    },
-    accountNumber: 'GE23VT6600000000343609',
-    swiftCode: 'UGEBGE22',
-    logoUrl: require('../../../assets/images/VTB-logo.png')
-  }
+  // {
+  //   id: 3,
+  //   bankName: {
+  //     ka: 'ს.ს "ვითიბი ბანკი ჯორჯია"',
+  //     en: 'JSC "VTB Bank Georgia"',
+  //     getName(key: string) {
+  //       return this[key]
+  //     }
+  //   },
+  //   accountNumber: 'GE23VT6600000000343609',
+  //   swiftCode: 'UGEBGE22',
+  //   logoUrl: require('../../../assets/images/VTB-logo.png')
+  // }
 ]
 
 const PaymentMethods: React.FC = () => {
@@ -247,7 +247,7 @@ const PaymentMethods: React.FC = () => {
               </View>
             </View>
 
-            <View style={styles.terminalItemContainer}>
+            {/* <View style={styles.terminalItemContainer}>
               <View style={styles.terminalItem}>
                 <Image
                   source={{uri: `${envs.CDN_PATH}payment_icons/vtbpay.png`}}
@@ -255,7 +255,7 @@ const PaymentMethods: React.FC = () => {
                   style={styles.terminalLogo}
                 />
               </View>
-            </View>
+            </View> */}
           </View>
         </View>
       </View>
