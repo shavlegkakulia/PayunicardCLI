@@ -77,7 +77,7 @@ export default class AppInputText extends Component<IProps, IState> {
                         onBlur={this.handleBlur}
                         onChange={(e: NativeSyntheticEvent<TextInputChangeEventData>) => this.props.onChangeText(e.nativeEvent.text)}
                         blurOnSubmit
-                        maxLength={4}
+                        maxLength={5}
                     />
                 </View>
                 </View>
