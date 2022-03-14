@@ -53,6 +53,7 @@ export interface IRegisterRequest {
   surname: string;
   birthDate: any;
   personalId: string;
+  citizenshipCountryID?: number;
 }
 
 export interface IRegisterResponse {

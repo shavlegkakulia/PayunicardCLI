@@ -32,6 +32,7 @@ type RouteParamList = {
     password: string;
     confirmPassword: string;
     isApplyTerms: string;
+    country: number;
   };
 };
 
@@ -81,6 +82,7 @@ const SignupSteOtp: React.FC = () => {
         password: route.params.password,
         confirmPassword: route.params.confirmPassword,
         isApplyTerms: route.params.isApplyTerms,
+        citizenshipCountryID: route.params.country,
         otpGuid: otp,
       };
       AuthService.SignUp({User}).subscribe({
@@ -141,6 +143,7 @@ const SignupSteOtp: React.FC = () => {
               Style={styles.otpBox}
               label={translate.t('otp.smsCode')}
               title={translate.t('otp.otpSentBlank')}
+              resendTitle={translate.t('otp.resend')}
               value={otpGuid}
               onChangeText={setOtpGuid}
               onRetry={SendPhoneOTP}

@@ -37,6 +37,7 @@ type RouteParamList = {
     birthDate: string;
     personalId: string;
     userName: string;
+    country: number;
   };
 };
 
@@ -72,6 +73,7 @@ const SignupStepThree: React.FC = () => {
       birthDate: route.params.birthDate,
       personalId: route.params.personalId,
       userName: route.params.userName,
+      country: route.params.country,
       password,
       confirmPassword,
       isApplyTerms,

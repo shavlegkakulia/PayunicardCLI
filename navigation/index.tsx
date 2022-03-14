@@ -14,7 +14,7 @@ import {
 import AuthService, {IInterceptop} from './../services/AuthService';
 import CommonService from './../services/CommonService';
 import {use} from './../redux/actions/translate_actions';
-import { LOCALE_IN_STORAGE} from './../constants/defaults';
+import {LOCALE_IN_STORAGE} from './../constants/defaults';
 import ErrorWrapper from '../components/ErrorWrapper';
 import storage from './../services/StorageService';
 import {
@@ -28,8 +28,8 @@ import {SafeAreaView} from 'react-navigation';
 import {StyleSheet} from 'react-native';
 import colors from '../constants/colors';
 import {ka_ge} from '../lang';
-import { Logout } from '../redux/actions/auth_actions';
-import { debounce, sleep } from '../utils/utils';
+import {Logout} from '../redux/actions/auth_actions';
+import {debounce, sleep} from '../utils/utils';
 import UserInactivity from './../screens/activity';
 
 interface ILoading {
@@ -45,9 +45,7 @@ const LogError = (error: string) => {
   });
 };
 
-const handleError = (error: Error, isFatal: boolean) => {
-
-};
+const handleError = (error: Error, isFatal: boolean) => {};
 
 LogError('fdsfdsfdfdfds');
 
@@ -87,8 +85,12 @@ const AppContainer: FC = () => {
       .getItem(LOCALE_IN_STORAGE)
       .then(locale => {
         dispatch(use(locale || ka_ge));
+        setIsLoading(loading => {
+          loading.locale = false;
+          return loading;
+        });
       })
-      .finally(() =>
+      .catch(() =>
         setIsLoading(loading => {
           loading.locale = false;
           return loading;
@@ -114,8 +116,8 @@ const AppContainer: FC = () => {
       dispatch(Logout());
     });
     await AuthService.SignOut();
-    await storage.removeItem("PassCode");
-    await storage.removeItem("PassCodeEnbled");
+    await storage.removeItem('PassCode');
+    await storage.removeItem('PassCodeEnbled');
   }, [userToken]);
 
   useEffect(() => {

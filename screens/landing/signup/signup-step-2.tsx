@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   KeyboardAvoidingView,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
 import {
   ITranslateState,
@@ -23,7 +25,15 @@ import {formatDate} from '../../../utils/utils';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/core';
 import {tabHeight} from '../../../navigation/TabNav';
 import Routes from '../../../navigation/routes';
-import { useKeyboard } from '../../../hooks/useKeyboard';
+import {useKeyboard} from '../../../hooks/useKeyboard';
+import PresentationServive, {
+  ICitizenshipCountry,
+} from '../../../services/PresentationServive';
+import AppSelect, {
+  SelectItem,
+} from '../../../components/UI/AppSelect/AppSelect';
+
+const geId = 79;
 
 type RouteParamList = {
   params: {
@@ -44,10 +54,57 @@ const SignupStepTwo: React.FC = () => {
   const [personalId, setPerosnalId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
   const [chooseDate, setChooseDate] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [countryes, setCountries] = useState<
+    ICitizenshipCountry[] | undefined
+  >();
+  const [selectedCountry, setSelectedCountry] = useState<
+    ICitizenshipCountry | undefined
+  >();
+  const [countrySelectVisible, setCountrySelectVisible] = useState(false);
+  const [codeErrorStyle, setCodeErrorStyle] = useState<StyleProp<ViewStyle>>(
+    {},
+  );
   const navigation = useNavigation();
   const keyboard = useKeyboard();
 
+  const getCitizenshipCountries = () => {
+    if (isLoading) return;
+
+    setIsLoading(true);
+    PresentationServive.GetCitizenshipCountries().subscribe({
+      next: Response => {
+        try {
+        const res = [...(Response.data.data?.countries || [])];
+        const gIndex = res.findIndex(c => c.countryID === geId);
+        const filteredCountries = gIndex >= 0 ? [res[gIndex], ...res.filter(c => c.countryID !== geId)] : res;
+        setCountries(filteredCountries);
+        }
+        catch(_){}
+      },
+      complete: () => {
+        setIsLoading(false);
+      },
+      error: () => {
+        setIsLoading(false);
+      },
+    });
+  };
+
+  useEffect(() => {
+    getCitizenshipCountries();
+  }, []);
+
   const nextStep = () => {
+    if (!selectedCountry?.countryName) {
+      setCodeErrorStyle({
+        borderColor: colors.danger,
+        borderWidth: 1,
+      });
+      return;
+    } else {
+      setCodeErrorStyle({});
+    }
     if (Validation.validate(VALIDATION_CONTEXT)) {
       return;
     }
@@ -58,6 +115,7 @@ const SignupStepTwo: React.FC = () => {
       birthDate: birthDate.toISOString(),
       personalId,
       userName,
+      country: selectedCountry?.countryID
     });
   };
 
@@ -70,12 +128,18 @@ const SignupStepTwo: React.FC = () => {
       style={styles.avoid}>
       <View style={styles.content}>
         <View>
-          <Text style={[styles.signupSignuptext, isKeyboardOpen && {marginTop: 0, fontSize: 18}]}>
+          <Text
+            style={[
+              styles.signupSignuptext,
+              isKeyboardOpen && {marginTop: 0, fontSize: 18},
+            ]}>
             {translate.t('signup.startRegister')}
           </Text>
           <TouchableOpacity onPress={() => setChooseDate(true)}>
             <View style={styles.InputBox}>
-              <Text style={styles.InputBoxTitle}>{translate.t('common.birthDate')}</Text>
+              <Text style={styles.InputBoxTitle}>
+                {translate.t('common.birthDate')}
+              </Text>
 
               <Text style={styles.birthDateValue}>
                 {formatDate(birthDate?.toString()).split('.').join('/')}
@@ -106,8 +170,42 @@ const SignupStepTwo: React.FC = () => {
             autoCapitalize={autoCapitalize.none}
             placeholder={translate.t('common.email')}
           />
+          <View style={[styles.countryBox]}>
+            {selectedCountry?.countryName ? (
+              <SelectItem
+                itemKey="countryName"
+                defaultTitle={translate.t('verification.selectCitizenship')}
+                item={selectedCountry}
+                onItemSelect={() => setCountrySelectVisible(true)}
+                style={styles.countryItem}
+              />
+            ) : (
+              <TouchableOpacity
+                onPress={() => setCountrySelectVisible(true)}
+                style={[styles.countrySelectHandler, codeErrorStyle]}>
+                <Text style={styles.countryPlaceholder}>
+                  {translate.t('verification.selectCitizenship')}
+                </Text>
+              </TouchableOpacity>
+            )}
+            <AppSelect
+              itemKey="countryName"
+              elements={countryes}
+              selectedItem={selectedCountry}
+              itemVisible={countrySelectVisible}
+              onSelect={item => {
+                setSelectedCountry(item);
+                setCountrySelectVisible(false);
+              }}
+              onToggle={() => setCountrySelectVisible(!countrySelectVisible)}
+            />
+          </View>
         </View>
-        <AppButton title={translate.t('common.next')} onPress={nextStep} />
+        <AppButton
+          isLoading={isLoading}
+          title={translate.t('common.next')}
+          onPress={nextStep}
+        />
       </View>
 
       <DatePicker
@@ -174,6 +272,27 @@ const styles = StyleSheet.create({
     lineHeight: 17,
     color: colors.black,
     marginTop: 5,
+  },
+  countryBox: {
+    borderRadius: 7,
+  },
+  countryItem: {
+    backgroundColor: '#F6F6F4',
+    borderRadius: 7,
+    height: 60,
+  },
+  countrySelectHandler: {
+    height: 60,
+    backgroundColor: '#F6F6F4',
+    borderRadius: 10,
+    justifyContent: 'center',
+    paddingHorizontal: 15,
+  },
+  countryPlaceholder: {
+    fontFamily: 'FiraGO-Regular',
+    fontSize: 14,
+    lineHeight: 17,
+    color: colors.labelColor,
   },
 });
 
