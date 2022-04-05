@@ -63,13 +63,12 @@ import KvalifcaVerification from '../screens/dashboard/Verification/KvalifcaVeri
 import OfferDetails from '../containers/OfferDetails';
 import PaymentMethods from '../screens/dashboard/cardsStore/paymentMethods';
 import TrustedDevices from '../screens/dashboard/settings/truestedDevices';
-import { IAuthState,
-  IGlobalState as AuthState, } from '../redux/action_types/auth_action_types';
+import {
+  IAuthState,
+  IGlobalState as AuthState,
+} from '../redux/action_types/auth_action_types';
 
-
-
-
-  import Landing from '../screens/landing/landing';
+import Landing from '../screens/landing/landing';
 import Login from '../screens/landing/login';
 import Signup from '../screens/landing/signup/signup';
 import FirstLoad from '../screens/landing/firstLoad';
@@ -111,7 +110,7 @@ const AppStack: React.FC = () => {
   return (
     <DrawerLayout
       drawerWidth={300}
-      drawerLockMode={'unlocked'}
+      drawerLockMode={state.isAuthenticated ? 'unlocked' : 'locked-closed'}
       keyboardDismissMode="on-drag"
       onDrawerOpen={() => (isDrawerOpened.current = true)}
       onDrawerClose={() => (isDrawerOpened.current = false)}
@@ -127,1093 +126,1104 @@ const AppStack: React.FC = () => {
           barStyle="dark-content"
         />
         <appStack.Navigator
-        initialRouteName={Routes.Landing}
+          initialRouteName={Routes.Landing}
           screenOptions={{
             gestureEnabled: false,
             headerShown: false,
-            
-          }}>{state.isAuthenticated ?
+          }}>
+          {state.isAuthenticated ? (
             <>
-          <appStack.Screen
-            name={Routes.Home}
-            options={props =>
-              DefaultOptions({
-                navigation: props.navigation,
-                lang: translate.key,
-              })
-            }
-            component={Dashboard}
-          />
-          <appStack.Screen
-            name={Routes.Dashboard}
-            options={props =>
-              DefaultOptions({
-                navigation: props.navigation,
-                lang: translate.key,
-              })
-            }
-            component={Dashboard}
-          />
-          <appStack.Screen
-            name={Routes.Products}
-            options={props =>
-              DefaultOptions({
-                navigation: props.navigation,
-                lang: translate.key,
-              })
-            }
-            component={Products}
-          />
-          <appStack.Screen
-            name={Routes.Payments}
-            options={props =>
-              DefaultOptions({
-                navigation: props.navigation,
-                lang: translate.key,
-              })
-            }
-            component={Payments}
-          />
-          <appStack.Screen
-            name={Routes.Transfers}
-            options={props =>
-              DefaultOptions({
-                navigation: props.navigation,
-                lang: translate.key,
-              })
-            }
-            component={Transfers}
-          />
-          <appStack.Screen
-            name={Routes.ProductDetail}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('common.details'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={ProductDetail}
-          />
-          <appStack.Screen
-            name={Routes.Transactions}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('tabNavigation.transactions'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={Transactions}
-          />
-          <appStack.Screen
-            name={Routes.TransferToBank_CHOOSE_ACCOUNTS}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('transfer.toBank'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TransferToBank}
-          />
-          <appStack.Screen
-            name={Routes.TransferToBank_SET_CURRENCY}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('transfer.toBank'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TransferToBank}
-          />
-          <appStack.Screen
-            name={Routes.TransferToBank_SET_OTP}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('transfer.toBank'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TransferToBank}
-          />
-          <appStack.Screen
-            name={Routes.TransferToBank_SUCCES}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('transfer.toBank'),
-                hideHeader: true,
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TransferToBank}
-          />
-          <appStack.Screen
-            name={Routes.TransferToUni_CHOOSE_ACCOUNTS}
-            options={props => {
-              //@ts-ignore
-              let title = props?.route?.params?.newTemplate ? translate.t('plusSign.crTransferTemplate') : translate.t('transfer.toUniWallet');
-              return DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: title,
-                backText: translate.t('common.back'),
-              })}
-            }
-            component={TransferToUni}
-          />
-          <appStack.Screen
-            name={Routes.TransferToUni_SET_CURRENCY}
-            options={props => {
-              //@ts-ignore
-              let title = props?.route?.params?.newTemplate ? translate.t('plusSign.crTransferTemplate') : translate.t('transfer.toUniWallet');
-              return DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: title,
-                backText: translate.t('common.back'),
-              })}
-            }
-            component={TransferToUni}
-          />
-          <appStack.Screen
-            name={Routes.TransferToUni_SET_OTP}
-            options={props => {
-              //@ts-ignore
-              let title = props?.route?.params?.newTemplate ? translate.t('plusSign.crTransferTemplate') : translate.t('transfer.toUniWallet');
-              return DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: title,
-                backText: translate.t('common.back'),
-              })}
-            }
-            component={TransferToUni}
-          />
-          <appStack.Screen
-            name={Routes.TransferToUni_SUCCES}
-            options={props => {
-              //@ts-ignore
-              let title = props?.route?.params?.newTemplate ? translate.t('plusSign.crTransferTemplate') : translate.t('transfer.toUniWallet');
-              return DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: title,
-                backText: translate.t('common.back'),
-              })}
-            }
-            component={TransferToUni}
-          />
-          <appStack.Screen
-            name={Routes.TransferToUni_TEMPLATE_IS_SAVED}
-            options={props => {
-              //@ts-ignore
-              let title = props?.route?.params?.newTemplate ? translate.t('plusSign.crTransferTemplate') : translate.t('transfer.toUniWallet');
-              return DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: title,
-                backText: translate.t('common.back'),
-              })}
-            }
-            component={TransferToUni}
-          />
-          <appStack.Screen
-            name={Routes.TransferBetweenAcctounts_CHOOSE_ACCOUNTS}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('transfer.betweeenOwnAccounts'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TransferBetweenAccounts}
-          />
-          <appStack.Screen
-            name={Routes.TransferBetweenAcctounts_SET_CURRENCY}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('transfer.betweeenOwnAccounts'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TransferBetweenAccounts}
-          />
-          <appStack.Screen
-            name={Routes.TransferBetweenAcctounts_SUCCES}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('transfer.betweeenOwnAccounts'),
-                hideHeader: true,
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TransferBetweenAccounts}
-          />
-          <appStack.Screen
-            name={Routes.TransferConvertation_CHOOSE_ACCOUNTS}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('transfer.currencyExchange'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TransferConvertation}
-          />
-          <appStack.Screen
-            name={Routes.TransferConvertation_SET_CURRENCY}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('transfer.currencyExchange'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TransferConvertation}
-          />
-          <appStack.Screen
-            name={Routes.TransferConvertation_SUCCES}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('transfer.currencyExchange'),
-                hideHeader: true,
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TransferConvertation}
-          />
-          <appStack.Screen
-            name={Routes.Payments_STEP1}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('products.payment'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={PaymentSteps}
-          />
-          <appStack.Screen
-            name={Routes.Payments_STEP2}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('products.payment'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={PaymentSteps}
-          />
-          <appStack.Screen
-            name={Routes.Payments_STEP3}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('products.payment'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={PaymentSteps}
-          />
-          <appStack.Screen
-            name={Routes.Payments_STEP4}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('products.payment'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={PaymentSteps}
-          />
-          <appStack.Screen
-            name={Routes.Payments_INSERT_ABONENT_CODE}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('products.payment'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={InsertAbonentCode}
-          />
-          <appStack.Screen
-            name={Routes.Payments_INSERT_ACCOUNT_AND_AMOUNT}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('products.payment'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={InsertAccointAndAmount}
-          />
-          <appStack.Screen
-            name={Routes.Payments_CHECK_DEBT}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('products.payment'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={CheckDebt}
-          />
-          <appStack.Screen
-            name={Routes.Payments_SUCCES}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('products.payment'),
-                hideHeader: true,
-                backText: translate.t('common.back'),
-              })
-            }
-            component={PaymentSucces}
-          />
-          <appStack.Screen
-            name={Routes.Payments_EditTemplate}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('template.editTemplate'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={EditTemplate}
-          />
-          <appStack.Screen
-            name={Routes.Payments_PAY_ALL}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('payments.payAll'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={PayAll}
-          />
-          <appStack.Screen
-            name={Routes.Payments_PAY_ALL_CHECK_DEBT}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('payments.payAll'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={PayAll}
-          />
-          <appStack.Screen
-            name={Routes.Payments_PAY_ALL_SUCCES}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('payments.payAll'),
-                hideHeader: true,
-                backText: translate.t('common.back'),
-              })
-            }
-            component={PayAllSucces}
-          />
-          <appStack.Screen
-            name={Routes.Payments_PAY_ALL_OTP}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('payments.payAll'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={PayAll}
-          />
-          <appStack.Screen
-            name={Routes.CardsStore}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.orderCard'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={CardsStore}
-          />
-          <appStack.Screen
-            name={Routes.ChoosePlan}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.orderCard'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={choosePlane}
-          />
-          <appStack.Screen
-            name={Routes.TarriffCalculator}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.orderCard'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TarriffCalculator}
-          />
-          <appStack.Screen
-            name={Routes.DelyveryMethods}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.orderCard'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={DelyveryMethods}
-          />
-          <appStack.Screen
-            name={Routes.TarrifSetOtp}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.orderCard'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TarrifSetOtp}
-          />
-          <appStack.Screen
-            name={Routes.PreOrder}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.orderCard'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={PreOrder}
-          />
-          <appStack.Screen
-            name={Routes.PrintInfo}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.orderCard'),
-                hideHeader: true,
-                backText: translate.t('common.back'),
-              })
-            }
-            component={PrintInfo}
-          />
-          <appStack.Screen
-            name={Routes.TransferTemplateEdit}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('template.editTemplate'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TransferTemplateEdit}
-          />
-          <appStack.Screen
-            name={Routes.TopupFlow}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.topUp'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TopupFlow}
-          />
-          <appStack.Screen
-            name={Routes.Topup}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.topUp'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={Topup}
-          />
-          <appStack.Screen
-            name={Routes.TopupChoosBankCard}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.topUp'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={ChoosBankCard}
-          />
-          <appStack.Screen
-            name={Routes.TopupChooseAmountAndAccount}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.topUp'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={ChooseAmountAndAccount}
-          />
-          <appStack.Screen
-            name={Routes.TopupSucces}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.topUp'),
-                hideHeader: true,
-                backText: translate.t('common.back'),
-              })
-            }
-            component={TopupSucces}
-          />
-          <appStack.Screen
-            name={Routes.addBankCard}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.addCard'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={addBankCard}
-          />
-          <appStack.Screen
-            name={Routes.AddBankCardSucces}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('plusSign.addCard'),
-                hideHeader: true,
-                backText: translate.t('common.back'),
-              })
-            }
-            component={AddBankCardSucces}
-          />
-          <appStack.Screen
-            name={Routes.CreatePayTemplate}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('payments.paymentTemplates'),
-                backText: translate.t('common.back'),
-              })
-            }
-            component={CreatePayTemplate}
-          />
-          <appStack.Screen name={Routes.Settings} component={Settings} />
-          <appStack.Screen
-            name={Routes.ResetPassword}
-            component={PasswordReset}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('settings.changePassword'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.ResetPasswordOtp}
-            component={ResetPasswordOtp}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('settings.changePassword'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.PasswordResetStepFour}
-            component={PasswordResetStepFour}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('settings.changePassword'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.PasswordResetSucces}
-            component={PasswordResetSucces}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('settings.changePassword'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.setPassCode}
-            component={SetPassCode}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('settings.passCode'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.EditUserInfo}
-            component={EditUserInfo}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('settings.personalInfo'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.Verification}
-            component={Verification}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('verification.verification'),
-                hideHeader: true,
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.VerificationStep1}
-            component={Verification}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('verification.verification'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.VerificationStep2}
-            component={Verification}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('verification.verification'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.VerificationStep3}
-            component={Verification}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('verification.verification'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.VerificationStep4}
-            component={Verification}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('verification.verification'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.VerificationStep5}
-            component={Verification}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('verification.verification'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.VerificationStep6}
-            component={Verification}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('verification.verification'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.VerificationStep7}
-            component={Verification}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('verification.verification'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.VerificationStep8}
-            component={Verification}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('verification.verification'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.VerificationStep9}
-            component={Verification}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('verification.verification'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.Biometric}
-            component={BiometricAuthScreen}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('verification.verification'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.PasswordChangeSucces}
-            component={PasswordChangeSucces}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('settings.changePassword'),
-                hideHeader: true,
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.PasswordChangeStepFour}
-            component={PasswordChangeStepFour}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('settings.changePassword'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.ChangePasswordOtp}
-            component={ChangePasswordOtp}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('settings.changePassword'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.KvalifcaVerification}
-            component={KvalifcaVerification}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('verification.verification'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.OfferDetails}
-            component={OfferDetails}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('tabNavigation.offerDetail'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-           <appStack.Screen
-            name={Routes.paymentMethods}
-            component={PaymentMethods}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('common.bankTransferDetails'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-          <appStack.Screen
-            name={Routes.TrustedDevices}
-            component={TrustedDevices}
-            options={props =>
-              DefaultOptionsDrawer({
-                navigation: props.navigation,
-                route: props.route,
-                title: translate.t('common.trustedDevices'),
-                backText: translate.t('common.back'),
-              })
-            }
-          />
-           </>:
-           <>
-            <appStack.Screen name={Routes.Landing} component={Landing} />
-      <appStack.Screen name={Routes.Login} component={Login} />
-      <appStack.Screen
-        name={Routes.Signup}
-        component={Signup}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('signup.title'),
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-      <appStack.Screen
-        name={Routes.SignupStepTwo}
-        component={SignupStepTwo}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('signup.title'),
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-      <appStack.Screen
-        name={Routes.SignupStepThree}
-        component={SignupStepThree}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('signup.title'),
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-      <appStack.Screen
-        name={Routes.SignupSteOtp}
-        component={SignupSteOtp}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('signup.title'),
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-      <appStack.Screen name={Routes.FirstLoad} component={FirstLoad} />
-      <appStack.Screen
-        name={Routes.ResetPassword}
-        component={PasswordReset}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('signup.title'),
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-      <appStack.Screen
-        name={Routes.PasswordResetStepTwo}
-        component={PasswordResetStepTwo}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('tabNavigation.resetPassword'),
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-      <appStack.Screen
-        name={Routes.PasswordResetStepThree}
-        component={PasswordResetStepThree}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('tabNavigation.resetPassword'),
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-      <appStack.Screen
-        name={Routes.ResetPasswordOtp}
-        component={ResetPasswordOtp}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('tabNavigation.resetPassword'),
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-      <appStack.Screen
-        name={Routes.PasswordResetStepFour}
-        component={PasswordResetStepFour}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('tabNavigation.resetPassword'),
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-      <appStack.Screen
-        name={Routes.PasswordResetSucces}
-        component={PasswordResetSucces}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('tabNavigation.resetPassword'),
-            hideHeader: true,
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-      <appStack.Screen
-        name={Routes.setLoginWithPassCode}
-        component={setLoginWithPassCode}
-      />
-      <appStack.Screen
-        name={Routes.PasswordChangeSucces}
-        component={PasswordChangeSucces}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('settings.changePassword'),
-            hideHeader: true,
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-      <appStack.Screen
-        name={Routes.PasswordChangeStepFour}
-        component={PasswordChangeStepFour}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('settings.changePassword'),
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-      <appStack.Screen
-        name={Routes.AgreeTerm}
-        component={AgreeTerm}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('tabNavigation.termsAndCondition'),
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-      <appStack.Screen
-        name={Routes.RefreshTokenOtp}
-        component={RefreshTokenOtp}
-        options={props =>
-          UnauthScreenOptionsDrawer({
-            navigation: props.navigation,
-            title: translate.t('otp.smsCode'),
-            backText: translate.t('common.back'),
-          })
-        }
-      />
-           </>}
+              <appStack.Screen
+                name={Routes.Home}
+                options={props =>
+                  DefaultOptions({
+                    navigation: props.navigation,
+                    lang: translate.key,
+                  })
+                }
+                component={Dashboard}
+              />
+              <appStack.Screen
+                name={Routes.Dashboard}
+                options={props =>
+                  DefaultOptions({
+                    navigation: props.navigation,
+                    lang: translate.key,
+                  })
+                }
+                component={Dashboard}
+              />
+              <appStack.Screen
+                name={Routes.Products}
+                options={props =>
+                  DefaultOptions({
+                    navigation: props.navigation,
+                    lang: translate.key,
+                  })
+                }
+                component={Products}
+              />
+              <appStack.Screen
+                name={Routes.Payments}
+                options={props =>
+                  DefaultOptions({
+                    navigation: props.navigation,
+                    lang: translate.key,
+                  })
+                }
+                component={Payments}
+              />
+              <appStack.Screen
+                name={Routes.Transfers}
+                options={props =>
+                  DefaultOptions({
+                    navigation: props.navigation,
+                    lang: translate.key,
+                  })
+                }
+                component={Transfers}
+              />
+              <appStack.Screen
+                name={Routes.ProductDetail}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('common.details'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={ProductDetail}
+              />
+              <appStack.Screen
+                name={Routes.Transactions}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('tabNavigation.transactions'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={Transactions}
+              />
+              <appStack.Screen
+                name={Routes.TransferToBank_CHOOSE_ACCOUNTS}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('transfer.toBank'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TransferToBank}
+              />
+              <appStack.Screen
+                name={Routes.TransferToBank_SET_CURRENCY}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('transfer.toBank'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TransferToBank}
+              />
+              <appStack.Screen
+                name={Routes.TransferToBank_SET_OTP}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('transfer.toBank'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TransferToBank}
+              />
+              <appStack.Screen
+                name={Routes.TransferToBank_SUCCES}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('transfer.toBank'),
+                    hideHeader: true,
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TransferToBank}
+              />
+              <appStack.Screen
+                name={Routes.TransferToUni_CHOOSE_ACCOUNTS}
+                options={props => {
+                  //@ts-ignore
+                  let title = props?.route?.params?.newTemplate
+                    ? translate.t('plusSign.crTransferTemplate')
+                    : translate.t('transfer.toUniWallet');
+                  return DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: title,
+                    backText: translate.t('common.back'),
+                  });
+                }}
+                component={TransferToUni}
+              />
+              <appStack.Screen
+                name={Routes.TransferToUni_SET_CURRENCY}
+                options={props => {
+                  //@ts-ignore
+                  let title = props?.route?.params?.newTemplate
+                    ? translate.t('plusSign.crTransferTemplate')
+                    : translate.t('transfer.toUniWallet');
+                  return DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: title,
+                    backText: translate.t('common.back'),
+                  });
+                }}
+                component={TransferToUni}
+              />
+              <appStack.Screen
+                name={Routes.TransferToUni_SET_OTP}
+                options={props => {
+                  //@ts-ignore
+                  let title = props?.route?.params?.newTemplate
+                    ? translate.t('plusSign.crTransferTemplate')
+                    : translate.t('transfer.toUniWallet');
+                  return DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: title,
+                    backText: translate.t('common.back'),
+                  });
+                }}
+                component={TransferToUni}
+              />
+              <appStack.Screen
+                name={Routes.TransferToUni_SUCCES}
+                options={props => {
+                  //@ts-ignore
+                  let title = props?.route?.params?.newTemplate
+                    ? translate.t('plusSign.crTransferTemplate')
+                    : translate.t('transfer.toUniWallet');
+                  return DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: title,
+                    backText: translate.t('common.back'),
+                  });
+                }}
+                component={TransferToUni}
+              />
+              <appStack.Screen
+                name={Routes.TransferToUni_TEMPLATE_IS_SAVED}
+                options={props => {
+                  //@ts-ignore
+                  let title = props?.route?.params?.newTemplate
+                    ? translate.t('plusSign.crTransferTemplate')
+                    : translate.t('transfer.toUniWallet');
+                  return DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: title,
+                    backText: translate.t('common.back'),
+                  });
+                }}
+                component={TransferToUni}
+              />
+              <appStack.Screen
+                name={Routes.TransferBetweenAcctounts_CHOOSE_ACCOUNTS}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('transfer.betweeenOwnAccounts'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TransferBetweenAccounts}
+              />
+              <appStack.Screen
+                name={Routes.TransferBetweenAcctounts_SET_CURRENCY}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('transfer.betweeenOwnAccounts'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TransferBetweenAccounts}
+              />
+              <appStack.Screen
+                name={Routes.TransferBetweenAcctounts_SUCCES}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('transfer.betweeenOwnAccounts'),
+                    hideHeader: true,
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TransferBetweenAccounts}
+              />
+              <appStack.Screen
+                name={Routes.TransferConvertation_CHOOSE_ACCOUNTS}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('transfer.currencyExchange'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TransferConvertation}
+              />
+              <appStack.Screen
+                name={Routes.TransferConvertation_SET_CURRENCY}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('transfer.currencyExchange'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TransferConvertation}
+              />
+              <appStack.Screen
+                name={Routes.TransferConvertation_SUCCES}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('transfer.currencyExchange'),
+                    hideHeader: true,
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TransferConvertation}
+              />
+              <appStack.Screen
+                name={Routes.Payments_STEP1}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('products.payment'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={PaymentSteps}
+              />
+              <appStack.Screen
+                name={Routes.Payments_STEP2}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('products.payment'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={PaymentSteps}
+              />
+              <appStack.Screen
+                name={Routes.Payments_STEP3}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('products.payment'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={PaymentSteps}
+              />
+              <appStack.Screen
+                name={Routes.Payments_STEP4}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('products.payment'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={PaymentSteps}
+              />
+              <appStack.Screen
+                name={Routes.Payments_INSERT_ABONENT_CODE}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('products.payment'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={InsertAbonentCode}
+              />
+              <appStack.Screen
+                name={Routes.Payments_INSERT_ACCOUNT_AND_AMOUNT}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('products.payment'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={InsertAccointAndAmount}
+              />
+              <appStack.Screen
+                name={Routes.Payments_CHECK_DEBT}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('products.payment'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={CheckDebt}
+              />
+              <appStack.Screen
+                name={Routes.Payments_SUCCES}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('products.payment'),
+                    hideHeader: true,
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={PaymentSucces}
+              />
+              <appStack.Screen
+                name={Routes.Payments_EditTemplate}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('template.editTemplate'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={EditTemplate}
+              />
+              <appStack.Screen
+                name={Routes.Payments_PAY_ALL}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('payments.payAll'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={PayAll}
+              />
+              <appStack.Screen
+                name={Routes.Payments_PAY_ALL_CHECK_DEBT}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('payments.payAll'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={PayAll}
+              />
+              <appStack.Screen
+                name={Routes.Payments_PAY_ALL_SUCCES}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('payments.payAll'),
+                    hideHeader: true,
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={PayAllSucces}
+              />
+              <appStack.Screen
+                name={Routes.Payments_PAY_ALL_OTP}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('payments.payAll'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={PayAll}
+              />
+              <appStack.Screen
+                name={Routes.CardsStore}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.orderCard'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={CardsStore}
+              />
+              <appStack.Screen
+                name={Routes.ChoosePlan}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.orderCard'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={choosePlane}
+              />
+              <appStack.Screen
+                name={Routes.TarriffCalculator}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.orderCard'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TarriffCalculator}
+              />
+              <appStack.Screen
+                name={Routes.DelyveryMethods}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.orderCard'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={DelyveryMethods}
+              />
+              <appStack.Screen
+                name={Routes.TarrifSetOtp}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.orderCard'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TarrifSetOtp}
+              />
+              <appStack.Screen
+                name={Routes.PreOrder}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.orderCard'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={PreOrder}
+              />
+              <appStack.Screen
+                name={Routes.PrintInfo}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.orderCard'),
+                    hideHeader: true,
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={PrintInfo}
+              />
+              <appStack.Screen
+                name={Routes.TransferTemplateEdit}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('template.editTemplate'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TransferTemplateEdit}
+              />
+              <appStack.Screen
+                name={Routes.TopupFlow}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.topUp'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TopupFlow}
+              />
+              <appStack.Screen
+                name={Routes.Topup}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.topUp'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={Topup}
+              />
+              <appStack.Screen
+                name={Routes.TopupChoosBankCard}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.topUp'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={ChoosBankCard}
+              />
+              <appStack.Screen
+                name={Routes.TopupChooseAmountAndAccount}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.topUp'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={ChooseAmountAndAccount}
+              />
+              <appStack.Screen
+                name={Routes.TopupSucces}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.topUp'),
+                    hideHeader: true,
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={TopupSucces}
+              />
+              <appStack.Screen
+                name={Routes.addBankCard}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.addCard'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={addBankCard}
+              />
+              <appStack.Screen
+                name={Routes.AddBankCardSucces}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('plusSign.addCard'),
+                    hideHeader: true,
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={AddBankCardSucces}
+              />
+              <appStack.Screen
+                name={Routes.CreatePayTemplate}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('payments.paymentTemplates'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+                component={CreatePayTemplate}
+              />
+              <appStack.Screen name={Routes.Settings} component={Settings} />
+              <appStack.Screen
+                name={Routes.ResetPassword}
+                component={PasswordReset}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('settings.changePassword'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.ResetPasswordOtp}
+                component={ResetPasswordOtp}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('settings.changePassword'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.PasswordResetStepFour}
+                component={PasswordResetStepFour}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('settings.changePassword'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.PasswordResetSucces}
+                component={PasswordResetSucces}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('settings.changePassword'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.setPassCode}
+                component={SetPassCode}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('settings.passCode'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.EditUserInfo}
+                component={EditUserInfo}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('settings.personalInfo'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.Verification}
+                component={Verification}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('verification.verification'),
+                    hideHeader: true,
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.VerificationStep1}
+                component={Verification}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('verification.verification'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.VerificationStep2}
+                component={Verification}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('verification.verification'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.VerificationStep3}
+                component={Verification}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('verification.verification'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.VerificationStep4}
+                component={Verification}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('verification.verification'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.VerificationStep5}
+                component={Verification}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('verification.verification'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.VerificationStep6}
+                component={Verification}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('verification.verification'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.VerificationStep7}
+                component={Verification}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('verification.verification'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.VerificationStep8}
+                component={Verification}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('verification.verification'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.VerificationStep9}
+                component={Verification}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('verification.verification'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.Biometric}
+                component={BiometricAuthScreen}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('verification.verification'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.PasswordChangeSucces}
+                component={PasswordChangeSucces}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('settings.changePassword'),
+                    hideHeader: true,
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.PasswordChangeStepFour}
+                component={PasswordChangeStepFour}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('settings.changePassword'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.ChangePasswordOtp}
+                component={ChangePasswordOtp}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('settings.changePassword'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.KvalifcaVerification}
+                component={KvalifcaVerification}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('verification.verification'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.OfferDetails}
+                component={OfferDetails}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('tabNavigation.offerDetail'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.paymentMethods}
+                component={PaymentMethods}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('common.bankTransferDetails'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.TrustedDevices}
+                component={TrustedDevices}
+                options={props =>
+                  DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: translate.t('common.trustedDevices'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+            </>
+          ) : (
+            <>
+              <appStack.Screen name={Routes.Landing} component={Landing} />
+              <appStack.Screen name={Routes.Login} component={Login} />
+              <appStack.Screen
+                name={Routes.Signup}
+                component={Signup}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('signup.title'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.SignupStepTwo}
+                component={SignupStepTwo}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('signup.title'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.SignupStepThree}
+                component={SignupStepThree}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('signup.title'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.SignupSteOtp}
+                component={SignupSteOtp}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('signup.title'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen name={Routes.FirstLoad} component={FirstLoad} />
+              <appStack.Screen
+                name={Routes.ResetPassword}
+                component={PasswordReset}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('signup.title'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.PasswordResetStepTwo}
+                component={PasswordResetStepTwo}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('tabNavigation.resetPassword'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.PasswordResetStepThree}
+                component={PasswordResetStepThree}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('tabNavigation.resetPassword'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.ResetPasswordOtp}
+                component={ResetPasswordOtp}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('tabNavigation.resetPassword'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.PasswordResetStepFour}
+                component={PasswordResetStepFour}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('tabNavigation.resetPassword'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.PasswordResetSucces}
+                component={PasswordResetSucces}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('tabNavigation.resetPassword'),
+                    hideHeader: true,
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.setLoginWithPassCode}
+                component={setLoginWithPassCode}
+              />
+              <appStack.Screen
+                name={Routes.PasswordChangeSucces}
+                component={PasswordChangeSucces}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('settings.changePassword'),
+                    hideHeader: true,
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.PasswordChangeStepFour}
+                component={PasswordChangeStepFour}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('settings.changePassword'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.AgreeTerm}
+                component={AgreeTerm}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('tabNavigation.termsAndCondition'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+              <appStack.Screen
+                name={Routes.RefreshTokenOtp}
+                component={RefreshTokenOtp}
+                options={props =>
+                  UnauthScreenOptionsDrawer({
+                    navigation: props.navigation,
+                    title: translate.t('otp.smsCode'),
+                    backText: translate.t('common.back'),
+                  })
+                }
+              />
+            </>
+          )}
         </appStack.Navigator>
-       {state.isAuthenticated && <TabNav />}
-       
+        {state.isAuthenticated && <TabNav />}
       </>
     </DrawerLayout>
   );

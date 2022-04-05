@@ -24,7 +24,7 @@ export const Login =
   };
 
 export const Logout = () => (dispatch: any) => {
-  dispatch({type: START_LOGIN, isLoading: true});
+  // dispatch({type: START_LOGIN, isLoading: true});
   //cleare payment states
   dispatch({type: PAYMENTS_ACTIONS.RESET_PAYEMENT_DATA});
   //cleare transfers states
@@ -32,5 +32,5 @@ export const Logout = () => (dispatch: any) => {
   //reset user states
   dispatch({type: RESET_USER_STATES});
   dispatch({type: LOGOUT});
-  dispatch({type: START_LOGIN, isLoading: false});
+  // dispatch({type: START_LOGIN, isLoading: false});
 };

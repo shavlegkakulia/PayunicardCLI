@@ -27,7 +27,7 @@ export interface IAuthAction {
     remember?: boolean,
     deviceId?: string | undefined,
     devices?: IDevices[],
-    setAuth: boolean
+    setAuth?: boolean
 }
 
 export interface IGlobalState {

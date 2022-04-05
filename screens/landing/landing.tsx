@@ -7,6 +7,7 @@ import storage from './../../services/StorageService';
 import colors from '../../constants/colors';
 import FullScreenLoading from './../../components/FullScreenLoading';
 import { FIRST_LOAD_KEY } from '../../constants/defaults';
+import FullScreenLoader from './../../components/FullScreenLoading';
 
 const Main: React.FC = () => {
     const [firstLoad, setFirstsLoad] = useState(true);
@@ -28,9 +29,9 @@ const Main: React.FC = () => {
         })
     }, []);
 
-    if (isLoading) {
-        return <FullScreenLoading />
-    }
+    // if (isLoading) {
+    //     return <FullScreenLoading />
+    // }
 
     if (firstLoad) {
         return (
@@ -45,6 +46,7 @@ const Main: React.FC = () => {
             <View style={styles.container}>
                 <Login />
             </View>
+            <FullScreenLoader visible={isLoading} />
         </LandingLayout>
     )
 }

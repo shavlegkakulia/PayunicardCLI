@@ -143,14 +143,14 @@ const AppContainer: FC = () => {
     
   }, []);
 
-  if (loading.locale || loading.translates) {
-    return <FullScreenLoader />;
-  }
+  // if (loading.locale || loading.translates) {
+  //   return <FullScreenLoader />;
+  // }
 console.log(loading)
   return (
     <ErrorWrapper>
     
-        <UserInactivity timeForInactivity={60 * 1000} checkInterval={1000}>
+        <UserInactivity timeForInactivity={60 * 1000} isAuth={state.isAuthenticated}>
           <NavigationContainer
             ref={(navigatorRef: NavigationContainerRef) => {
               NavigationService.setTopLevelNavigator(navigatorRef);

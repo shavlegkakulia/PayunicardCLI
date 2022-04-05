@@ -19,15 +19,14 @@ import {t} from '../redux/actions/translate_actions';
 
 interface IProps {
   timeForInactivity: number;
-  checkInterval: number;
   logout?: Function;
   t?: Function;
   style?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
+  isAuth?: boolean;
 }
 
 class UserInactivity extends PureComponent<IProps, any> {
-  inactivityTimer: NodeJS.Timeout | undefined;
   panResponder: PanResponderInstance | undefined;
   timeout: NodeJS.Timeout | undefined;
   popupTimeout: NodeJS.Timeout | undefined;
@@ -38,7 +37,6 @@ class UserInactivity extends PureComponent<IProps, any> {
 
   static defaultProps = {
     timeForInactivity: 10000,
-    checkInterval: 2000,
     style: {
       flex: 1,
     },
@@ -47,16 +45,17 @@ class UserInactivity extends PureComponent<IProps, any> {
   state = {
     active: true,
     modalVisible: false,
+    auth: false,
   };
 
   onAction = (value: boolean) => {
     console.log('***', value);
     if (!value) {
-       this.props.logout && this.props.logout();
+      this.props.logout && this.props.logout();
     }
   };
 
-  componentWillMount() {
+  registerPan() {
     this.panResponder = PanResponder.create({
       onMoveShouldSetPanResponderCapture:
         this.onMoveShouldSetPanResponderCapture,
@@ -66,9 +65,28 @@ class UserInactivity extends PureComponent<IProps, any> {
     this.handleInactivity();
   }
 
+  componentWillMount() {
+    if (this.props.isAuth) {
+      this.registerPan();
+    }
+  }
+
   componentWillUnmount() {
     if (this.timeout) clearTimeout(this.timeout);
     if (this.popupTimeout) clearTimeout(this.popupTimeout);
+  }
+
+  componentDidUpdate() {
+    if (!this.props.isAuth) {
+      if (this.timeout) clearTimeout(this.timeout);
+      if (this.popupTimeout) clearTimeout(this.popupTimeout);
+      this.panResponder = undefined;
+    } else {
+      if (!this.panResponder) {
+        this.registerPan();
+      }
+    }
+    return true;
   }
 
   /**
@@ -135,6 +153,14 @@ class UserInactivity extends PureComponent<IProps, any> {
 
   render() {
     const {style, children} = this.props;
+    let sessionTitle =
+      this.props.t && this.props.t('common.sessionExpiredTitle');
+    let sessionText = this.props.t && this.props.t('common.sessionExpiredText');
+    if (!this.props.isAuth) {
+      sessionTitle = this.props.t && this.props.t('common.sessionExpiredTitle');
+      sessionText = this.props.t && this.props.t('common.sessionExpiredText');
+    }
+
     return (
       <>
         <View
@@ -154,32 +180,45 @@ class UserInactivity extends PureComponent<IProps, any> {
             <View style={styles.modalContent}>
               <View style={styles.modalBody}>
                 <Text style={styles.modalText}>
-                  {this.props.t && this.props.t('common.sessionExpiredTitle')}
+                  {sessionTitle}
                   {'\n\n'}
-                  <Text style={styles.modalText2}>
-                    {this.props.t && this.props.t('common.sessionExpiredText')}
-                  </Text>
+                  <Text style={styles.modalText2}>{sessionText}</Text>
                 </Text>
               </View>
               <View style={styles.modalFooter}>
-                <AppButton
-                  style={[styles.modalButton, styles.buttonOne]}
-                  backgroundColor={colors.inputBackGround}
-                  color={colors.black}
-                  TextStyle={styles.buttonText}
-                  title={this.props.t && this.props.t('common.logout')}
-                  onPress={() => this.props.logout && this.props.logout()}
-                />
-                <AppButton
-                  style={[styles.modalButton, styles.buttonTwo]}
-                  TextStyle={styles.buttonText}
-                  title={this.props.t && this.props.t('common.continue')}
-                  onPress={() => {
-                    this.setState({modalVisible: false}, () => {
-                      this.handleInactivity();
-                    });
-                  }}
-                />
+                {this.props.isAuth ? (
+                  <>
+                    <AppButton
+                      style={[styles.modalButton, styles.buttonOne]}
+                      backgroundColor={colors.inputBackGround}
+                      color={colors.black}
+                      TextStyle={styles.buttonText}
+                      title={this.props.t && this.props.t('common.logout')}
+                      onPress={() => this.props.logout && this.props.logout()}
+                    />
+                    <AppButton
+                      style={[styles.modalButton, styles.buttonTwo]}
+                      TextStyle={styles.buttonText}
+                      title={this.props.t && this.props.t('common.continue')}
+                      onPress={() => {
+                        this.setState({modalVisible: false}, () => {
+                          this.handleInactivity();
+                        });
+                      }}
+                    />
+                  </>
+                ) : (
+                  <AppButton
+                    style={styles.modalButton}
+                    backgroundColor={colors.inputBackGround}
+                    color={colors.black}
+                    TextStyle={styles.buttonText}
+                    title={this.props.t && this.props.t('common.close')}
+                    onPress={() => {
+                      this.setState({modalVisible: false});
+                    }}
+                  />
+                )}
               </View>
             </View>
           </View>
