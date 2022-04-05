@@ -144,7 +144,7 @@ const AppContainer: FC = () => {
           <LandingNavigator />
         </NavigationContainer>
       ) : (
-        <UserInactivity timeForInactivity={80 * 1000} checkInterval={1000}>
+        <UserInactivity timeForInactivity={60 * 1000} checkInterval={1000}>
           <NavigationContainer
             ref={(navigatorRef: NavigationContainerRef) => {
               NavigationService.setTopLevelNavigator(navigatorRef);

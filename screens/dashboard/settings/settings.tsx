@@ -261,7 +261,7 @@ const Settings: React.FC = () => {
   };
 
   const goToVerification = () => {
-    return;
+    //return;
     NavigationService.navigate(Routes.VerificationStep4, {
       verificationStep: 4,
       retry: true,

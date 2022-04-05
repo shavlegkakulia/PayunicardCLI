@@ -171,7 +171,7 @@ const LoginForm: React.FC = () => {
         otp: otp,
       };
       AuthService.SignIn({User}).subscribe({
-        next: async Response => {
+        next: async Response => {console.log(Response.data)
           const date = new Date();
           date.setSeconds(date.getSeconds() + Response.data.expires_in);
           const expObject = {
@@ -188,7 +188,7 @@ const LoginForm: React.FC = () => {
             ),
           );
         },
-        error: error => {
+        error: error => { console.log(error.response)
           if (
             stringToObject(error.response).data.error ===
             require_password_change
