@@ -28,9 +28,9 @@ const AppButton: React.FC<IButton> = ({ onPress, title, backgroundColor, color, 
     style={[
       styles.appButtonContainer,
       backgroundColor ? { backgroundColor } : undefined,
-      style,
       !hasSpacing ? { paddingVertical: 0, paddingHorizontal: 0 } : undefined,
-      disabled && {backgroundColor: colors.disabledprimary}
+      disabled && {backgroundColor: colors.disabledprimary},
+      style
     ]}
   >
     {!isLoading ? <Text style={[styles.appButtonText, color ? { color: color } : undefined, TextStyle]}>

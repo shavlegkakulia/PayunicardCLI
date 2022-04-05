@@ -12,13 +12,16 @@ import {
   Text,
 } from 'react-native';
 import {connect} from 'react-redux';
+import AppButton from '../components/UI/AppButton';
 import colors from '../constants/colors';
 import {Logout} from '../redux/actions/auth_actions';
+import {t} from '../redux/actions/translate_actions';
 
 interface IProps {
   timeForInactivity: number;
   checkInterval: number;
   logout?: Function;
+  t?: Function;
   style?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
 }
@@ -49,7 +52,7 @@ class UserInactivity extends PureComponent<IProps, any> {
   onAction = (value: boolean) => {
     console.log('***', value);
     if (!value) {
-      // this.props.logout && this.props.logout();
+       this.props.logout && this.props.logout();
     }
   };
 
@@ -117,7 +120,7 @@ class UserInactivity extends PureComponent<IProps, any> {
   initPopap = () => {
     this.popupTimeout = setTimeout(
       () => this.setState({modalVisible: true}),
-      this.props.timeForInactivity - 60000,
+      this.props.timeForInactivity - 30000, //30 second
     );
   };
 
@@ -133,13 +136,15 @@ class UserInactivity extends PureComponent<IProps, any> {
   render() {
     const {style, children} = this.props;
     return (
-      <View
-        style={style}
-        collapsable={false}
-        {...this.panResponder?.panHandlers}>
-        {children}
+      <>
+        <View
+          style={style}
+          collapsable={false}
+          {...this.panResponder?.panHandlers}>
+          {children}
+        </View>
         <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {
@@ -147,21 +152,39 @@ class UserInactivity extends PureComponent<IProps, any> {
           }}>
           <View style={styles.modal}>
             <View style={styles.modalContent}>
-              <View style={styles.modalHeader}>
-                <Text style={styles.modalTitle}>
-                  გაფრთხილება
+              <View style={styles.modalBody}>
+                <Text style={styles.modalText}>
+                  {this.props.t && this.props.t('common.sessionExpiredTitle')}
+                  {'\n\n'}
+                  <Text style={styles.modalText2}>
+                    {this.props.t && this.props.t('common.sessionExpiredText')}
+                  </Text>
                 </Text>
               </View>
-              <View style={styles.modalBody}>
-              <Text style={styles.modalText}>
-                  do you want to continue 
-                  <Text style={styles.modalText2}>your session has expired</Text>
-                </Text>
+              <View style={styles.modalFooter}>
+                <AppButton
+                  style={[styles.modalButton, styles.buttonOne]}
+                  backgroundColor={colors.inputBackGround}
+                  color={colors.black}
+                  TextStyle={styles.buttonText}
+                  title={this.props.t && this.props.t('common.logout')}
+                  onPress={() => this.props.logout && this.props.logout()}
+                />
+                <AppButton
+                  style={[styles.modalButton, styles.buttonTwo]}
+                  TextStyle={styles.buttonText}
+                  title={this.props.t && this.props.t('common.continue')}
+                  onPress={() => {
+                    this.setState({modalVisible: false}, () => {
+                      this.handleInactivity();
+                    });
+                  }}
+                />
               </View>
             </View>
           </View>
         </Modal>
-      </View>
+      </>
     );
   }
 }
@@ -169,13 +192,14 @@ class UserInactivity extends PureComponent<IProps, any> {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     logout: () => dispatch(Logout()),
+    t: (key: string) => dispatch(t(key)),
   };
 };
 
 const styles = StyleSheet.create({
   modal: {
     flex: 1,
-    backgroundColor: '#00000050',
+    backgroundColor: '#00000080',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -183,11 +207,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: 10,
     width: Dimensions.get('window').width - 70,
-  },
-  modalHeader: {
-    padding: 17,
-    borderBottomColor: colors.inputBackGround,
-    borderBottomWidth: 1
   },
   modalBody: {
     padding: 17,
@@ -197,22 +216,40 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 17,
     color: colors.labelColor,
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
   modalText: {
     fontFamily: 'FiraGO-Book',
-    fontSize: 14,
-    lineHeight: 17,
+    fontSize: 16,
+    lineHeight: 19,
     color: colors.labelColor,
-    textTransform: 'uppercase'
+    textTransform: 'capitalize',
+    textAlign: 'center',
   },
   modalText2: {
+    fontSize: 11,
+    lineHeight: 14,
+  },
+  modalFooter: {
+    padding: 17,
+    flexDirection: 'row',
+  },
+  modalButton: {
+    flex: 5,
+    paddingVertical: 7,
+    maxHeight: 38,
+  },
+  buttonOne: {
+    marginRight: 10,
+  },
+  buttonTwo: {
+    marginLeft: 10,
+  },
+  buttonText: {
     fontFamily: 'FiraGO-Book',
     fontSize: 14,
-    lineHeight: 17,
-    color: colors.labelColor,
-    textTransform: 'uppercase'
-  }
+    lineHeight: 19,
+  },
 });
 
 export default connect(null, mapDispatchToProps)(UserInactivity);

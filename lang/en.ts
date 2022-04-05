@@ -45,7 +45,10 @@ export default {
         to: 'To',
         showMe: 'Show me',
         setDate: 'Set Date',
-        block: 'Block'
+        block: 'Block',
+        sessionExpiredTitle: 'do you want to continue?',
+        sessionExpiredText: 'You will be logged out due to inactive',
+        continue: 'Continue'
     },
     generalErrors: {
         errorOccurred: 'An Error Occurred',

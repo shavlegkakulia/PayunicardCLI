@@ -46,7 +46,10 @@ export default {
         to: 'მდე',
         showMe: 'მაჩვენე',
         setDate: 'მიუთითეთ თარიღი',
-        block: 'დაბლოკვა'
+        block: 'დაბლოკვა',
+        sessionExpiredTitle: 'გსურთ გაგრძელება?',
+        sessionExpiredText: 'უმოქმედობის გამო გამოხვალთ აპლიკაციიდან',
+        continue: 'გაგრძელება'
     },
 
     generalErrors: {
