@@ -10,6 +10,7 @@ import LandingNavigator from './LandingNavigation';
 import {
   IAuthState,
   IGlobalState as AuthState,
+  SET_AUTH,
 } from './../redux/action_types/auth_action_types';
 import AuthService, {IInterceptop} from './../services/AuthService';
 import CommonService from './../services/CommonService';
@@ -77,7 +78,7 @@ const AppContainer: FC = () => {
     locale: true,
     translates: true,
   });
-  const [userToken, setUserToken] = useState<string>('');
+  
   const AxiosInterceptorsSubscription = useRef<IInterceptop[]>([]);
 
   useEffect(() => {
@@ -118,32 +119,37 @@ const AppContainer: FC = () => {
     await AuthService.SignOut();
     await storage.removeItem('PassCode');
     await storage.removeItem('PassCodeEnbled');
-  }, [userToken]);
+  }, [state.isAuthenticated]);
+
+ 
 
   useEffect(() => {
-    if (state.accesToken) {
-      setUserToken(state.accesToken);
-    } else {
-      setUserToken('');
-    }
+    AuthService.isAuthenticated().then(res => {
+      if(res===true){
+        dispatch({type: SET_AUTH, setAuth: true})
+      }
+      setTimeout(() => {
+        SplashScreen.hide();
+      }, 500);
+    })
+  }, [])
+
+  useEffect(() => {
+   
     setIsLoading(loading => {
       loading.translates = false;
       return loading;
     });
-    SplashScreen.hide();
-  }, [userToken, state.accesToken]);
+    
+  }, []);
 
   if (loading.locale || loading.translates) {
     return <FullScreenLoader />;
   }
-
+console.log(loading)
   return (
     <ErrorWrapper>
-      {!userToken ? (
-        <NavigationContainer>
-          <LandingNavigator />
-        </NavigationContainer>
-      ) : (
+    
         <UserInactivity timeForInactivity={60 * 1000} checkInterval={1000}>
           <NavigationContainer
             ref={(navigatorRef: NavigationContainerRef) => {
@@ -154,7 +160,6 @@ const AppContainer: FC = () => {
             </SafeAreaView>
           </NavigationContainer>
         </UserInactivity>
-      )}
     </ErrorWrapper>
   );
 };

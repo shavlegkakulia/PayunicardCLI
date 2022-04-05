@@ -7,6 +7,7 @@ export const AUT_SET_IS_LOADING = 'AUT_SET_IS_LOADING';
 export const REFRESH = 'REFRESH';
 export const SET_DEVICE_ID = 'SET_DEVICE_ID';
 export const SET_ACTIVE_DEVICES = 'SET_ACTIVE_DEVICES';
+export const SET_AUTH = 'SET_AUTH'; 
 
 export interface IAuthState {
     isAuthenticated: boolean,
@@ -25,7 +26,8 @@ export interface IAuthAction {
     type: string,
     remember?: boolean,
     deviceId?: string | undefined,
-    devices?: IDevices[]
+    devices?: IDevices[],
+    setAuth: boolean
 }
 
 export interface IGlobalState {

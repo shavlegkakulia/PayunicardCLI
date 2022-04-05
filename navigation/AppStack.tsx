@@ -63,6 +63,25 @@ import KvalifcaVerification from '../screens/dashboard/Verification/KvalifcaVeri
 import OfferDetails from '../containers/OfferDetails';
 import PaymentMethods from '../screens/dashboard/cardsStore/paymentMethods';
 import TrustedDevices from '../screens/dashboard/settings/truestedDevices';
+import { IAuthState,
+  IGlobalState as AuthState, } from '../redux/action_types/auth_action_types';
+
+
+
+
+  import Landing from '../screens/landing/landing';
+import Login from '../screens/landing/login';
+import Signup from '../screens/landing/signup/signup';
+import FirstLoad from '../screens/landing/firstLoad';
+import SignupStepTwo from '../screens/landing/signup/signup-step-2';
+import SignupStepThree from '../screens/landing/signup/signup-step-3';
+import SignupSteOtp from '../screens/landing/signup/SignupSteOtp';
+import {UnauthScreenOptionsDrawer} from './Header';
+import PasswordResetStepTwo from '../screens/landing/password/PasswordResetStepTwo';
+import PasswordResetStepThree from '../screens/landing/password/PasswordResetStepThree';
+import setLoginWithPassCode from '../screens/landing/setLoginWithPassCode';
+import AgreeTerm from '../screens/landing/signup/signup-agree';
+import RefreshTokenOtp from '../screens/landing/RefreshIokenOtp';
 
 const appStack = createStackNavigator();
 
@@ -71,6 +90,9 @@ const AppStack: React.FC = () => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
+  const state = useSelector<AuthState>(
+    state => state.AuthReducer,
+  ) as IAuthState;
   const isDrawerOpened = useRef<boolean>();
 
   useEffect(() => {
@@ -105,10 +127,13 @@ const AppStack: React.FC = () => {
           barStyle="dark-content"
         />
         <appStack.Navigator
+        initialRouteName={Routes.Landing}
           screenOptions={{
             gestureEnabled: false,
             headerShown: false,
-          }}>
+            
+          }}>{state.isAuthenticated ?
+            <>
           <appStack.Screen
             name={Routes.Home}
             options={props =>
@@ -1020,8 +1045,175 @@ const AppStack: React.FC = () => {
               })
             }
           />
+           </>:
+           <>
+            <appStack.Screen name={Routes.Landing} component={Landing} />
+      <appStack.Screen name={Routes.Login} component={Login} />
+      <appStack.Screen
+        name={Routes.Signup}
+        component={Signup}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('signup.title'),
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <appStack.Screen
+        name={Routes.SignupStepTwo}
+        component={SignupStepTwo}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('signup.title'),
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <appStack.Screen
+        name={Routes.SignupStepThree}
+        component={SignupStepThree}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('signup.title'),
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <appStack.Screen
+        name={Routes.SignupSteOtp}
+        component={SignupSteOtp}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('signup.title'),
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <appStack.Screen name={Routes.FirstLoad} component={FirstLoad} />
+      <appStack.Screen
+        name={Routes.ResetPassword}
+        component={PasswordReset}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('signup.title'),
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <appStack.Screen
+        name={Routes.PasswordResetStepTwo}
+        component={PasswordResetStepTwo}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('tabNavigation.resetPassword'),
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <appStack.Screen
+        name={Routes.PasswordResetStepThree}
+        component={PasswordResetStepThree}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('tabNavigation.resetPassword'),
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <appStack.Screen
+        name={Routes.ResetPasswordOtp}
+        component={ResetPasswordOtp}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('tabNavigation.resetPassword'),
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <appStack.Screen
+        name={Routes.PasswordResetStepFour}
+        component={PasswordResetStepFour}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('tabNavigation.resetPassword'),
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <appStack.Screen
+        name={Routes.PasswordResetSucces}
+        component={PasswordResetSucces}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('tabNavigation.resetPassword'),
+            hideHeader: true,
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <appStack.Screen
+        name={Routes.setLoginWithPassCode}
+        component={setLoginWithPassCode}
+      />
+      <appStack.Screen
+        name={Routes.PasswordChangeSucces}
+        component={PasswordChangeSucces}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('settings.changePassword'),
+            hideHeader: true,
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <appStack.Screen
+        name={Routes.PasswordChangeStepFour}
+        component={PasswordChangeStepFour}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('settings.changePassword'),
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <appStack.Screen
+        name={Routes.AgreeTerm}
+        component={AgreeTerm}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('tabNavigation.termsAndCondition'),
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+      <appStack.Screen
+        name={Routes.RefreshTokenOtp}
+        component={RefreshTokenOtp}
+        options={props =>
+          UnauthScreenOptionsDrawer({
+            navigation: props.navigation,
+            title: translate.t('otp.smsCode'),
+            backText: translate.t('common.back'),
+          })
+        }
+      />
+           </>}
         </appStack.Navigator>
-        <TabNav />
+       {state.isAuthenticated && <TabNav />}
+       
       </>
     </DrawerLayout>
   );

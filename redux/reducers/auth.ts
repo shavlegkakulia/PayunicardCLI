@@ -8,6 +8,7 @@ import {
   REFRESH,
   SET_DEVICE_ID,
   SET_ACTIVE_DEVICES,
+  SET_AUTH
 } from '../action_types/auth_action_types';
 
 const initialState: IAuthState = {
@@ -22,6 +23,8 @@ const initialState: IAuthState = {
 
 function AuthReduser(state: IAuthState = initialState, action: IAuthAction) {
   switch (action.type) {
+    case SET_AUTH: 
+    return {...state, isAuthenticated: action.setAuth}
     case START_LOGIN:
       return {...state, isLoading: action.isLoading};
     case AUT_SET_IS_LOADING:

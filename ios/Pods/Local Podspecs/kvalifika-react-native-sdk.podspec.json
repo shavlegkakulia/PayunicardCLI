@@ -4,7 +4,9 @@
   "summary": "Official React Native wrapper for Kvalifika SDK",
   "homepage": "https://github.com/Kvalifika/kvalifika-react-native-sample#readme",
   "license": "MIT",
-  "authors": "Kvalifika",
+  "authors": {
+    "name": "Kvalifika"
+  },
   "platforms": {
     "ios": "11.0"
   },
