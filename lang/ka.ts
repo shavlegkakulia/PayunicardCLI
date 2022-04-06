@@ -49,6 +49,7 @@ export default {
         block: 'დაბლოკვა',
         sessionExpiredTitle: 'გსურთ გაგრძელება?',
         sessionExpiredText: 'უმოქმედობის გამო გამოხვალთ აპლიკაციიდან',
+        sessionExpiredTextAfter: 'უმოქმედობის გამო გამოხვედით აპლიკაციიდან',
         continue: 'გაგრძელება'
     },
 

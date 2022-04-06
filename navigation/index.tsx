@@ -1,12 +1,10 @@
-import React, {useEffect, useState, FC, useCallback, useRef} from 'react';
+import React, {useEffect, FC, useCallback, useRef} from 'react';
 import {
   NavigationContainer,
   NavigationContainerRef,
 } from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
-import FullScreenLoader from './../components/FullScreenLoading';
-import LandingNavigator from './LandingNavigation';
 import {
   IAuthState,
   IGlobalState as AuthState,
@@ -22,7 +20,6 @@ import {
   setJSExceptionHandler,
   setNativeExceptionHandler,
 } from 'react-native-exception-handler';
-import PresentationServive from '../services/PresentationServive';
 import AppStack from './AppStack';
 import NavigationService from '../services/NavigationService';
 import {SafeAreaView} from 'react-navigation';
@@ -30,25 +27,12 @@ import {StyleSheet} from 'react-native';
 import colors from '../constants/colors';
 import {ka_ge} from '../lang';
 import {Logout} from '../redux/actions/auth_actions';
-import {debounce, sleep} from '../utils/utils';
+import {debounce} from '../utils/utils';
 import UserInactivity from './../screens/activity';
 
-interface ILoading {
-  locale: boolean;
-  translates: boolean;
-}
-
-const LogError = (error: string) => {
-  let _error = error + '*' + new Date().toLocaleDateString();
-  PresentationServive.LogError({error: _error}).subscribe({
-    next: () => {},
-    complete: () => {},
-  });
+const handleError = (error: Error, isFatal: boolean) => {
+  console.warn({error}, 'isFatal?' + isFatal);
 };
-
-const handleError = (error: Error, isFatal: boolean) => {};
-
-LogError('fdsfdsfdfdfds');
 
 setJSExceptionHandler((error, isFatal) => {
   handleError(error, isFatal);
@@ -61,11 +45,13 @@ setNativeExceptionHandler(exceptionString => {
   // or hit a custom api to inform the dev team.
   //NOTE: alert or showing any UI change via JS
   //WILL NOT WORK in case of NATIVE ERRORS.
+  console.warn(exceptionString);
 });
 //====================================================
 // ADVANCED use case:
 const exceptionhandler = (exceptionString: string) => {
   // your exception handler code here
+  console.warn(exceptionString);
 };
 setNativeExceptionHandler(exceptionhandler, false, true);
 
@@ -74,29 +60,13 @@ const AppContainer: FC = () => {
     state => state.AuthReducer,
   ) as IAuthState;
   const dispatch = useDispatch();
-  const [loading, setIsLoading] = useState<ILoading>({
-    locale: true,
-    translates: true,
-  });
-  
+
   const AxiosInterceptorsSubscription = useRef<IInterceptop[]>([]);
 
   useEffect(() => {
-    storage
-      .getItem(LOCALE_IN_STORAGE)
-      .then(locale => {
-        dispatch(use(locale || ka_ge));
-        setIsLoading(loading => {
-          loading.locale = false;
-          return loading;
-        });
-      })
-      .catch(() =>
-        setIsLoading(loading => {
-          loading.locale = false;
-          return loading;
-        }),
-      );
+    storage.getItem(LOCALE_IN_STORAGE).then(locale => {
+      dispatch(use(locale || ka_ge));
+    });
   }, []);
 
   useEffect(() => {
@@ -121,45 +91,31 @@ const AppContainer: FC = () => {
     await storage.removeItem('PassCodeEnbled');
   }, [state.isAuthenticated]);
 
- 
-
   useEffect(() => {
     AuthService.isAuthenticated().then(res => {
-      if(res===true){
-        dispatch({type: SET_AUTH, setAuth: true})
+      if (res === true) {
+        dispatch({type: SET_AUTH, setAuth: true});
       }
       setTimeout(() => {
         SplashScreen.hide();
       }, 500);
-    })
-  }, [])
-
-  useEffect(() => {
-   
-    setIsLoading(loading => {
-      loading.translates = false;
-      return loading;
     });
-    
   }, []);
 
-  // if (loading.locale || loading.translates) {
-  //   return <FullScreenLoader />;
-  // }
-console.log(loading)
   return (
     <ErrorWrapper>
-    
-        <UserInactivity timeForInactivity={60 * 1000} isAuth={state.isAuthenticated}>
-          <NavigationContainer
-            ref={(navigatorRef: NavigationContainerRef) => {
-              NavigationService.setTopLevelNavigator(navigatorRef);
-            }}>
-            <SafeAreaView style={styles.container}>
-              <AppStack />
-            </SafeAreaView>
-          </NavigationContainer>
-        </UserInactivity>
+      <UserInactivity
+        timeForInactivity={80 * 1000}
+        isAuth={state.isAuthenticated}>
+        <NavigationContainer
+          ref={(navigatorRef: NavigationContainerRef) => {
+            NavigationService.setTopLevelNavigator(navigatorRef);
+          }}>
+          <SafeAreaView style={styles.container}>
+            <AppStack />
+          </SafeAreaView>
+        </NavigationContainer>
+      </UserInactivity>
     </ErrorWrapper>
   );
 };

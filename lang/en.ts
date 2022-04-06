@@ -46,7 +46,8 @@ export default {
         showMe: 'Show me',
         setDate: 'Set Date',
         block: 'Block',
-        sessionExpiredTitle: 'do you want to continue?',
+        sessionExpiredTitle: 'Do you want to continue?',
+        sessionExpiredTextAfter: 'Your session time has expired',
         sessionExpiredText: 'You will be logged out due to inactive',
         continue: 'Continue'
     },

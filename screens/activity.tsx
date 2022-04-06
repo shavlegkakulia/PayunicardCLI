@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Dimensions,
   Text,
+  TouchableOpacity,
 } from 'react-native';
 import {connect} from 'react-redux';
 import AppButton from '../components/UI/AppButton';
@@ -157,8 +158,8 @@ class UserInactivity extends PureComponent<IProps, any> {
       this.props.t && this.props.t('common.sessionExpiredTitle');
     let sessionText = this.props.t && this.props.t('common.sessionExpiredText');
     if (!this.props.isAuth) {
-      sessionTitle = this.props.t && this.props.t('common.sessionExpiredTitle');
-      sessionText = this.props.t && this.props.t('common.sessionExpiredText');
+      sessionText =
+        this.props.t && this.props.t('common.sessionExpiredTextAfter');
     }
 
     return (
@@ -176,13 +177,20 @@ class UserInactivity extends PureComponent<IProps, any> {
           onRequestClose={() => {
             this.setState({modalVisible: false});
           }}>
-          <View style={styles.modal}>
+          <TouchableOpacity
+            style={styles.modal}
+            activeOpacity={!this.props.isAuth ? 0.5 : 1}
+            onPress={() => {
+              if (!this.props.isAuth) {
+                this.setState({modalVisible: false});
+              }
+            }}>
             <View style={styles.modalContent}>
               <View style={styles.modalBody}>
                 <Text style={styles.modalText}>
-                  {sessionTitle}
-                  {'\n\n'}
-                  <Text style={styles.modalText2}>{sessionText}</Text>
+                  {this.props.isAuth ? sessionTitle + '\n\n' : sessionText}
+                  
+                  {this.props.isAuth && <Text style={styles.modalText2}>{sessionText}</Text>}
                 </Text>
               </View>
               <View style={styles.modalFooter}>
@@ -221,7 +229,7 @@ class UserInactivity extends PureComponent<IProps, any> {
                 )}
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         </Modal>
       </>
     );
@@ -250,19 +258,11 @@ const styles = StyleSheet.create({
   modalBody: {
     padding: 17,
   },
-  modalTitle: {
-    fontFamily: 'FiraGO-Book',
-    fontSize: 14,
-    lineHeight: 17,
-    color: colors.labelColor,
-    textTransform: 'uppercase',
-  },
   modalText: {
     fontFamily: 'FiraGO-Book',
     fontSize: 16,
     lineHeight: 19,
     color: colors.labelColor,
-    textTransform: 'capitalize',
     textAlign: 'center',
   },
   modalText2: {

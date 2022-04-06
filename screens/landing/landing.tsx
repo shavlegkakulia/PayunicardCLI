@@ -5,12 +5,11 @@ import FirstLoad from './firstLoad';
 import Login from './login';
 import storage from './../../services/StorageService';
 import colors from '../../constants/colors';
-import FullScreenLoading from './../../components/FullScreenLoading';
 import { FIRST_LOAD_KEY } from '../../constants/defaults';
 import FullScreenLoader from './../../components/FullScreenLoading';
 
 const Main: React.FC = () => {
-    const [firstLoad, setFirstsLoad] = useState(true);
+    const [firstLoad, setFirstsLoad] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
     const complateFirstLoad = async () => {
@@ -28,10 +27,6 @@ const Main: React.FC = () => {
             setIsLoading(false);
         })
     }, []);
-
-    // if (isLoading) {
-    //     return <FullScreenLoading />
-    // }
 
     if (firstLoad) {
         return (
