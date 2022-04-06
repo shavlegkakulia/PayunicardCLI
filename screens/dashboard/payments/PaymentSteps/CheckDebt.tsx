@@ -152,11 +152,12 @@ const CheckDebt: React.FC<INavigationProps> = props => {
                 <Text style={styles.abonentLabel}>{translate.t('payments.abonentNumber')}</Text>
                 <AppInput
                   value={PaymentStore.abonentCode}
-                  onChange={abonentCode => setAbonentCode(abonentCode)}
+                  onChange={() => {}}
                   context={ValidationContext}
                   customKey="abonentCode"
                   requireds={[required]}
                   style={styles.abonentCodeInput}
+                  editable={false}
                 />
               </View>
 

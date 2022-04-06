@@ -77,9 +77,9 @@ export const MakeTransaction =
     });
     TransactionService.makeTransaction(toBank, data).subscribe({
       next: Response => {
-        dispatch({
+      dispatch({
           type: TRANSFERS_ACTION_TYPES.SET_TRANSACTION_RESPONSE,
-          transactionResponse: Response.data.data,
+          transactionResponse: {...Response.data.data},
         });
       },
       complete: () => {

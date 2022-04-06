@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
-import {Image, View, StyleSheet, KeyboardAvoidingView} from 'react-native';
+import {Image, View, StyleSheet, KeyboardAvoidingView, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../../../components/UI/AppButton';
 import AppInput from '../../../../components/UI/AppInput';
 import colors from '../../../../constants/colors';
+import Routes from '../../../../navigation/routes';
 import { tabHeight } from '../../../../navigation/TabNav';
 import {editPayTemplate} from '../../../../redux/actions/payments_actions';
 import {
@@ -20,6 +21,7 @@ import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
 }  from '../../../../redux/action_types/translate_action_types';
+import NavigationService from '../../../../services/NavigationService';
 import {IPayTemplateAddRequest} from '../../../../services/TemplatesService';
 import screenStyles from '../../../../styles/screens';
 import {INavigationProps} from '../../transfers';
@@ -48,10 +50,7 @@ const EditTemplate: React.FC<INavigationProps> = props => {
   const complate = () => {
     const reset = function () {
       dispatch({type: PAYMENTS_ACTIONS.RESET_PAYEMENT_DATA});
-      props.navigation?.reset({
-        index: 0,
-        routes: [{name: navStore.parentRoute}],
-      });
+      NavigationService.navigate(Routes.Payments);
     };
 
     if (PaymentStore.templName) {
@@ -83,6 +82,9 @@ const EditTemplate: React.FC<INavigationProps> = props => {
       <View style={[screenStyles.wraper, styles.container]}>
         <View style={styles.succesInner}>
           <View>
+          <Text style={styles.succesText}>
+                  {translate.t('template.editTemplate')}
+                </Text>
             <Image
               source={require('./../../../../assets/images/templateIcon.png')}
               style={styles.templateIcon}

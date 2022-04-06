@@ -55,6 +55,7 @@ import {RouteProp, useRoute} from '@react-navigation/core';
 import {IAddTransferTemplateRequest} from '../../../services/TemplatesService';
 import {
   addTransactionTemplate,
+  getTransferTemplates,
   MakeTransaction,
 } from '../../../redux/actions/transfers_actions';
 import Routes from '../../../navigation/routes';
@@ -194,13 +195,6 @@ const TransferToBank: React.FC<INavigationProps> = props => {
 
     dispatch(MakeTransaction(toBank, data));
   };
-
-      //cleare state on succes
-      useEffect(() => {
-        if (route.params.transferStep === Routes.TransferToBank_SUCCES) {
-          dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
-        }
-      }, [route.params.transferStep]);
 
   const setBenificarAccount = (account: string | undefined) => {
     dispatch({
@@ -420,7 +414,9 @@ const TransferToBank: React.FC<INavigationProps> = props => {
         return;
       }
       subscriptionService.sendData(SUBSCRIBTION_KEYS.FETCH_USER_ACCOUNTS, true);
-      NavigationService.navigate(navStore.parentRoute);
+      dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
+      dispatch(getTransferTemplates());
+      NavigationService.navigate(Routes.Transactions);
     }
   };
 
@@ -429,8 +425,10 @@ const TransferToBank: React.FC<INavigationProps> = props => {
       const registered = await SmsRetriever.startSmsRetriever();
       if (registered) {
         SmsRetriever.addSmsListener(event => {
+          if (event) {
           const otp = /(\d{4})/g.exec(getString(event.message))![1];
           setOtp(otp);
+          }
         }); 
       }
     } catch (error) {

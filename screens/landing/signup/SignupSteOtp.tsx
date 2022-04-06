@@ -115,8 +115,10 @@ const SignupSteOtp: React.FC = () => {
       const registered = await SmsRetriever.startSmsRetriever();
       if (registered) {
         SmsRetriever.addSmsListener(event => {
+          if (event) {
           const otp = /(\d{4})/g.exec(getString(event.message))![1];
           setOtpGuid(otp);
+          }
         }); 
       }
     } catch (error) {

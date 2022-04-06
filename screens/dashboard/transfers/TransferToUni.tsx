@@ -50,7 +50,7 @@ import {
 import Validation, {required} from '../../../components/UI/Validation';
 import {accountTpeCheckRegX} from '../../../utils/Regex';
 import opClassCodes from '../../../constants/opClassCodes';
-import { TRANSFER_TYPES } from './index';
+import {TRANSFER_TYPES} from './index';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import Routes from '../../../navigation/routes';
 import {
@@ -68,7 +68,10 @@ import {tabHeight} from '../../../navigation/TabNav';
 import NavigationService from '../../../services/NavigationService';
 import {subscriptionService} from '../../../services/subscriptionService';
 import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
-import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 import SmsRetriever from 'react-native-sms-retriever';
 
 type RouteParamList = {
@@ -353,21 +356,17 @@ const TransferToUni: React.FC = () => {
     dispatch(MakeTransaction(toBank, data));
   };
 
-        //cleare state on succes
-        useEffect(() => {
-          if (route.params.transferStep === Routes.TransferToUni_SUCCES) {
-            dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
-          }
-        }, [route.params.transferStep]);
-
   useEffect(() => {
-    setNomination(translate.t('common.toUniWallet'));
+    setNomination(translate.t('transfer.toUniWallet'));
     setTransferType(TRANSFER_TYPES.toUni);
   }, []);
 
   useEffect(() => {
-    if ((route.params.withTemplate || route.params.newTemplate) && TransfersStore.benificarAccount && route.params.transferStep === Routes.TransferToUni_CHOOSE_ACCOUNTS) {
-     
+    if (
+      (route.params.withTemplate || route.params.newTemplate) &&
+      TransfersStore.benificarAccount &&
+      route.params.transferStep === Routes.TransferToUni_CHOOSE_ACCOUNTS
+    ) {
       GetUserDataByAccountNumber(TransfersStore.benificarAccount);
     }
   }, [route.params.withTemplate, route.params.newTemplate]);
@@ -383,7 +382,7 @@ const TransferToUni: React.FC = () => {
       TransfersStore.transactionResponse &&
       route.params.transferStep !== Routes.TransferToUni_TEMPLATE_IS_SAVED
     ) {
-      if (route.params.withTemplate) {
+      if (route.params.newTemplate) {
         setTransferStep(Routes.TransferToUni_TEMPLATE_IS_SAVED);
         return;
       }
@@ -419,8 +418,9 @@ const TransferToUni: React.FC = () => {
         setIsLoading(false);
         return;
       }
+      const val = Validation.validate(ValidationContext);
 
-      if (Validation.validate(ValidationContext)) {
+      if (val) {
         setIsLoading(false);
         return;
       }
@@ -462,7 +462,9 @@ const TransferToUni: React.FC = () => {
       if (getNumber(TransfersStore.amount) < 0.1) {
         dispatch(
           PUSH(
-            `${translate.t('transfer.minimumTransferAmount')} ${CurrencySimbolConverter(GEL)}`,
+            `${translate.t(
+              'transfer.minimumTransferAmount',
+            )} ${CurrencySimbolConverter(GEL)}`,
           ),
         );
         setIsLoading(false);
@@ -493,13 +495,15 @@ const TransferToUni: React.FC = () => {
       }
       subscriptionService.sendData(SUBSCRIBTION_KEYS.FETCH_USER_ACCOUNTS, true);
       dispatch(getTransferTemplates());
-      NavigationService.navigate(navStore.parentRoute);
+      dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
+      NavigationService.navigate(Routes.Transfers);
     } else if (
       route.params.transferStep === Routes.TransferToUni_TEMPLATE_IS_SAVED
     ) {
       subscriptionService.sendData(SUBSCRIBTION_KEYS.FETCH_USER_ACCOUNTS, true);
+      dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
       dispatch(getTransferTemplates());
-      NavigationService.navigate(navStore.parentRoute);
+      NavigationService.navigate(Routes.Transfers);
     }
   };
 
@@ -508,20 +512,20 @@ const TransferToUni: React.FC = () => {
       const registered = await SmsRetriever.startSmsRetriever();
       if (registered) {
         SmsRetriever.addSmsListener(event => {
-          const otp = /(\d{4})/g.exec(getString(event.message))![1];
-          setOtp(otp);
-        }); 
+          if (event) {
+            const otp = /(\d{4})/g.exec(getString(event.message))![1];
+            setOtp(otp);
+          }
+        });
       }
-    } catch (error) {
-  
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
-    if(!TransfersStore.nomination?.trim()) {
+    if (!TransfersStore.nomination?.trim()) {
       setNomination(translate.t('transfer.toUniWallet'));
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     onSmsListener();
@@ -548,7 +552,9 @@ const TransferToUni: React.FC = () => {
                 Routes.TransferToUni_SET_CURRENCY) && (
               <>
                 <View style={styles.accountBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.from')}</Text>
+                  <Text style={styles.accountBoxTitle}>
+                    {translate.t('transfer.from')}
+                  </Text>
 
                   {TransfersStore.selectedFromAccount ? (
                     <AccountItem
@@ -582,7 +588,9 @@ const TransferToUni: React.FC = () => {
                   Routes.TransferToUni_SET_CURRENCY && (
                   <>
                     <View style={styles.accountBox}>
-                      <Text style={styles.accountBoxTitle}>{translate.t('transfer.to')}</Text>
+                      <Text style={styles.accountBoxTitle}>
+                        {translate.t('transfer.to')}
+                      </Text>
 
                       <AppInput
                         style={benificarAccountErrorStyle}
@@ -597,14 +605,14 @@ const TransferToUni: React.FC = () => {
 
                     <View style={styles.accountBox}>
                       <Text style={styles.accountBoxTitle}>
-                      {translate.t('transfer.beneficiaryName')}
+                        {translate.t('transfer.beneficiaryName')}
                       </Text>
 
                       <AppInput
                         style={benificarNameErrorStyle}
                         value={TransfersStore.benificarName}
                         onChange={setBenificarName}
-                        placeholder= {translate.t('transfer.beneficiaryName')}
+                        placeholder={translate.t('transfer.beneficiaryName')}
                         context={ValidationContext}
                         customKey="benificarName"
                         requireds={[required]}
@@ -619,10 +627,12 @@ const TransferToUni: React.FC = () => {
               <>
                 <View style={styles.benificarBox}>
                   <Text style={styles.benificarDetail}>
-                    {translate.t('transfer.to')}: {TransfersStore.benificarAccount}
+                    {translate.t('transfer.to')}:{' '}
+                    {TransfersStore.benificarAccount}
                   </Text>
                   <Text style={styles.benificarDetail}>
-                  {translate.t('transfer.beneficiary')}: {TransfersStore.benificarName}
+                    {translate.t('transfer.beneficiary')}:{' '}
+                    {TransfersStore.benificarName}
                   </Text>
                 </View>
 
@@ -638,7 +648,7 @@ const TransferToUni: React.FC = () => {
                   <View style={styles.currencyBox}>
                     {TransfersStore.selectedFromCurrency ? (
                       <CurrencyItem
-                        defaultTitle={ translate.t("transfer.currency")}
+                        defaultTitle={translate.t('transfer.currency')}
                         currency={TransfersStore.selectedFromCurrency}
                         onCurrencySelect={() => setFromCurrencyVisible(true)}
                         style={styles.currencyItem}
@@ -650,7 +660,9 @@ const TransferToUni: React.FC = () => {
                           styles.currencySelectHandler,
                           fromCurrencyErrorStyle,
                         ]}>
-                        <Text style={styles.currencyPlaceholder}>{ translate.t("transfer.currency")}</Text>
+                        <Text style={styles.currencyPlaceholder}>
+                          {translate.t('transfer.currency')}
+                        </Text>
                         <Image
                           style={styles.dropImg}
                           source={require('./../../../assets/images/down-arrow.png')}
@@ -671,13 +683,18 @@ const TransferToUni: React.FC = () => {
                 </View>
 
                 <View style={styles.nominationBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.nomination')}</Text>
+                  <Text style={styles.accountBoxTitle}>
+                    {translate.t('transfer.nomination')}
+                  </Text>
                   <AppInput
                     customKey="nomination"
                     context={ValidationContext}
                     requireds={[required]}
                     placeholder={translate.t('transfer.nomination')}
-                    value={TransfersStore.nomination || translate.t('transfer.toUniWallet')}
+                    value={
+                      TransfersStore.nomination ||
+                      translate.t('transfer.toUniWallet')
+                    }
                     style={nominationErrorStyle}
                     onChange={setNomination}
                   />
@@ -685,11 +702,13 @@ const TransferToUni: React.FC = () => {
 
                 {route.params.newTemplate && (
                   <View style={styles.nominationBox}>
-                    <Text style={styles.accountBoxTitle}>{ translate.t("template.templateName")}</Text>
+                    <Text style={styles.accountBoxTitle}>
+                      {translate.t('template.templateName')}
+                    </Text>
                     <AppInput
                       customKey="templateName"
                       context={ValidationContext}
-                      placeholder={ translate.t("template.templateName")}
+                      placeholder={translate.t('template.templateName')}
                       requireds={[required]}
                       value={TransfersStore.templateName}
                       style={nominationErrorStyle}
@@ -702,11 +721,15 @@ const TransferToUni: React.FC = () => {
 
             {route.params.transferStep === Routes.TransferToUni_SET_OTP && (
               <View style={styles.insertOtpSTep}>
-                <Text style={styles.insertOtpCode}>{translate.t('otp.enterOtp')}</Text>
+                <Text style={styles.insertOtpCode}>
+                  {translate.t('otp.enterOtp')}
+                </Text>
                 <FloatingLabelInput
                   Style={styles.otpBox}
                   label={translate.t('otp.smsCode')}
-                  title={`${translate.t('otp.otpSent')} ${getString(maskedNumber)}`}
+                  title={`${translate.t('otp.otpSent')} ${getString(
+                    maskedNumber,
+                  )}`}
                   resendTitle={translate.t('otp.resend')}
                   value={otp}
                   onChangeText={setOtp}
@@ -718,7 +741,7 @@ const TransferToUni: React.FC = () => {
             {route.params.transferStep === Routes.TransferToUni_SUCCES && (
               <View style={styles.succesInner}>
                 <Text style={styles.succesText}>
-                {translate.t('transfer.transactionSuccessfull')}
+                  {translate.t('transfer.transactionSuccessfull')}
                 </Text>
                 <Image
                   source={require('./../../../assets/images/succes_icon.png')}

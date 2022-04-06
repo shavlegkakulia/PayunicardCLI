@@ -105,7 +105,7 @@ const AppContainer: FC = () => {
   return (
     <ErrorWrapper>
       <UserInactivity
-        timeForInactivity={80 * 1000}
+        timeForInactivity={110 * 1000}
         isAuth={state.isAuthenticated}>
         <NavigationContainer
           ref={(navigatorRef: NavigationContainerRef) => {

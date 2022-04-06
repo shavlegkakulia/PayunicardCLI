@@ -5,7 +5,6 @@ import {
   PanResponderInstance,
   StyleProp,
   ViewStyle,
-  Alert,
   Modal,
   StyleSheet,
   Dimensions,

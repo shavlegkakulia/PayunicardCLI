@@ -316,6 +316,7 @@ const AppStack: React.FC = () => {
                     route: props.route,
                     title: title,
                     backText: translate.t('common.back'),
+                    hideHeader: true
                   });
                 }}
                 component={TransferToUni}
@@ -332,6 +333,7 @@ const AppStack: React.FC = () => {
                     route: props.route,
                     title: title,
                     backText: translate.t('common.back'),
+                    hideHeader: true
                   });
                 }}
                 component={TransferToUni}

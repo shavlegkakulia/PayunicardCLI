@@ -202,7 +202,7 @@ const InsertAccointAndAmount: React.FC = props => {
     dispatch(
       startPaymentTransaction(
         {
-          forOpClassCode: PaymentStore.currentService?.forOpClassCode,
+          forOpClassCode: PaymentStore.currentService?.forOpClassCode || PaymentStore.paymentDetails?.forOpClassCode,
           forFundsSPCode: 'UniWallet',
           forMerchantCode: PaymentStore.currentService?.merchantCode,
           forMerchantServiceCode:
@@ -398,7 +398,7 @@ const InsertAccointAndAmount: React.FC = props => {
                       {cosumerAddress?.length && cosumerAddress[0].Value}
                     </Text>
                     <Text style={styles.debt}>
-                      {PaymentStore.abonentCode}/{debt?.length && debt[0].Value}
+                      <Text selectable={true} selectionColor={colors.primary}>{PaymentStore.abonentCode}</Text>/{debt?.length && debt[0].Value}
                       {debt.length &&
                         CurrencySimbolConverter(getString(debt[0].CCY))}
                     </Text>
@@ -511,7 +511,10 @@ const InsertAccointAndAmount: React.FC = props => {
         isLoading={PaymentStore.isActionLoading || isLoading}
         label={translate.t('otp.smsCode')}
         buttonText={translate.t('common.next')}
-        onClose={setOtpVisible.bind(this, false)}
+        onClose={() => {
+          setOtpVisible(false);
+          setOtp(undefined);
+        }}
       />
     </>
   );
