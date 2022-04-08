@@ -1,4 +1,4 @@
-import React, {createRef, useCallback, useEffect, useState} from 'react';
+import React, {createRef, useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -13,8 +13,7 @@ import {
   Platform,
   Switch,
   Modal,
-  KeyboardAvoidingView,
-  Keyboard,
+  Keyboard
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
@@ -89,6 +88,12 @@ type RouteParamList = {
   };
 };
 
+enum blockTypes {
+  active = 1,
+  blocked = 2,
+  blockedByBank = 3
+}
+
 const PACKET_TYPE_IDS = {
   wallet: 1,
   upera: 2,
@@ -159,6 +164,14 @@ const ProductDetail: React.FC = props => {
   const isUserVerified =
     documentVerificationStatusCode === userStatuses.Enum_Verified &&
     customerVerificationStatusCode === userStatuses.Enum_Verified;
+    const [userAccount, setUserAccount] = useState<IAccountBallance>(route.params.account);
+
+    useEffect(() => {
+      if(route.params?.account) {
+       // console.log(route.params?.account)
+        setUserAccount(route.params?.account);
+      }
+    }, [route.params.account])
 
   const toggleHrmSwitch = () => {
     if (hrmLoading || actionLoading) return;
@@ -205,7 +218,7 @@ const ProductDetail: React.FC = props => {
   const fetchAccountStatements = () => {
     NetworkService.CheckConnection(() => {
       dispatch(
-        FetchUserAccountStatements({accountID: route.params.account.accountId}),
+        FetchUserAccountStatements({accountID: userAccount?.accountId}),
       );
     });
   };
@@ -350,9 +363,9 @@ const ProductDetail: React.FC = props => {
   const GetUserBlockedFunds = () => {
     setIsFundsLoading(true);
     let data: IGetUserBlockedBlockedFundslistRequest | undefined = {
-      accountNumer: route.params.account.accountNumber,
+      accountNumer: userAccount?.accountNumber,
     };
-    if (!route.params.account.accountNumber) {
+    if (!userAccount?.accountNumber) {
       data = undefined;
     }
     UserService.getUserBlockedFunds(data).subscribe({
@@ -372,19 +385,27 @@ const ProductDetail: React.FC = props => {
 
   const cardBlock = () => {
     NetworkService.CheckConnection(() => {
-      if (route.params.account.cards?.length) {
+      if (userAccount?.cards?.length) {
         setActionLoading(true);
         let cardId: number = getNumber(
-          route.params.account.cards[currentCardIndex]?.cardID,
+          userAccount?.cards?.[currentCardIndex]?.cardID,
         );
-        AccountService.Block({cardId: cardId}).subscribe({
+        const req =  userAccount?.cards?.[currentCardIndex].status === blockTypes.active ? AccountService.Block : AccountService.UnBlock
+        req({cardId: cardId}).subscribe({
           next: Response => {
             if (Response.data.ok) {
               setActionSheetStep({
                 actionSheetType,
                 actionSheetStatus: ACTION_SHEET_STATUSES.succes,
-                actionSheetTitle: translate.t('products.cardBlocked'),
+                actionSheetTitle: translate.t(`products.${userAccount?.cards?.[currentCardIndex].status === blockTypes.active ? 'cardBlocked' : 'cardUnBlocked'}`),
               });
+              dispatch(FetchUserAccounts());
+              const ucc = [...(userAccount?.cards || [])];
+              if(ucc?.length) {
+                ucc[currentCardIndex].status = (ucc?.[currentCardIndex]?.status === blockTypes.active ? blockTypes.blocked : blockTypes.active);
+                setUserAccount({...userAccount, cards: ucc});
+              }
+
             }
           },
           complete: () => {
@@ -413,13 +434,13 @@ const ProductDetail: React.FC = props => {
 
   const startAccountTopup = () => {
     NavigationService.navigate(Routes.Topup, {
-      currentAccount: route.params.account,
+      currentAccount: userAccount,
     });
   };
 
   const startCardBlock = () => {
     setActionSheetStep({
-      actionSheetTitle: translate.t('products.reallyNeedBlockCard'),
+      actionSheetTitle: translate.t(`products.${userAccount?.cards?.[currentCardIndex]?.status === blockTypes.active ? 'reallyNeedBlockCard' : 'reallyNeedUnBlockCard'}`),
       actionSheetStatus: ACTION_SHEET_STATUSES.start,
       actionSheetType: CARD_ACTIONS.card_block,
     });
@@ -471,9 +492,9 @@ const ProductDetail: React.FC = props => {
   };
 
   const ChangePin = () => {
-    if (route.params.account.cards?.length) {
+    if (userAccount?.cards?.length) {
       AccountService.pin({
-        cardid: route.params.account.cards[currentCardIndex]?.cardID,
+        cardid: userAccount?.cards?.[currentCardIndex]?.cardID,
         otp: otp,
       }).subscribe({
         next: Response => {
@@ -684,8 +705,8 @@ const ProductDetail: React.FC = props => {
 
     let cardId = 0;
 
-    if (route?.params?.account.cards) {
-      cardId = getNumber(route?.params?.account.cards[currentCardIndex].cardID);
+    if (userAccount?.cards) {
+      cardId = getNumber(userAccount?.cards?.[currentCardIndex]?.cardID);
     }
 
     const data: IChangeConditionRisklevelUFCRequest = {
@@ -732,7 +753,7 @@ const ProductDetail: React.FC = props => {
   };
 
   useEffect(() => {
-    if (route.params.account.type !== TYPE_UNICARD) {
+    if (userAccount?.type !== TYPE_UNICARD) {
       GetUserBlockedFunds();
     }
   }, []);
@@ -750,8 +771,8 @@ const ProductDetail: React.FC = props => {
   useEffect(() => {
     fetchAccountStatements();
 
-    if (route?.params?.account.cards) {
-      const curCardHrm = route?.params?.account.cards[currentCardIndex]?.hrm;
+    if (userAccount?.cards) {
+      const curCardHrm = userAccount?.cards?.[currentCardIndex]?.hrm;
       console.log('hrm', curCardHrm)
       if (curCardHrm === 1) {
         setIsEnabled(true);
@@ -767,13 +788,13 @@ const ProductDetail: React.FC = props => {
         setIsEnabled2(false);
       }
     }
-  }, [route?.params?.account]);
+  }, [userAccount]);
 
   useEffect(() => {
-    setSelectedFromAccount(route?.params?.account);
-    if (route.params.account.type === PACKET_TYPE_IDS.unicard)
-      GenerateBarcode(getString(route?.params?.account.accountNumber));
-  }, [route?.params?.account]);
+    setSelectedFromAccount(userAccount);
+    if (userAccount?.type === PACKET_TYPE_IDS.unicard)
+      GenerateBarcode(getString(userAccount?.accountNumber));
+  }, [userAccount]);
 
   const onSmsListener = async () => {
     try {
@@ -814,16 +835,16 @@ const ProductDetail: React.FC = props => {
 
       <ReactScroll style={[screenStyles.screenContainer, styles.container]}>
         <View style={styles.transfersSectionContainer}>
-          {route.params.account.type !== PACKET_TYPE_IDS.wallet &&
-            route.params.account.type !== PACKET_TYPE_IDS.unicard &&
-            getNumber(route.params.account.cards?.length) > 1 && (
+          {userAccount?.type !== PACKET_TYPE_IDS.wallet &&
+            userAccount?.type !== PACKET_TYPE_IDS.unicard &&
+            getNumber(userAccount?.cards?.length) > 1 && (
               <PaginationDots
                 step={currentCardIndex}
-                length={route.params.account.cards?.length}
+                length={userAccount?.cards?.length}
               />
             )}
-          {route.params.account.type !== PACKET_TYPE_IDS.wallet &&
-          route.params.account.type !== PACKET_TYPE_IDS.unicard ? (
+          {userAccount?.type !== PACKET_TYPE_IDS.wallet &&
+          userAccount?.type !== PACKET_TYPE_IDS.unicard ? (
             <ScrollView
               style={styles.cards}
               ref={carouselRef}
@@ -831,13 +852,13 @@ const ProductDetail: React.FC = props => {
               showsHorizontalScrollIndicator={false}
               pagingEnabled={true}
               horizontal>
-              {getNumber(route.params.account.cards?.length) > 0 ? (
-                route.params.account.cards?.map((card, index) => (
+              {getNumber(userAccount?.cards?.length) > 0 ? (
+                userAccount?.cards?.map((card, index) => (
                   <View
                     style={[screenStyles.wraper, styles.container]}
                     key={getNumber(card.cardID) + index}>
                     <AccountCard
-                      account={route.params.account}
+                      account={userAccount}
                       cardMask={card.maskedCardNumber}
                       cardContainerStyle={{width: cardWidth}}
                       logo={getCardLogo(getNumber(card.cardTypeID))}
@@ -847,7 +868,7 @@ const ProductDetail: React.FC = props => {
               ) : (
                 <View style={[screenStyles.wraper, styles.container]}>
                   <AccountCard
-                    account={route.params.account}
+                    account={userAccount}
                     cardContainerStyle={{width: cardWidth}}
                   />
                 </View>
@@ -856,10 +877,10 @@ const ProductDetail: React.FC = props => {
           ) : (
             <View style={[screenStyles.wraper, styles.container]}>
               <AccountCard
-                account={route.params.account}
+                account={userAccount}
                 cardContainerStyle={{width: cardWidth}}
               />
-              {route.params.account.type === PACKET_TYPE_IDS.unicard &&
+              {userAccount?.type === PACKET_TYPE_IDS.unicard &&
                 (isBarCodeLoading ? (
                   <ActivityIndicator
                     size="small"
@@ -881,7 +902,7 @@ const ProductDetail: React.FC = props => {
             <Text style={styles.transfersSectionContainerTitle}>
               {translate.t('tabNavigation.payments')}
             </Text>
-            {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
+            {userAccount?.type !== PACKET_TYPE_IDS.unicard && (
               <PaginationDots step={paymentSectionStep} length={2} />
             )}
           </View>
@@ -894,7 +915,7 @@ const ProductDetail: React.FC = props => {
             showsHorizontalScrollIndicator={false}
             pagingEnabled={true}
             scrollEnabled={
-              route.params.account.type !== PACKET_TYPE_IDS.unicard
+              userAccount?.type !== PACKET_TYPE_IDS.unicard
             }
             horizontal>
             {/* <Payments exclude={true} selectdeAccount={selectedFromAccount} /> */}
@@ -925,7 +946,7 @@ const ProductDetail: React.FC = props => {
                   </View>
                 </TouchableOpacity>
 
-                {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
+                {userAccount?.type !== PACKET_TYPE_IDS.unicard && (
                   <>
                     <TouchableOpacity
                       style={styles.sectionContainerItem}
@@ -989,7 +1010,7 @@ const ProductDetail: React.FC = props => {
               </View>
 
               <View style={[styles.sectionContainerColumn, {width: cardWidth}]}>
-                {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
+                {userAccount?.type !== PACKET_TYPE_IDS.unicard && (
                   <>
                     <TouchableOpacity
                       style={styles.sectionContainerItem}
@@ -1079,7 +1100,7 @@ const ProductDetail: React.FC = props => {
             </View>
           </ScrollView>
 
-          {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
+          {userAccount?.type !== PACKET_TYPE_IDS.unicard && (
             <>
               <View style={styles.line}></View>
               <View style={styles.transfersSectionContainerHeader}>
@@ -1091,7 +1112,7 @@ const ProductDetail: React.FC = props => {
             </>
           )}
 
-          {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
+          {userAccount?.type !== PACKET_TYPE_IDS.unicard && (
             <ScrollView
               ref={carouselRef}
               onScroll={({nativeEvent}) =>
@@ -1212,7 +1233,7 @@ const ProductDetail: React.FC = props => {
             </ScrollView>
           )}
 
-          {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
+          {userAccount?.type !== PACKET_TYPE_IDS.unicard && (
             <>
               <View style={styles.line}></View>
               <View style={styles.transfersSectionContainerHeader}>
@@ -1223,27 +1244,27 @@ const ProductDetail: React.FC = props => {
             </>
           )}
 
-          {route.params.account.type !== PACKET_TYPE_IDS.unicard && (
+          {userAccount?.type !== PACKET_TYPE_IDS.unicard && (
             <View style={[screenStyles.wraper, styles.toolItemsWraper]}>
               <View style={[styles.sectionContainerColumn, {width: cardWidth}]}>
-                {route.params.account.type !== PACKET_TYPE_IDS.wallet && (
+                {userAccount?.type !== PACKET_TYPE_IDS.wallet && (
                   <TouchableOpacity
                     style={styles.sectionContainerItem}
                     onPress={startCardBlock}>
                     <View style={styles.sectionContainerItemImageContainer}>
                       <Image
-                        source={require('./../../../assets/images/block-icon.png')}
+                        source={userAccount?.cards?.[currentCardIndex]?.status === blockTypes.active ? require('./../../../assets/images/block-icon.png') : require('./../../../assets/images/unbloked.png')}
                         style={styles.toolsIcon}
                         resizeMode="contain"
                       />
                     </View>
                     <View style={styles.sectionContainerItemDetails}>
-                      {breackWords(translate.t('products.blockCard'))}
+                      {breackWords(translate.t(`products.${userAccount?.cards?.[currentCardIndex]?.status === blockTypes.active ? 'blockCard' : 'unblockCard'}`))}
                     </View>
                   </TouchableOpacity>
                 )}
 
-                {route.params.account.type !== PACKET_TYPE_IDS.wallet && (
+                {userAccount?.type !== PACKET_TYPE_IDS.wallet && (
                   <TouchableOpacity
                     style={styles.sectionContainerItem}
                     onPress={startPinChange}>
@@ -1279,8 +1300,8 @@ const ProductDetail: React.FC = props => {
           )}
         </View>
 
-        {route.params.account.type !== PACKET_TYPE_IDS.wallet &&
-          route.params.account.type !== PACKET_TYPE_IDS.unicard && (
+        {userAccount?.type !== PACKET_TYPE_IDS.wallet &&
+          userAccount?.type !== PACKET_TYPE_IDS.unicard && (
             <>
               <View style={styles.line}></View>
               <View style={[screenStyles.wraper, styles.swiths]}>
@@ -1353,7 +1374,7 @@ const ProductDetail: React.FC = props => {
           <View style={styles.actionButtons}>
             {actionSheetStatus === ACTION_SHEET_STATUSES.start && (
               <AppButton
-                title={translate.t('common.block')}
+                title={translate.t(`common.${userAccount?.cards?.[currentCardIndex]?.status === blockTypes.active ? 'block' : 'unblock'}`)}
                 onPress={cardBlock}
                 backgroundColor={colors.danger}
                 style={styles.actionButton}
@@ -1397,9 +1418,9 @@ const ProductDetail: React.FC = props => {
                 </Text>
               </View>
               <Text style={styles.blockCardMask}>
-                {route.params.account.accountTypeName}{' '}
-                {route.params.account?.cards &&
-                  route.params.account?.cards[currentCardIndex]
+                {userAccount?.accountTypeName}{' '}
+                {userAccount?.cards &&
+                  userAccount?.cards?.[currentCardIndex]
                     ?.maskedCardNumber}
               </Text>
             </>

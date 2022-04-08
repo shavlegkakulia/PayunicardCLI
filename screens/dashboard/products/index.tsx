@@ -181,13 +181,13 @@ const Products: React.FC = props => {
 
   useEffect(() => {
     let userAccounts = [...(userData?.userAccounts || [])];
-    let activeCards = userAccounts.filter(account => {
-      let Account = {...account};
-      let cards = Account.cards?.filter(card => card.status === 1);
-      account.cards = cards;
-      return account;
-    });
-    setActiveAccounts(activeCards);
+    // let activeCards = userAccounts.filter(account => {
+    //   let Account = {...account};
+    //   let cards = Account.cards?.filter(card => card.status === 1);
+    //   account.cards = cards;
+    //   return account;
+    // });
+     setActiveAccounts(userAccounts);
 
     let DetailCurrencies: ICurrency[] = [];
     userAccounts

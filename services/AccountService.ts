@@ -31,6 +31,20 @@ export interface IGetPinResponseData {
   data?: IGetPinResponse | undefined;
 }
 
+export interface IUnBlockCardRequest {
+  cardId?: number;
+}
+
+export interface IUnBlockCardResponse {
+  ufcCardId?: number;
+}
+
+export interface IUnBlockCardResponseData {
+  ok: boolean;
+  errors?: IError[] | undefined;
+  data?: IUnBlockCardResponse | undefined;
+}
+
 class AccountServise {
   Block(data: IBlockCardRequest) {
     let form: IBlockCardRequest = {
@@ -43,6 +57,20 @@ class AccountServise {
     const promise = axios.post<IBlockCardResponseData>(
       `${envs.API_URL}Card/Block`,
       form,
+      {objectResponse: true}
+    );
+    return from(promise);
+  }
+
+  UnBlock(data: IUnBlockCardRequest) {
+    let form: IUnBlockCardRequest = {
+      cardId: data.cardId,
+    };
+
+    const promise = axios.post<IUnBlockCardResponseData>(
+      `${envs.API_URL}Card/UnBlock`,
+      form,
+      {objectResponse: true}
     );
     return from(promise);
   }
