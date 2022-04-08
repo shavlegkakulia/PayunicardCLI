@@ -26,7 +26,7 @@ export interface IGetPinRequest {
 export interface IGetPinResponse {}
 
 export interface IGetPinResponseData {
-  OK: boolean;
+  ok: boolean;
   errors?: IError[] | undefined;
   data?: IGetPinResponse | undefined;
 }

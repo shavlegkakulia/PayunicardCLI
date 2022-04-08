@@ -497,8 +497,8 @@ const ProductDetail: React.FC = props => {
         cardid: userAccount?.cards?.[currentCardIndex]?.cardID,
         otp: otp,
       }).subscribe({
-        next: Response => {
-          if (Response.data.OK) {
+        next: Response => { 
+          if (Response.data.ok) {
             setOtp(undefined);
             setActionSheetStep({
               actionSheetType,
