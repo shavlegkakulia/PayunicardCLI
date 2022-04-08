@@ -14,6 +14,7 @@ import {
   Switch,
   Modal,
   KeyboardAvoidingView,
+  Keyboard,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
@@ -782,6 +783,7 @@ const ProductDetail: React.FC = props => {
           if (event) {
           const otp = /(\d{4})/g.exec(getString(event.message))![1];
           setOtp(otp);
+          Keyboard.dismiss();
           }
         }); 
       }

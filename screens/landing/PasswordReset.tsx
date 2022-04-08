@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Keyboard, StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import PaginationDots from '../../components/PaginationDots';
 import AppButton from '../../components/UI/AppButton';
@@ -238,6 +238,7 @@ const PasswordReset: React.FC<IProps> = props => {
           if (event) {
           const otp = /(\d{4})/g.exec(getString(event.message))![1];
           setOtp(otp);
+          Keyboard.dismiss();
           }
         }); 
       }

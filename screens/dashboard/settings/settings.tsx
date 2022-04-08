@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   Modal,
   Platform,
@@ -395,6 +396,7 @@ const Settings: React.FC = () => {
           if (event) {
           const otp = /(\d{4})/g.exec(getString(event.message))![1];
           setOtp(otp);
+          Keyboard.dismiss();
           }
         });
       }

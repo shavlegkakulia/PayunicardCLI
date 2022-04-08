@@ -1,5 +1,5 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity, Keyboard} from 'react-native';
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
@@ -179,6 +179,7 @@ const SignupForm: React.FC<IProps> = props => {
           if (event) {
           const otp = /(\d{4})/g.exec(getString(event.message))![1];
           setOtpGuid(otp);
+          Keyboard.dismiss();
           }
         }); 
       }

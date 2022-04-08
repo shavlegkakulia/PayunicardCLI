@@ -9,6 +9,7 @@ import {
   ViewStyle,
   KeyboardAvoidingView,
   ScrollView,
+  Keyboard,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AccountSelect, {
@@ -428,6 +429,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
           if (event) {
           const otp = /(\d{4})/g.exec(getString(event.message))![1];
           setOtp(otp);
+          Keyboard.dismiss();
           }
         }); 
       }

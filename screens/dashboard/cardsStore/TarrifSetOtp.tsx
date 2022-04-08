@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, KeyboardAvoidingView} from 'react-native';
+import {View, StyleSheet, KeyboardAvoidingView, Keyboard} from 'react-native';
 import FloatingLabelInput from '../../../containers/otp/Otp';
 import colors from '../../../constants/colors';
 import screenStyles from '../../../styles/screens';
@@ -173,6 +173,7 @@ const TarrifSetOtp: React.FC = props => {
           if (event) {
           const otp = /(\d{4})/g.exec(getString(event.message))![1];
           setOtp(otp);
+          Keyboard.dismiss();
           }
         }); 
       }

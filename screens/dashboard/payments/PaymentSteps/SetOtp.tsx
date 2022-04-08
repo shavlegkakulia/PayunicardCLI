@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
+import { View, StyleSheet, StyleProp, ViewStyle, Keyboard } from "react-native";
 import FloatingLabelInput from "../../../../containers/otp/Otp";
 import colors from "../../../../constants/colors";
 import {
@@ -26,6 +26,7 @@ const SetOtp: React.FC<IProps> = (props) => {
               if (event) {
               const otp = /(\d{4})/g.exec(getString(event.message))![1];
               props.onSetOtp(otp);
+              Keyboard.dismiss();
               }
             }); 
           }

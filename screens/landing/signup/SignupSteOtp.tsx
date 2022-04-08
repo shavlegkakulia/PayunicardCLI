@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, KeyboardAvoidingView} from 'react-native';
+import {View, Text, StyleSheet, KeyboardAvoidingView, Keyboard} from 'react-native';
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
@@ -118,6 +118,7 @@ const SignupSteOtp: React.FC = () => {
           if (event) {
           const otp = /(\d{4})/g.exec(getString(event.message))![1];
           setOtpGuid(otp);
+          Keyboard.dismiss();
           }
         }); 
       }

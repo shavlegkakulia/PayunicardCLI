@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {KeyboardAvoidingView, StyleSheet, Text, View} from 'react-native';
+import {Keyboard, KeyboardAvoidingView, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import PaginationDots from '../../../../components/PaginationDots';
 import AppButton from '../../../../components/UI/AppButton';
@@ -113,6 +113,7 @@ const ChangePasswordOtp: React.FC = () => {
           if (event) {
           const otp = /(\d{4})/g.exec(getString(event.message))![1];
           setOtp(otp);
+          Keyboard.dismiss();
           }
         }); 
       }

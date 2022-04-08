@@ -87,6 +87,7 @@ const LoginForm: React.FC = () => {
           if (event) {
           const otp = /(\d{4})/g.exec(getString(event.message))![1];
           setOtp(otp);
+          Keyboard.dismiss();
           }
         });
       }
@@ -173,7 +174,7 @@ const LoginForm: React.FC = () => {
         otp: otp,
       };
       AuthService.SignIn({User}).subscribe({
-        next: async Response => {console.log(Response.data)
+        next: async Response => {
           const date = new Date();
           date.setSeconds(date.getSeconds() + Response.data.expires_in);
           const expObject = {

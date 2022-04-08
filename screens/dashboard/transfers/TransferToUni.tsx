@@ -9,6 +9,7 @@ import {
   ViewStyle,
   ScrollView,
   KeyboardAvoidingView,
+  Keyboard,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AccountSelect, {
@@ -515,6 +516,7 @@ const TransferToUni: React.FC = () => {
           if (event) {
             const otp = /(\d{4})/g.exec(getString(event.message))![1];
             setOtp(otp);
+            Keyboard.dismiss();
           }
         });
       }

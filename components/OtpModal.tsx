@@ -43,6 +43,7 @@ const OtpModal: React.FC<IProps> = props => {
           if (event) {
           const otp = /(\d{4})/g.exec(getString(event.message))![1];
           props.onSetOtp(otp);
+          Keyboard.dismiss();
           }
         });
       }
