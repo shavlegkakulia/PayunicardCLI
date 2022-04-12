@@ -300,7 +300,7 @@ const Transfers: React.FC<INavigationProps> = props => {
   }, [userData.userAccounts]);
 
   const isDisabled = isUserVerified ? {} : {opacity: 0.5};
- console.log(TransfersStore.transferTemplates)
+  
   return (
     <>
       <DashboardLayout>

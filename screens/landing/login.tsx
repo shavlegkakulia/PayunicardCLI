@@ -191,7 +191,7 @@ const LoginForm: React.FC = () => {
             ),
           );
         },
-        error: error => { console.log(error.response)
+        error: error => {
           if (
             stringToObject(error.response).data.error ===
             require_password_change

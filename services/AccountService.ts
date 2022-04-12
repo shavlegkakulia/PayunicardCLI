@@ -84,6 +84,7 @@ class AccountServise {
     const promise = axios.post<IGetPinResponseData>(
       `${envs.API_URL}Card/pin`,
       form,
+      {objectResponse: true}
     );
     return from(promise);
   }

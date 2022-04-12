@@ -39,7 +39,6 @@ const IdleHook: React.FC = props => {
     isrefresfing.current = true;
 
     if (accesRefresh.current) clearTimeout(accesRefresh.current);
-    console.log(refreshToken, accesToken);
 
     return axios
       .post<IAuthorizationResponse>(

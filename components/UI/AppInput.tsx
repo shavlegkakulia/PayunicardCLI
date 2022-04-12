@@ -202,9 +202,10 @@ const BaseInput: React.FC<IProps> = props => {
 
     return is;
   };
+  
   return (
     <TouchableOpacity
-      style={[styles.baseInput, props.style, {...style}]}
+      style={[styles.baseInput, {...style}, props.style]}
       onPress={() => props.refer?.current?.focus()}>
       {props.input}
       {/* {style.borderColor === colors.danger && 

@@ -9,7 +9,7 @@ import {
   ViewStyle,
   ScrollView,
   KeyboardAvoidingView,
-  Keyboard,
+  Keyboard
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AccountSelect, {
@@ -358,6 +358,7 @@ const TransferToUni: React.FC = () => {
   };
 
   useEffect(() => {
+    if (!TransfersStore.nomination?.trim())
     setNomination(translate.t('transfer.toUniWallet'));
     setTransferType(TRANSFER_TYPES.toUni);
   }, []);
@@ -452,7 +453,7 @@ const TransferToUni: React.FC = () => {
         setFromCurrencyErrorStyle({});
       }
 
-      if (!TransfersStore.nomination) {
+      if (!TransfersStore.nomination?.trim().length) {
         setNominationErrorStyle({borderColor: colors.danger, borderWidth: 1});
         setIsLoading(false);
         return;
@@ -522,12 +523,6 @@ const TransferToUni: React.FC = () => {
       }
     } catch (error) {}
   };
-
-  useEffect(() => {
-    if (!TransfersStore.nomination?.trim()) {
-      setNomination(translate.t('transfer.toUniWallet'));
-    }
-  }, []);
 
   useEffect(() => {
     onSmsListener();
@@ -694,8 +689,7 @@ const TransferToUni: React.FC = () => {
                     requireds={[required]}
                     placeholder={translate.t('transfer.nomination')}
                     value={
-                      TransfersStore.nomination ||
-                      translate.t('transfer.toUniWallet')
+                      TransfersStore.nomination
                     }
                     style={nominationErrorStyle}
                     onChange={setNomination}

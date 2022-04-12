@@ -49,7 +49,6 @@ class UserInactivity extends PureComponent<IProps, any> {
   };
 
   onAction = (value: boolean) => {
-    console.log('***', value);
     if (!value) {
       this.props.logout && this.props.logout();
     }

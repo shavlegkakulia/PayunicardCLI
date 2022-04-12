@@ -493,6 +493,7 @@ const ProductDetail: React.FC = props => {
 
   const ChangePin = () => {
     if (userAccount?.cards?.length) {
+      setActionLoading(true);
       AccountService.pin({
         cardid: userAccount?.cards?.[currentCardIndex]?.cardID,
         otp: otp,
@@ -773,7 +774,6 @@ const ProductDetail: React.FC = props => {
 
     if (userAccount?.cards) {
       const curCardHrm = userAccount?.cards?.[currentCardIndex]?.hrm;
-      console.log('hrm', curCardHrm)
       if (curCardHrm === 1) {
         setIsEnabled(true);
         setIsEnabled2(true);
@@ -1389,6 +1389,7 @@ const ProductDetail: React.FC = props => {
               }`}
               onPress={closeActionSheet}
               style={styles.actionButton}
+              isLoading={actionLoading}
             />
           </View>
         </View>
@@ -1462,6 +1463,7 @@ const ProductDetail: React.FC = props => {
                   ? translate.t('common.next')
                   : translate.t('common.close')
               }`}
+              isLoading={actionLoading}
               onPress={pinChangeActions}
               style={styles.actionButton}
             />
