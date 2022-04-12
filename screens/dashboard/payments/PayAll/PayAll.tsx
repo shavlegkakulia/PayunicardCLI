@@ -413,7 +413,7 @@ const PayAll: React.FC<INavigationProps> = props => {
                               style={styles.amount}
                             />
                             <Text style={{color: colors.danger}}>
-                              {CurrencySimbolConverter(GEL)}
+                              {CurrencySimbolConverter(GEL, translate.key)}
                             </Text>
                           </View>
                         </View>
@@ -427,7 +427,7 @@ const PayAll: React.FC<INavigationProps> = props => {
                     {translate.t('common.amount')}{' '}
                     <Text style={{color: colors.danger}}>
                       {CurrencyConverter(coumputeTemplatesDebt().toFixed(2))}
-                      {CurrencySimbolConverter(GEL)}
+                      {CurrencySimbolConverter(GEL, translate.key)}
                     </Text>
                   </Text>
                   {route.params.paymentStep === PAYMENT_STEPS.CHECK_DEBT && (
@@ -438,7 +438,7 @@ const PayAll: React.FC<INavigationProps> = props => {
                           {CurrencyConverter(
                             coumputeTemplatesDetailDebt().toFixed(2),
                           )}
-                          {CurrencySimbolConverter(GEL)}
+                          {CurrencySimbolConverter(GEL, translate.key)}
                         </Text>
                       </Text>
                       <Text style={styles.templatesComputedDebt}>
@@ -450,7 +450,7 @@ const PayAll: React.FC<INavigationProps> = props => {
                               coumputeTemplatesDetailDebt()
                             ).toFixed(2),
                           )}
-                          {CurrencySimbolConverter(GEL)}
+                          {CurrencySimbolConverter(GEL, translate.key)}
                         </Text>
                       </Text>
                     </>

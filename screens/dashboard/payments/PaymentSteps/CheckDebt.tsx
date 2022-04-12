@@ -141,7 +141,7 @@ const CheckDebt: React.FC<INavigationProps> = props => {
                   </Text>
                   <Text style={styles.debt}>
                     {PaymentStore.abonentCode}/{debt && debt[0]?.Value}
-                    {CurrencySimbolConverter(debt && debt[0]?.CCY)}
+                    {CurrencySimbolConverter(debt && debt[0]?.CCY, translate.key)}
                   </Text>
                 </View>
               </View>
@@ -182,7 +182,7 @@ const CheckDebt: React.FC<INavigationProps> = props => {
                   <Text style={styles.item}>{translate.t('payments.debt')}: </Text>
                   <Text style={[styles.item, styles.ccy]}>
                     {debt[0].Value}
-                    {CurrencySimbolConverter(debt[0].CCY)}
+                    {CurrencySimbolConverter(debt[0].CCY, translate.key)}
                   </Text>
                 </View>
               ) : null}

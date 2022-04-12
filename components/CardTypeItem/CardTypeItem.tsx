@@ -8,7 +8,9 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import colors from '../../constants/colors';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../redux/action_types/translate_action_types';
 import {ICardType, IPackageCard} from '../../services/PresentationServive';
 import { CurrencyConverter, CurrencySimbolConverter } from '../../utils/Converter';
 import AppCheckbox from '../UI/AppCheckbox';
@@ -22,6 +24,9 @@ interface IItemProps {
 }
 
 export const CardTypeItem: React.FC<IItemProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const cardSelect = () => {
     if (props.disable) return;
     props.onCardSelect(props.card);
@@ -57,7 +62,7 @@ export const CardTypeItem: React.FC<IItemProps> = props => {
           <View style={styles.ccyContainer}>
             {props.packageCardTypes?.map(currency => (
               <Text key={currency.ccy} style={styles.ccy}>
-                {CurrencySimbolConverter(currency.ccy)}{' '}
+                {CurrencySimbolConverter(currency.ccy, translate.key)}{' '}
                 {CurrencyConverter(0)}
               </Text>
             ))}

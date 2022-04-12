@@ -126,7 +126,7 @@ const AccountCard: React.FC<OProps> = props => {
             <View style={styles.cardBalanceContainer}>
               <Text style={styles.cardBallance}>
                 {CurrencyConverter(getAvailableBalanceByPrioritiCCY())}
-                {CurrencySimbolConverter(props.account.ccyPriority)}
+                {CurrencySimbolConverter(props.account.ccyPriority, translate.key)}
               </Text>
               {props.account.type === PACKET_TYPE_IDS.unicard && (
                 <Image

@@ -86,13 +86,13 @@ const OrderedCard: React.FC<IProps> = props => {
               <View style={styles.cardBalanceContainer}>
                 <Text style={styles.cardBallance}>
                   {CurrencyConverter(props.card.amount)}
-                  {CurrencySimbolConverter(GEL)}
+                  {CurrencySimbolConverter(GEL, translate.key)}
                 </Text>
               </View>
               <View style={styles.cardCurrencyBalance}>
                 <TouchableOpacity activeOpacity={1}>
                   <Text style={styles.cardCurrency}>
-                    {CurrencySimbolConverter(GEL)} {CurrencyConverter(0)}
+                    {CurrencySimbolConverter(GEL, translate.key)} {CurrencyConverter(0)}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity activeOpacity={1}>
@@ -120,7 +120,7 @@ const OrderedCard: React.FC<IProps> = props => {
                   {translate.t('payments.totalDue')}:{' '}
                   <Text style={styles.bolder}>
                     {CurrencyConverter(props.card.amount)}{' '}
-                    {CurrencySimbolConverter(GEL)}
+                    {CurrencySimbolConverter(GEL, translate.key)}
                   </Text>
                 </Text>
 

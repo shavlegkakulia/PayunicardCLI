@@ -465,7 +465,7 @@ const TransferToUni: React.FC = () => {
           PUSH(
             `${translate.t(
               'transfer.minimumTransferAmount',
-            )} ${CurrencySimbolConverter(GEL)}`,
+            )} ${CurrencySimbolConverter(GEL, translate.key)}`,
           ),
         );
         setIsLoading(false);

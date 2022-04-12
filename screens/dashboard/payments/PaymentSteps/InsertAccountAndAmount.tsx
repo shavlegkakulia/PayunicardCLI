@@ -114,7 +114,7 @@ const InsertAccointAndAmount: React.FC = props => {
         PUSH(
           `${translate.t('common.minPayAmount')} ${
             PaymentStore.paymentDetails?.minAmount
-          }${CurrencySimbolConverter(GEL)}`,
+          }${CurrencySimbolConverter(GEL, translate.key)}`,
         ),
       );
       setIsLoading(false);
@@ -129,7 +129,7 @@ const InsertAccointAndAmount: React.FC = props => {
         PUSH(
           `${translate.t('common.maxPayAmount')} ${
             PaymentStore.paymentDetails?.maxAmount
-          }${CurrencySimbolConverter(GEL)}`,
+          }${CurrencySimbolConverter(GEL, translate.key)}`,
         ),
       );
       setIsLoading(false);
@@ -400,7 +400,7 @@ const InsertAccointAndAmount: React.FC = props => {
                     <Text style={styles.debt}>
                       <Text selectable={true} selectionColor={colors.primary}>{PaymentStore.abonentCode}</Text>/{debt?.length && debt[0].Value}
                       {debt.length &&
-                        CurrencySimbolConverter(getString(debt[0].CCY))}
+                        CurrencySimbolConverter(getString(debt[0].CCY), translate.key)}
                     </Text>
                   </View>
                 </View>
@@ -459,7 +459,7 @@ const InsertAccointAndAmount: React.FC = props => {
                     {CurrencyConverter(
                       getNumber(PaymentStore.paymentDetails?.amountFee),
                     )}{' '}
-                    {CurrencySimbolConverter(GEL)}
+                    {CurrencySimbolConverter(GEL, translate.key)}
                   </Text>
                   {PaymentStore.paymentDetails?.amount !== undefined && (
                     <Text style={styles.amountValue}>
@@ -470,7 +470,7 @@ const InsertAccointAndAmount: React.FC = props => {
                         // :
                         getNumber(PaymentStore.paymentDetails?.amount),
                       )}{' '}
-                      {CurrencySimbolConverter(GEL)}
+                      {CurrencySimbolConverter(GEL, translate.key)}
                     </Text>
                   )}
 
@@ -480,14 +480,14 @@ const InsertAccointAndAmount: React.FC = props => {
                       {CurrencyConverter(
                         getNumber(PaymentStore.paymentDetails?.minAmount),
                       )}{' '}
-                      {CurrencySimbolConverter(GEL)}
+                      {CurrencySimbolConverter(GEL, translate.key)}
                     </Text>
                     <Text style={[styles.amountRange]}>
                       {translate.t('common.maxAmount')}:{' '}
                       {CurrencyConverter(
                         getNumber(PaymentStore.paymentDetails?.maxAmount),
                       )}{' '}
-                      {CurrencySimbolConverter(GEL)}
+                      {CurrencySimbolConverter(GEL, translate.key)}
                     </Text>
                   </View>
                 </View>

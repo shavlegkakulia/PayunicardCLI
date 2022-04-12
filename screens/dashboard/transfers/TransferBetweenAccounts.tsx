@@ -267,7 +267,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
       if (getNumber(TransfersStore.amount) < 0.1) {
         dispatch(
           PUSH(
-            `${translate.t('common.minTransfAmount')} 0.1 ${CurrencySimbolConverter(GEL)}`,
+            `${translate.t('common.minTransfAmount')} 0.1 ${CurrencySimbolConverter(GEL, translate.key)}`,
           ),
         );
         setIsLoading(false);

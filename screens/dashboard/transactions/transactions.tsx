@@ -770,11 +770,11 @@ const Transactions: React.FC = () => {
             <>
               <Text style={styles.filterItem}>
                 {translate.t('transfer.startBalance')}:{' '}
-                {CurrencyConverter(startBalance)} {CurrencySimbolConverter(GEL)}
+                {CurrencyConverter(startBalance)} {CurrencySimbolConverter(GEL, translate.key)}
               </Text>
               <Text style={styles.filterItem}>
                 {translate.t('transfer.endBalance')}:{' '}
-                {CurrencyConverter(endBalance)} {CurrencySimbolConverter(GEL)}
+                {CurrencyConverter(endBalance)} {CurrencySimbolConverter(GEL, translate.key)}
               </Text>
             </>
           )}

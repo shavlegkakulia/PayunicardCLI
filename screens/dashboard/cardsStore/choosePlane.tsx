@@ -250,7 +250,7 @@ const choosePlane: React.FC = props => {
         {/* <View style={styles.bline}>
           <Text style={styles.info}>
           {translate.t('orderCard.tariffPrice')}
-            {CurrencyConverter(period === Periodes.Year ? selectedPackage?.priceAnnual : selectedPackage?.priceQuarterly)} ₾
+            {CurrencyConverter(period === Periodes.Year ? selectedPackage?.priceAnnual : selectedPackage?.priceQuarterly)} currencies.GEL
           </Text>
         </View> */}
       </View>

@@ -1,6 +1,8 @@
 import React from "react";
 import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 import colors from "../../../constants/colors";
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from "../../../redux/action_types/translate_action_types";
 import { ITransaction } from "../../../services/CardService";
 import { IFund, IStatements } from "../../../services/UserService";
 import { CurrencyConverter, CurrencySimbolConverter, getNumber } from "../../../utils/Converter";
@@ -15,6 +17,10 @@ interface IProps {
 }
 
 const TransactionItem: React.FC<IProps> = (props) => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
+  
     return (
       <View>
         {!props.unicards ? (
@@ -52,7 +58,7 @@ const TransactionItem: React.FC<IProps> = (props) => {
                     <View style={styles.transactionsViewItemInnerRight}>
                       <Text style={styles.transactionViewItemAmountFund}>
                         {CurrencyConverter(statement.amount)}{' '}
-                        {CurrencySimbolConverter(statement.currency?.trim())}
+                        {CurrencySimbolConverter(statement.currency?.trim(), translate.key)}
                       </Text>
                       <Image
                         source={require('./../../../assets/images/verticall-dots.png')}
@@ -105,7 +111,7 @@ const TransactionItem: React.FC<IProps> = (props) => {
                       <View style={styles.transactionsViewItemInnerRight}>
                         <Text style={[styles.transactionViewItemAmount, getNumber(st.amount) >= 0 && {color: colors.primary}]}>
                           {CurrencyConverter(st.amount)}{' '}
-                          {CurrencySimbolConverter(st.ccy?.trim())}
+                          {CurrencySimbolConverter(st.ccy?.trim(), translate.key)}
                         </Text>
                         <Image
                           source={require('./../../../assets/images/verticall-dots.png')}

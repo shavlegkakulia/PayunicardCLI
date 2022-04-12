@@ -21,7 +21,9 @@ import AccountSelect, {
 import AppButton from '../../../components/UI/AppButton';
 import {TYPE_UNICARD} from '../../../constants/accountTypes';
 import colors from '../../../constants/colors';
+import currencies, { GEL } from '../../../constants/currencies';
 import CardTab from '../../../containers/TarrifAndCard/CardTab';
+import { ka_ge } from '../../../lang';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import {PUSH} from '../../../redux/actions/error_action';
@@ -494,10 +496,10 @@ const TarriffCalculator: React.FC = props => {
                           ? route.params.package?.priceAnnual
                           : route.params.package?.priceQuarterly,
                       ),
-                    )} ₾`
+                    )} ${translate.key === ka_ge ? currencies.GEL : GEL}`
                   : `${translate.t('orderCard.cardPrice')}: ${CurrencyConverter(
                       cardTarrif?.tariffAmount,
-                    )} ₾`}
+                    )} ${translate.key === ka_ge ? currencies.GEL : GEL}`}
               </Text>
             </View>
           </View>

@@ -457,7 +457,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
       if (getNumber(fromAmount) < 1) {
         dispatch(
           PUSH(
-            `${translate.t('transfer.minimumTransferAmount')} ${CurrencySimbolConverter(GEL)}`,
+            `${translate.t('transfer.minimumTransferAmount')} ${CurrencySimbolConverter(GEL, translate.key)}`,
           ),
         );
         setIsLoading(false);
@@ -689,9 +689,9 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
 
                 <View style={{marginTop: 20}}>
                   <Text>
-                  {translate.t('transfer.currencyRate')} : 1{CurrencySimbolConverter(baseCcyFrom)} ={' '}
+                  {translate.t('transfer.currencyRate')} : 1{CurrencySimbolConverter(baseCcyFrom, translate.key)} ={' '}
                     {currencyRate?.toFixed(2)}
-                    {CurrencySimbolConverter(baseCcyTo)}
+                    {CurrencySimbolConverter(baseCcyTo, translate.key)}
                   </Text>
                 </View>
 

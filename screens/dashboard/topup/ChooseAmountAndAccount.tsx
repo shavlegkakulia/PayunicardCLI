@@ -28,6 +28,7 @@ import Validation, {
 import {TYPE_UNICARD} from '../../../constants/accountTypes';
 import colors from '../../../constants/colors';
 import currencies, {GEL} from '../../../constants/currencies';
+import { ka_ge } from '../../../lang';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import {PUSH} from '../../../redux/actions/error_action';
@@ -270,7 +271,7 @@ const ChooseAmountAndAccount: React.FC = () => {
   const _currency: ICurrency[] = [
     {
       key: GEL,
-      value: currencies.GEL,
+      value: translate.key === ka_ge ? currencies.GEL : GEL,
       balance: 0,
       available: 0,
       availableBal: 0,

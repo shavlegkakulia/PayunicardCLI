@@ -21,6 +21,8 @@ import AppSelect, {
 } from '../../../components/UI/AppSelect/AppSelect';
 import Validation, {required} from '../../../components/UI/Validation';
 import colors from '../../../constants/colors';
+import currencies, { GEL } from '../../../constants/currencies';
+import { ka_ge } from '../../../lang';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import {
@@ -309,7 +311,7 @@ const DelyveryMethods: React.FC = props => {
             <View style={styles.bottomInfo}>
               <Text style={styles.li}>
               {translate.t('orderCard.deliveryPrice')}:{' '}
-                {CurrencyConverter(cardTarrif?.deliveryAmount)}₾
+                {CurrencyConverter(cardTarrif?.deliveryAmount)}{translate.key === ka_ge ? currencies.GEL : GEL}
               </Text>
               <Text style={styles.li}>
               {translate.t('orderCard.cardPrice')}:{' '}
@@ -320,7 +322,7 @@ const DelyveryMethods: React.FC = props => {
                       : route.params.cardTarrif.tariffAmount,
                   ),
                 )}
-                ₾
+                {translate.key === ka_ge ? currencies.GEL : GEL}
               </Text>
               {route.params.package?.priceAnnual !== undefined && (
                 <Text style={styles.li}>
@@ -328,7 +330,7 @@ const DelyveryMethods: React.FC = props => {
                   {CurrencyConverter(
                     getNumber(route.params.period === Periodes.Year ? route.params.package?.priceAnnual : route.params.package?.priceQuarterly),
                   )}
-                  ₾
+                  {translate.key === ka_ge ? currencies.GEL : GEL}
                 </Text>
               )}
               <Text style={[styles.li, styles.lastLi]}>
@@ -340,7 +342,7 @@ const DelyveryMethods: React.FC = props => {
                     getNumber(cardTarrif?.deliveryAmount) +
                     getNumber(route.params.period === Periodes.Year ? route.params.package?.priceAnnual : route.params.package?.priceQuarterly),
                 )}{' '}
-                ₾
+                {translate.key === ka_ge ? currencies.GEL : GEL}
               </Text>
             </View>
           </View>

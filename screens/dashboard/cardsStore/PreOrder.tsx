@@ -5,6 +5,8 @@ import {useSelector} from 'react-redux';
 import {StoreActionType} from '.';
 import AppButton from '../../../components/UI/AppButton';
 import colors from '../../../constants/colors';
+import currencies, { GEL } from '../../../constants/currencies';
+import { ka_ge } from '../../../lang';
 import Routes from '../../../navigation/routes';
 import {tabHeight} from '../../../navigation/TabNav';
 import {
@@ -174,34 +176,34 @@ const PreOrder: React.FC = props => {
           </Text>
           {!hasTotalFee && (
             <Text style={styles.info}>
-             {translate.t('orderCard.warningText').replace('{date}', futureDay(7)).replace('{tariffPrice}', CurrencyConverter(getNumber(route.params.tarrifAmount))+'₾')}
+             {translate.t('orderCard.warningText').replace('{date}', futureDay(7)).replace('{tariffPrice}', CurrencyConverter(getNumber(route.params.tarrifAmount)) + translate.key === ka_ge ? currencies.GEL : GEL)}
             </Text>
           )}
           <View style={styles.bottomInfo}>
             <View style={styles.ul}>
               <Text style={styles.li}>{translate.t('orderCard.deliveryPrice')}:</Text>
               <Text style={styles.li}>
-                {CurrencyConverter(route.params.deliveryAmount)}₾
+                {CurrencyConverter(route.params.deliveryAmount)}{translate.key === ka_ge ? currencies.GEL : GEL}
               </Text>
             </View>
             <View style={styles.ul}>
               <Text style={styles.li}>{translate.t('orderCard.cardPrice')}:</Text>
               <Text style={styles.li}>
-                {CurrencyConverter(getNumber(route.params.cardAmount))}₾
+                {CurrencyConverter(getNumber(route.params.cardAmount))}{translate.key === ka_ge ? currencies.GEL : GEL}
               </Text>
             </View>
             {route.params.orderType === StoreActionType.TarrifPlan && (
               <View style={styles.ul}>
                 <Text style={styles.li}>{translate.t('orderCard.tariffPrice')}:</Text>
                 <Text style={styles.li}>
-                  {CurrencyConverter(getNumber(route.params.tarrifAmount))}₾
+                  {CurrencyConverter(getNumber(route.params.tarrifAmount))}{translate.key === ka_ge ? currencies.GEL : GEL}
                 </Text>
               </View>
             )}
             <View style={styles.ul}>
               <Text style={[styles.li, styles.lastLi]}>{translate.t('payments.totalDue')}:</Text>
               <Text style={[styles.li, styles.lastLi]}>
-                {CurrencyConverter(route.params.totalFee)} ₾
+                {CurrencyConverter(route.params.totalFee)}{translate.key === ka_ge ? currencies.GEL : GEL}
               </Text>
             </View>
           </View>

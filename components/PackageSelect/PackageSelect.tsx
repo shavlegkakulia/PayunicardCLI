@@ -9,9 +9,11 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import colors from '../../constants/colors';
 import {GEL} from '../../constants/currencies';
 import {useDimension} from '../../hooks/useDimension';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../redux/action_types/translate_action_types';
 import {Periodes} from '../../screens/dashboard/cardsStore/choosePlane';
 import { PacketTypeIds } from '../../screens/dashboard/cardsStore/TarriffCalculator';
 import {IPackage} from '../../services/PresentationServive';
@@ -41,6 +43,10 @@ interface IItemProps {
 }
 
 export const PackageItem: React.FC<IItemProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
+  
   const selectPackage = () => {
     if (props.disable) return;
     props.onPackageSelect(props.package);
@@ -67,7 +73,7 @@ export const PackageItem: React.FC<IItemProps> = props => {
             ? props.package.priceQuarterly
             : props.package.priceAnnual)
         )}
-        {CurrencySimbolConverter(GEL)}
+        {CurrencySimbolConverter(GEL, translate.key)}
       </Text>
     </TouchableOpacity>
   );

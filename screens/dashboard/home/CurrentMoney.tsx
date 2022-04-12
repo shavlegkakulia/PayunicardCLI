@@ -39,7 +39,7 @@ const CurrentMoney: React.FC = () => {
         ) : (
           <Text style={styles.currencyValue}>
             {CurrencyConverter(userData.userTotalBalance?.balance)}
-            {CurrencySimbolConverter(userData.userTotalBalance?.ccy)}
+            {CurrencySimbolConverter(userData.userTotalBalance?.ccy, translate.key)}
           </Text>
         )}
       </View>

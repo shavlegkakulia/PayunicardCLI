@@ -7,6 +7,7 @@ import currencies, {
   GBP,
   TRY,
 } from '../constants/currencies';
+import { ka_ge } from '../lang';
 
 export const CurrencyConverter = (value: string | number = '0') => {
   return parseFloat(value?.toString())
@@ -15,10 +16,10 @@ export const CurrencyConverter = (value: string | number = '0') => {
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 };
 
-export const CurrencySimbolConverter = (currency?: string) => {
+export const CurrencySimbolConverter = (currency?: string, lang?: string) => {
   switch (currency) {
     case GEL:
-      return currencies.GEL;
+      return lang === ka_ge ? currencies.GEL : GEL;
     case USD:
       return currencies.USD;
     case RUB:

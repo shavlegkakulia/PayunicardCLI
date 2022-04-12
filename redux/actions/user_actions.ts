@@ -27,6 +27,7 @@ import {
   UNICARD_ULTRA,
   UPERA,
 } from '../../constants/accountTypes';
+import currencies, { GEL } from '../../constants/currencies';
 
 export const FetchUserDetail =
   (remember?: boolean, refetch?: boolean) => async (dispatch: any) => {
@@ -172,7 +173,7 @@ export const FetchUserAccounts = () => async (dispatch: any) => {
                   availableInGEL: uni.amount,
                   cards: [],
                   currencies: [
-                    {key: 'GEL', value: '₾', balance: (uni.amount || 0) / 10},
+                    {key: GEL, value: currencies.GEL, balance: (uni.amount || 0) / 10},
                   ],
                   imageUrl: require('./../../assets/images/uniLogo.png'),
                   isActive: true,

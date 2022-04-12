@@ -233,7 +233,7 @@ const TemplatesContainer: React.FC<ITemplatesContainerProps> = props => {
                           ? template.localDebt
                           : template.debt,
                       )}
-                      {CurrencySimbolConverter(GEL)}
+                      {CurrencySimbolConverter(GEL, translate.key)}
                     </Text>
                   </View>
                 </View>
@@ -247,7 +247,7 @@ const TemplatesContainer: React.FC<ITemplatesContainerProps> = props => {
           <View style={styles.templatesPayAllBox}>
             <Text style={styles.templatesComputedDebt}>
             {translate.t('payments.totalDue')}:  {CurrencyConverter(coumputeTemplatesDebt())}{' '}
-              {CurrencySimbolConverter(GEL)}
+              {CurrencySimbolConverter(GEL, translate.key)}
             </Text>
           </View>
           <AppButton

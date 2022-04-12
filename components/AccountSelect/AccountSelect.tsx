@@ -11,9 +11,11 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import colors from '../../constants/colors';
 import {GEL} from '../../constants/currencies';
 import {useDimension} from '../../hooks/useDimension';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../redux/action_types/translate_action_types';
 import {IAccountBallance} from '../../services/UserService';
 import {
   CurrencyConverter,
@@ -39,6 +41,9 @@ interface IItemProps {
 }
 
 export const AccountItem: React.FC<IItemProps> = props => {
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const accountSelect = () => {
     if (props.disable) return;
     props.onAccountSelect(props.account);
@@ -86,7 +91,7 @@ export const AccountItem: React.FC<IItemProps> = props => {
       {props.account.type !== 7 ? (
         <Text style={styles.amount}>
           {CurrencyConverter(props.account.availableInGEL)}
-          {CurrencySimbolConverter(GEL)}
+          {CurrencySimbolConverter(GEL, translate.key)}
         </Text>
       ) : (
         <View style={{flexDirection: 'row'}}>

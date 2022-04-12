@@ -72,6 +72,7 @@ import {subscriptionService} from '../../../services/subscriptionService';
 import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
 import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import SmsRetriever from 'react-native-sms-retriever';
+import { ka_ge } from '../../../lang';
 
 type RouteParamList = {
   params: {
@@ -389,7 +390,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
       if (getNumber(TransfersStore.amount) < 0.1) {
         dispatch(
           PUSH(
-            `${translate.t('transfer.minimumTransferAmount')} ${CurrencySimbolConverter(GEL)}`,
+            `${translate.t('transfer.minimumTransferAmount')} ${CurrencySimbolConverter(GEL, translate.key)}`,
           ),
         );
         setIsLoading(false);
@@ -447,7 +448,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
   const _currency: ICurrency[] = [
     {
       key: GEL,
-      value: currencies.GEL,
+      value: translate.key === ka_ge ? currencies.GEL : GEL,
       balance: 0,
       available: 0,
       availableBal: 0,
@@ -597,7 +598,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
                     <Text style={styles.debt}>
                     {translate.t('common.commission')}{' '}
                       {CurrencyConverter(getNumber(transferDetail?.amountFee))}
-                      {currencies.GEL}
+                      {translate.key === ka_ge ? currencies.GEL : GEL}
                     </Text>
                   </View>
                 )}

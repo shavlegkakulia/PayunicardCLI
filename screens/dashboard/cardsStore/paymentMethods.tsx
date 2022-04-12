@@ -177,7 +177,7 @@ const PaymentMethods: React.FC = () => {
                 <View style={styles.bankDetailCardLeftItem}>
                   <View style={styles.bankDetailCardCurrencyBox}>
                     <Text style={styles.bankDetailCardCurrency}>
-                      {CurrencySimbolConverter(currency.value)}
+                      {CurrencySimbolConverter(currency.value, translate.key)}
                     </Text>
                   </View>
                   <Text style={styles.bankDetailCardCurrencyValue}>

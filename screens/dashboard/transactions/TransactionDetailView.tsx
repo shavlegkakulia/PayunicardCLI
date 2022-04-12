@@ -83,7 +83,7 @@ const ViewCliring: React.FC<IProps> = props => {
               {CurrencyConverter(props.statement?.amount)}{' '}
             </Text>
             <Text style={styles.amountccy}>
-              {CurrencySimbolConverter(props.statement?.ccy)}
+              {CurrencySimbolConverter(props.statement?.ccy, translate.key)}
             </Text>
           </View>
 
@@ -214,7 +214,7 @@ const ViewTransfer: React.FC<IProps> = props => {
               {CurrencyConverter(props.statement?.amount)}{' '}
             </Text>
             <Text style={styles.amountccy}>
-              {CurrencySimbolConverter(props.statement?.ccy)}
+              {CurrencySimbolConverter(props.statement?.ccy, translate.key)}
             </Text>
           </View>
 
@@ -375,7 +375,7 @@ const ViewUtility: React.FC<IProps> = props => {
               {CurrencyConverter(props.statement?.amount)}{' '}
             </Text>
             <Text style={styles.amountccy}>
-              {CurrencySimbolConverter(props.statement?.ccy)}
+              {CurrencySimbolConverter(props.statement?.ccy, translate.key)}
             </Text>
           </View>
 
@@ -492,7 +492,7 @@ const ViewBlocked: React.FC<IProps> = props => {
               {CurrencyConverter(props.fundStatement?.amount)}{' '}
             </Text>
             <Text style={[styles.amountccy, styles.blockedAmount]}>
-              {CurrencySimbolConverter(props.fundStatement?.currency)}
+              {CurrencySimbolConverter(props.fundStatement?.currency, translate.key)}
             </Text>
           </View>
 

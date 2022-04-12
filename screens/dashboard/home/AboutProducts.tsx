@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
-import currencies from '../../../constants/currencies';
+import currencies, { GEL } from '../../../constants/currencies';
+import { ka_ge } from '../../../lang';
 import Routes from '../../../navigation/routes';
 import {
   ITranslateState,
@@ -66,7 +67,7 @@ const ProductsView: React.FC = () => {
                 </Text>
                 <Text style={styles.productsViewItemValue}>
                   {CurrencyConverter(product.balance)}
-                  {currencies.GEL}
+                  {translate.key === ka_ge ? currencies.GEL : GEL}
                 </Text>
               </View>
               {userData.userProducts &&
