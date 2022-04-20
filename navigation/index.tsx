@@ -29,6 +29,8 @@ import {ka_ge} from '../lang';
 import {Logout} from '../redux/actions/auth_actions';
 import {debounce} from '../utils/utils';
 import UserInactivity from './../screens/activity';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../redux/action_types/translate_action_types';
+import { FetchUserAccounts } from '../redux/actions/user_actions';
 
 const handleError = (error: Error, isFatal: boolean) => {
   console.warn({error}, 'isFatal?' + isFatal);
@@ -59,6 +61,9 @@ const AppContainer: FC = () => {
   const state = useSelector<AuthState>(
     state => state.AuthReducer,
   ) as IAuthState;
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const dispatch = useDispatch();
 
   const AxiosInterceptorsSubscription = useRef<IInterceptop[]>([]);
@@ -68,6 +73,12 @@ const AppContainer: FC = () => {
       dispatch(use(locale || ka_ge));
     });
   }, []);
+
+  useEffect(() => {
+    if(translate.key) {
+      dispatch(FetchUserAccounts());
+    }
+  }, [translate.key]);
 
   useEffect(() => {
     AxiosInterceptorsSubscription.current = [

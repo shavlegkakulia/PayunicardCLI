@@ -152,7 +152,7 @@ export const FetchUserAccounts = () => async (dispatch: any) => {
           account.accountTypeName = UNICARD_ULTRA;
         }
         return account;
-      }) || {accountBallances: []};
+      }) || {accountBallances: []}; 
     },
     error: () => dispatch({type: ACCOUNTS_LOADING, isAccountsLoading: false}),
     complete: () => {
