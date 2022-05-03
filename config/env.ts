@@ -24,4 +24,4 @@ const testEnvironmentVariables = {
     CDN_PATH
 }
 
-export default __DEV__ ? devEnvironmentVariables : prodEnvironmentVariables;
+export default __DEV__ ? prodEnvironmentVariables : prodEnvironmentVariables;

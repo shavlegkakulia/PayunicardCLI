@@ -8,6 +8,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import FloatingLabelInput from '../containers/otp/Otp';
 import {
@@ -53,7 +55,11 @@ const OtpModal: React.FC<IProps> = props => {
   useEffect(() => {
     onSmsListener();
 
-    return () => SmsRetriever.removeSmsListener();
+    return () => {
+      try{
+        SmsRetriever.removeSmsListener();
+      } catch(_){}
+    }
   }, []);
 
   const translate = useSelector<ITranslateGlobalState>(
@@ -68,6 +74,7 @@ const OtpModal: React.FC<IProps> = props => {
       <ScrollView
         contentContainerStyle={{flexGrow: 1}}
         keyboardShouldPersistTaps="handled">
+          <KeyboardAvoidingView {...(Platform.OS === 'ios' && {behavior: 'padding'})} style={{flex: 1, justifyContent: 'space-around', paddingVertical: 40}}>
         <View style={styles.otpContent}>
           <FloatingLabelInput
             value={props.otp}
@@ -85,6 +92,7 @@ const OtpModal: React.FC<IProps> = props => {
             title={props.buttonText || translate.t('common.next')}
           />
         </View>
+        </KeyboardAvoidingView>
       </ScrollView>
     </Modal>
   );
@@ -92,12 +100,12 @@ const OtpModal: React.FC<IProps> = props => {
 
 const styles = StyleSheet.create({
   otpContent: {
-    flex: 8,
+    //flex: 8,
     justifyContent: 'center',
     paddingHorizontal: 20,
   },
   buttons: {
-    flex: 2,
+    //flex: 2,
     paddingHorizontal: 20,
   },
 });

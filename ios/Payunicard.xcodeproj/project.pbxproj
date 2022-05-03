@@ -529,7 +529,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.0.71;
 				DEVELOPMENT_TEAM = 8J42C4RH4D;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Payunicard/Info.plist;
@@ -538,6 +538,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.71;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -558,7 +559,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.0.71;
 				DEVELOPMENT_TEAM = 8J42C4RH4D;
 				INFOPLIST_FILE = Payunicard/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -566,6 +567,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.71;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

@@ -9,7 +9,9 @@ import {
     NativeSyntheticEvent,
     TextInputChangeEventData,
     TouchableOpacity,
-    Text
+    Text,
+    TextInputKeyPressEventData,
+    Keyboard
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import colors from '../../constants/colors';
@@ -35,9 +37,11 @@ interface IState {
 export default class FloatingLabelInput extends Component<IProps, IState> {
     
     private _animatedIsFocused!: Animated.Value;
+    iRef: React.RefObject<TextInput>;
 
     constructor(props: IProps) {
         super(props);
+        this.iRef = React.createRef();
         this._animatedIsFocused = new Animated.Value((this.props.value !== undefined && this.props.value === '') ? 0 : 1);
     }
    
@@ -55,6 +59,18 @@ export default class FloatingLabelInput extends Component<IProps, IState> {
         }).start();
     }
 
+    onRetry = () => {
+        this.props.onRetry && this.props.onRetry();
+        this.iRef.current?.focus();
+    }
+
+    handleKeyDown = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+        if (e.nativeEvent.key === 'Backspace' && this.props.value === null) {
+          Keyboard.dismiss();
+        }
+        console.log(e.nativeEvent, this.props.value)
+      };
+
     render() {
         const { label, ...props } = this.props;
         const labelStyle = {
@@ -71,6 +87,7 @@ export default class FloatingLabelInput extends Component<IProps, IState> {
                 outputRange: [colors.primary, colors.primary],
             }),
         };
+
         return (
             <View style={[styles.otpContainer, this.props.Style]}>
                 <Text style={styles.title}>{props.title}</Text>
@@ -90,9 +107,11 @@ export default class FloatingLabelInput extends Component<IProps, IState> {
                         onChange={(e: NativeSyntheticEvent<TextInputChangeEventData>) => this.props.onChangeText(e.nativeEvent.text)}
                         blurOnSubmit
                         autoFocus
+                        onKeyPress={this.handleKeyDown}
                         maxLength={4}
+                        ref={this.iRef}
                     />
-                    <TouchableOpacity onPress={this.props.onRetry} style={styles.retry}>
+                    <TouchableOpacity onPress={this.onRetry} style={styles.retry}>
                         <Text style={styles.retryText}>{this.props.resendTitle}</Text>
                     </TouchableOpacity>
                 </View>
@@ -122,7 +141,7 @@ const styles = StyleSheet.create({
             colors.primary
     },
     inputWraper: {
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     retry: {
         alignSelf: 'flex-end',
