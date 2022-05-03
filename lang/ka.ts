@@ -51,7 +51,11 @@ export default {
         sessionExpiredTitle: 'გსურთ გაგრძელება?',
         sessionExpiredText: 'უმოქმედობის გამო გამოხვალთ აპლიკაციიდან',
         sessionExpiredTextAfter: 'უმოქმედობის გამო გამოხვედით აპლიკაციიდან',
-        continue: 'გაგრძელება'
+        continue: 'გაგრძელება',
+        month: 'თვე',
+        day: 'დღე',
+        year: 'წელი',
+        setBirthDate: 'შეავსეთ დაბადების თარიღი'
     },
 
     generalErrors: {

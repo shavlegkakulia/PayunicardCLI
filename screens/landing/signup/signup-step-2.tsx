@@ -19,7 +19,7 @@ import Validation, {
   email as _email,
   required,
 } from '../../../components/UI/Validation';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import DatePicker from 'react-native-date-picker';
 import {formatDate} from '../../../utils/utils';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/core';
@@ -50,7 +50,7 @@ const SignupStepTwo: React.FC = () => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
-  const [birthDate, setBirtDate] = useState<Date>(new Date());
+  const [birthDate, setBirtDate] = useState<Date | null>(null);
   const [personalId, setPerosnalId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
   const [chooseDate, setChooseDate] = useState<boolean>(false);
@@ -63,6 +63,9 @@ const SignupStepTwo: React.FC = () => {
   >();
   const [countrySelectVisible, setCountrySelectVisible] = useState(false);
   const [codeErrorStyle, setCodeErrorStyle] = useState<StyleProp<ViewStyle>>(
+    {},
+  );
+  const [dateErrorStyle, setDateErrorStyle] = useState<StyleProp<ViewStyle>>(
     {},
   );
   const navigation = useNavigation();
@@ -96,6 +99,19 @@ const SignupStepTwo: React.FC = () => {
   }, []);
 
   const nextStep = () => {
+    if(birthDate === null) {
+      setDateErrorStyle({
+        borderColor: colors.danger,
+        borderWidth: 1
+      })
+    } else {
+      setDateErrorStyle({});
+    }
+
+    if (Validation.validate(VALIDATION_CONTEXT) || !birthDate) {
+      return;
+    }
+
     if (!selectedCountry?.countryName) {
       setCodeErrorStyle({
         borderColor: colors.danger,
@@ -105,9 +121,7 @@ const SignupStepTwo: React.FC = () => {
     } else {
       setCodeErrorStyle({});
     }
-    if (Validation.validate(VALIDATION_CONTEXT)) {
-      return;
-    }
+
     navigation.navigate(Routes.SignupStepThree, {
       phone: route.params.phone,
       name: route.params.name,
@@ -136,13 +150,13 @@ const SignupStepTwo: React.FC = () => {
             {translate.t('signup.startRegister')}
           </Text>
           <TouchableOpacity onPress={() => setChooseDate(true)}>
-            <View style={styles.InputBox}>
+            <View style={[styles.InputBox, dateErrorStyle]}>
               <Text style={styles.InputBoxTitle}>
                 {translate.t('common.birthDate')}
               </Text>
 
               <Text style={styles.birthDateValue}>
-                {formatDate(birthDate?.toString()).split('.').join('/')}
+                {birthDate ? formatDate(birthDate?.toString()).split('.').join('/') : <>{translate.t('common.month') + '/' + translate.t('common.day') + '/' + translate.t('common.year')}</>}
               </Text>
             </View>
           </TouchableOpacity>
@@ -216,7 +230,7 @@ const SignupStepTwo: React.FC = () => {
         confirmText={translate.t('common.confirm')}
         locale="ka-GE"
         open={chooseDate}
-        date={birthDate}
+        date={birthDate || new Date()}
         onDateChange={() => {}}
         onConfirm={date => {
           setChooseDate(false);

@@ -50,7 +50,11 @@ export default {
         sessionExpiredTitle: 'Do you want to continue?',
         sessionExpiredTextAfter: 'Your session time has expired',
         sessionExpiredText: 'You will be logged out due to inactive',
-        continue: 'Continue'
+        continue: 'Continue',
+        month: 'month',
+        day: 'day',
+        year: 'year',
+        setBirthDate: 'Fill the date field'
     },
     generalErrors: {
         errorOccurred: 'An Error Occurred',
