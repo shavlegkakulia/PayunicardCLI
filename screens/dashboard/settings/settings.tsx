@@ -74,6 +74,7 @@ import {
   SET_DEVICE_ID,
 } from '../../../redux/action_types/auth_action_types';
 import { useNavigation } from '@react-navigation/native';
+import packageJson from './../../../package.json';
 
 const Settings: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -660,6 +661,10 @@ const Settings: React.FC = () => {
               )}
             </TouchableOpacity>
           </View>
+          <View style={styles.versionBox}>
+            <Text>App version:{' '}</Text>
+            <Text>{packageJson.version}</Text>
+          </View>
         </ScrollView>
         <ActionSheetCustom
           scrollable={true}
@@ -846,6 +851,14 @@ const styles = StyleSheet.create({
   action: {
     marginBottom: 20,
   },
+  versionBox: {
+    marginHorizontal: 20,
+    flexDirection: 'row',
+    borderTopColor: '#F1F1F1',
+    borderTopWidth: 1,
+    marginTop: 5,
+    paddingTop: 15,
+  }
 });
 
 export default Settings;
