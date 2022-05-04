@@ -12,7 +12,7 @@ import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
 } from '../../../redux/action_types/translate_action_types';
-import Appinput from '../../../components/UI/AppInput';
+import Appinput, { autoCapitalize } from '../../../components/UI/AppInput';
 import AppButton from '../../../components/UI/AppButton';
 import colors from '../../../constants/colors';
 import Validation, {
@@ -157,6 +157,7 @@ const SignupForm: React.FC = () => {
             style={styles.signupInput}
             value={name}
             onChange={setName}
+            autoCapitalize={autoCapitalize.none}
             placeholder={translate.t('common.name')}
           />
 
@@ -167,6 +168,7 @@ const SignupForm: React.FC = () => {
             style={styles.signupInput}
             value={surname}
             onChange={setSurname}
+            autoCapitalize={autoCapitalize.none}
             placeholder={translate.t('common.lname')}
           />
         </View>

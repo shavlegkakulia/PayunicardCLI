@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   View,
   Text,
@@ -135,10 +135,29 @@ const SignupStepTwo: React.FC = () => {
 
   const isKeyboardOpen = keyboard.height > 0;
 
+  const dtp = useMemo(() => <DatePicker
+  modal
+  mode="date"
+  title={translate.t('common.setDate')}
+  cancelText={translate.t('common.cancel')}
+  confirmText={translate.t('common.confirm')}
+  locale="ka-GE"
+  open={chooseDate}
+  date={birthDate || new Date()}
+  onDateChange={() => {}}
+  onConfirm={date => {
+    setChooseDate(false);
+    setBirtDate(date);
+  }}
+  onCancel={() => {
+    setChooseDate(false);
+  }}
+/>, [chooseDate])
+
   return (
     <KeyboardAvoidingView
       behavior="padding"
-      keyboardVerticalOffset={0}
+      keyboardVerticalOffset={200}
       style={styles.avoid}>
       <View style={styles.content}>
         <View>
@@ -222,24 +241,7 @@ const SignupStepTwo: React.FC = () => {
         />
       </View>
 
-      <DatePicker
-        modal
-        mode="date"
-        title={translate.t('common.setDate')}
-        cancelText={translate.t('common.cancel')}
-        confirmText={translate.t('common.confirm')}
-        locale="ka-GE"
-        open={chooseDate}
-        date={birthDate || new Date()}
-        onDateChange={() => {}}
-        onConfirm={date => {
-          setChooseDate(false);
-          setBirtDate(date);
-        }}
-        onCancel={() => {
-          setChooseDate(false);
-        }}
-      />
+      {dtp}
     </KeyboardAvoidingView>
   );
 };
@@ -289,6 +291,7 @@ const styles = StyleSheet.create({
   },
   countryBox: {
     borderRadius: 7,
+    marginBottom: 30
   },
   countryItem: {
     backgroundColor: '#F6F6F4',
