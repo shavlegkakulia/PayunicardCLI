@@ -131,7 +131,7 @@ const AppStack: React.FC = () => {
             gestureEnabled: false,
             headerShown: false,
           }}>
-          {state.isAuthenticated ? (
+          {(state.isAuthenticated === true && state.accesToken.length) ? (
             <>
               <appStack.Screen
                 name={Routes.Home}
@@ -1225,7 +1225,7 @@ const AppStack: React.FC = () => {
             </>
           )}
         </appStack.Navigator>
-        {state.isAuthenticated && <TabNav />}
+        {(state.isAuthenticated === true && state.accesToken?.length > 0) && <TabNav />}
       </>
     </DrawerLayout>
   );

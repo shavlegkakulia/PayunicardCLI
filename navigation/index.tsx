@@ -31,6 +31,9 @@ import {debounce} from '../utils/utils';
 import UserInactivity from './../screens/activity';
 import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../redux/action_types/translate_action_types';
 import { FetchUserAccounts } from '../redux/actions/user_actions';
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 const handleError = (error: Error, isFatal: boolean) => {
   console.warn({error}, 'isFatal?' + isFatal);
@@ -75,9 +78,11 @@ const AppContainer: FC = () => {
   }, []);
 
   useEffect(() => {
-    if(translate.key) {
-      dispatch(FetchUserAccounts());
-    }
+    AuthService.isAuthenticated().then(res => {
+      if(translate.key && res && state.accesToken.length && state.isAuthenticated) {
+        dispatch(FetchUserAccounts());
+      }
+    })
   }, [translate.key]);
 
   useEffect(() => {

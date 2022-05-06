@@ -66,7 +66,7 @@ class CommonService {
           return Promise.reject(error);
         }
        // console.log('*****error in common interceptor******', error);
-       console.log('*****error in common interceptor******', error.toJSON());
+      //  console.log('*****error in common interceptor******', error.toJSON());
         const stringTranslator = Store.getState().TranslateReduser;
         let netInfo = await NetInfo.fetch();
         if (!netInfo.isConnected) {

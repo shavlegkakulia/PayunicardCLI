@@ -68,7 +68,6 @@ export default class FloatingLabelInput extends Component<IProps, IState> {
         if (e.nativeEvent.key === 'Backspace' && this.props.value === null) {
           Keyboard.dismiss();
         }
-        console.log(e.nativeEvent, this.props.value)
       };
 
     render() {

@@ -771,8 +771,7 @@ class UserService {
 
   GetUnicards() {
     const promise = axios.get<IGetUnicardsResponseData>(
-      `${envs.API_URL}Card/GetUnicards`,
-      {objectResponse: true},
+      `${envs.API_URL}Card/GetUnicards`
     );
     return from(promise);
   }
@@ -957,7 +956,6 @@ class UserService {
     if(data.StartDate) {
       query += `StartDate=${data.StartDate}`
     }
-    console.log(`${envs.API_URL}User/ExportStatementsAsPdfMobile?${query}`)
     const promise = axios.get<IExportStatementsAsPdfMobileResponseData>(
       `${envs.API_URL}User/ExportStatementsAsPdfMobile?${query}`,
       {objectResponse: true},
