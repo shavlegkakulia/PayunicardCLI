@@ -418,7 +418,7 @@ const TransferToBank: React.FC<INavigationProps> = props => {
       subscriptionService.sendData(SUBSCRIBTION_KEYS.FETCH_USER_ACCOUNTS, true);
       dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
       dispatch(getTransferTemplates());
-      NavigationService.navigate(Routes.Transactions);
+      NavigationService.navigate(Routes.Transfers);
     }
   };
 

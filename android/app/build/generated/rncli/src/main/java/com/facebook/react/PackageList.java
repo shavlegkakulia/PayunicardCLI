@@ -21,6 +21,8 @@ import com.reactnativecommunity.clipboard.ClipboardPackage;
 import org.reactnative.maskedview.RNCMaskedViewPackage;
 // @react-native-community/netinfo
 import com.reactnativecommunity.netinfo.NetInfoPackage;
+// react-native-background-timer
+import com.ocetnik.timer.BackgroundTimerPackage;
 // react-native-date-picker
 import com.henninghall.date_picker.DatePickerPackage;
 // react-native-device-info
@@ -33,8 +35,6 @@ import com.hieuvp.fingerprint.ReactNativeFingerprintScannerPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-image-picker
 import com.imagepicker.ImagePickerPackage;
-// react-native-reanimated
-import com.swmansion.reanimated.ReanimatedPackage;
 // react-native-safe-area-context
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
@@ -97,13 +97,13 @@ public class PackageList {
       new ClipboardPackage(),
       new RNCMaskedViewPackage(),
       new NetInfoPackage(),
+      new BackgroundTimerPackage(),
       new DatePickerPackage(),
       new RNDeviceInfo(),
       new ReactNativeExceptionHandlerPackage(),
       new ReactNativeFingerprintScannerPackage(),
       new RNGestureHandlerPackage(),
       new ImagePickerPackage(),
-      new ReanimatedPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
       new RNSmsRetrieverPackage(),

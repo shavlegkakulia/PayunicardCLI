@@ -397,7 +397,7 @@ const TransferConvertation: React.FC<INavigationProps> = props => {
   const onOperationHandle = () => {
     if (route.params.transferStep === Routes.TransferConvertation_SUCCES) {
       subscriptionService.sendData(SUBSCRIBTION_KEYS.FETCH_USER_ACCOUNTS, true);
-      NavigationService.navigate(navStore.parentRoute);
+      NavigationService.navigate(Routes.Transfers);
     }
     setIsLoading(true);
     if (!TransfersStore.selectedFromAccount) {

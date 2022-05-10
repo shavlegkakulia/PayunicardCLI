@@ -34,6 +34,8 @@ const OffersView: React.FC = () => {
   const [offers, setOffers] = useState<IOffersResponse[] | undefined>();
   const screenSize = useDimension();
 
+  const cardWidth = 270;
+
   const handleOffersScroll = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
@@ -60,13 +62,10 @@ const OffersView: React.FC = () => {
   };
 
   if (!offers || !offers?.length) return null;
-  const ratio =
-    (offers.length === 1 ? screenSize.width - 32 : screenSize.width - 92) / 541; //541 is actual image width
+ 
   const imageStyle: ImageStyle = {
-    width: offers.length === 1 ? screenSize.width - 32 : screenSize.width - 92,
-    height: 362 * ratio, //362 is actual height of image
-    position: 'absolute',
-    top: -52,
+    width: cardWidth,
+    height: 80
   };
 
   return (
@@ -98,7 +97,7 @@ const OffersView: React.FC = () => {
                 width:
                   offers.length === 1
                     ? screenSize.width - 32
-                    : screenSize.width - 92,
+                    : cardWidth,
               },
               index === 0 && {marginLeft: 11},
             ]}
@@ -129,7 +128,7 @@ const OffersView: React.FC = () => {
 
 const styles = StyleSheet.create({
   offersContainer: {
-    height: 188,
+    height: 190,
     flex: 1,
     marginTop: 33,
   },
@@ -149,14 +148,14 @@ const styles = StyleSheet.create({
   },
   offersContainerItem: {
     overflow: 'hidden',
-    height: 143,
+    height: 144,
     marginHorizontal: 9,
     backgroundColor: colors.white,
     flex: 1,
     justifyContent: 'flex-end',
   },
   offersContainerItemDetails: {
-    height: 61,
+    height: 62,
     backgroundColor: colors.white,
     paddingHorizontal: 16,
     paddingVertical: 12,
