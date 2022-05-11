@@ -47,7 +47,7 @@ import {useNavigation} from '@react-navigation/native';
 import SetLoginWithPassCode from './setLoginWithPassCode';
 import SmsRetriever from 'react-native-sms-retriever';
 import {getString} from '../../utils/Converter';
-import SetOtp from '../dashboard/payments/PaymentSteps/SetOtp';
+import analytics from '@react-native-firebase/analytics';
 import OtpModal from '../../components/OtpModal';
 
 const CONTEXT_TYPE = 'login';
@@ -78,6 +78,29 @@ const LoginForm: React.FC = () => {
   });
   const dimension = useDimension();
   const navigation = useNavigation();
+
+  useEffect(() => {
+    (async() => {
+      await analytics().logEvent('basket', {
+        id: 3745092,
+        item: 'mens grey t-shirt',
+        description: ['round neck', 'long sleeved'],
+        size: 'L',
+      })
+
+      await analytics().logScreenView({
+        screen_name: 'login',
+        screen_class: 'login',
+      });
+    })()
+
+    analytics().logEvent('basket', {
+      id: 3745092,
+      item: 'mens grey t-shirt',
+      description: ['round neck', 'long sleeved'],
+      size: 'L',
+    }).then(r => console.log(r)).catch(e => console.log(e))
+  }, [])
 
   const onSmsListener = async () => {
     try {
