@@ -81,26 +81,12 @@ const LoginForm: React.FC = () => {
 
   useEffect(() => {
     (async() => {
-      await analytics().logEvent('basket', {
-        id: 3745092,
-        item: 'mens grey t-shirt',
-        description: ['round neck', 'long sleeved'],
-        size: 'L',
-      })
-
       await analytics().logScreenView({
-        screen_name: 'login',
-        screen_class: 'login',
+        screen_name: Routes.Login,
+        screen_class: Routes.Login,
       });
-    })()
-
-    analytics().logEvent('basket', {
-      id: 3745092,
-      item: 'mens grey t-shirt',
-      description: ['round neck', 'long sleeved'],
-      size: 'L',
-    }).then(r => console.log(r)).catch(e => console.log(e))
-  }, [])
+    })();
+  }, []);
 
   const onSmsListener = async () => {
     try {

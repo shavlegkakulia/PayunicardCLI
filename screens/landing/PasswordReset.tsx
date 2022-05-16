@@ -29,6 +29,8 @@ import UserService, {
 import SuccesContent from '../../containers/SuccesContent';
 import SmsRetriever from 'react-native-sms-retriever';
 import { getString } from '../../utils/Converter';
+import analytics from '@react-native-firebase/analytics';
+import Routes from '../../navigation/routes';
 
 interface IProps {
   onComplate: () => void;
@@ -63,6 +65,15 @@ const PasswordReset: React.FC<IProps> = props => {
   const [otpGuid, setOtpGuid] = useState<string | undefined>();
   const [isRegistered, setIsRegistered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    (async() => {
+      await analytics().logScreenView({
+        screen_name: Routes.ResetPassword,
+        screen_class: Routes.ResetPassword,
+      });
+    })();
+  }, []);
 
   const SendPhoneOTP = () => {
     NetworkService.CheckConnection(() => {

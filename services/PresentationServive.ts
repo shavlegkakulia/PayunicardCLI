@@ -272,6 +272,7 @@ export interface IIResponseOfGetCitiesResponse {
 export interface IOffersResponse {
   id: number;
   imageUrl: string;
+  imageUrl1: string;
   url: string;
   title: string;
   text: string;

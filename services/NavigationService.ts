@@ -2,6 +2,7 @@ import {NavigationContainerRef} from '@react-navigation/core';
 import {CommonActions} from '@react-navigation/routers';
 import {DrawerMovementOption} from 'react-native-gesture-handler/lib/typescript/components/DrawerLayout';
 import Routes from '../navigation/routes';
+import analytics from '@react-native-firebase/analytics';
 
 let _navigator: NavigationContainerRef | undefined = undefined;
 export let OpenDrawer:
@@ -46,8 +47,15 @@ interface IParams {
   params?: any;
 }
 
-function navigate(routeName: any, params?: any) {
+function navigate(routeName: any, params?: any) { 
   if (routeName === currentRoute) return;
+
+  (async() => {
+    await analytics().logScreenView({
+      screen_name: routeName,
+      screen_class: routeName,
+    });
+  })();
 
   let parameters: IParams = {
     routeName: routeName,

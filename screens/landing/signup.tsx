@@ -30,6 +30,8 @@ import DatePicker from 'react-native-date-picker';
 import {formatDate} from '../../utils/utils';
 import { getString } from '../../utils/Converter';
 import SmsRetriever from 'react-native-sms-retriever';
+import analytics from '@react-native-firebase/analytics';
+import Routes from '../../navigation/routes';
 
 interface IProps {
   onComplate: (step: number) => void;
@@ -65,6 +67,15 @@ const SignupForm: React.FC<IProps> = props => {
   const [isApplyTerms, setIsApplyTerms] = useState<number>(1);
   const [otpGuid, setOtpGuid] = useState<string | undefined>();
   const [chooseDate, setChooseDate] = useState<boolean>(false);
+
+  useEffect(() => {
+    (async() => {
+      await analytics().logScreenView({
+        screen_name: Routes.Signup,
+        screen_class: Routes.Signup,
+      });
+    })();
+  }, []);
 
   const setAgreement = (value: boolean) => {
     setIsApplyTerms(value ? 1 : 0);

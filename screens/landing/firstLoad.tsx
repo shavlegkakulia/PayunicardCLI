@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {View, Image, Text, StyleSheet, NativeScrollEvent, Platform, TouchableOpacity} from 'react-native';
 import AppButton from './../../components/UI/AppButton';
 import PaginationDots from './../../components/PaginationDots';
@@ -13,6 +13,8 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {createRef} from 'react';
 import { use } from '../../redux/actions/translate_actions';
 import colors from './../../constants/colors';
+import analytics from '@react-native-firebase/analytics';
+import Routes from '../../navigation/routes';
 
 interface IPageProps {
   Complate: () => void;
@@ -26,6 +28,15 @@ const FirstLoad: React.FC<IPageProps> = props => {
   const carouselRef = createRef<ScrollView>();
   const dimension = useDimension();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async() => {
+      await analytics().logScreenView({
+        screen_name: Routes.FirstLoad,
+        screen_class: Routes.FirstLoad,
+      });
+    })();
+  }, []);
 
   const onChange = (nativeEvent: NativeScrollEvent) => {
     if (nativeEvent) {
