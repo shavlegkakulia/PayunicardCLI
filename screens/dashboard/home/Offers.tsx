@@ -39,7 +39,7 @@ const OffersView: React.FC = () => {
   const handleOffersScroll = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
-    let overView = event.nativeEvent.contentOffset.x / (screenSize.width - 25);
+    let overView = event.nativeEvent.contentOffset.x / cardWidth;
     setOffersStep(Math.round(overView));
   };
 
@@ -103,7 +103,7 @@ const OffersView: React.FC = () => {
             ]}
             key={`offer${index}`}>
             <Image
-              source={{uri: o.imageUrl}}
+              source={{uri: o.imageUrl1}}
               style={imageStyle}
               resizeMode="contain"
             />
