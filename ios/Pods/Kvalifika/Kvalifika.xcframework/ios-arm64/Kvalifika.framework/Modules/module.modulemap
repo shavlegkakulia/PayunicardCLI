@@ -1,0 +1,11 @@
+framework module Kvalifika {
+  umbrella header "Kvalifika.h"
+
+  export *
+  module * { export * }
+}
+
+module Kvalifika.Swift {
+    header "Kvalifika-Swift.h"
+    requires objc
+}

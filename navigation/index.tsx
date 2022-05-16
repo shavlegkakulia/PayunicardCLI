@@ -1,64 +1,146 @@
-
-import LandingNavigator from './LandingNavigation';
-import DashboardNavigatorTab from './DashboardNavigation';
-import SplashScreen from './../components/SplashScreen';
-import { IAuthState, LOGIN } from './../redux/action_types/auth_action_types';
-import { Register } from './../utils/axios.interceptor';
-import { use } from './../redux/actions/translate_actions';
-import { LANG_KEY } from './../constants/defaults';
-import AsyncStorage from '@react-native-community/async-storage';
-import React, { useEffect, useState, FC } from 'react';
+import React, {useEffect, FC, useCallback, useRef} from 'react';
 import {
-  NavigationContainer
+  NavigationContainer,
+  NavigationContainerRef,
 } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
+import {
+  IAuthState,
+  IGlobalState as AuthState,
+  SET_AUTH,
+} from './../redux/action_types/auth_action_types';
+import AuthService, {IInterceptop} from './../services/AuthService';
+import CommonService from './../services/CommonService';
+import {use} from './../redux/actions/translate_actions';
+import {LOCALE_IN_STORAGE} from './../constants/defaults';
+import ErrorWrapper from '../components/ErrorWrapper';
+import storage from './../services/StorageService';
+import {
+  setJSExceptionHandler,
+  setNativeExceptionHandler,
+} from 'react-native-exception-handler';
+import AppStack from './AppStack';
+import NavigationService from '../services/NavigationService';
+import {SafeAreaView} from 'react-navigation';
+import {StyleSheet} from 'react-native';
+import colors from '../constants/colors';
+import {ka_ge} from '../lang';
+import {Logout} from '../redux/actions/auth_actions';
+import {debounce} from '../utils/utils';
+import UserInactivity from './../screens/activity';
+import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../redux/action_types/translate_action_types';
+import { FetchUserAccounts } from '../redux/actions/user_actions';
+import { LogBox } from "react-native";
 
-interface IState {
-  AuthReducer: IAuthState
-}
+LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
-const DashboardStack = createStackNavigator();
+const handleError = (error: Error, isFatal: boolean) => {
+  console.warn({error}, 'isFatal?' + isFatal);
+};
 
-const DashboardNavigator = () => (
-  <DashboardStack.Navigator>
-    <DashboardStack.Screen 
-    name="Dashboard"
-    component={DashboardNavigatorTab} />
-  </DashboardStack.Navigator>
-);
+setJSExceptionHandler((error, isFatal) => {
+  handleError(error, isFatal);
+}, true);
+
+//For most use cases:
+setNativeExceptionHandler(exceptionString => {
+  // This is your custom global error handler
+  // You do stuff likehit google analytics to track crashes.
+  // or hit a custom api to inform the dev team.
+  //NOTE: alert or showing any UI change via JS
+  //WILL NOT WORK in case of NATIVE ERRORS.
+  console.warn(exceptionString);
+});
+//====================================================
+// ADVANCED use case:
+const exceptionhandler = (exceptionString: string) => {
+  // your exception handler code here
+  console.warn(exceptionString);
+};
+setNativeExceptionHandler(exceptionhandler, false, true);
 
 const AppContainer: FC = () => {
-  const state = useSelector<IState>(state => state.AuthReducer) as IAuthState;
+  const state = useSelector<AuthState>(
+    state => state.AuthReducer,
+  ) as IAuthState;
+  const translate = useSelector<ITranslateGlobalState>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
-  const [userToken, setUserToken] = useState("");
-  
-  useEffect(() => {
-    dispatch(use(LANG_KEY))
-  }, [])
+
+  const AxiosInterceptorsSubscription = useRef<IInterceptop[]>([]);
 
   useEffect(() => {
-    AsyncStorage.getItem("access_token").then(data => {
-        setUserToken(data || "");
-        if(data) {
-          dispatch({ type: LOGIN, accesToken: data, isAuthenticated: true });
-        }
-        Register();
-        setIsLoading(false);
+    storage.getItem(LOCALE_IN_STORAGE).then(locale => {
+      dispatch(use(locale || ka_ge));
+    });
+  }, []);
+
+  useEffect(() => {
+    AuthService.isAuthenticated().then(res => {
+      if(translate.key && res && state.accesToken.length && state.isAuthenticated) {
+        dispatch(FetchUserAccounts());
+      }
     })
-  }, [userToken, state.accesToken])
+  }, [translate.key]);
 
-  if (isLoading) {
-    return <SplashScreen />
-  }
+  useEffect(() => {
+    AxiosInterceptorsSubscription.current = [
+      CommonService.registerCommonInterceptor(),
+      AuthService.registerAuthInterceptor(signOut),
+    ];
+
+    return () => {
+      AxiosInterceptorsSubscription.current.forEach(sub => sub.unsubscribe());
+    };
+  }, []);
+
+  const signoutDelay = debounce((e: Function) => e(), 1000);
+
+  const signOut = useCallback(async () => {
+    signoutDelay(() => {
+      dispatch(Logout());
+    });
+    await AuthService.SignOut();
+    await storage.removeItem('PassCode');
+    await storage.removeItem('PassCodeEnbled');
+  }, [state.isAuthenticated]);
+
+  useEffect(() => {
+    AuthService.isAuthenticated().then(res => {
+      if (res === true) {
+        dispatch({type: SET_AUTH, setAuth: true});
+      }
+      setTimeout(() => {
+        SplashScreen.hide();
+      }, 500);
+    });
+  }, []);
 
   return (
-    <NavigationContainer >
-      {!userToken ? <LandingNavigator /> : <DashboardNavigator />}
-    </NavigationContainer>
-  )
-}
+    <ErrorWrapper>
+      <UserInactivity
+        timeForInactivity={180 * 1000}
+        isAuth={state.isAuthenticated}>
+        <NavigationContainer
+          ref={(navigatorRef: NavigationContainerRef) => {
+            NavigationService.setTopLevelNavigator(navigatorRef);
+          }}>
+          <SafeAreaView style={styles.container}>
+            <AppStack />
+          </SafeAreaView>
+        </NavigationContainer>
+      </UserInactivity>
+    </ErrorWrapper>
+  );
+};
 
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: colors.baseBackgroundColor,
+  },
+});
 
 export default AppContainer;

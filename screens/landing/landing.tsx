@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import LandingLayout from '../LandingLayout';
 import FirstLoad from './firstLoad';
 import Login from './login';
-import AsyncStorage from '@react-native-community/async-storage';
+import storage from './../../services/StorageService';
 import colors from '../../constants/colors';
+import { FIRST_LOAD_KEY } from '../../constants/defaults';
+import FullScreenLoader from './../../components/FullScreenLoading';
 
 const Main: React.FC = () => {
-    const [firstLoad, setFirstsLoad] = useState(true);
+    const [firstLoad, setFirstsLoad] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
     const complateFirstLoad = async () => {
-        await AsyncStorage.setItem('isFirstLoad', '0');
+        await storage.setItem(FIRST_LOAD_KEY, '0');
         setFirstsLoad(false);
     }
 
     const isFirstLoad = async () => {
-        return await AsyncStorage.getItem('isFirstLoad') === null;
+        return await storage.getItem(FIRST_LOAD_KEY) === null;
     }
 
     useEffect(() => {
@@ -24,25 +26,22 @@ const Main: React.FC = () => {
             setFirstsLoad(status);
             setIsLoading(false);
         })
-    }, [])
-
-    if (isLoading) {
-        return <View>
-            <ActivityIndicator />
-        </View>
-    }
+    }, []);
 
     if (firstLoad) {
-        return <View style={{ flex: 1 }}>
-            <FirstLoad Complate={complateFirstLoad} />
-        </View>
+        return (
+            <View style={styles.firstLoadContainer}>
+                <FirstLoad Complate={complateFirstLoad} />
+            </View>
+        )
     }
 
     return (
         <LandingLayout>
             <View style={styles.container}>
-               <Login />
+                <Login />
             </View>
+            <FullScreenLoader visible={isLoading} />
         </LandingLayout>
     )
 }
@@ -51,6 +50,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.white
+    },
+    firstLoadContainer: {
+        flex: 1
     }
 })
 

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "412327000492",
+    "project_id": "payunicard-8e9e4",
+    "storage_bucket": "payunicard-8e9e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412327000492:android:c41b7077fbd54935642209",
+        "android_client_info": {
+          "package_name": "com.payunicard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412327000492-kct4k6l2pbbvu6a53rus33h8g120o6qe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.payunicard",
+            "certificate_hash": "85a8d16dc8622aba7a80e1be02dd4230966e6b4d"
+          }
+        },
+        {
+          "client_id": "412327000492-q1eaq9hi3vr1vd3thi0v22q67lnfs3vd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVC9o7J089MRsZ3UuBW_U5J6q4J6-yXqM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412327000492-q1eaq9hi3vr1vd3thi0v22q67lnfs3vd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

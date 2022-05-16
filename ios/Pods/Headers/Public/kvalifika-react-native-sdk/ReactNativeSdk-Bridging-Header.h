@@ -1,0 +1,1 @@
+../../../../../node_modules/@kvalifika/react-native-sdk/ios/ReactNativeSdk-Bridging-Header.h

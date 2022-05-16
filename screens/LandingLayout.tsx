@@ -1,21 +1,23 @@
-import React, { ReactChildren, ReactChild } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
+import colors from '../constants/colors';
 
-interface AuxProps {
-    children: ReactChild | ReactChildren;
-}
 
-const LandingLayout = ({children}: AuxProps) => {
+const LandingLayout:React.FC = (props) => {
     return (
-        <View style={style.container}>
-            {children}
-        </View>
+        <SafeAreaView  style={style.container}>
+  
+            {props.children}
+      
+        </SafeAreaView>
     )
 }
 
 const style = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: colors.white
     }
 })
 
