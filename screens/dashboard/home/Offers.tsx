@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   },
   offersContainerItem: {
     overflow: 'hidden',
-    height: 144,
+    height: 142,
     marginHorizontal: 9,
     backgroundColor: colors.white,
     flex: 1,
