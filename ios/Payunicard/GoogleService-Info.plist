@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>412327000492-a96gaj40iskbdmtims6kg8c3tu9tekck.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.412327000492-a96gaj40iskbdmtims6kg8c3tu9tekck</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>412327000492-kct4k6l2pbbvu6a53rus33h8g120o6qe.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCvEmovL7zeZQyoNDh9pBBUW-B5QsPw1qE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>412327000492</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.payunicard</string>
+	<key>PROJECT_ID</key>
+	<string>payunicard-8e9e4</string>
+	<key>STORAGE_BUCKET</key>
+	<string>payunicard-8e9e4.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:412327000492:ios:da7d08c2fdad8183642209</string>
+</dict>
+</plist>
