@@ -103,7 +103,7 @@ const OffersView: React.FC = () => {
             ]}
             key={`offer${index}`}>
             <Image
-              source={{uri: o.imageUrl1}}
+              source={{uri: o.url}}
               style={imageStyle}
               resizeMode="contain"
             />
