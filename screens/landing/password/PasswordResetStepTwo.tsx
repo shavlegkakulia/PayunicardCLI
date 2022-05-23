@@ -123,7 +123,7 @@ const PasswordResetStepTwo: React.FC = () => {
 const styles = StyleSheet.create({
   avoid: {
     flexGrow: 1,
-    padding: 24,
+    
     backgroundColor: colors.white,
   },
   passwordResetContainer: {

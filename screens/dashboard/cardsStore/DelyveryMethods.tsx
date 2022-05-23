@@ -203,7 +203,7 @@ const DelyveryMethods: React.FC = props => {
                 }>
                 <AppCheckbox
                   value={delyveryMethod === delyveryMethods.inServiceCenter}
-                  clicked={() => {}}
+                  clicked={() => setDeliveryMethod(delyveryMethods.inServiceCenter)}
                   customKey=""
                   context=""
                   label=""
@@ -226,7 +226,7 @@ const DelyveryMethods: React.FC = props => {
                 onPress={() => setDeliveryMethod(delyveryMethods.inAddress)}>
                 <AppCheckbox
                   value={delyveryMethod === delyveryMethods.inAddress}
-                  clicked={() => {}}
+                  clicked={() => setDeliveryMethod(delyveryMethods.inAddress)}
                   customKey=""
                   context=""
                   label=""

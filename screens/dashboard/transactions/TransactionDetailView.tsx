@@ -39,6 +39,7 @@ interface IPageProps {
   statement: IGetTransactionDetailsResponse | undefined;
   fundStatement: IFund | undefined;
   sendHeader: (element: JSX.Element | null) => void;
+  onClose?: () => void;
 }
 
 const TRANSACTION_TYPES = {
@@ -653,6 +654,12 @@ const TransactionDetailView: React.FC<IPageProps> = props => {
     const data = (
       <View style={styles.header}>
         <Text style={styles.title}>{translate.t('transaction.tranDetails')}</Text>
+        <TouchableOpacity style={styles.modalClose} onPress={() => props.onClose?.()}>
+            <Image
+              source={require('./../../../assets/images/close40x40.png')}
+              style={styles.modalCloseIcon}
+            />
+          </TouchableOpacity>
       </View>
     );
     props.sendHeader(data);
@@ -814,6 +821,19 @@ const styles = StyleSheet.create({
   downIcon: {
     width: 14,
     height: 17,
+  },
+  modalClose: {
+    position: 'absolute',
+    top: -15,
+    right: 15,
+    padding: 8,
+    flex: 1,
+    width: 40,
+    
+  },
+  modalCloseIcon: {
+    width: 24,
+    height: 24,
   },
 });
 

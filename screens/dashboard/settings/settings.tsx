@@ -702,6 +702,12 @@ const Settings: React.FC = () => {
           behavior="padding"
           keyboardVerticalOffset={0}
           style={styles.avoid}>
+             <TouchableOpacity style={styles.modalClose} onPress={onOtpModalClose}>
+            <Image
+              source={require('./../../../assets/images/close40x40.png')}
+              style={styles.modalCloseIcon}
+            />
+          </TouchableOpacity>
           <View style={styles.modalBody}>
             <View>
               <View style={styles.insertOtpSTep}>
@@ -721,6 +727,7 @@ const Settings: React.FC = () => {
               title={translate.t('common.next')}
               onPress={onTrustDevice}
               isLoading={isLoading}
+              style={{marginTop: 50}}
             />
           </View>
         </KeyboardAvoidingView>
@@ -736,6 +743,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 24,
     backgroundColor: colors.white,
+    position: 'relative'
   },
   modalBody: {
     paddingTop: 50,
@@ -858,7 +866,19 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     marginTop: 5,
     paddingTop: 15,
-  }
+  },
+  modalClose: {
+    position: 'absolute',
+    top: 15,
+    right: 15,
+    padding: 8,
+    flex: 1,
+    width: 40,
+  },
+  modalCloseIcon: {
+    width: 24,
+    height: 24,
+  },
 });
 
 export default Settings;

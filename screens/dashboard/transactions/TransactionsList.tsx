@@ -190,6 +190,10 @@ const TransactionsList: React.FC<IProps> = props => {
           statement={transactionDetail}
           fundStatement={fundDetail}
           sendHeader={getHeader}
+          onClose={() => {
+            setTransactionDetail(undefined);
+            setFundDetail(undefined);
+          }}
         />
       </ActionSheetCustom>
     </View>

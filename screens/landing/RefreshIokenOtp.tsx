@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, KeyboardAvoidingView, Keyboard} from 'react-native';
+import {View, Text, StyleSheet, KeyboardAvoidingView, Keyboard, TouchableOpacity, Image} from 'react-native';
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
@@ -115,6 +115,12 @@ const RefreshTokenOtp: React.FC = () => {
       behavior="padding"
       keyboardVerticalOffset={0}
       style={styles.avoid}>
+        <TouchableOpacity style={styles.modalClose} onPress={() => nav.goBack()}>
+            <Image
+              source={require('./../../assets/images/close40x40.png')}
+              style={styles.modalCloseIcon}
+            />
+          </TouchableOpacity>
       <View style={styles.content}>
         <View>
           <View style={styles.insertOtpSTep}>
@@ -166,6 +172,18 @@ const styles = StyleSheet.create({
   },
   otpBox: {
     marginTop: 40,
+  },
+  modalClose: {
+    position: 'absolute',
+    top: 15,
+    right: 15,
+    padding: 8,
+    flex: 1,
+    width: 40,
+  },
+  modalCloseIcon: {
+    width: 24,
+    height: 24,
   },
 });
 

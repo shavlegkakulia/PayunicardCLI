@@ -124,7 +124,7 @@ const PasswordResetStepFour: React.FC = () => {
               equalsTo={password}
               onChange={input => setConfirmPassword(input)}
               secureTextEntry={true}
-              placeholder={translate.t('login.repeatPassword')}
+              placeholder={translate.t('settings.confirmPasscode')}
             />
           </View>
           <AppButton
@@ -144,7 +144,7 @@ const PasswordResetStepFour: React.FC = () => {
 const styles = StyleSheet.create({
   avoid: {
     flexGrow: 1,
-    padding: 24,
+   
     backgroundColor: colors.white,
   },
   passwordResetContainer: {

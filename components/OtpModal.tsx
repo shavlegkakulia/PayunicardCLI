@@ -10,6 +10,8 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
 import FloatingLabelInput from '../containers/otp/Otp';
 import {
@@ -43,9 +45,9 @@ const OtpModal: React.FC<IProps> = props => {
       if (registered) {
         SmsRetriever.addSmsListener(event => {
           if (event) {
-          const otp = /(\d{4})/g.exec(getString(event.message))![1];
-          props.onSetOtp(otp);
-          Keyboard.dismiss();
+            const otp = /(\d{4})/g.exec(getString(event.message))![1];
+            props.onSetOtp(otp);
+            Keyboard.dismiss();
           }
         });
       }
@@ -56,10 +58,10 @@ const OtpModal: React.FC<IProps> = props => {
     onSmsListener();
 
     return () => {
-      try{
+      try {
         SmsRetriever.removeSmsListener();
-      } catch(_){}
-    }
+      } catch (_) {}
+    };
   }, []);
 
   const translate = useSelector<ITranslateGlobalState>(
@@ -74,24 +76,32 @@ const OtpModal: React.FC<IProps> = props => {
       <ScrollView
         contentContainerStyle={{flexGrow: 1}}
         keyboardShouldPersistTaps="handled">
-          <KeyboardAvoidingView {...(Platform.OS === 'ios' && {behavior: 'padding'})} style={{flex: 1, justifyContent: 'space-around', paddingVertical: 40}}>
-        <View style={styles.otpContent}>
-          <FloatingLabelInput
-            value={props.otp}
-            onChangeText={props.onSetOtp}
-            onRetry={props.onSendOTP}
-            title={props.title || translate.t('otp.otpSentBlank')}
-            resendTitle={props.resendTitle || translate.t('otp.resend')}
-            label={props.label || translate.t('otp.smsCode')}
-          />
-        </View>
-        <View style={styles.buttons}>
-          <AppButton
-            isLoading={props.isLoading}
-            onPress={props.onComplate}
-            title={props.buttonText || translate.t('common.next')}
-          />
-        </View>
+        <KeyboardAvoidingView
+          {...(Platform.OS === 'ios' && {behavior: 'padding'})}
+          style={styles.over}>
+          <TouchableOpacity style={styles.modalClose} onPress={props.onClose}>
+            <Image
+              source={require('./../assets/images/close40x40.png')}
+              style={styles.modalCloseIcon}
+            />
+          </TouchableOpacity>
+          <View style={styles.otpContent}>
+            <FloatingLabelInput
+              value={props.otp}
+              onChangeText={props.onSetOtp}
+              onRetry={props.onSendOTP}
+              title={props.title || translate.t('otp.otpSentBlank')}
+              resendTitle={props.resendTitle || translate.t('otp.resend')}
+              label={props.label || translate.t('otp.smsCode')}
+            />
+          </View>
+          <View style={styles.buttons}>
+            <AppButton
+              isLoading={props.isLoading}
+              onPress={props.onComplate}
+              title={props.buttonText || translate.t('common.next')}
+            />
+          </View>
         </KeyboardAvoidingView>
       </ScrollView>
     </Modal>
@@ -108,6 +118,23 @@ const styles = StyleSheet.create({
     //flex: 2,
     paddingHorizontal: 20,
   },
+  modalClose: {
+    position: 'absolute',
+    top: 15,
+    right: 15,
+    padding: 8,
+    flex: 1,
+    width: 40,
+  },
+  modalCloseIcon: {
+    width: 24,
+    height: 24,
+  },
+  over: {
+    flex: 1,
+    justifyContent: 'space-around',
+    paddingVertical: 40,
+  }
 });
 
 export default OtpModal;
