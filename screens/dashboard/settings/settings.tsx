@@ -503,7 +503,8 @@ const Settings: React.FC = () => {
       <SafeAreaView style={styles.content}>
         <ScrollView
           style={screenStyles.screenContainer}
-          contentContainerStyle={styles.container}>
+          contentContainerStyle={styles.container} 
+          showsVerticalScrollIndicator={false} >
           <View>
             <View style={styles.profile}>
               <View style={styles.coverBox}>
@@ -549,7 +550,7 @@ const Settings: React.FC = () => {
                 <Text style={styles.navItemTitle}>
                   {translate.t('settings.passCode')}
                 </Text>
-              </View>
+              </View> 
               <Switch
                 style={styles.check}
                 trackColor={{
