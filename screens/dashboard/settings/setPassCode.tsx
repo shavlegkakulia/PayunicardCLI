@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Platform,
+  Appearance,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
@@ -109,6 +110,15 @@ const SetPassCode: React.FC = () => {
 
   const screenHeight = Dimensions.get('window').height;
 
+  const activeDotBg = {backgroundColor: colors.black};
+  const dotBg = {backgroundColor: colors.inputBackGround};
+
+  const colorScheme = Appearance.getColorScheme();
+  if (colorScheme === 'dark') {
+    activeDotBg.backgroundColor = colors.primary;
+    dotBg.backgroundColor = colors.warning;
+  }
+
   return (
     <View style={[styles.container, screenHeight <= 800 && {paddingTop: 5}]}>
       <View style={styles.user}>
@@ -128,13 +138,13 @@ const SetPassCode: React.FC = () => {
       </View>
       <View style={styles.dots}>
         <View
-          style={[styles.dot, code && code[0] ? styles.activeDot : {}]}></View>
+          style={[styles.dot, code && code[0] ? {...activeDotBg} : dotBg]}></View>
         <View
-          style={[styles.dot, code && code[1] ? styles.activeDot : {}]}></View>
+          style={[styles.dot, code && code[1] ? {...activeDotBg} : dotBg]}></View>
         <View
-          style={[styles.dot, code && code[2] ? styles.activeDot : {}]}></View>
+          style={[styles.dot, code && code[2] ? {...activeDotBg} : dotBg]}></View>
         <View
-          style={[styles.dot, code && code[3] ? styles.activeDot : {}]}></View>
+          style={[styles.dot, code && code[3] ? {...activeDotBg} : dotBg]}></View>
       </View>
       <View style={styles.pad}>
         <View style={styles.tabs}>
@@ -252,12 +262,8 @@ const styles = StyleSheet.create({
   dot: {
     width: 10,
     height: 10,
-    backgroundColor: colors.inputBackGround,
     borderRadius: 5,
     marginHorizontal: 8,
-  },
-  activeDot: {
-    backgroundColor: colors.black,
   },
   pad: {
     width: 280,
