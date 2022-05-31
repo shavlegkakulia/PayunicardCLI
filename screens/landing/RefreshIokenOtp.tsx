@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   modalClose: {
     position: 'absolute',
-    top: 15,
+    top: 30,
     right: 15,
     padding: 8,
     flex: 1,
