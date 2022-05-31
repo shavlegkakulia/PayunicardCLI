@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   modalClose: {
     position: 'absolute',
-    top: 30,
+    top: Platform.OS === 'android' ? 30 : 35,
     right: 15,
     padding: 8,
     flex: 1,

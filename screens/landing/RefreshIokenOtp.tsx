@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, KeyboardAvoidingView, Keyboard, TouchableOpacity, Image} from 'react-native';
+import {View, Text, StyleSheet, KeyboardAvoidingView, Keyboard, TouchableOpacity, Image, Platform} from 'react-native';
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   modalClose: {
     position: 'absolute',
-    top: 30,
+    top: Platform.OS === 'android' ? 30 : 35,
     right: 15,
     padding: 8,
     flex: 1,
