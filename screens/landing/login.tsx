@@ -141,7 +141,7 @@ const LoginForm: React.FC = () => {
           }
         }
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {setIsLoading(false); setHasPasCode(false);});
   }, []);
 
   useEffect(() => {
