@@ -386,8 +386,12 @@ class PresentationService {
     return from(promise);
   }
 
-  get_GetOfferDetail(OfferId: number) {
-    const promise = axios.get<IIResponseOfGeOffersDetailsResponseData>(`${envs.API_URL}GetOffer/${OfferId}`);
+  get_GetOfferDetail(OfferId: number, culture?:string) {
+    let q = '';
+    if(culture) {
+      q = `&Culture=${culture}`;
+    }
+    const promise = axios.get<IIResponseOfGeOffersDetailsResponseData>(`${envs.API_URL}GetOffer?OfferId=${OfferId}${q}`);
     return from(promise);
   }
 }

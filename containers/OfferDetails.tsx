@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import colors from '../constants/colors';
+import { EN, KA, ka_ge } from '../lang';
 import {tabHeight} from '../navigation/TabNav';
 import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../redux/action_types/translate_action_types';
 import PresentationServive, {
@@ -36,7 +37,7 @@ const OfferDetails: React.FC = () => {
 
   const get_GetOffer = () => {
     setIsLoading(true);
-    PresentationServive.get_GetOfferDetail(offerId).subscribe({
+    PresentationServive.get_GetOfferDetail(offerId, translate.key === ka_ge ? KA : EN).subscribe({
       next: Response => {
         setOffer(Response.data.data?.offer);
       },
