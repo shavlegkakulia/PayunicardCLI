@@ -89,7 +89,8 @@ const Routes = {
     KvalifcaVerification: 'KvalifcaVerification',
     OfferDetails: 'OfferDetails',
     paymentMethods: 'paymentMethods',
-    TrustedDevices: 'TrustedDevices'
+    TrustedDevices: 'TrustedDevices',
+    notifications: 'notifications'
 }
 
 export default Routes;

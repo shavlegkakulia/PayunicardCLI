@@ -33,13 +33,12 @@ const Topup: React.FC = () => {
     state => state.TranslateReduser,
   ) as ITranslateState;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
-  const [actionType, setActionType] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [userBankCards, setUserBankCards] = useState<
     IGetUserBankCardsResponse | undefined
   >();
 
-  const next = () => {
+  const next = (actionType: string) => {
     if (actionType === TopupActionTypes.topup) {
       getUserBankCards();
     } else {
@@ -79,12 +78,13 @@ const Topup: React.FC = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
-      <View style={[screenStyles.wraper, styles.container]}>
+      <View style={[styles.container]}>
         <View style={styles.content}>
           <View style={styles.touchables}>
+          <View style={styles.card}>
             <TouchableOpacity
               style={styles.touchableItem}
-              onPress={setActionType.bind(this, TopupActionTypes.topup)}>
+              onPress={() => next(TopupActionTypes.topup)}>
               <Cover
                 localImage={require('./../../../assets/images/icon-topup-card.png')}
                 style={styles.touchableItemIcon}
@@ -93,15 +93,15 @@ const Topup: React.FC = () => {
               <Text
                 style={[
                   styles.touchableItemText,
-                  actionType === TopupActionTypes.topup &&
-                  styles.activeTouchableItemText,
                 ]}>
                 {translate.t('topUp.withCard')}
               </Text>
             </TouchableOpacity>
+            </View>
+            <View style={[styles.card, styles.lastCard]}>
             <TouchableOpacity
               style={styles.touchableItem}
-              onPress={setActionType.bind(this, TopupActionTypes.addCard)}>
+              onPress={() => next(TopupActionTypes.addCard)}>
               <Image
                 source={require('./../../../assets/images/icon-card-yellow.png')}
                 style={styles.touchableItemIcon}
@@ -109,29 +109,21 @@ const Topup: React.FC = () => {
               <Text
                 style={[
                   styles.touchableItemText,
-                  actionType === TopupActionTypes.addCard &&
-                  styles.activeTouchableItemText,
                 ]}>
                 {translate.t('plusSign.addCard')}
               </Text>
             </TouchableOpacity>
-          </View>
-          {actionType === TopupActionTypes.addCard && (
+           
             <Text style={styles.actionInfoText}>
               <Text style={styles.redPoint}>*</Text> {translate.t('topUp.linkCardText1')}
               {'\n'}
               <Text style={styles.redPoint}>*</Text> {translate.t('topUp.linkCardText2')}{'\n'}
               <Text style={styles.redPoint}>*</Text> {translate.t('topUp.linkCardText3')}
             </Text>
-          )}
+            </View>
+          </View>
+
         </View>
-        <AppButton
-          isLoading={isLoading}
-          style={styles.button}
-          title={translate.t('common.next')}
-          onPress={next.bind(this)}
-          disabled={actionType === undefined || isLoading}
-        />
       </View>
     </ScrollView>
   );
@@ -139,26 +131,32 @@ const Topup: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
     flex: 1,
     paddingBottom: tabHeight,
   },
   content: {
     flex: 1,
-    paddingTop: 40,
     paddingHorizontal: 15,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   avoid: {
     flexGrow: 1,
+  },
+  card: {
     backgroundColor: colors.white,
+    borderRadius: 10,
+    padding: 20
+  },
+  lastCard: {
+    marginTop: 25
   },
   touchables: {
-    marginBottom: 14,
+  
   },
   touchableItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 15,
   },
   touchableItemIcon: {
     marginRight: 30,
@@ -172,14 +170,12 @@ const styles = StyleSheet.create({
   redPoint: {
     color: colors.danger,
   },
-  activeTouchableItemText: {
-    color: colors.black,
-  },
   actionInfoText: {
     fontFamily: 'FiraGO-Book',
     lineHeight: 17,
     fontSize: 14,
     color: colors.labelColor,
+    marginTop: 20
   },
   button: {
     marginVertical: 40,

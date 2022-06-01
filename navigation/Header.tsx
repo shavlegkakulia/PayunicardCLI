@@ -8,6 +8,7 @@ import { ka_ge } from '../lang';
 import  NavigationService, {
   OpenDrawer,
 } from '../services/NavigationService';
+import Routes from './routes';
 
 const DefaultOptions = ({
   navigation,
@@ -21,7 +22,7 @@ const DefaultOptions = ({
   headerShown: true,
   headerLeft: () => (
     <View style={styles.notification}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => NavigationService.navigate(Routes.notifications)}>
         <Image
           source={require('./../assets/images/notification.png')}
           style={styles.leftItem}

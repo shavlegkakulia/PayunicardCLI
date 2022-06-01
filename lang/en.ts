@@ -385,6 +385,9 @@ export default {
         warning5: 'Otherwise your order will be cancelled',
         seeAfterTopup: 'Once the Amount is Credited to the Account, \nthe Delivery Time will be Calculated',
         maxOrderCards: 'You Can Order 6 Cards. You Have Already Ordered {count} Card(s)'
+    },
+    notifications: {
+        emptycontent: 'Your Notifications\n\ntab is empty'
     }
 
 

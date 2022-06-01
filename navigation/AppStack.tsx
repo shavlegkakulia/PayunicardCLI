@@ -81,6 +81,8 @@ import PasswordResetStepThree from '../screens/landing/password/PasswordResetSte
 import setLoginWithPassCode from '../screens/landing/setLoginWithPassCode';
 import AgreeTerm from '../screens/landing/signup/signup-agree';
 import RefreshTokenOtp from '../screens/landing/RefreshIokenOtp';
+import { subscriptionService } from '../services/subscriptionService';
+import Notifications from '../screens/dashboard/notifications/Notifications';
 
 const appStack = createStackNavigator();
 
@@ -105,6 +107,18 @@ const AppStack: React.FC = () => {
     });
 
     return () => sub.remove();
+  }, []);
+
+  useEffect(() => {
+    const red_sub = subscriptionService.getData().subscribe(res => {
+      if(res?.key === 'force_redirect') {
+        NavigationService.navigate(Routes.Landing);
+      }
+    });
+
+    return () => {
+      red_sub.unsubscribe();
+    }
   }, []);
 
   return (
@@ -1055,6 +1069,16 @@ const AppStack: React.FC = () => {
                     backText: translate.t('common.back'),
                   })
                 }
+              />
+              <appStack.Screen
+                name={Routes.notifications}
+                options={props =>
+                  DefaultOptions({
+                    navigation: props.navigation,
+                    lang: translate.key,
+                  })
+                }
+                component={Notifications}
               />
             </>
           ) : (
