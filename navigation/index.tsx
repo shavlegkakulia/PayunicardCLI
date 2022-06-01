@@ -122,7 +122,7 @@ const AppContainer: FC = () => {
     <ErrorWrapper>
       <UserInactivity
         timeForInactivity={180 * 1000}
-        isAuth={state.isAuthenticated}>
+        isAuth={state.accesToken.length > 0 && state.isAuthenticated}>
         <NavigationContainer
           ref={(navigatorRef: NavigationContainerRef) => {
             NavigationService.setTopLevelNavigator(navigatorRef);

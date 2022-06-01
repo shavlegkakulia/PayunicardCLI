@@ -55,7 +55,8 @@ export default {
         month: 'თვე',
         day: 'დღე',
         year: 'წელი',
-        setBirthDate: 'შეავსეთ დაბადების თარიღი'
+        setBirthDate: 'შეავსეთ დაბადების თარიღი',
+        seeMore: 'იხილეთ მეტი'
     },
 
     generalErrors: {
@@ -236,7 +237,8 @@ export default {
         lastSixMonths: 'ბოლო ექვსი თვე',
         lastYear: 'ბოლო ერთი წელი',
         startDate: 'თარიღიდან',
-        endDate: 'თარიღამდე'
+        endDate: 'თარიღამდე',
+        transactionNotExists: 'ტრანზაქციები არ არის'
     }, 
     transfer: {
         transferTemplates: 'გადარიცხვის შაბლონები',

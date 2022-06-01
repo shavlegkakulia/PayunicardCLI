@@ -54,7 +54,8 @@ export default {
         month: 'month',
         day: 'day',
         year: 'year',
-        setBirthDate: 'Fill the date field'
+        setBirthDate: 'Fill the date field',
+        seeMore: 'See More'
     },
     generalErrors: {
         errorOccurred: 'An Error Occurred',
@@ -182,7 +183,8 @@ export default {
         lastSixMonths: 'Last Six Months',
         lastYear: 'Last Year',
         startDate: 'Start Date',
-        endDate: 'End Date'
+        endDate: 'End Date',
+        transactionNotExists: 'Transaction not found'
     },
     dashboard: {
         userVerifyStatus1: 'In order to use all features of your wallet please complete identification.',

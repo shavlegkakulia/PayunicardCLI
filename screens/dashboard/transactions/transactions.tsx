@@ -184,14 +184,15 @@ const Transactions: React.FC = () => {
     });
   };
 
-  const getStatements = (renew?: boolean) => {
+  const getStatements = (renew?: boolean, start?:Date) => {
+  
     if (selectedAccount?.type === TYPE_UNICARD) {
       getUnicardStatement();
       return;
     }
     if (unicardStatements) setUnicardStatements(undefined);
     let data: IUserAccountsStatementRequest = {
-      startDate: selectedStartDate,
+      startDate: start || selectedStartDate,
       rowIndex: rowIndex,
       rowCount: rowCount,
     };
@@ -318,8 +319,6 @@ const Transactions: React.FC = () => {
     });
   };
 
-  const refreshStatementDebounce = debounce((e: Function) => e(), 1000);
-
   const removeFilter = (stateKey: string) => {
     switch (stateKey) {
       case filter_items.selectedAccount: {
@@ -334,7 +333,7 @@ const Transactions: React.FC = () => {
           prev.endDateVlaue = new Date();
           return prev;
         });
-        refreshStatementDebounce(() => getStatements());
+        getStatements(true, minusMonthFromDate());
         break;
       }
       case filter_items.selectedCurrency: {

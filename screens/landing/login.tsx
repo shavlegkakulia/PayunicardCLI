@@ -7,7 +7,6 @@ import {
   Image,
   Keyboard,
   EmitterSubscription,
-  KeyboardAvoidingView,
   Platform,
   BackHandler,
   Modal,
@@ -40,8 +39,6 @@ import {useDimension} from '../../hooks/useDimension';
 import AuthService, {IAuthorizationRequest} from '../../services/AuthService';
 import {stringToObject} from '../../utils/utils';
 import {require_otp, require_password_change} from '../../constants/errorCodes';
-import FloatingLabelInput from '../../containers/otp/Otp';
-import screenStyles from '../../styles/screens';
 import Routes from '../../navigation/routes';
 import {useNavigation} from '@react-navigation/native';
 import SetLoginWithPassCode from './setLoginWithPassCode';
@@ -71,7 +68,7 @@ const LoginForm: React.FC = () => {
   const [userInfo, setUserInfo] = useState<IUserDetails | null>({});
   const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
   const [isUserLoading, setIsUserLoading] = useState(false);
-  const [hasPasCode, setHasPasCode] = useState<boolean>(false);
+  const [hasPasCode, setHasPasCode] = useState<boolean | undefined>(undefined);
   const [{access_token, refresh_token}, setTokens] = useState({
     access_token: '',
     refresh_token: '',

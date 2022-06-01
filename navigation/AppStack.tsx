@@ -124,7 +124,7 @@ const AppStack: React.FC = () => {
   return (
     <DrawerLayout
       drawerWidth={300}
-      drawerLockMode={state.isAuthenticated ? 'unlocked' : 'locked-closed'}
+      drawerLockMode={(state.isAuthenticated && state.accesToken.length > 0) ? 'unlocked' : 'locked-closed'}
       keyboardDismissMode="on-drag"
       onDrawerOpen={() => (isDrawerOpened.current = true)}
       onDrawerClose={() => (isDrawerOpened.current = false)}

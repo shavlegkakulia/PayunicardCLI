@@ -275,6 +275,7 @@ export interface IOffersResponse {
   url: string;
   title: string;
   text: string;
+  merchantUrl: string;
 }
 
 export interface IOffersDetailResponse extends IOffersResponse {
