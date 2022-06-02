@@ -403,6 +403,8 @@ PODS:
     - React-Core
   - RNScreens (1.0.0-alpha.23):
     - React
+  - RNSVG (12.3.0):
+    - React-Core
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -454,6 +456,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -568,6 +571,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -632,8 +637,9 @@ SPEC CHECKSUMS:
   RNFBApp: b6276fc67748c7174275cace56776f0228ae58b2
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
+  RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
 
-PODFILE CHECKSUM: e39fcbea5e373af8fa47fc199f37091a756b74ed
+PODFILE CHECKSUM: aba2ba31e8c4d4d5808165b1611fc93990c29b9e
 
 COCOAPODS: 1.11.2
