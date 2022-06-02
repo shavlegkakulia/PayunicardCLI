@@ -1,7 +1,9 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { SvgXml } from 'react-native-svg';
 import {useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
+import { unicardLogoAction } from '../../../constants/svgXmls';
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
@@ -25,7 +27,7 @@ const UnicardAction: React.FC = () => {
       style={[styles.unicardActionContainer, screenStyles.shadowedCardbr15]}>
       <View style={styles.unicardActionInnerLeft}>
         <View style={styles.unicardLogoBox}>
-          <Image source={require('./../../../assets/images/uniLogo.png')} />
+        <SvgXml xml={unicardLogoAction} width="20" />
         </View>
         <Text style={styles.unicardACtionText}>
           {translate.t('dashboard.unicardCard')}

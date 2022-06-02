@@ -1,7 +1,8 @@
 
 import {StackNavigationOptions} from '@react-navigation/stack';
 import React from 'react';
-import {Image, View, TouchableOpacity, StyleSheet, Text, Platform, Dimensions} from 'react-native';
+import {Image, View, TouchableOpacity, StyleSheet, Text, Platform} from 'react-native';
+
 import colors from '../constants/colors';
 import {headerHeight} from '../constants/defaults';
 import { ka_ge } from '../lang';
@@ -9,6 +10,8 @@ import  NavigationService, {
   OpenDrawer,
 } from '../services/NavigationService';
 import Routes from './routes';
+import { SvgXml } from 'react-native-svg';
+import { payLogo, payLogo_en } from '../constants/svgXmls';
 
 const DefaultOptions = ({
   navigation,
@@ -33,11 +36,7 @@ const DefaultOptions = ({
   ),
   headerTitle: () => (
     <View>
-      <Image
-        source={lang === ka_ge ? require('./../assets/images/payunicard.png') : require('./../assets/images/payunicard_en.png')}
-        style={styles.logo}
-        resizeMode="contain"
-      />
+      <SvgXml xml={lang === ka_ge ? payLogo : payLogo_en} height="42" />
     </View>
   ),
   headerRight: () => {
