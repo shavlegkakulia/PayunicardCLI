@@ -1136,7 +1136,7 @@ const AppStack: React.FC = () => {
                 options={props =>
                   UnauthScreenOptionsDrawer({
                     navigation: props.navigation,
-                    title: translate.t('signup.title'),
+                    title: translate.t('login.forgotpassword'),
                     backText: translate.t('common.back'),
                   })
                 }

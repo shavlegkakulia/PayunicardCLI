@@ -566,6 +566,7 @@ const TransferToUni: React.FC = () => {
                         styles.accountSelectHandler,
                         fromAccountErrorStyle,
                       ]}>
+                        <Text style={styles.accountPlaceholder}>{translate.t('common.selectAccount')}</Text>
                       <Image
                         style={styles.dropImg}
                         source={require('./../../../assets/images/down-arrow.png')}
@@ -855,8 +856,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.inputBackGround,
     borderRadius: 10,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    paddingLeft: 15
+  },
+  accountPlaceholder: {
+    fontFamily: 'FiraGO-Regular',
+    fontSize: 14,
+    lineHeight: 17,
+    color: colors.labelColor,
   },
   dropImg: {
     marginRight: 12,

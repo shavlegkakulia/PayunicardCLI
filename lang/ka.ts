@@ -71,10 +71,10 @@ export default {
     },
 
     otp: {
-        enterOtp: 'შეიყვანეთ Sms კოდი',
-        otpSent: 'Sms კოდი გამოგზავნილია ნომერზე',
-        otpSentBlank: 'Sms კოდი გამოგზავნილია ',
-        smsCode: 'Sms კოდი',
+        enterOtp: 'შეიყვანეთ SMS კოდი',
+        otpSent: 'SMS კოდი გამოგზავნილია ნომერზე',
+        otpSentBlank: 'SMS კოდი გამოგზავნილია ',
+        smsCode: 'SMS კოდი',
 
         resend: 'თავიდან'
     },

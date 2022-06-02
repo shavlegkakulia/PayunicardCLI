@@ -27,9 +27,13 @@ const Cover: React.FC<IProps> = props => {
           <ActivityIndicator size="small" color={colors.primary} />
         </View>
       ) : props.localImage ? (
-        <Image source={props.localImage} style={[styles.logo, props.imgStyle]} />
+        <View style={styles.LogoBox}>
+        <Image source={props.localImage} resizeMode={'contain'} style={[styles.logo, props.imgStyle]} />
+        </View>
       ) : (
-        <Image source={{uri: props.imageUrl}} style={[styles.logo, props.imgStyle]} />
+        <View style={styles.LogoBox}>
+        <Image source={{uri: props.imageUrl}} resizeMode={'contain'} style={[styles.logo, props.imgStyle]} />
+        </View>
       )}
     </View>
   );
@@ -39,9 +43,18 @@ const styles = StyleSheet.create({
   item: {
     backgroundColor: colors.white,
   },
-  logo: {
+  LogoBox: {
     width: 40,
     height: 40,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.inputBackGround,
+    overflow: 'hidden',
+    marginRight: 18,
+  },
+  logo: {
+    width: '100%',
+    height: '100%',
   },
   loaderBox: {
     height: 40,

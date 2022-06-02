@@ -123,6 +123,7 @@ const InsertAbonentCode: React.FC<INavigationProps> = props => {
                 context={ValidationContext}
                 customKey="abonentCode"
                 requireds={[required]}
+                placeholder={translate.t('payments.abonentNumber')}
                 style={styles.abonentCodeInput}
               />
             </View>
@@ -133,6 +134,7 @@ const InsertAbonentCode: React.FC<INavigationProps> = props => {
                   value={PaymentStore.carPlate}
                   onChange={carPlate => setCarPlate(carPlate)}
                   context={ValidationContext}
+                  placeholder={translate.t('payments.carNumber')}
                   customKey="carPlate"
                   requireds={[required]}
                   style={styles.abonentCodeInput}

@@ -421,6 +421,7 @@ const InsertAccointAndAmount: React.FC = props => {
                   <TouchableOpacity
                     onPress={() => setAccountVisible(true)}
                     style={[styles.accountSelectHandler, accountErrorStyle]}>
+                       <Text style={styles.accountPlaceholder}>{translate.t('common.selectAccount')}</Text>
                     <Image
                       style={styles.dropImg}
                       source={require('./../../../../assets/images/down-arrow.png')}
@@ -446,6 +447,7 @@ const InsertAccointAndAmount: React.FC = props => {
                   value={PaymentStore.amount}
                   onChange={amount => onSetAmount(amount)}
                   context={ValidationContext}
+                  placeholder={CurrencyConverter(0)}
                   customKey="amount"
                   requireds={[required, hasNumeric]}
                   style={styles.amountInput}
@@ -581,8 +583,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.inputBackGround,
     borderRadius: 10,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    paddingLeft: 15
+  },
+  accountPlaceholder: {
+    fontFamily: 'FiraGO-Regular',
+    fontSize: 14,
+    lineHeight: 17,
+    color: colors.labelColor,
   },
   dropImg: {
     marginRight: 12,

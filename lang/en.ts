@@ -113,10 +113,10 @@ export default {
     password: {
         pasChanged: 'Password Has Been Changed Successfully',    },
     otp: {
-        enterOtp: 'Enter Sms Code',
-        otpSent: 'Sms Code Has Been Sent to Number ',
-        otpSentBlank: 'Sms Code Has Been Sent',
-        smsCode: 'Sms Code',
+        enterOtp: 'Enter SMS Code',
+        otpSent: 'SMS Code Has Been Sent to Number ',
+        otpSentBlank: 'SMS Code Has Been Sent',
+        smsCode: 'SMS Code',
         resend: 'Resend'
     },
     template: {
