@@ -117,12 +117,9 @@ const AccountSelect: React.FC<IProps> = props => {
         onRequestClose={() => {
           props.onToggle();
         }}>
-        <TouchableOpacity
-          style={styles.background}
-          activeOpacity={1}
-          onPress={() => props.onToggle()}
-        />
-        <View style={styles.centeredView}>
+        
+        <TouchableOpacity style={styles.centeredView} activeOpacity={1}
+          onPress={() => props.onToggle()}>
           <View style={[styles.modalView]}>
             <ScrollView style={{maxHeight: dimension.height - 200}}>
               {props.accounts?.map(account => (
@@ -144,7 +141,7 @@ const AccountSelect: React.FC<IProps> = props => {
               ))}
             </ScrollView>
           </View>
-        </View>
+        </TouchableOpacity>
       </Modal>
     </View>
   );
@@ -155,6 +152,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#00000098',
   },
   modalView: {
     margin: 20,
@@ -171,15 +169,6 @@ const styles = StyleSheet.create({
     elevation: 5,
     width: '90%',
     maxWidth: 380,
-  },
-  background: {
-    flex: 1,
-    backgroundColor: '#00000098',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
   },
   item: {
     flexDirection: 'row',
