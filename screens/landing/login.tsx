@@ -139,9 +139,11 @@ const LoginForm: React.FC = () => {
               refresh_token: _refresh_token,
             });
           }
+        } else {
+          setHasPasCode(false);
         }
       })
-      .finally(() => {setIsLoading(false); setHasPasCode(false);});
+      .finally(() => {setIsLoading(false); });
   }, []);
 
   useEffect(() => {

@@ -45,7 +45,13 @@ const BiometricAuthScreen: React.FC<IProps> = props => {
       }
     }
 
-    return () => FingerprintScanner.release();
+    return () => {
+      try {
+        FingerprintScanner.release();
+      }catch(e) {
+        console.log('!!!', e)
+      }
+    }
   }, [props.start]);
   const getMessage = () => {
     if (biometryType == 'Face ID') {
