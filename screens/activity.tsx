@@ -10,6 +10,7 @@ import {
   Dimensions,
   Text,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import {connect} from 'react-redux';
 import AppButton from '../components/UI/AppButton';
@@ -68,6 +69,9 @@ class UserInactivity extends PureComponent<IProps, any> {
 
   componentWillMount() {
     if (this.props.isAuth) {
+      if(Platform.OS === 'ios') {
+        BackgroundTimer.start();
+      }
       this.registerPan();
     }
   }
@@ -75,6 +79,9 @@ class UserInactivity extends PureComponent<IProps, any> {
   componentWillUnmount() {
     if (this.timeout) BackgroundTimer.clearTimeout(this.timeout);
     if (this.popupTimeout) BackgroundTimer.clearTimeout(this.popupTimeout);
+    if(Platform.OS === 'ios') {
+      BackgroundTimer.stop();
+    }
   }
 
   componentDidUpdate() {
