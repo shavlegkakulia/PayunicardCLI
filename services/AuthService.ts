@@ -140,7 +140,7 @@ class AuthService {
     await this.removeToken();
   }
 
-  registerAuthInterceptor(callBack: () => void) {
+  registerAuthInterceptor(callBack: (refreshBiometric?: boolean | undefined) => void) {
     storage.getItem(DEVICE_ID).then(data => {
       if(data !== null) {
         Store.dispatch<IAuthAction>({type: SET_DEVICE_ID, deviceId: getString(data)});
@@ -214,7 +214,7 @@ class AuthService {
         ) {
           
           if (stringToObject(error.response).data.error === invalid_grant) {
-            callBack();
+            callBack(true);
             return Promise.reject(error);
           }
 
@@ -292,7 +292,7 @@ class AuthService {
           .catch(err => {
             this.refreshStarted = false;
 
-            callBack();
+            callBack(true);
             return Promise.reject(err);
           });
       },
