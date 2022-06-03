@@ -7,8 +7,16 @@ import storage from './../../services/StorageService';
 import colors from '../../constants/colors';
 import { FIRST_LOAD_KEY } from '../../constants/defaults';
 import FullScreenLoader from './../../components/FullScreenLoading';
+import { RouteProp, useRoute } from '@react-navigation/native';
+
+type RouteParamList = {
+    params: {
+        loginWithPassword?:boolean;
+    };
+  };
 
 const Main: React.FC = () => {
+    const route = useRoute<RouteProp<RouteParamList, 'params'>>();
     const [firstLoad, setFirstsLoad] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -39,7 +47,7 @@ const Main: React.FC = () => {
     return (
         <LandingLayout>
             <View style={styles.container}>
-                <Login />
+                <Login loginWithPassword={route.params?.loginWithPassword} />
             </View>
             <FullScreenLoader visible={isLoading} />
         </LandingLayout>

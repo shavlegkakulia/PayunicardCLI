@@ -34,7 +34,7 @@ import envs from './../../config/env';
 import Store from './../../redux/store';
 import FullScreenLoader from '../../components/FullScreenLoading';
 import {stringToObject} from '../../utils/utils';
-import {require_otp} from '../../constants/errorCodes';
+import {invalid_grant, require_otp} from '../../constants/errorCodes';
 import {useNavigation} from '@react-navigation/native';
 import Routes from '../../navigation/routes';
 import {TOKEN_EXPIRE} from '../../constants/defaults';
@@ -126,6 +126,8 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
       .catch(error => {
         if (stringToObject(error.response).data.error === require_otp) {
           navigation.navigate(Routes.RefreshTokenOtp);
+        } else if (stringToObject(error.response).data.error === invalid_grant) {
+          navigation.navigate(Routes.Landing, {loginWithPassword: true});
         }
         return {accesToken: undefined, refreshToken: undefined, skip: true};
       })
@@ -152,7 +154,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
             setCode(undefined);
           }
         }
-      });
+      }).catch(e => console.log(e.response));
     } else {
       dispatch(PUSH(translate.t('generalErrors.passCodeError')));
       setCode(undefined);

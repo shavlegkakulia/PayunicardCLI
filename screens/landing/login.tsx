@@ -49,7 +49,11 @@ import OtpModal from '../../components/OtpModal';
 
 const CONTEXT_TYPE = 'login';
 
-const LoginForm: React.FC = () => {
+interface IPageProps {
+  loginWithPassword?:boolean;
+}
+
+const LoginForm: React.FC<IPageProps> = ({loginWithPassword}) => {
   const dispatch = useDispatch();
   const state = useSelector<IGlobalState>(
     state => state.AuthReducer,
@@ -367,7 +371,7 @@ const LoginForm: React.FC = () => {
       <AppkeyboardAVoidScrollview>
         <View style={styles.container}>
           <Header />
-          {hasPasCode ? (
+          {(hasPasCode && !loginWithPassword) ? (
             <SetLoginWithPassCode
               UserData={userInfo}
               access_token={access_token}

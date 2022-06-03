@@ -21,12 +21,12 @@ const TransactionItem: React.FC<IProps> = (props) => {
     state => state.TranslateReduser,
   ) as ITranslateState;
 
-  if(!props.unicards && !props.statements) {
+  if(getNumber(props.unicards?.length) <= 0 && getNumber(props.statements?.length) <= 0) {
     return <View>
       <Text style={styles.emptyTransactionText}>{translate.t('transaction.transactionNotExists')}</Text>
     </View>
   }
-  
+ 
     return (
       <View>
         {!props.unicards ? (

@@ -130,6 +130,7 @@ const Transactions: React.FC = () => {
   );
   const [isAmountShown, setIsAmountShown] = useState<boolean>(false);
   const [isPdfDownloading, setIsPdfDownloading] = useState<boolean>(false);
+  const [monthCount, setMonthCount] = useState<number | undefined>(undefined);
   const dispatch = useDispatch();
 
   const onFromCurrencySelect = (currency: ICurrency) => {
@@ -329,6 +330,7 @@ const Transactions: React.FC = () => {
       case filter_items.selectedDate: {
         setSelectedStartDate(minusMonthFromDate());
         setSelectedEndDate(new Date());
+        setMonthCount(undefined);
         setDateValue(prev => {
           prev.startDateValue = minusMonthFromDate();
           prev.endDateVlaue = new Date();
@@ -366,8 +368,9 @@ const Transactions: React.FC = () => {
     closeSheet();
   };
 
-  const getLast = (monthCount: number) => {
-    setSelectedStartDate(minusMonthFromDate(monthCount));
+  const getLast = (_monthCount: number) => {
+    setMonthCount(_monthCount);
+    setSelectedStartDate(minusMonthFromDate(_monthCount));
   };
 
   const FetchUserData = () => {
@@ -695,7 +698,7 @@ const Transactions: React.FC = () => {
               {selectedStartDate.toLocaleDateString()} -{' '}
               {selectedEndDate.toLocaleDateString()}
             </Text>
-            {!isBaseDate && (
+            {(!isBaseDate || monthCount) && (
               <TouchableOpacity
                 style={styles.activeFilterRemove}
                 onPress={removeFilter.bind(this, filter_items.selectedDate)}>
@@ -856,16 +859,16 @@ const Transactions: React.FC = () => {
             <View>
               <View style={styles.lastDatesContainer}>
                 <TouchableOpacity
-                  style={styles.lastDate}
+                  style={[styles.lastDate, monthCount === 1 && styles.activeLastDate]}
                   onPress={getLast.bind(this, 1)}>
-                  <Text style={styles.lastDateText}>
+                  <Text style={[styles.lastDateText, monthCount === 1 && styles.activeLastDateText]}>
                     {translate.t('transaction.lastMonth')}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={styles.lastDate}
+                  style={[styles.lastDate, monthCount === 3 && styles.activeLastDate]}
                   onPress={getLast.bind(this, 3)}>
-                  <Text style={styles.lastDateText}>
+                  <Text style={[styles.lastDateText, monthCount === 3 && styles.activeLastDateText]}>
                     {translate.t('transaction.lastThreeMonths')}
                   </Text>
                 </TouchableOpacity>
@@ -873,16 +876,16 @@ const Transactions: React.FC = () => {
 
               <View style={styles.lastDatesContainer}>
                 <TouchableOpacity
-                  style={styles.lastDate}
+                  style={[styles.lastDate, monthCount === 6 && styles.activeLastDate]}
                   onPress={getLast.bind(this, 6)}>
-                  <Text style={styles.lastDateText}>
+                  <Text style={[styles.lastDateText, monthCount === 6 && styles.activeLastDateText]}>
                     {translate.t('transaction.lastSixMonths')}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={styles.lastDate}
+                  style={[styles.lastDate, monthCount === 12 && styles.activeLastDate]}
                   onPress={getLast.bind(this, 12)}>
-                  <Text style={styles.lastDateText}>
+                  <Text style={[styles.lastDateText, monthCount === 12 && styles.activeLastDateText]}>
                     {translate.t('transaction.lastYear')}
                   </Text>
                 </TouchableOpacity>
@@ -957,7 +960,7 @@ const Transactions: React.FC = () => {
               title={translate.t('common.showMe')}
               onPress={filterWithDates}
               style={styles.button}
-              disabled={isBaseDate}
+              disabled={isBaseDate && !monthCount}
             />
           </View>
         </View>
@@ -1093,11 +1096,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 170,
   },
+  activeLastDate: {
+    backgroundColor: colors.primary,
+  },
   lastDateText: {
     fontFamily: 'FiraGO-Medium',
     fontSize: 14,
     lineHeight: 17,
     color: colors.labelColor,
+  },
+  activeLastDateText: {
+    color: colors.white
   },
   lastDatesContainer: {
     justifyContent: 'space-around',

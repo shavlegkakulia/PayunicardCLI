@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.inputBackGround,
     overflow: 'hidden',
-    marginRight: 18,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   logo: {
     width: '100%',
