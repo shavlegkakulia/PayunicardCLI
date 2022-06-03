@@ -65,6 +65,7 @@ import PaginationDots from '../../../components/PaginationDots';
 import CurrencySelect from '../../../components/CurrencySelect/CurrencySelect';
 import Cover from '../../../components/Cover';
 import RNFetchBlob from 'rn-fetch-blob';
+import { EN, KA, ka_ge } from '../../../lang';
 
 const filter_items = {
   selectedAccount: 'selectedAccount',
@@ -904,6 +905,7 @@ const Transactions: React.FC = () => {
 
               <DatePicker
                 date={startDateValue}
+                maximumDate={new Date()}
                 onDateChange={data => {
                   setDateValue(prev => {
                     let startDateValue = new Date(data.toLocaleDateString());
@@ -913,7 +915,7 @@ const Transactions: React.FC = () => {
                   });
                 }}
                 style={styles.datePicker}
-                locale="ka-GE"
+                locale={translate.key === ka_ge ? KA : EN}
                 mode="date"
               />
             </View>
@@ -934,6 +936,7 @@ const Transactions: React.FC = () => {
 
               <DatePicker
                 date={endDateVlaue}
+                maximumDate={new Date()}
                 onDateChange={data => {
                   setDateValue(prev => {
                     let startDateValue = prev.startDateValue;
@@ -943,7 +946,7 @@ const Transactions: React.FC = () => {
                   });
                 }}
                 style={styles.datePicker}
-                locale="ka-GE"
+                locale={translate.key === ka_ge ? KA : EN}
                 mode="date"
               />
             </View>

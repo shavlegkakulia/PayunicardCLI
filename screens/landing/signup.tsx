@@ -32,6 +32,7 @@ import { getString } from '../../utils/Converter';
 import SmsRetriever from 'react-native-sms-retriever';
 import analytics from '@react-native-firebase/analytics';
 import Routes from '../../navigation/routes';
+import { EN, KA, ka_ge } from '../../lang';
 
 interface IProps {
   onComplate: (step: number) => void;
@@ -407,7 +408,8 @@ const SignupForm: React.FC<IProps> = props => {
       <DatePicker
         modal
         mode="date"
-        locale="ka-GE"
+        maximumDate={new Date()}
+        locale={translate.key === ka_ge ? KA : EN}
         open={chooseDate}
         date={birthDate}
         onDateChange={() => {}}
