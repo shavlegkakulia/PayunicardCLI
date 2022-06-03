@@ -4,7 +4,7 @@ import storage from './../services/StorageService';
 import { IErrorAction, PUSH_ERROR } from './../redux/action_types/error_action_types';
 import envs from './../config/env';
 import { stringToObject } from '../utils/utils';
-import { invalid_username_or_password, otp_not_valid, require_otp } from '../constants/errorCodes';
+import { invalid_grant, invalid_username_or_password, otp_not_valid, require_otp } from '../constants/errorCodes';
 import Store from './../redux/store';
 import { IAuthAction, REFRESH, SET_DEVICE_ID } from '../redux/action_types/auth_action_types';
 import { AUTH_USER_INFO, DEVICE_ID, TOKEN_EXPIRE } from '../constants/defaults';
@@ -212,6 +212,12 @@ class AuthService {
           error.config.anonymous ||
           error.config.skipRefresh
         ) {
+          
+          if (stringToObject(error.response).data.error === invalid_grant) {
+            callBack();
+            return Promise.reject(error);
+          }
+
           if (error?.response?.status === 500 || error?.response?.status === 400){
             error.message = stringTranslator.t("generalErrors.errorOccurred");
           }
