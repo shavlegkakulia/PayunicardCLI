@@ -359,10 +359,15 @@ const Settings: React.FC = () => {
     });
   };
 
-  const onOffTrustDevice = () => {
+  const onOffTrustDevice = () => { 
     if (isTrstedProcessing) return;
-    const current = [...(authData.devices || [])].filter(device => device.isCurrent === true);
-    if (!current.length) return;
+    const current = [...(authData.devices || [])].filter(device => device.isCurrent === true); 
+    if (!current.length) {
+      storage.removeItem(DEVICE_ID);
+          dispatch({ type: SET_DEVICE_ID, deviceId: undefined });
+          onTrust(false);
+      return;
+    }
     setIsTrustedProcessing(true);
     deviceService.UpdateDeviceStatus(current[0].id).subscribe({
       next: Response => {
