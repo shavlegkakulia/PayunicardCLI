@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 5,
     left: -5,
-    top: (Dimensions.get('screen').height / 3) + 100,
+    top: (Dimensions.get('window').height / 3) + 100,
     backgroundColor: '#94DD3460',
     borderBottomLeftRadius: 15,
     borderTopLeftRadius: 15,

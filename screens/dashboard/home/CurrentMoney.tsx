@@ -1,7 +1,9 @@
 import React from 'react';
 import {View, StyleSheet, Text, Image, ActivityIndicator} from 'react-native';
+import { SvgXml } from 'react-native-svg';
 import {useSelector} from 'react-redux';
 import colors from '../../../constants/colors';
+import { uni_coin } from '../../../constants/svgXmls';
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
@@ -57,10 +59,7 @@ const CurrentMoney: React.FC = () => {
             <Text style={styles.currentUniscoresValue}>
               {CurrencyConverter(userData.userTotalBalance?.points)}
             </Text>
-            <Image
-              source={require('./../../../assets/images/score-star.png')}
-              style={styles.currentUniscoresSimbol}
-            />
+            <SvgXml xml={uni_coin} height="18" width="18" style={styles.currentUniscoresSimbol} />
           </View>
         )}
       </View>
@@ -109,8 +108,6 @@ const styles = StyleSheet.create({
   },
   currentUniscoresSimbol: {
     marginLeft: 5,
-    width: 18,
-    height: 18
   },
   loadingBox: {
     alignSelf: 'flex-start',

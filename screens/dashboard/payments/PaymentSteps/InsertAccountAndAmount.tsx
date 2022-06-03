@@ -387,7 +387,9 @@ const InsertAccointAndAmount: React.FC = props => {
           <View style={[screenStyles.wraper, styles.container]}>
             <View>
               <View style={styles.abonentInfo}>
-                <Image style={styles.logo} source={{uri: _serviceImageUrl}} />
+                <View style={styles.imageBox}>
+                <Image style={styles.logo} source={{uri: _serviceImageUrl}} resizeMode={'contain'} />
+                </View>
                 <View>
                   <Text numberOfLines={1} style={styles.serviceName}>
                     {_serviceName}
@@ -538,13 +540,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 40,
   },
-  logo: {
+  imageBox: {
     width: 40,
     height: 40,
     marginRight: 20,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: colors.inputBackGround,
+  },
+  logo: {
+    width: '100%',
+    height: '100%',
   },
   serviceName: {
     fontFamily: 'FiraGO-Regular',
