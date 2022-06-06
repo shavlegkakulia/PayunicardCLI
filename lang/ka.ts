@@ -67,7 +67,8 @@ export default {
         pleaseWait: 'გთხოვთ დაელოდოთ',
         connectFail: 'კავშირი ვერ ხერხდება',
         dataError:  'მონაცემები არ მოიძებნა',
-        passCodeError:  'არასწორი პასკოდი'
+        passCodeError:  'არასწორი პასკოდი',
+        invalidUser: 'მომხმარებლის სახელი ან პაროლი არასწორია'
     },
 
     otp: {

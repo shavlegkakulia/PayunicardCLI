@@ -65,7 +65,8 @@ export default {
         pleaseWait: ' Please Wait',
         connectFail: 'Connection Failed',
         dataError:  'Data Not Found',
-        passCodeError:  'Incorect Passcode'
+        passCodeError:  'Incorect Passcode',
+        invalidUser: 'Invalid Username or Password'
     },
     services: {
         utility: 'Utility Payment',

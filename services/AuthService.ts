@@ -223,7 +223,7 @@ class AuthService {
           }
 
           if (stringToObject(error.response).data.error_description === invalid_username_or_password) {
-            Store.dispatch<IErrorAction>({ type: PUSH_ERROR, error: 'Invalid Username or Password' });
+            Store.dispatch<IErrorAction>({ type: PUSH_ERROR, error: stringTranslator.t("generalErrors.invalidUser") });
             return Promise.reject(error);
           }
 
