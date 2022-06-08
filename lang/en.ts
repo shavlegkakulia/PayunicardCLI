@@ -263,7 +263,12 @@ export default {
         account: 'Account',
         startBalance: 'Start Balance',
         endBalance: 'End Balance',
-        minimumTransferAmount: 'Minimum transfer amount 0.1'
+        minimumTransferAmount: 'Minimum transfer amount 0.1',
+        internationalTransfer: 'International transfer',
+        reciverBankName: 'Receiver Bank Name',
+        reciverSwiftCode: 'Receiver bank swift code',
+        reciverCountry: 'Country of Recipient’s Residency',
+        reciverCity: 'Receiver’s City'
     },
     topUp: {
         withAnotherCard: 'Use Another Card',

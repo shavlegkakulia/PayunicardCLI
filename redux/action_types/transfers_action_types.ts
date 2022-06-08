@@ -1,5 +1,7 @@
+import { ICitizenshipCountry } from "../../services/PresentationServive";
 import { ITransferTemplate } from "../../services/TemplatesService";
 import { IP2PTransactionResponse } from "../../services/TransactionService";
+import { IGetSwiftResponseDataItem } from "../../services/TransferServices";
 import { IAccountBallance, ICurrency } from "../../services/UserService";
 
 export interface ITransfersState {
@@ -17,8 +19,12 @@ export interface ITransfersState {
     fullScreenLoading: boolean,
     selectedFromAccount: IAccountBallance | undefined,
     selectedToAccount: IAccountBallance | undefined,
-    selectedFromCurrency: ICurrency | undefined
-    selectedToCurrency: ICurrency | undefined
+    selectedFromCurrency: ICurrency | undefined,
+    selectedToCurrency: ICurrency | undefined,
+    reciverSwift: IGetSwiftResponseDataItem | undefined,
+    reciverCountry: ICitizenshipCountry | undefined,
+    reciverCity: string | undefined,
+    reciverAddress: string | undefined,
 }
 
 export interface ITransfersActions extends ITransfersState {
@@ -42,7 +48,11 @@ export const TRANSFERS_ACTION_TYPES = {
     SET_SELECTED_TO_ACCOUNT: 'SET_SELECTED_TO_ACCOUNT',
     SET_SELECTED_FROM_CURRENCY: 'SET_SELECTED_FROM_CURRENCY',
     SET_SELECTED_TO_CURRENCY: 'SET_SELECTED_TO_CURRENCY',
-    RESET_TRANSFER_STATES: 'RESET_TRANSFER_STATES'
+    RESET_TRANSFER_STATES: 'RESET_TRANSFER_STATES',
+    SET_RECIVER_SWIFT: 'SET_RECIVER_SWIFT',
+    SET_RECIVER_COUNTRYCODE: 'SET_RECIVER_COUNTRYCODE',
+    SET_RECIVER_CITY: 'SET_RECIVER_CITY',
+    SET_RECIVER_ADDRESS: 'SET_RECIVER_ADDRESS'
 }
 
 export interface IGlobalState {

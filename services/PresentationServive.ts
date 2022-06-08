@@ -186,6 +186,7 @@ interface ILogErrorResponseData {
 export interface ICitizenshipCountry {
   countryID?: number;
   countryName?: string | undefined;
+  countryCode?: string | undefined;
 }
 
 export interface ICitizenshipCountriesResponse {

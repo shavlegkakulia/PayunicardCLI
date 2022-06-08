@@ -270,7 +270,12 @@ export default {
         account: 'ანგარიში',
         startBalance: 'საწყისი ნაშთი',
         endBalance: 'საბოლოო ნაშთი',
-        minimumTransferAmount: 'მინიმალური გადასარიცხი თანხა 0.1'
+        minimumTransferAmount: 'მინიმალური გადასარიცხი თანხა 0.1',
+        internationalTransfer: 'საერთაშორისო გადარიცხვა',
+        reciverBankName: 'მიმღები ბანკის სახელი',
+        reciverSwiftCode: 'მიმღები ბანკის swift კოდი',
+        reciverCountry: 'მიმღების რეზიდენტობის ქვეყანა',
+        reciverCity: 'მიმღების ქალაქი'
     },
     topUp: {
         withCard: 'ბარათით',
