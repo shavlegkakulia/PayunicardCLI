@@ -428,6 +428,11 @@ const [codeErrorStyle, setCodeErrorStyle] = useState<StyleProp<ViewStyle>>(
         setFromAccountErrorStyle({borderColor: colors.none, borderWidth: 0});
       }
 
+      if (Validation.validate(ValidationContext)) {
+        setIsLoading(false);
+        return;
+      }
+
       if (!TransfersStore.reciverSwift) {
         setSwiftErrorStyle({borderColor: colors.danger, borderWidth: 1});
         setIsLoading(false);
@@ -436,10 +441,14 @@ const [codeErrorStyle, setCodeErrorStyle] = useState<StyleProp<ViewStyle>>(
         setSwiftErrorStyle({borderColor: colors.none, borderWidth: 0});
       }
 
-      if (Validation.validate(ValidationContext)) {
+      if (!TransfersStore.reciverCountry) {
+        setCodeErrorStyle({borderColor: colors.danger, borderWidth: 1});
         setIsLoading(false);
         return;
+      } else {
+        setCodeErrorStyle({borderColor: colors.none, borderWidth: 0});
       }
+
       setIsLoading(false);
       setTransferStep(Routes.Internatinal_set_currency);
     } else if (
@@ -522,15 +531,10 @@ const [codeErrorStyle, setCodeErrorStyle] = useState<StyleProp<ViewStyle>>(
     return () => SmsRetriever.removeSmsListener();
   }, []);
 
-  const _currency: ICurrency[] = [
-    {
-      key: GEL,
-      value: translate.key === ka_ge ? currencies.GEL : GEL,
-      balance: 0,
-      available: 0,
-      availableBal: 0,
-    },
-  ];
+  useEffect(() => {
+    let _acount = {...TransfersStore.selectedFromAccount};
+    setCurrenciesFrom(_acount.currencies);
+  }, [TransfersStore.selectedFromAccount]);
 
   return (
     <ScrollView contentContainerStyle={styles.avoid}>
@@ -803,10 +807,10 @@ const [codeErrorStyle, setCodeErrorStyle] = useState<StyleProp<ViewStyle>>(
                   />
 
                   <View style={styles.currencyBox}>
-                    {_currency[0] ? (
+                    {currenciesFrom ? (
                       <CurrencyItem
                         defaultTitle={translate.t('transfer.currency')}
-                        currency={_currency[0]}
+                        currency={currenciesFrom}
                         onCurrencySelect={() => setToCurrencyVisible(true)}
                         style={styles.currencyItem}
                       />
@@ -828,7 +832,7 @@ const [codeErrorStyle, setCodeErrorStyle] = useState<StyleProp<ViewStyle>>(
                     )}
 
                     <CurrencySelect
-                      currencies={_currency}
+                      currencies={currenciesFrom}
                       selectedCurrency={TransfersStore.selectedToCurrency}
                       currencyVisible={toCurrencyVisible}
                       onSelect={currency => onToCurrencySelect(currency)}
