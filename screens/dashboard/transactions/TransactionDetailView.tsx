@@ -642,7 +642,9 @@ const TransactionDetailView: React.FC<IPageProps> = props => {
       props.statement?.opClass == 'P2P.INTER.out' ||
       props.statement?.opClass == 'P2P.INTER.in' ||
       props.statement?.opClass == 'P2B.Bank' ||
-      props.statement?.opClass == 'PACKAGE.Out'
+      props.statement?.opClass == 'PACKAGE.Out' ||
+      props.statement?.opClass == 'P2B.BANK_USD.Out' ||
+      props.statement?.opClass == 'P2B.BANK_EUR.Out'
     ) {
       setTransactionType(TRANSACTION_TYPES.TRANCONVERT);
     } else if (props.statement?.terminal == 'A') {

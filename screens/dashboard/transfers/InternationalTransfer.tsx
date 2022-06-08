@@ -204,21 +204,20 @@ const [codeErrorStyle, setCodeErrorStyle] = useState<StyleProp<ViewStyle>>(
 
   const makeTransaction = (toBank: boolean = false) => {
     const data: IP2PTransactionRequest = {
-      toAccountNumber: TransfersStore.selectedToAccount?.accountNumber,
+      toAccountNumber: TransfersStore.benificarAccount,
       fromAccountNumber: TransfersStore.selectedFromAccount?.accountNumber,
       nomination: TransfersStore.nomination,
       ccy: TransfersStore.selectedToCurrency?.key,
       ccyto: TransfersStore.selectedToCurrency?.key,
       amount: getNumber(TransfersStore.amount),
-      otp: null,
+      otp: otp,
+      beneficiaryName: TransfersStore.benificarName,
+      beneficiaryBankName: TransfersStore.reciverSwift?.bankName,
+      beneficiaryBankCode: TransfersStore.reciverSwift?.swiftCode,
+      recipientAddress: TransfersStore.reciverAddress,
+      recipientCity: TransfersStore.reciverCity,
+      beneficiaryRegistrationCountryCode: TransfersStore.reciverCountry?.countryCode
     };
-    if (TransfersStore.transferType === TRANSFER_TYPES.international) {
-      data.toAccountNumber = TransfersStore.benificarAccount;
-      data.beneficiaryName = TransfersStore.benificarName;
-      data.otp = otp;
-      data.ccy = GEL;
-      data.ccyto = GEL;
-    }
 
     dispatch(MakeTransaction(toBank, data));
   };
@@ -348,7 +347,7 @@ const [codeErrorStyle, setCodeErrorStyle] = useState<StyleProp<ViewStyle>>(
     if (TransfersStore.amount) {
       GetPaymentDetails();
     }
-  }, [TransfersStore.amount, TransfersStore.selectedFromAccount]);
+  }, [TransfersStore.amount, TransfersStore.selectedFromAccount, TransfersStore.selectedToCurrency]);
 
   useEffect(() => {
     if (TransfersStore.transactionResponse) {
@@ -807,10 +806,10 @@ const [codeErrorStyle, setCodeErrorStyle] = useState<StyleProp<ViewStyle>>(
                   />
 
                   <View style={styles.currencyBox}>
-                    {currenciesFrom ? (
+                    {TransfersStore.selectedToCurrency ? (
                       <CurrencyItem
                         defaultTitle={translate.t('transfer.currency')}
-                        currency={currenciesFrom}
+                        currency={TransfersStore.selectedToCurrency}
                         onCurrencySelect={() => setToCurrencyVisible(true)}
                         style={styles.currencyItem}
                       />

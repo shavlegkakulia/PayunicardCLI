@@ -127,6 +127,11 @@ export interface IP2PTransactionRequest extends IP2BTransactionRequest {
   otpSource?: string | undefined;
   ccy?: string | undefined;
   ccyto?: string | undefined;
+  beneficiaryBankName: string | undefined;
+  beneficiaryBankCode: string | undefined;
+  recipientAddress: string | undefined;
+  recipientCity: string | undefined;
+  beneficiaryRegistrationCountryCode: string | undefined;
 }
 
 export interface IP2PTransactionResponse {
