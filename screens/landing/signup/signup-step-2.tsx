@@ -132,7 +132,7 @@ const SignupStepTwo: React.FC = () => {
       userName,
       country: selectedCountry?.countryID
     });
-  };
+  }; 
 
   const isKeyboardOpen = keyboard.height > 0;
 
