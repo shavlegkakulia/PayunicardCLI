@@ -38,7 +38,7 @@ import NetworkService from '../../services/NetworkService';
 import {useDimension} from '../../hooks/useDimension';
 import AuthService, {IAuthorizationRequest} from '../../services/AuthService';
 import {stringToObject} from '../../utils/utils';
-import {require_otp, require_password_change} from '../../constants/errorCodes';
+import {invalid_grant, require_otp, require_password_change} from '../../constants/errorCodes';
 import Routes from '../../navigation/routes';
 import {useNavigation} from '@react-navigation/native';
 import SetLoginWithPassCode from './setLoginWithPassCode';
@@ -46,6 +46,7 @@ import SmsRetriever from 'react-native-sms-retriever';
 import {getString} from '../../utils/Converter';
 import analytics from '@react-native-firebase/analytics';
 import OtpModal from '../../components/OtpModal';
+import { PUSH } from '../../redux/actions/error_action';
 
 const CONTEXT_TYPE = 'login';
 
@@ -218,6 +219,9 @@ const LoginForm: React.FC<IPageProps> = ({loginWithPassword}) => {
           }
           if (stringToObject(error.response).data.error === require_otp) {
             setOtpVisible(true);
+          }
+          if (stringToObject(error.response).data.error === invalid_grant) {
+            dispatch(PUSH(translate.t("generalErrors.invalidUser")));
           }
           dispatch({type: AUT_SET_IS_LOADING, isLoading: false});
           setIsUserLoading(false);
