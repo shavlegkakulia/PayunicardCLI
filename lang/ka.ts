@@ -243,7 +243,7 @@ export default {
     }, 
     transfer: {
         transferTemplates: 'გადარიცხვის შაბლონები',
-        betweeenOwnAccounts: 'საკუთარ ანგარიშებს\nშორის',
+        betweeenOwnAccounts: 'საკუთრ ანგარიშზე',
         currencyExchange: 'კონვერტაცია',
         toUniWallet: "სხვის\nუნისაფულეზე",
         toBank: 'ბანკში',
