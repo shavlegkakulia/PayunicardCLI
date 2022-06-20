@@ -20,7 +20,13 @@ const TransactionItem: React.FC<IProps> = (props) => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
-  
+
+  if(getNumber(props.unicards?.length) <= 0 && getNumber(props.statements?.length) <= 0) {
+    return <View>
+      <Text style={styles.emptyTransactionText}>{translate.t('transaction.transactionNotExists')}</Text>
+    </View>
+  }
+ 
     return (
       <View>
         {!props.unicards ? (
@@ -271,6 +277,12 @@ const TransactionItem: React.FC<IProps> = (props) => {
       coin: {
         width: 18,
         height: 18
+      },
+      emptyTransactionText: {
+        fontFamily: 'FiraGO-Medium',
+        fontSize: 12,
+        lineHeight: 18,
+        color: colors.labelColor
       }
   })
 

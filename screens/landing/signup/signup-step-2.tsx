@@ -32,6 +32,7 @@ import PresentationServive, {
 import AppSelect, {
   SelectItem,
 } from '../../../components/UI/AppSelect/AppSelect';
+import { EN, KA, ka_ge } from '../../../lang';
 
 const geId = 79;
 
@@ -141,7 +142,8 @@ const SignupStepTwo: React.FC = () => {
   title={translate.t('common.setDate')}
   cancelText={translate.t('common.cancel')}
   confirmText={translate.t('common.confirm')}
-  locale="ka-GE"
+  locale={translate.key === ka_ge ? KA : EN}
+  maximumDate={new Date()}
   open={chooseDate}
   date={birthDate || new Date()}
   onDateChange={() => {}}

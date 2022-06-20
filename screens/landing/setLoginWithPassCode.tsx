@@ -1,6 +1,13 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  TouchableOpacity,
+  Appearance,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../components/UI/AppButton';
 import colors from '../../constants/colors';
@@ -27,10 +34,10 @@ import envs from './../../config/env';
 import Store from './../../redux/store';
 import FullScreenLoader from '../../components/FullScreenLoading';
 import {stringToObject} from '../../utils/utils';
-import {require_otp} from '../../constants/errorCodes';
+import {invalid_grant, require_otp} from '../../constants/errorCodes';
 import {useNavigation} from '@react-navigation/native';
 import Routes from '../../navigation/routes';
-import { TOKEN_EXPIRE } from '../../constants/defaults';
+import {TOKEN_EXPIRE} from '../../constants/defaults';
 
 interface IProps {
   access_token: string;
@@ -88,7 +95,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
         refreshObj,
         {anonymous: true},
       )
-      .then(async response => { 
+      .then(async response => {
         if (!response.data.access_token) throw response;
 
         const date = new Date();
@@ -119,6 +126,8 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
       .catch(error => {
         if (stringToObject(error.response).data.error === require_otp) {
           navigation.navigate(Routes.RefreshTokenOtp);
+        } else if (stringToObject(error.response).data.error === invalid_grant) {
+          navigation.navigate(Routes.Landing, {loginWithPassword: true});
         }
         return {accesToken: undefined, refreshToken: undefined, skip: true};
       })
@@ -145,7 +154,7 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
             setCode(undefined);
           }
         }
-      });
+      }).catch(e => console.log(e.response));
     } else {
       dispatch(PUSH(translate.t('generalErrors.passCodeError')));
       setCode(undefined);
@@ -153,7 +162,6 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
   };
 
   const onSuccesBiometric = () => {
-
     goRefreshToken().then(res => {
       const {accesToken, refreshToken, skip} = res;
       if (res.accesToken !== undefined) {
@@ -201,6 +209,15 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
     if (!status) setStartBiometric(false);
   };
 
+  const activeDotBg = {backgroundColor: colors.black};
+  const dotBg = {backgroundColor: colors.inputBackGround};
+
+  const colorScheme = Appearance.getColorScheme();
+  if (colorScheme === 'dark') {
+    activeDotBg.backgroundColor = colors.primary;
+    dotBg.backgroundColor = colors.warning;
+  }
+
   return (
     <View style={styles.container}>
       {isLoading && <FullScreenLoader />}
@@ -227,13 +244,25 @@ const setLoginWithPassCode: React.FC<IProps> = props => {
       </View>
       <View style={styles.dots}>
         <View
-          style={[styles.dot, code && code[0] ? styles.activeDot : {}]}></View>
+          style={[
+            styles.dot,
+            code && code[0] ? {...activeDotBg} : dotBg,
+          ]}></View>
         <View
-          style={[styles.dot, code && code[1] ? styles.activeDot : {}]}></View>
+          style={[
+            styles.dot,
+            code && code[1] ? {...activeDotBg} : dotBg,
+          ]}></View>
         <View
-          style={[styles.dot, code && code[2] ? styles.activeDot : {}]}></View>
+          style={[
+            styles.dot,
+            code && code[2] ? {...activeDotBg} : dotBg,
+          ]}></View>
         <View
-          style={[styles.dot, code && code[3] ? styles.activeDot : {}]}></View>
+          style={[
+            styles.dot,
+            code && code[3] ? {...activeDotBg} : dotBg,
+          ]}></View>
       </View>
       <View style={styles.pad}>
         <View style={styles.tabs}>
@@ -350,12 +379,8 @@ const styles = StyleSheet.create({
   dot: {
     width: 10,
     height: 10,
-    backgroundColor: colors.inputBackGround,
     borderRadius: 5,
     marginHorizontal: 8,
-  },
-  activeDot: {
-    backgroundColor: colors.black,
   },
   pad: {
     width: 280,

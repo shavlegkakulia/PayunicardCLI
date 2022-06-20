@@ -261,7 +261,7 @@ const TarriffCalculator: React.FC = props => {
         }
         dispatch(
           PUSH(
-            translate.t('orderCard.maxOrderCards').replace('{count}', (cardCount).toString()),
+            translate.t('orderCard.maxOrderCards').replace('{count}', (visaCount).toString()),
           ),
         );
         return;
@@ -333,6 +333,7 @@ const TarriffCalculator: React.FC = props => {
         const ctypes = [...(Response.data.data?.cardTypes || [])];
         let vc = ctypes.filter(ct => ct.typeId === cardTypeIds.typeVisa)[0];
         let mc = ctypes.filter(ct => ct.typeId === cardTypeIds.typeMc)[0];
+        console.log(ctypes, getNumber(vc.count), getNumber(mc.count));
         setMcVisaCount({
           visaCount: getNumber(vc.count),
           mcCount: getNumber(mc.count),

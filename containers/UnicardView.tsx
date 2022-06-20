@@ -149,6 +149,7 @@ const UnicardView = () => {
             )}
           </View>
         )}
+        <View style={styles.gesture}></View>
       </View>
     </View>
   );
@@ -215,6 +216,22 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%'
+  },
+  gesture: {
+    position: 'absolute',
+    height: 100,
+    width: 5,
+    left: -5,
+    top: (Dimensions.get('window').height / 3) + 100,
+    backgroundColor: '#94DD3460',
+    borderBottomLeftRadius: 15,
+    borderTopLeftRadius: 15,
+    borderLeftColor: '#94DD3490',
+    borderTopColor: '#94DD3490',
+    borderBottomColor: '#94DD3490',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderLeftWidth: 1
   }
 });
 

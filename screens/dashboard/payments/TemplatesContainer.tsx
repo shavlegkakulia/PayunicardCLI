@@ -193,6 +193,7 @@ const TemplatesContainer: React.FC<ITemplatesContainerProps> = props => {
                   <Image
                     source={{uri: template.imageUrl}}
                     style={styles.templatesItemLogo}
+                    resizeMode={'contain'}
                   />
                 </View>
               </View>
@@ -305,14 +306,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   templatesItemLogoBox: {
-    marginRight: 18,
-  },
-  templatesItemLogo: {
     width: 40,
     height: 40,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: colors.placeholderColor,
+    borderColor: colors.inputBackGround,
+    overflow: 'hidden',
+    marginRight: 18,
+  },
+  templatesItemLogo: {
+    width: '100%',
+    height: '100%',
   },
   templatesItemRight: {
     flex: 1,

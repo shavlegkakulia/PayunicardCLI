@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   ActivityIndicator,
-  Image,
   Text,
   TouchableOpacity,
   View,
@@ -19,6 +18,8 @@ import {
   IGloablState as IUserGlobalState,
 } from '../../../redux/action_types/user_action_types';
 import screenStyles from '../../../styles/screens';
+import { SvgXml } from 'react-native-svg';
+import { alert_danger, alert_orange, checkGreen } from '../../../constants/svgXmls';
 
 interface IProps {
   onStartVerification: () => void;
@@ -41,10 +42,7 @@ const AccountStatusView: React.FC<IProps> = props => {
   ) {
     statusView = (
       <>
-        <Image
-          source={require('./../../../assets/images/alert_red.png')}
-          style={styles.accountStatusViewSimbol}
-        />
+        <SvgXml xml={alert_danger} height="20" width="20" style={styles.accountStatusViewSimbol} />
         <Text style={styles.accountStatusViewText}>
           {translate.t('dashboard.userVerifyStatus1')}
         </Text>
@@ -56,10 +54,7 @@ const AccountStatusView: React.FC<IProps> = props => {
   ) {
     statusView = (
       <>
-        <Image
-          source={require('./../../../assets/images/round-checked-20x20.png')}
-          style={styles.accountStatusViewSimbol}
-        />
+        <SvgXml xml={checkGreen} height="20" width="20" style={styles.accountStatusViewSimbol} />
         <Text style={styles.accountStatusViewText}>
           {translate.t('dashboard.userVerifyStatus2')}
         </Text>
@@ -70,10 +65,7 @@ const AccountStatusView: React.FC<IProps> = props => {
   ) {
     statusView = (
       <>
-        <Image
-          source={require('./../../../assets/images/alert_red.png')}
-          style={styles.accountStatusViewSimbol}
-        />
+        <SvgXml xml={alert_danger} height="20" width="20" style={styles.accountStatusViewSimbol} />
         <Text style={styles.accountStatusViewText}>
           {translate.t('dashboard.userVerifyStatus1')}
         </Text>
@@ -82,10 +74,7 @@ const AccountStatusView: React.FC<IProps> = props => {
   } else {
     statusView = (
       <>
-        <Image
-          source={require('./../../../assets/images/alert_orange.png')}
-          style={styles.accountStatusViewSimbol}
-        />
+        <SvgXml xml={alert_orange} height="20" width="20" style={styles.accountStatusViewSimbol} />
         <Text style={styles.accountStatusViewText}>
           {translate.t('dashboard.userVerifyStatus3')}
         </Text>
@@ -116,8 +105,6 @@ const AccountStatusView: React.FC<IProps> = props => {
 
 const styles = StyleSheet.create({
   accountStatusViewSimbol: {
-    width: 20,
-    height: 20,
     marginRight: 30,
   },
   accountStatusViewText: {

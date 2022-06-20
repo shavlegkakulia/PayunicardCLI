@@ -47,7 +47,7 @@ import {
   ICurrency,
 } from '../../../services/UserService';
 import screenStyles from '../../../styles/screens';
-import {getNumber, getString} from '../../../utils/Converter';
+import {CurrencyConverter, getNumber, getString} from '../../../utils/Converter';
 import {parseUrlParamsegex} from '../../../utils/Regex';
 
 type RouteParamList = {
@@ -292,13 +292,14 @@ const ChooseAmountAndAccount: React.FC = () => {
           <View style={[screenStyles.wraper, styles.container]}>
             <View style={styles.content}>
               <View style={styles.amountColumn}>
+              <Text style={styles.accountBoxTitle}>{translate.t('transfer.amount')}</Text>
                 <AppInput
                   keyboardType="numeric"
                   value={amount}
                   onChange={amount => setAmount(amount)}
                   context={ValidationContext}
                   customKey="amount"
-                  placeholder={translate.t('transfer.amount')}
+                  placeholder={CurrencyConverter(0)}
                   requireds={[required, hasNumeric]}
                   style={styles.amountInput}
                 />

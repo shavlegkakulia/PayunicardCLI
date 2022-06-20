@@ -106,7 +106,9 @@ const InsertAbonentCode: React.FC<INavigationProps> = props => {
       <View style={[screenStyles.wraper, styles.container]}>
         <View>
           <View style={styles.abonentInfo}>
-            <Image style={styles.logo} source={{uri: _serviceImageUrl}} />
+            <View style={styles.imageBox}>
+              <Image style={styles.logo} source={{uri: _serviceImageUrl}} resizeMode={'contain'} />
+            </View>
             <View>
               <Text numberOfLines={1} style={styles.serviceName}>
                 {_serviceName}
@@ -123,6 +125,7 @@ const InsertAbonentCode: React.FC<INavigationProps> = props => {
                 context={ValidationContext}
                 customKey="abonentCode"
                 requireds={[required]}
+                placeholder={translate.t('payments.abonentNumber')}
                 style={styles.abonentCodeInput}
               />
             </View>
@@ -133,6 +136,7 @@ const InsertAbonentCode: React.FC<INavigationProps> = props => {
                   value={PaymentStore.carPlate}
                   onChange={carPlate => setCarPlate(carPlate)}
                   context={ValidationContext}
+                  placeholder={translate.t('payments.carNumber')}
                   customKey="carPlate"
                   requireds={[required]}
                   style={styles.abonentCodeInput}
@@ -169,13 +173,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 40,
   },
-  logo: {
+  imageBox: {
     width: 40,
     height: 40,
     marginRight: 20,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: colors.inputBackGround
+    borderColor: colors.inputBackGround,
+  },
+  logo: {
+    width: '100%',
+    height: '100%',
   },
   serviceName: {
     fontFamily: 'FiraGO-Regular',

@@ -21,12 +21,16 @@ const initialState: ITransfersState = {
   selectedToAccount: undefined,
   selectedFromCurrency: undefined,
   selectedToCurrency: undefined,
+  reciverSwift: undefined,
+  reciverAddress: undefined,
+  reciverCity: undefined,
+  reciverCountry: undefined,
 };
 
 export default function TransfersReducer(
   state: ITransfersState = initialState,
   action: ITransfersActions,
-) { 
+) {
   switch (action.type) {
     case TRANSFERS_ACTION_TYPES.SET_ISTEMPLATES_LOADING:
       return {...state, isTemplatesLoading: action.isTemplatesLoading};
@@ -76,32 +80,45 @@ export default function TransfersReducer(
     case TRANSFERS_ACTION_TYPES.SET_SELECTED_TO_CURRENCY:
       return {...state, selectedToCurrency: action.selectedToCurrency};
 
-    case TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES:
-      {
-        let restart = {
-          benificarAccount: undefined,
-          benificarName: undefined,
-          amount: undefined,
-          transactionResponse: undefined,
-          isTemplate: false,
-          nomination: undefined,
-          transferType: undefined,
-          templateName: undefined,
-          isLoading: false,
-          fullScreenLoading: false,
-          selectedFromAccount: undefined,
-          selectedToAccount: undefined,
-          selectedFromCurrency: undefined,
-          selectedToCurrency: undefined,
-        }
-        
-        if(state.transferTemplates.length > 0) {
-          restart = Object.assign(restart, {isTemplatesLoading: false})
-        }
-        return { ...state,
-          ...restart
-        };
+    case TRANSFERS_ACTION_TYPES.SET_RECIVER_SWIFT:
+      return {...state, reciverSwift: action.reciverSwift};
+
+    case TRANSFERS_ACTION_TYPES.SET_RECIVER_ADDRESS:
+      return {...state, reciverAddress: action.reciverAddress};
+
+    case TRANSFERS_ACTION_TYPES.SET_RECIVER_CITY:
+      return {...state, reciverCity: action.reciverCity};
+
+    case TRANSFERS_ACTION_TYPES.SET_RECIVER_COUNTRYCODE:
+      return {...state, reciverCountry: action.reciverCountry};
+
+    case TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES: {
+      let restart = {
+        benificarAccount: undefined,
+        benificarName: undefined,
+        amount: undefined,
+        transactionResponse: undefined,
+        isTemplate: false,
+        nomination: undefined,
+        transferType: undefined,
+        templateName: undefined,
+        isLoading: false,
+        fullScreenLoading: false,
+        selectedFromAccount: undefined,
+        selectedToAccount: undefined,
+        selectedFromCurrency: undefined,
+        selectedToCurrency: undefined,
+        reciverSwift: undefined,
+        reciverAddress: undefined,
+        reciverCity: undefined,
+        reciverCountry: undefined,
+      };
+
+      if (state.transferTemplates.length > 0) {
+        restart = Object.assign(restart, {isTemplatesLoading: false});
       }
+      return {...state, ...restart};
+    }
 
     default:
       return {...state};

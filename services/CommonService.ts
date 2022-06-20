@@ -7,7 +7,7 @@ import {
 } from './../redux/action_types/error_action_types';
 import {ka_ge, LANG_KEYS} from '../lang';
 import {stringToObject} from '../utils/utils';
-import {invalid_username_or_password, require_otp} from '../constants/errorCodes';
+import {invalid_grant, invalid_username_or_password, require_otp} from '../constants/errorCodes';
 import Store from './../redux/store';
 import DeviceInfro from 'react-native-device-info';
 
@@ -77,8 +77,7 @@ class CommonService {
             });
           error.errorMessage = stringTranslator.t("generalErrors.netError");
         } else {
-          //error.errorMessage = "error";
-          if (stringToObject(error.response).data.error !== require_otp && stringToObject(error.response).data.error !== invalid_username_or_password) {
+          if (stringToObject(error.response).data.error !== invalid_grant && stringToObject(error.response).data.error !== require_otp && stringToObject(error.response).data.error !== invalid_username_or_password) {
             store.dispatch<IErrorAction>({
               type: PUSH_ERROR,
               error: stringTranslator.t("generalErrors.errorOccurred")

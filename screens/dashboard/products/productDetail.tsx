@@ -81,6 +81,7 @@ import AccountCard from './AccountCard';
 import userStatuses from '../../../constants/userStatuses';
 import {tabHeight} from '../../../navigation/TabNav';
 import SmsRetriever from 'react-native-sms-retriever';
+import { EUR, USD } from '../../../constants/currencies';
 
 type RouteParamList = {
   Account: {
@@ -160,11 +161,20 @@ const ProductDetail: React.FC = props => {
   const {documentVerificationStatusCode, customerVerificationStatusCode} =
     userData.userDetails || {};
     const [currentHRMAction, setCurrentHRMAction] = useState<number>(0);
-
+    const [hasAccountUsdOrEur, setHasAccountUsdOrEur] = useState<boolean>(false);
   const isUserVerified =
     documentVerificationStatusCode === userStatuses.Enum_Verified &&
     customerVerificationStatusCode === userStatuses.Enum_Verified;
     const [userAccount, setUserAccount] = useState<IAccountBallance>(route.params.account);
+
+    useEffect(() => {
+      if(selectedFromAccount) {
+      let uac = selectedFromAccount?.currencies?.filter(s => s.key === USD || s.key === EUR);
+        if(uac?.length) {
+          setHasAccountUsdOrEur(true);
+        }
+    }
+    }, [selectedFromAccount])
 
     useEffect(() => {
       if(route.params?.account) {
@@ -295,6 +305,22 @@ const ProductDetail: React.FC = props => {
       transferStep: Routes.TransferConvertation_CHOOSE_ACCOUNTS,
     });
   };
+
+  const internationalTransfer = () => {
+    if (!isUserVerified || !hasAccountUsdOrEur) return;
+    const currentRoute = routes[routes.length - 1].name;
+    dispatch({
+      type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
+      parentRoute: currentRoute,
+    });
+    dispatch({
+      type: TRANSFERS_ACTION_TYPES.SET_SELECTED_FROM_ACCOUNT,
+      selectedFromAccount: selectedFromAccount,
+    });
+    NavigationService?.navigate(Routes.Internatinal_choose_account, {
+      transferStep: Routes.Internatinal_choose_account,
+    });
+  }
 
   const breackWords = (text: string | undefined) => {
     const words = text ? text.split(' ') : [];
@@ -1228,7 +1254,40 @@ const ProductDetail: React.FC = props => {
                       {breackWords(translate.t('transfer.toBank'))}
                     </View>
                   </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.transfersSectionContainerItemScroller}
+                    onPress={internationalTransfer}>
+                    <View
+                      style={
+                        styles.transfersSectionContainerItemImageContainer
+                      }>
+                      <Image
+                        source={require('./../../../assets/images/icon-international.png')}
+                        style={[
+                          styles.transfersSectionContainerItemImage,
+                          isDisabled,
+                          !hasAccountUsdOrEur && {opacity: 0.5}
+                        ]}
+                      />
+                    </View>
+                    <View
+                      style={[
+                        styles.transfersSectionContainerItemDetails,
+                        isDisabled,
+                        !hasAccountUsdOrEur && {opacity: 0.5}
+                      ]}>
+                      {breackWords(translate.t('transfer.internationalTransfer'))}
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.transfersSectionContainerItemScroller}
+                    activeOpacity={1}>
+                    
+                  </TouchableOpacity>
                 </View>
+
+              
               </View>
             </ScrollView>
           )}

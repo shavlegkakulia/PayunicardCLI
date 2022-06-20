@@ -55,7 +55,8 @@ export default {
         month: 'თვე',
         day: 'დღე',
         year: 'წელი',
-        setBirthDate: 'შეავსეთ დაბადების თარიღი'
+        setBirthDate: 'შეავსეთ დაბადების თარიღი',
+        seeMore: 'იხილეთ მეტი'
     },
 
     generalErrors: {
@@ -66,14 +67,15 @@ export default {
         pleaseWait: 'გთხოვთ დაელოდოთ',
         connectFail: 'კავშირი ვერ ხერხდება',
         dataError:  'მონაცემები არ მოიძებნა',
-        passCodeError:  'არასწორი პასკოდი'
+        passCodeError:  'არასწორი პასკოდი',
+        invalidUser: 'მომხმარებლის სახელი ან პაროლი არასწორია'
     },
 
     otp: {
-        enterOtp: 'შეიყვანეთ Sms კოდი',
-        otpSent: 'Sms კოდი გამოგზავნილია ნომერზე',
-        otpSentBlank: 'Sms კოდი გამოგზავნილია ',
-        smsCode: 'Sms კოდი',
+        enterOtp: 'შეიყვანეთ SMS კოდი',
+        otpSent: 'SMS კოდი გამოგზავნილია ნომერზე',
+        otpSentBlank: 'SMS კოდი გამოგზავნილია ',
+        smsCode: 'SMS კოდი',
 
         resend: 'თავიდან'
     },
@@ -236,13 +238,14 @@ export default {
         lastSixMonths: 'ბოლო ექვსი თვე',
         lastYear: 'ბოლო ერთი წელი',
         startDate: 'თარიღიდან',
-        endDate: 'თარიღამდე'
+        endDate: 'თარიღამდე',
+        transactionNotExists: 'ტრანზაქციები არ არის'
     }, 
     transfer: {
         transferTemplates: 'გადარიცხვის შაბლონები',
-        betweeenOwnAccounts: 'საკუთარ ანგარიშებს\nშორის',
+        betweeenOwnAccounts: 'საკუთრ ანგარიშზე',
         currencyExchange: 'კონვერტაცია',
-        toUniWallet: "სხვის უნისაფულეზე",
+        toUniWallet: "სხვის\nუნისაფულეზე",
         toBank: 'ბანკში',
         toBankTransfer: 'ბანკში გადარიცხვა',
         from: 'საიდან',
@@ -267,7 +270,12 @@ export default {
         account: 'ანგარიში',
         startBalance: 'საწყისი ნაშთი',
         endBalance: 'საბოლოო ნაშთი',
-        minimumTransferAmount: 'მინიმალური გადასარიცხი თანხა 0.1'
+        minimumTransferAmount: 'მინიმალური გადასარიცხი თანხა 0.1',
+        internationalTransfer: 'საერთაშორისო\nგადარიცხვა',
+        reciverBankName: 'მიმღები ბანკის სახელი',
+        reciverSwiftCode: 'მიმღები ბანკის swift კოდი',
+        reciverCountry: 'მიმღების რეზიდენტობის ქვეყანა',
+        reciverCity: 'მიმღების ქალაქი'
     },
     topUp: {
         withCard: 'ბარათით',
@@ -392,6 +400,9 @@ export default {
         warning5: 'წინააღმდეგ შემთხვევაში თქვენი შეკვეთა გაუქმდება',
         seeAfterTopup: 'თანხის ანგარიშზე შემოტანის შემდეგ მოხდება\nმიწოდების სერვისისთვის დროის ათვლა',
         maxOrderCards: 'თქვენ შეგიძლიათ შეგვიკვეთოთ 6 ბარათი. თქვენ შეკვეთილი გაქვთ {count} ბარათი'
+    },
+    notifications: {
+        emptycontent: 'შეტყობინება არ არის'
     }
 
 

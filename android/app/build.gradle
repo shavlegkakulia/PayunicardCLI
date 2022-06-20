@@ -134,8 +134,8 @@ android {
         applicationId "com.payunicard"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 14
-        versionName "2.3"
+        versionCode 17
+        versionName "2.6"
         multiDexEnabled true
     }
     splits {
@@ -204,6 +204,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp-urlconnection:4.2.1"
     implementation project(':react-native-device-info')
     implementation project(':react-native-background-timer')
+    implementation project(':react-native-svg')
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }

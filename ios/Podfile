@@ -26,6 +26,8 @@ target 'Payunicard' do
 
   pod 'react-native-background-timer', :path => '../node_modules/react-native-background-timer'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
   target 'PayunicardTests' do
     inherit! :complete
     # Pods for testing

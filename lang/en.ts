@@ -54,7 +54,8 @@ export default {
         month: 'month',
         day: 'day',
         year: 'year',
-        setBirthDate: 'Fill the date field'
+        setBirthDate: 'Fill the date field',
+        seeMore: 'See More'
     },
     generalErrors: {
         errorOccurred: 'An Error Occurred',
@@ -64,7 +65,8 @@ export default {
         pleaseWait: ' Please Wait',
         connectFail: 'Connection Failed',
         dataError:  'Data Not Found',
-        passCodeError:  'Incorect Passcode'
+        passCodeError:  'Incorect Passcode',
+        invalidUser: 'Invalid Username or Password'
     },
     services: {
         utility: 'Utility Payment',
@@ -112,10 +114,10 @@ export default {
     password: {
         pasChanged: 'Password Has Been Changed Successfully',    },
     otp: {
-        enterOtp: 'Enter Sms Code',
-        otpSent: 'Sms Code Has Been Sent to Number ',
-        otpSentBlank: 'Sms Code Has Been Sent',
-        smsCode: 'Sms Code',
+        enterOtp: 'Enter SMS Code',
+        otpSent: 'SMS Code Has Been Sent to Number ',
+        otpSentBlank: 'SMS Code Has Been Sent',
+        smsCode: 'SMS Code',
         resend: 'Resend'
     },
     template: {
@@ -182,7 +184,8 @@ export default {
         lastSixMonths: 'Last Six Months',
         lastYear: 'Last Year',
         startDate: 'Start Date',
-        endDate: 'End Date'
+        endDate: 'End Date',
+        transactionNotExists: 'Transaction not found'
     },
     dashboard: {
         userVerifyStatus1: 'In order to use all features of your wallet please complete identification.',
@@ -233,10 +236,10 @@ export default {
     transfer: {
         transferTemplates: 'Transfer Templates',
         transfers: 'Transfers',
-        betweeenOwnAccounts: 'Between Own\nAccounts',
-        currencyExchange: 'Currency Exchange',
-        toUniWallet: "To Someone's UniWallet",
-        toBank: 'To Bank',
+        betweeenOwnAccounts: 'To Own\nAccount',
+        currencyExchange: 'Exchange',
+        toUniWallet: "To Another\nUniwallet",
+        toBank: 'To the Bank',
         toBankTransfer: 'Transfer To Bank',
         from: 'From',
         to: 'To',
@@ -260,7 +263,12 @@ export default {
         account: 'Account',
         startBalance: 'Start Balance',
         endBalance: 'End Balance',
-        minimumTransferAmount: 'Minimum transfer amount 0.1'
+        minimumTransferAmount: 'Minimum transfer amount 0.1',
+        internationalTransfer: 'International\ntransfer',
+        reciverBankName: 'Receiver Bank Name',
+        reciverSwiftCode: 'Receiver bank swift code',
+        reciverCountry: 'Country of Recipient’s Residency',
+        reciverCity: 'Receiver’s City'
     },
     topUp: {
         withAnotherCard: 'Use Another Card',
@@ -385,6 +393,9 @@ export default {
         warning5: 'Otherwise your order will be cancelled',
         seeAfterTopup: 'Once the Amount is Credited to the Account, \nthe Delivery Time will be Calculated',
         maxOrderCards: 'You Can Order 6 Cards. You Have Already Ordered {count} Card(s)'
+    },
+    notifications: {
+        emptycontent: 'Your Notifications\n\ntab is empty'
     }
 
 

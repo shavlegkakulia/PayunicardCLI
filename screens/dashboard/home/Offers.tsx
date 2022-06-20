@@ -45,7 +45,7 @@ const OffersView: React.FC = () => {
 
   const get_GetOffers = () => {
     PresentationServive.get_GetOffers().subscribe({
-      next: Response => {
+      next: Response => { 
         setOffers(Response.data.data?.offers);
       },
     });
@@ -63,10 +63,14 @@ const OffersView: React.FC = () => {
 
   if (!offers || !offers?.length) return null;
  
-  const imageStyle: ImageStyle = {
+  let imageStyle: ImageStyle = {
     width: cardWidth,
     height: 80
   };
+
+  if(offers.length === 1) {
+    imageStyle.width = screenSize.width - 25
+  }
 
   return (
     <View
@@ -96,14 +100,14 @@ const OffersView: React.FC = () => {
               {
                 width:
                   offers.length === 1
-                    ? screenSize.width - 32
+                    ? screenSize.width - 25
                     : cardWidth,
               },
               index === 0 && {marginLeft: 11},
             ]}
             key={`offer${index}`}>
             <Image
-              source={{uri: o.imageUrl1}}
+              source={{uri: o.url}}
               style={imageStyle}
               resizeMode="contain"
             />
@@ -148,7 +152,7 @@ const styles = StyleSheet.create({
   },
   offersContainerItem: {
     overflow: 'hidden',
-    height: 144,
+    height: 142,
     marginHorizontal: 9,
     backgroundColor: colors.white,
     flex: 1,

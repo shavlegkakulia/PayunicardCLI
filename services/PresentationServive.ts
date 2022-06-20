@@ -186,6 +186,7 @@ interface ILogErrorResponseData {
 export interface ICitizenshipCountry {
   countryID?: number;
   countryName?: string | undefined;
+  countryCode?: string | undefined;
 }
 
 export interface ICitizenshipCountriesResponse {
@@ -272,10 +273,10 @@ export interface IIResponseOfGetCitiesResponse {
 export interface IOffersResponse {
   id: number;
   imageUrl: string;
-  imageUrl1: string;
   url: string;
   title: string;
   text: string;
+  merchantUrl: string;
 }
 
 export interface IOffersDetailResponse extends IOffersResponse {
@@ -386,8 +387,12 @@ class PresentationService {
     return from(promise);
   }
 
-  get_GetOfferDetail(OfferId: number) {
-    const promise = axios.get<IIResponseOfGeOffersDetailsResponseData>(`${envs.API_URL}GetOffer/${OfferId}`);
+  get_GetOfferDetail(OfferId: number, culture?:string) {
+    let q = '';
+    if(culture) {
+      q = `&Culture=${culture}`;
+    }
+    const promise = axios.get<IIResponseOfGeOffersDetailsResponseData>(`${envs.API_URL}GetOffer?OfferId=${OfferId}${q}`);
     return from(promise);
   }
 }

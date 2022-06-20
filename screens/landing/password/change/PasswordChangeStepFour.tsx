@@ -104,7 +104,7 @@ const PasswordChangeStepFour: React.FC = () => {
   };
 
   return (
-    <ScrollView keyboardShouldPersistTaps='always'>
+    <ScrollView keyboardShouldPersistTaps='always' style={{backgroundColor: colors.white}}>
     <KeyboardAvoidingView
       behavior="padding"
       keyboardVerticalOffset={0}
@@ -131,7 +131,7 @@ const PasswordChangeStepFour: React.FC = () => {
                 style={styles.formInput}
                 value={email}
                 onChange={input => setEmail(input)}
-                placeholder={translate.t('login.email')}
+                placeholder={translate.t('common.email')}
               />
             )}
 
@@ -170,13 +170,14 @@ const PasswordChangeStepFour: React.FC = () => {
               equalsTo={password}
               onChange={input => setConfirmPassword(input)}
               secureTextEntry={true}
-              placeholder={translate.t('login.repeatPassword')}
+              placeholder={translate.t('settings.confirmPasscode')}
             />
           </View>
           <AppButton
             title={translate.t('common.next')}
             onPress={next}
             isLoading={isLoading}
+            style={{marginTop: 40}}
           />
         </View>
       </View>

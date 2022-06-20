@@ -50,6 +50,7 @@ export const TRANSFER_TYPES = {
   Convertation: 'Convertation',
   toBank: 'P2B.BANK',
   toUni: 'P2P.INTER',
+  international: 'international'
 };
 
 interface INavigation {
@@ -220,6 +221,19 @@ const Transfers: React.FC<INavigationProps> = props => {
       transferStep: Routes.TransferConvertation_CHOOSE_ACCOUNTS,
     });
   };
+
+  const international = (wt:boolean = false) => {
+    if(!isUserVerified) return;
+    const currentRoute = routes[routes.length - 1].name;
+    dispatch({
+      type: NAVIGATION_ACTIONS.SET_PARENT_ROUTE,
+      parentRoute: currentRoute,
+    });
+    props.navigation?.navigate(Routes.Internatinal_choose_account, {
+      transferStep: Routes.Internatinal_choose_account,
+      withTemplate: wt
+    });
+  }
 
   const setNomination = (nomination: string | undefined) => {
     dispatch({type: TRANSFERS_ACTION_TYPES.SET_NOMINATION, nomination});
@@ -400,6 +414,30 @@ const Transfers: React.FC<INavigationProps> = props => {
                       style={[styles.transfersSectionContainerItemDetailsTitle, isDisabled]}>
                       {translate.t('transfer.toBank')}
                     </Text> 
+                  </View>
+                </TouchableOpacity>
+              </View>
+
+              <View
+                style={[
+                  styles.transfersSectionContainerColumn,
+                  styles.transfersSectionContainerItemLast,
+                ]}>
+                <TouchableOpacity
+                  style={styles.transfersSectionContainerItem}
+                  onPress={() => international(false)}>
+                  <View
+                    style={styles.transfersSectionContainerItemImageContainer}>
+                    <Image
+                      source={require('./../../../assets/images/icon-international.png')}
+                      style={[styles.transfersSectionContainerItemImage, isDisabled]}
+                    />
+                  </View>
+                  <View style={styles.transfersSectionContainerItemDetails}>
+                    <Text
+                      style={[styles.transfersSectionContainerItemDetailsTitle, isDisabled]}>
+                      {translate.t('transfer.internationalTransfer')}
+                    </Text>
                   </View>
                 </TouchableOpacity>
               </View>

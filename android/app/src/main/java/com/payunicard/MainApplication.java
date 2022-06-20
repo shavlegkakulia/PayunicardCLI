@@ -9,6 +9,7 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import me.furtado.smsretriever.RNSmsRetrieverPackage;
 import com.kvalifikareactnativesdk.ReactNativeSdkPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
+import com.horcrux.svg.SvgPackage;
 import com.kvalifikareactnativesdk.ReactNativeSdkPackage;
 import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;

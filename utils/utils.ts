@@ -69,9 +69,9 @@ export const dateDiff = (date1: Date, date2: Date) => {
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return diffDays;
 };
-
+let timeout: NodeJS.Timeout | null;
 export const debounce = (func: Function, wait: number, immediate?: boolean) => {
-  let timeout: NodeJS.Timeout | null;
+
 
   return function (e: Function) {
     let context: any = e,

@@ -244,8 +244,8 @@ const styles = StyleSheet.create({
   },
   categoriesImage: {
     width: 40,
-    height: 40,
-    backgroundColor: colors.none,
+    height:40,
+    backgroundColor: colors.none
   },
   categoriesName: {
     textAlign: 'center',

@@ -65,6 +65,7 @@ import PaginationDots from '../../../components/PaginationDots';
 import CurrencySelect from '../../../components/CurrencySelect/CurrencySelect';
 import Cover from '../../../components/Cover';
 import RNFetchBlob from 'rn-fetch-blob';
+import { EN, KA, ka_ge } from '../../../lang';
 
 const filter_items = {
   selectedAccount: 'selectedAccount',
@@ -129,6 +130,7 @@ const Transactions: React.FC = () => {
   );
   const [isAmountShown, setIsAmountShown] = useState<boolean>(false);
   const [isPdfDownloading, setIsPdfDownloading] = useState<boolean>(false);
+  const [monthCount, setMonthCount] = useState<number | undefined>(undefined);
   const dispatch = useDispatch();
 
   const onFromCurrencySelect = (currency: ICurrency) => {
@@ -184,14 +186,15 @@ const Transactions: React.FC = () => {
     });
   };
 
-  const getStatements = (renew?: boolean) => {
+  const getStatements = (renew?: boolean, start?:Date) => {
+  
     if (selectedAccount?.type === TYPE_UNICARD) {
       getUnicardStatement();
       return;
     }
     if (unicardStatements) setUnicardStatements(undefined);
     let data: IUserAccountsStatementRequest = {
-      startDate: selectedStartDate,
+      startDate: start || selectedStartDate,
       rowIndex: rowIndex,
       rowCount: rowCount,
     };
@@ -318,8 +321,6 @@ const Transactions: React.FC = () => {
     });
   };
 
-  const refreshStatementDebounce = debounce((e: Function) => e(), 1000);
-
   const removeFilter = (stateKey: string) => {
     switch (stateKey) {
       case filter_items.selectedAccount: {
@@ -329,12 +330,13 @@ const Transactions: React.FC = () => {
       case filter_items.selectedDate: {
         setSelectedStartDate(minusMonthFromDate());
         setSelectedEndDate(new Date());
+        setMonthCount(undefined);
         setDateValue(prev => {
           prev.startDateValue = minusMonthFromDate();
           prev.endDateVlaue = new Date();
           return prev;
         });
-        refreshStatementDebounce(() => getStatements());
+        getStatements(true, minusMonthFromDate());
         break;
       }
       case filter_items.selectedCurrency: {
@@ -366,8 +368,9 @@ const Transactions: React.FC = () => {
     closeSheet();
   };
 
-  const getLast = (monthCount: number) => {
-    setSelectedStartDate(minusMonthFromDate(monthCount));
+  const getLast = (_monthCount: number) => {
+    setMonthCount(_monthCount);
+    setSelectedStartDate(minusMonthFromDate(_monthCount));
   };
 
   const FetchUserData = () => {
@@ -695,7 +698,7 @@ const Transactions: React.FC = () => {
               {selectedStartDate.toLocaleDateString()} -{' '}
               {selectedEndDate.toLocaleDateString()}
             </Text>
-            {!isBaseDate && (
+            {(!isBaseDate || monthCount) && (
               <TouchableOpacity
                 style={styles.activeFilterRemove}
                 onPress={removeFilter.bind(this, filter_items.selectedDate)}>
@@ -856,16 +859,16 @@ const Transactions: React.FC = () => {
             <View>
               <View style={styles.lastDatesContainer}>
                 <TouchableOpacity
-                  style={styles.lastDate}
+                  style={[styles.lastDate, monthCount === 1 && styles.activeLastDate]}
                   onPress={getLast.bind(this, 1)}>
-                  <Text style={styles.lastDateText}>
+                  <Text style={[styles.lastDateText, monthCount === 1 && styles.activeLastDateText]}>
                     {translate.t('transaction.lastMonth')}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={styles.lastDate}
+                  style={[styles.lastDate, monthCount === 3 && styles.activeLastDate]}
                   onPress={getLast.bind(this, 3)}>
-                  <Text style={styles.lastDateText}>
+                  <Text style={[styles.lastDateText, monthCount === 3 && styles.activeLastDateText]}>
                     {translate.t('transaction.lastThreeMonths')}
                   </Text>
                 </TouchableOpacity>
@@ -873,16 +876,16 @@ const Transactions: React.FC = () => {
 
               <View style={styles.lastDatesContainer}>
                 <TouchableOpacity
-                  style={styles.lastDate}
+                  style={[styles.lastDate, monthCount === 6 && styles.activeLastDate]}
                   onPress={getLast.bind(this, 6)}>
-                  <Text style={styles.lastDateText}>
+                  <Text style={[styles.lastDateText, monthCount === 6 && styles.activeLastDateText]}>
                     {translate.t('transaction.lastSixMonths')}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={styles.lastDate}
+                  style={[styles.lastDate, monthCount === 12 && styles.activeLastDate]}
                   onPress={getLast.bind(this, 12)}>
-                  <Text style={styles.lastDateText}>
+                  <Text style={[styles.lastDateText, monthCount === 12 && styles.activeLastDateText]}>
                     {translate.t('transaction.lastYear')}
                   </Text>
                 </TouchableOpacity>
@@ -905,6 +908,7 @@ const Transactions: React.FC = () => {
 
               <DatePicker
                 date={startDateValue}
+                maximumDate={new Date()}
                 onDateChange={data => {
                   setDateValue(prev => {
                     let startDateValue = new Date(data.toLocaleDateString());
@@ -914,7 +918,7 @@ const Transactions: React.FC = () => {
                   });
                 }}
                 style={styles.datePicker}
-                locale="ka-GE"
+                locale={translate.key === ka_ge ? KA : EN}
                 mode="date"
               />
             </View>
@@ -935,6 +939,7 @@ const Transactions: React.FC = () => {
 
               <DatePicker
                 date={endDateVlaue}
+                maximumDate={new Date()}
                 onDateChange={data => {
                   setDateValue(prev => {
                     let startDateValue = prev.startDateValue;
@@ -944,7 +949,7 @@ const Transactions: React.FC = () => {
                   });
                 }}
                 style={styles.datePicker}
-                locale="ka-GE"
+                locale={translate.key === ka_ge ? KA : EN}
                 mode="date"
               />
             </View>
@@ -955,7 +960,7 @@ const Transactions: React.FC = () => {
               title={translate.t('common.showMe')}
               onPress={filterWithDates}
               style={styles.button}
-              disabled={isBaseDate}
+              disabled={isBaseDate && !monthCount}
             />
           </View>
         </View>
@@ -1091,11 +1096,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 170,
   },
+  activeLastDate: {
+    backgroundColor: colors.primary,
+  },
   lastDateText: {
     fontFamily: 'FiraGO-Medium',
     fontSize: 14,
     lineHeight: 17,
     color: colors.labelColor,
+  },
+  activeLastDateText: {
+    color: colors.white
   },
   lastDatesContainer: {
     justifyContent: 'space-around',

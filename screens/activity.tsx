@@ -10,12 +10,15 @@ import {
   Dimensions,
   Text,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import {connect} from 'react-redux';
 import AppButton from '../components/UI/AppButton';
 import colors from '../constants/colors';
 import {Logout} from '../redux/actions/auth_actions';
 import {t} from '../redux/actions/translate_actions';
+import { subscriptionService } from '../services/subscriptionService';
+import BackgroundTimer from 'react-native-background-timer';
 
 interface IProps {
   timeForInactivity: number;
@@ -28,8 +31,8 @@ interface IProps {
 
 class UserInactivity extends PureComponent<IProps, any> {
   panResponder: PanResponderInstance | undefined;
-  timeout: NodeJS.Timeout | undefined;
-  popupTimeout: NodeJS.Timeout | undefined;
+  timeout: number | undefined;
+  popupTimeout: number | undefined;
 
   constructor(props: any) {
     super(props);
@@ -66,19 +69,25 @@ class UserInactivity extends PureComponent<IProps, any> {
 
   componentWillMount() {
     if (this.props.isAuth) {
+      if(Platform.OS === 'ios') {
+        BackgroundTimer.start();
+      }
       this.registerPan();
     }
   }
 
   componentWillUnmount() {
-    if (this.timeout) clearTimeout(this.timeout);
-    if (this.popupTimeout) clearTimeout(this.popupTimeout);
+    if (this.timeout) BackgroundTimer.clearTimeout(this.timeout);
+    if (this.popupTimeout) BackgroundTimer.clearTimeout(this.popupTimeout);
+    if(Platform.OS === 'ios') {
+      BackgroundTimer.stop();
+    }
   }
 
   componentDidUpdate() {
     if (!this.props.isAuth) {
-      if (this.timeout) clearTimeout(this.timeout);
-      if (this.popupTimeout) clearTimeout(this.popupTimeout);
+      if (this.timeout) BackgroundTimer.clearTimeout(this.timeout);
+      if (this.popupTimeout) BackgroundTimer.clearTimeout(this.popupTimeout);
       this.panResponder = undefined;
     } else {
       if (!this.panResponder) {
@@ -95,8 +104,8 @@ class UserInactivity extends PureComponent<IProps, any> {
    */
 
   handleInactivity = () => {
-    if (this.timeout) clearTimeout(this.timeout);
-    if (this.popupTimeout) clearTimeout(this.popupTimeout);
+    if (this.timeout) BackgroundTimer.clearTimeout(this.timeout);
+    if (this.popupTimeout) BackgroundTimer.clearTimeout(this.popupTimeout);
     this.setState(
       {
         active: true,
@@ -128,14 +137,14 @@ class UserInactivity extends PureComponent<IProps, any> {
   };
 
   resetTimeout = () => {
-    this.timeout = setTimeout(
+    this.timeout = BackgroundTimer.setTimeout(
       this.timeoutHandler,
       this.props.timeForInactivity,
     );
   };
 
   initPopap = () => {
-    this.popupTimeout = setTimeout(
+    this.popupTimeout = BackgroundTimer.setTimeout(
       () => this.setState({modalVisible: true}),
       this.props.timeForInactivity - 30000, //30 second
     );
@@ -149,6 +158,12 @@ class UserInactivity extends PureComponent<IProps, any> {
      */
     return false;
   };
+
+  onCloseModal() {
+    this.setState({modalVisible: false}, () => {
+      subscriptionService.sendData('force_redirect', true);
+    });
+  }
 
   render() {
     const {style, children} = this.props;
@@ -221,7 +236,7 @@ class UserInactivity extends PureComponent<IProps, any> {
                     TextStyle={styles.buttonText}
                     title={this.props.t && this.props.t('common.close')}
                     onPress={() => {
-                      this.setState({modalVisible: false});
+                      this.onCloseModal()
                     }}
                   />
                 )}

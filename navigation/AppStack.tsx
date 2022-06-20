@@ -81,6 +81,9 @@ import PasswordResetStepThree from '../screens/landing/password/PasswordResetSte
 import setLoginWithPassCode from '../screens/landing/setLoginWithPassCode';
 import AgreeTerm from '../screens/landing/signup/signup-agree';
 import RefreshTokenOtp from '../screens/landing/RefreshIokenOtp';
+import {subscriptionService} from '../services/subscriptionService';
+import Notifications from '../screens/dashboard/notifications/Notifications';
+import InternationalTransfer from '../screens/dashboard/transfers/InternationalTransfer';
 
 const appStack = createStackNavigator();
 
@@ -107,10 +110,26 @@ const AppStack: React.FC = () => {
     return () => sub.remove();
   }, []);
 
+  useEffect(() => {
+    const red_sub = subscriptionService.getData().subscribe(res => {
+      if (res?.key === 'force_redirect') {
+        NavigationService.navigate(Routes.Landing);
+      }
+    });
+
+    return () => {
+      red_sub.unsubscribe();
+    };
+  }, []);
+
   return (
     <DrawerLayout
       drawerWidth={300}
-      drawerLockMode={state.isAuthenticated ? 'unlocked' : 'locked-closed'}
+      drawerLockMode={
+        state.isAuthenticated && state.accesToken.length > 0
+          ? 'unlocked'
+          : 'locked-closed'
+      }
       keyboardDismissMode="on-drag"
       onDrawerOpen={() => (isDrawerOpened.current = true)}
       onDrawerClose={() => (isDrawerOpened.current = false)}
@@ -131,7 +150,7 @@ const AppStack: React.FC = () => {
             gestureEnabled: false,
             headerShown: false,
           }}>
-          {(state.isAuthenticated === true && state.accesToken.length) ? (
+          {state.isAuthenticated === true && state.accesToken.length ? (
             <>
               <appStack.Screen
                 name={Routes.Home}
@@ -316,7 +335,7 @@ const AppStack: React.FC = () => {
                     route: props.route,
                     title: title,
                     backText: translate.t('common.back'),
-                    hideHeader: true
+                    hideHeader: true,
                   });
                 }}
                 component={TransferToUni}
@@ -333,7 +352,7 @@ const AppStack: React.FC = () => {
                     route: props.route,
                     title: title,
                     backText: translate.t('common.back'),
-                    hideHeader: true
+                    hideHeader: true,
                   });
                 }}
                 component={TransferToUni}
@@ -411,6 +430,70 @@ const AppStack: React.FC = () => {
                   })
                 }
                 component={TransferConvertation}
+              />
+              <appStack.Screen
+                name={Routes.Internatinal_choose_account}
+                options={props => {
+                  //@ts-ignore
+                  let title = props?.route?.params?.newTemplate
+                    ? translate.t('plusSign.crTransferTemplate')
+                    : translate.t('transfer.internationalTransfer');
+                  return DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: title,
+                    backText: translate.t('common.back'),
+                  });
+                }}
+                component={InternationalTransfer}
+              />
+              <appStack.Screen
+                name={Routes.Internatinal_set_currency}
+                options={props => {
+                  //@ts-ignore
+                  let title = props?.route?.params?.newTemplate
+                    ? translate.t('plusSign.crTransferTemplate')
+                    : translate.t('transfer.internationalTransfer');
+                  return DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: title,
+                    backText: translate.t('common.back'),
+                  });
+                }}
+                component={InternationalTransfer}
+              />
+              <appStack.Screen
+                name={Routes.Internatinal_set_otp}
+                options={props => {
+                  //@ts-ignore
+                  let title = props?.route?.params?.newTemplate
+                    ? translate.t('plusSign.crTransferTemplate')
+                    : translate.t('transfer.internationalTransfer');
+                  return DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: title,
+                    backText: translate.t('common.back'),
+                  });
+                }}
+                component={InternationalTransfer}
+              />
+              <appStack.Screen
+                name={Routes.Internatinal_succes}
+                options={props => {
+                  //@ts-ignore
+                  let title = props?.route?.params?.newTemplate
+                    ? translate.t('plusSign.crTransferTemplate')
+                    : translate.t('transfer.internationalTransfer');
+                  return DefaultOptionsDrawer({
+                    navigation: props.navigation,
+                    route: props.route,
+                    title: title,
+                    backText: translate.t('common.back'),
+                  });
+                }}
+                component={InternationalTransfer}
               />
               <appStack.Screen
                 name={Routes.Payments_STEP1}
@@ -1056,6 +1139,16 @@ const AppStack: React.FC = () => {
                   })
                 }
               />
+              <appStack.Screen
+                name={Routes.notifications}
+                options={props =>
+                  DefaultOptions({
+                    navigation: props.navigation,
+                    lang: translate.key,
+                  })
+                }
+                component={Notifications}
+              />
             </>
           ) : (
             <>
@@ -1112,7 +1205,7 @@ const AppStack: React.FC = () => {
                 options={props =>
                   UnauthScreenOptionsDrawer({
                     navigation: props.navigation,
-                    title: translate.t('signup.title'),
+                    title: translate.t('login.forgotpassword'),
                     backText: translate.t('common.back'),
                   })
                 }
@@ -1225,7 +1318,9 @@ const AppStack: React.FC = () => {
             </>
           )}
         </appStack.Navigator>
-        {(state.isAuthenticated === true && state.accesToken?.length > 0) && <TabNav />}
+        {state.isAuthenticated === true && state.accesToken?.length > 0 && (
+          <TabNav />
+        )}
       </>
     </DrawerLayout>
   );

@@ -359,10 +359,15 @@ const Settings: React.FC = () => {
     });
   };
 
-  const onOffTrustDevice = () => {
+  const onOffTrustDevice = () => { 
     if (isTrstedProcessing) return;
-    const current = [...(authData.devices || [])].filter(device => device.isCurrent === true);
-    if (!current.length) return;
+    const current = [...(authData.devices || [])].filter(device => device.isCurrent === true); 
+    if (!current.length) {
+      storage.removeItem(DEVICE_ID);
+          dispatch({ type: SET_DEVICE_ID, deviceId: undefined });
+          onTrust(false);
+      return;
+    }
     setIsTrustedProcessing(true);
     deviceService.UpdateDeviceStatus(current[0].id).subscribe({
       next: Response => {
@@ -503,7 +508,8 @@ const Settings: React.FC = () => {
       <SafeAreaView style={styles.content}>
         <ScrollView
           style={screenStyles.screenContainer}
-          contentContainerStyle={styles.container}>
+          contentContainerStyle={styles.container} 
+          showsVerticalScrollIndicator={false} >
           <View>
             <View style={styles.profile}>
               <View style={styles.coverBox}>
@@ -549,7 +555,7 @@ const Settings: React.FC = () => {
                 <Text style={styles.navItemTitle}>
                   {translate.t('settings.passCode')}
                 </Text>
-              </View>
+              </View> 
               <Switch
                 style={styles.check}
                 trackColor={{
@@ -702,6 +708,12 @@ const Settings: React.FC = () => {
           behavior="padding"
           keyboardVerticalOffset={0}
           style={styles.avoid}>
+             <TouchableOpacity style={styles.modalClose} onPress={onOtpModalClose}>
+            <Image
+              source={require('./../../../assets/images/close40x40.png')}
+              style={styles.modalCloseIcon}
+            />
+          </TouchableOpacity>
           <View style={styles.modalBody}>
             <View>
               <View style={styles.insertOtpSTep}>
@@ -721,6 +733,7 @@ const Settings: React.FC = () => {
               title={translate.t('common.next')}
               onPress={onTrustDevice}
               isLoading={isLoading}
+              style={{marginTop: 50}}
             />
           </View>
         </KeyboardAvoidingView>
@@ -736,6 +749,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 24,
     backgroundColor: colors.white,
+    position: 'relative'
   },
   modalBody: {
     paddingTop: 50,
@@ -858,7 +872,19 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     marginTop: 5,
     paddingTop: 15,
-  }
+  },
+  modalClose: {
+    position: 'absolute',
+    top: Platform.OS === 'android' ? 30 : 40,
+    right: 15,
+    padding: 8,
+    flex: 1,
+    width: 40,
+  },
+  modalCloseIcon: {
+    width: 24,
+    height: 24,
+  },
 });
 
 export default Settings;

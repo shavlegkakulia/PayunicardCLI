@@ -7,7 +7,6 @@ import {
   Image,
   Keyboard,
   EmitterSubscription,
-  KeyboardAvoidingView,
   Platform,
   BackHandler,
   Modal,
@@ -39,9 +38,7 @@ import NetworkService from '../../services/NetworkService';
 import {useDimension} from '../../hooks/useDimension';
 import AuthService, {IAuthorizationRequest} from '../../services/AuthService';
 import {stringToObject} from '../../utils/utils';
-import {require_otp, require_password_change} from '../../constants/errorCodes';
-import FloatingLabelInput from '../../containers/otp/Otp';
-import screenStyles from '../../styles/screens';
+import {invalid_grant, require_otp, require_password_change} from '../../constants/errorCodes';
 import Routes from '../../navigation/routes';
 import {useNavigation} from '@react-navigation/native';
 import SetLoginWithPassCode from './setLoginWithPassCode';
@@ -49,10 +46,15 @@ import SmsRetriever from 'react-native-sms-retriever';
 import {getString} from '../../utils/Converter';
 import analytics from '@react-native-firebase/analytics';
 import OtpModal from '../../components/OtpModal';
+import { PUSH } from '../../redux/actions/error_action';
 
 const CONTEXT_TYPE = 'login';
 
-const LoginForm: React.FC = () => {
+interface IPageProps {
+  loginWithPassword?:boolean;
+}
+
+const LoginForm: React.FC<IPageProps> = ({loginWithPassword}) => {
   const dispatch = useDispatch();
   const state = useSelector<IGlobalState>(
     state => state.AuthReducer,
@@ -71,7 +73,7 @@ const LoginForm: React.FC = () => {
   const [userInfo, setUserInfo] = useState<IUserDetails | null>({});
   const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
   const [isUserLoading, setIsUserLoading] = useState(false);
-  const [hasPasCode, setHasPasCode] = useState<boolean>(false);
+  const [hasPasCode, setHasPasCode] = useState<boolean | undefined>(undefined);
   const [{access_token, refresh_token}, setTokens] = useState({
     access_token: '',
     refresh_token: '',
@@ -142,9 +144,11 @@ const LoginForm: React.FC = () => {
               refresh_token: _refresh_token,
             });
           }
+        } else {
+          setHasPasCode(false);
         }
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {setIsLoading(false); });
   }, []);
 
   useEffect(() => {
@@ -215,6 +219,9 @@ const LoginForm: React.FC = () => {
           }
           if (stringToObject(error.response).data.error === require_otp) {
             setOtpVisible(true);
+          }
+          if (stringToObject(error.response).data.error === invalid_grant) {
+            dispatch(PUSH(translate.t("generalErrors.invalidUser")));
           }
           dispatch({type: AUT_SET_IS_LOADING, isLoading: false});
           setIsUserLoading(false);
@@ -368,7 +375,7 @@ const LoginForm: React.FC = () => {
       <AppkeyboardAVoidScrollview>
         <View style={styles.container}>
           <Header />
-          {hasPasCode ? (
+          {(hasPasCode && !loginWithPassword) ? (
             <SetLoginWithPassCode
               UserData={userInfo}
               access_token={access_token}
