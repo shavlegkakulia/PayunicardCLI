@@ -3,6 +3,7 @@ import React, {useEffect, useReducer, useRef} from 'react';
 import {
   Alert,
   Modal,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -295,7 +296,7 @@ const CategoryContainer: React.FC<IPageProps> = ({
   const modalVisible = categoriesStep > 1 || paymentStep > 0;
   return (
     <>
-      <View style={screenStyles.screenContainer}>
+      <View style={[screenStyles.screenContainer, {backgroundColor: 'green'}]}>
         {categories !== undefined &&
           categories?.[0]?.map(current => (
             <TouchableOpacity
@@ -347,7 +348,7 @@ export default CategoryContainer;
 const styles = StyleSheet.create({
   categoriesView: {
     backgroundColor: 'red',
-    marginTop: headerHeight,
+    marginTop: Platform.OS === 'android' ? headerHeight : headerHeight + 15,
     marginBottom: tabHeight,
     flex: 1
   },
