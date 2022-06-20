@@ -84,6 +84,7 @@ import RefreshTokenOtp from '../screens/landing/RefreshIokenOtp';
 import {subscriptionService} from '../services/subscriptionService';
 import Notifications from '../screens/dashboard/notifications/Notifications';
 import InternationalTransfer from '../screens/dashboard/transfers/InternationalTransfer';
+import Payment from '../screens/dashboard/payment/payment';
 
 const appStack = createStackNavigator();
 
@@ -191,6 +192,16 @@ const AppStack: React.FC = () => {
                   })
                 }
                 component={Payments}
+              />
+                <appStack.Screen
+                name={Routes.newPayment}
+                options={props =>
+                  DefaultOptions({
+                    navigation: props.navigation,
+                    lang: translate.key,
+                  })
+                }
+                component={Payment}
               />
               <appStack.Screen
                 name={Routes.Transfers}

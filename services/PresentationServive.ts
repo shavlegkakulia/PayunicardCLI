@@ -17,7 +17,7 @@ export interface ICategory {
   ord?: number;
   parentID?: number;
   recDate?: string | undefined;
-  name: string;
+  name?: string;
   isHidden?: boolean;
   isParent?: boolean;
   hasServices: boolean;
@@ -40,10 +40,9 @@ export interface ICategoryResponse {
   errors?: IError[] | undefined;
 }
 
-export class IService {
+export interface IService extends ICategory {
   merchantCode?: string | undefined;
   merchantServiceCode?: string | undefined;
-  categoryID?: number;
   resourceValue?: string | undefined;
   merchantServiceURL?: string | undefined;
   isUtility?: boolean;

@@ -94,7 +94,8 @@ const Routes = {
     OfferDetails: 'OfferDetails',
     paymentMethods: 'paymentMethods',
     TrustedDevices: 'TrustedDevices',
-    notifications: 'notifications'
+    notifications: 'notifications',
+    newPayment: 'newPayment'
 }
 
 export default Routes;

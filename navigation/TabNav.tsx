@@ -51,6 +51,11 @@ RouteIcons[Routes.Transfers] = [
   require('./../assets/images/transfers.png'),
 ];
 
+RouteIcons[Routes.newPayment] = [
+  require('./../assets/images/transfers_active.png'),
+  require('./../assets/images/transfers.png'),
+];
+
 const TabNav = () => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
@@ -116,8 +121,8 @@ const TabNav = () => {
       />
 
       <NavItem
-        active={currentNav === Routes.Transfers}
-        to={Routes.Transfers}
+        active={currentNav === Routes.newPayment}
+        to={Routes.newPayment}
         callback={onHandle}
         title={translate.t('tabNavigation.transfers')}
       />
