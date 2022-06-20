@@ -23,6 +23,8 @@ import screenStyles from '../../styles/screens';
 import Categories from './categories/Categories';
 import Merchants from './categories/merchants';
 import GestureRecognizer from 'react-native-swipe-gestures';
+import {tabHeight} from '../../navigation/TabNav';
+import {headerHeight} from '../../constants/defaults';
 
 const config = {
   velocityThreshold: 0.1,
@@ -312,10 +314,14 @@ const CategoryContainer: React.FC<IPageProps> = ({
       </View>
       <GestureRecognizer
         onSwipeRight={goBack}
-        style={{flex: 1}}
+        style={styles.gestureView}
         config={config}>
-        <Modal visible={modalVisible} onRequestClose={goBack}>
-          <View style={screenStyles.screenContainer}>
+        <Modal
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={goBack}
+          style={styles.modalView}>
+          <View style={styles.categoriesView}>
             {categories !== undefined && categories.length > 0 && (
               <TouchableOpacity onPress={goBack}>
                 <Text>Back</Text>
@@ -338,4 +344,15 @@ const CategoryContainer: React.FC<IPageProps> = ({
 
 export default CategoryContainer;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  categoriesView: {
+    backgroundColor: 'red',
+    marginTop: headerHeight,
+    marginBottom: tabHeight,
+    flex: 1
+  },
+  gestureView: {flex: 1},
+  modalView: {
+    flex: 1,
+  },
+});
