@@ -16,10 +16,22 @@ interface IProps {
   isLoading?: boolean;
   localImage?: ImageProps;
   style?: StyleProp<ViewStyle>;
-  imgStyle?:  StyleProp<ImageStyle>;
+  imgStyle?: StyleProp<ImageStyle>;
+  isOverflowVisible?: boolean;
+  circleBg?: string;
 }
 
 const Cover: React.FC<IProps> = props => {
+  const _logoBox = 
+    {...styles.LogoBox};
+    if(!props.isOverflowVisible) {
+      _logoBox.overflow = 'hidden';
+ 
+    } else {
+      _logoBox.backgroundColor = props.circleBg;
+      console.log( props)
+    }
+  
   return (
     <View style={[styles.item, props.style]}>
       {props.isLoading ? (
@@ -27,12 +39,20 @@ const Cover: React.FC<IProps> = props => {
           <ActivityIndicator size="small" color={colors.primary} />
         </View>
       ) : props.localImage ? (
-        <View style={styles.LogoBox}>
-        <Image source={props.localImage} resizeMode={'contain'} style={[styles.logo, props.imgStyle]} />
+        <View style={_logoBox}>
+          <Image
+            source={props.localImage}
+            resizeMode={'contain'}
+            style={[styles.logo, props.imgStyle]}
+          />
         </View>
       ) : (
-        <View style={styles.LogoBox}>
-        <Image source={{uri: props.imageUrl}} resizeMode={'contain'} style={[styles.logo, props.imgStyle]} />
+        <View style={_logoBox}>
+          <Image
+            source={{uri: props.imageUrl}}
+            resizeMode={'contain'}
+            style={[styles.logo, props.imgStyle]}
+          />
         </View>
       )}
     </View>
@@ -49,9 +69,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: colors.inputBackGround,
-    overflow: 'hidden',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   logo: {
     width: '100%',
