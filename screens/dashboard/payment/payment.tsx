@@ -1,13 +1,22 @@
 import React, {useState} from 'react';
-import {RefreshControl, ScrollView, StyleSheet, Text} from 'react-native';
-import CategoryContainer from '../../../components/Payments/CategoryContainer';
+import {RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
+import {useSelector} from 'react-redux';
+import CategoryContainer, {
+  gridStyle,
+} from '../../../components/Payments/CategoryContainer';
 import colors from '../../../constants/colors';
+import {
+  ITranslateState,
+  IGlobalState as Itranslate,
+} from '../../../redux/action_types/translate_action_types';
 import screenStyles from '../../../styles/screens';
 import DashboardLayout from '../../DashboardLayout';
 
 const Payment: React.FC = () => {
+  const translate = useSelector<Itranslate>(
+    state => state.TranslateReduser,
+  ) as ITranslateState;
   const [refreshing, setRefreshing] = useState(false);
-  const [title, setTitle] = useState<string | undefined>();
 
   const onScreenRefresh = (value: boolean) => {
     setRefreshing(value);
@@ -24,14 +33,18 @@ const Payment: React.FC = () => {
             onRefresh={onScreenRefresh.bind(this, true)}
           />
         }>
-            {/* <Text>{title}</Text> */}
-        <CategoryContainer
-          refresh={refreshing}
-          onCategoriesDidLoad={(title) => {
-            onScreenRefresh(false);
-            setTitle(title);
-          }}
-        />
+        <View style={styles.container}>
+        <View style={[screenStyles.wraper, screenStyles.shadowedCardbr15, styles.categories]}>
+          <CategoryContainer
+            title={translate.t('tabNavigation.payments')}
+            gridVariant={gridStyle.twoColumn}
+            refresh={refreshing}
+            onCategoriesDidLoad={() => {
+              onScreenRefresh(false);
+            }}
+          />
+        </View>
+        </View>
       </ScrollView>
     </DashboardLayout>
   );
@@ -39,4 +52,13 @@ const Payment: React.FC = () => {
 
 export default Payment;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    padding: 17
+  },
+  categories: {
+    marginTop: 30,
+    backgroundColor: colors.white,
+    paddingVertical: 17
+  }
+});

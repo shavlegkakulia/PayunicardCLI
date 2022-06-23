@@ -1,52 +1,31 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useRef } from 'react';
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
 import {ICategory, IService} from '../../../services/PresentationServive';
-import {ICategoryParams} from '../CategoryContainer';
+import Item from './Item';
 
 interface IPageProps {
   categories: ICategory[] | IService[] | undefined;
-  getCategories: (params: ICategoryParams) => void;
+  getCategories: (item: ICategory | IService) => void;
 }
 
 const Categories: React.FC<IPageProps> = ({categories, getCategories}) => {
-  const navigation = useNavigation();
-  const unsubscribe = useRef<() => void>();
-  useEffect(() => {
-    unsubscribe.current = navigation.addListener('beforeRemove', e => {
-        Alert.alert('!');
-        e.preventDefault();
-    });
-
-    return () => {
-      unsubscribe.current?.();
-    };
-  }, [categories]);
-  
-  if(categories === undefined) {
-    return null
-  };
+  if (categories === undefined) {
+    return null;
+  }
 
   return (
-    <View>
-      {categories.map(current => (
-        <TouchableOpacity
-          onPress={() =>
-            getCategories({
-              parentID: current.categoryID,
-              isService: current.isService,
-              hasService: current.hasServices,
-              hasChildren: current.hasChildren,
-              categoryTitle: current.name,
-            })
-          }>
-          <Text key={current.imageUrl}>{current.name}</Text>
-        </TouchableOpacity>
-      ))}
-    </View>
+    <FlatList
+      keyExtractor={item => item.name}
+      data={categories}
+      renderItem={item => (
+        <Item {...item.item} onPress={getCategories} />
+      )}
+      style={styles.content}
+    />
   );
 };
 
 export default Categories;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({content: {flex: 1, paddingHorizontal: 17}});

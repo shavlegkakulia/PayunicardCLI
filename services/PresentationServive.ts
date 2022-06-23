@@ -28,6 +28,7 @@ export interface ICategory {
   merchantServiceCode?: string | undefined;
   categoryName?: string | undefined;
   cannotPay?:boolean;
+  isLoading?: boolean;
 }
 
 interface IData {
@@ -119,6 +120,7 @@ export interface IGetMerchantServicesForTemplateResponse {
 
 export interface IMerchant extends ICategory {
   merchantServiceURL?: string;
+  isLoading?: boolean;
 }
 
 export interface IMerchantServicesForTemplateRequest {
