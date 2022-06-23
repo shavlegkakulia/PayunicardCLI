@@ -10,11 +10,14 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import colors from '../constants/colors';
-import { EN, KA, ka_ge } from '../lang';
+import {EN, KA, ka_ge} from '../lang';
 import {tabHeight} from '../navigation/TabNav';
-import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../redux/action_types/translate_action_types';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../redux/action_types/translate_action_types';
 import PresentationServive, {
   IOffersDetailResponse,
 } from '../services/PresentationServive';
@@ -37,18 +40,20 @@ const OfferDetails: React.FC = () => {
 
   const get_GetOffer = () => {
     setIsLoading(true);
-    PresentationServive.get_GetOfferDetail(offerId, translate.key === ka_ge ? KA : EN).subscribe({
+    PresentationServive.get_GetOfferDetail(
+      offerId,
+      translate.key === ka_ge ? KA : EN,
+    ).subscribe({
       next: Response => {
         setOffer(Response.data.data?.offer);
       },
-      complete: () => setIsLoading(false)
+      complete: () => setIsLoading(false),
     });
   };
 
-  const seeMore = () => { 
-    if(offer?.merchantUrl)
-      Linking.openURL(offer?.merchantUrl);
-  }
+  const seeMore = () => {
+    if (offer?.merchantUrl) Linking.openURL(offer?.merchantUrl);
+  };
 
   useEffect(() => {
     get_GetOffer();
@@ -72,14 +77,17 @@ const OfferDetails: React.FC = () => {
             style={styles.img}
             resizeMode="contain"
           />
-          <Text style={styles.text}>{offer?.description}
-          {'\n\n\n'}
-          <TouchableOpacity onPress={seeMore} style={styles.seemore}>
-            <Text style={styles.seemoretext}>{translate.t('common.seeMore')}</Text>
-          </TouchableOpacity>
+          <Text style={styles.text}>
+            {offer?.description}
+            {'\n\n\n'}
+            {(offer?.merchantUrl !== undefined && offer?.merchantUrl.length > 0) && (
+              <TouchableOpacity onPress={seeMore} style={styles.seemore}>
+                <Text style={styles.seemoretext}>
+                  {translate.t('common.seeMore')}
+                </Text>
+              </TouchableOpacity>
+            )}
           </Text>
-
-          
         </>
       )}
     </ScrollView>
@@ -117,15 +125,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   seemore: {
-    paddingVertical: 10
+    paddingVertical: 10,
   },
   seemoretext: {
     fontFamily: 'FiraGO-Medium',
     lineHeight: 17,
     fontSize: 14,
     fontWeight: '700',
-    textDecorationLine: 'underline'
-  }
+    textDecorationLine: 'underline',
+  },
 });
 
 export default OfferDetails;

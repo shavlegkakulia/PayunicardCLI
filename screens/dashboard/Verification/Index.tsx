@@ -73,6 +73,11 @@ import StepThree from './StepThree';
 import StepTwo from './StepTwo';
 import Welcome from './Welcome';
 
+export enum documentTypes {
+  PASSPORT = 'PASSPORT',
+  ID = 'ID'
+}
+
 const VERIFICATION_STEPS = {
   welcome: 0,
   step_one: 1,

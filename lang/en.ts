@@ -18,6 +18,7 @@ export default {
         mobile: 'Mobile Number',
         user: 'Subscriber',
         personalNumber: 'Personal Number',
+        documentNumber: 'Document Number',
         country: 'Country',
         commission: 'Commission',
         agreeTerms: 'Agree to the Terms and Conditions',

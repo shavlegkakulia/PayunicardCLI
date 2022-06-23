@@ -17,6 +17,7 @@ export default {
         delete: 'წაშლა',
         country: 'ქვეყანა',
         personalNumber: 'პირადი ნომერი',
+        documentNumber: 'დოკუმენტის ნომერი',
         agreeTerms: 'ვეთანხმები წესებსა და პირობებს',
         close: 'დახურვა',
         no: 'არა',

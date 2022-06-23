@@ -6,6 +6,7 @@ import AppCheckbox from '../../../components/UI/AppCheckbox';
 import colors from '../../../constants/colors';
 import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import { IKCData } from '../../../services/KvalificaServices';
+import { documentTypes } from './Index';
 
 interface IProps {
   kycData: IKCData | undefined;
@@ -30,16 +31,21 @@ const StepNine: React.FC<IProps> = props => {
 
         <View style={styles.block}>
           <Text style={styles.labelText}>{translate.t('verification.docType')}:</Text>
-          <Text style={styles.labelValue}>{props.kycData?.documetType === 'ID' ? translate.t('verification.idCard') : translate.t('verification.passport')}</Text>
+          <Text style={styles.labelValue}>{props.kycData?.documetType === documentTypes.ID ? translate.t('verification.idCard') : translate.t('verification.passport')}</Text>
         </View>
 
+        {props.kycData?.documetType === documentTypes.PASSPORT ? <View style={styles.block}>
+          <Text style={styles.labelText}>{translate.t('verification.passportNumber')}</Text>
+          <Text style={styles.labelValue}>{props.kycData?.documentNumber}</Text>
+        </View> 
+        : 
         <View style={styles.block}>
-          <Text style={styles.labelText}>{props.kycData?.documetType === 'ID' ? translate.t('verification.idNumber') : translate.t('verification.passportNumber')}</Text>
-          <Text style={styles.labelValue}>{props.kycData?.personalNumber || props.kycData?.documentNumber}</Text>
-        </View>
+          <Text style={styles.labelText}>{translate.t('verification.idNumber')}</Text>
+          <Text style={styles.labelValue}>{props.kycData?.personalNumber}</Text>
+        </View>}
 
         <View style={styles.block}>
-          <Text style={styles.labelText}>{translate.t('common.name')},{ translate.t('commin.lname') }:</Text>
+          <Text style={styles.labelText}>{translate.t('common.name')}, { translate.t('common.lname') }:</Text>
           <Text style={styles.labelValue}>{props.kycData?.firstName} {props.kycData?.lastName}</Text>
         </View>
 
