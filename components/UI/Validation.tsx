@@ -25,7 +25,7 @@ const Validation: IParams = {
         Validation.checks = [...T];
     },
     push: (key: any, context: string) => {
-        return (checkType: any[], validate: (s: boolean) => boolean, value?: string | number, minLength?: number, equalsTo?: string | number) => {
+        return (checkType: any[], validate: (s: boolean) => boolean, value?: string | number | any, minLength?: number, equalsTo?: string | number) => {
             
             let T = Validation.checks.filter(c => {
                 return c._c != key

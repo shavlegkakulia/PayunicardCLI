@@ -25,7 +25,7 @@ import AppButton from './UI/AppButton';
 
 interface IProps {
   otp?: string;
-  modalVisible: boolean;
+  modalVisible?: boolean;
   isLoading?: boolean;
   buttonText?: string;
   label?: string;
@@ -70,7 +70,7 @@ const OtpModal: React.FC<IProps> = props => {
 
   return (
     <Modal
-      visible={props.modalVisible}
+      visible={props.modalVisible === true}
       onRequestClose={props.onClose}
       animationType="slide">
       <ScrollView

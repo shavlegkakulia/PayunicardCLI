@@ -2,6 +2,7 @@ import axios from 'axios';
 import {from} from 'rxjs';
 import envs from './../config/env';
 import {IError} from './TemplatesService';
+import { IUnicard } from './UserService';
 
 export interface IGetDeptRequest {
   abonentCode?: string | undefined;
@@ -30,13 +31,13 @@ export interface IStructure {
   FieldType?: string | undefined;
 }
 
-export interface IRegisterPayTransactionRequest {
+export interface IRegisterPayTransactionRequest extends IUnicard {
   forOpClassCode?: string | undefined;
   forFundsSPCode?: string | undefined;
   forMerchantCode?: string | undefined;
   forMerchantServiceCode?: string | undefined;
-  AccountId?: string | undefined;
-  amount?: string | undefined;
+  AccountId?: string | undefined | null;
+  amount?: string;
   serviceId?: string | undefined;
   abonentCode?: string | undefined;
   forPaySPCode?: string | undefined;

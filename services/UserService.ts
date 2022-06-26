@@ -60,7 +60,7 @@ export interface IAccountBallance {
   accountName?: string | undefined;
   accountId?: number;
   type?: number;
-  amount?: number;
+  amount?: string;
   availableInGEL?: number;
   availableInUSD?: number;
   availableInEUR?: number;
@@ -261,7 +261,10 @@ export interface IGetUnicardsResponse {
 
 export interface IUnicard {
   card?: string | undefined;
-  amount?: number;
+  amount?: string;
+  unicard?: number | string;
+  unicardOtpGuid?: string;
+  unicardOtp?: string;
 }
 
 export interface IStatus {

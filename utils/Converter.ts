@@ -79,3 +79,9 @@ export const getArray = (value: Array<any> | undefined) => {
 
   return array;
 };
+
+export const isUndefined = (value: any) => { console.log(value, typeof value)
+  if(typeof value === 'undefined' || value === undefined || value === 'undefined') {
+    return true;
+  } else return false;
+}

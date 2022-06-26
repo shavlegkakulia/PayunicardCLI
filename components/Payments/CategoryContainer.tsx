@@ -16,8 +16,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {FetchUserAccounts} from '../../redux/actions/user_actions';
+import {useSelector} from 'react-redux';
 import NetworkService from '../../services/NetworkService';
 import PresentationService, {
   IGetPaymentDetailsRequest,
@@ -43,11 +42,17 @@ import {
   ITranslateState,
   IGlobalState as Itranslate,
 } from '../../redux/action_types/translate_action_types';
-import InsertAbonent from './index/InsertAbonent';
-import InsertAmount from './index/InsertAmount';
-import PaymentSucces from './index/PaymentSucces';
-import PaymentOtp from './index/PaymentOtp';
-import SaveAsTemplate from './index/SaveAsTemplate';
+import InsertAbonent, {IPayemntCDetails} from './index/InsertAbonent';
+import PaymentSucces, {IPaySuccesPageProps} from './index/PaymentSucces';
+import {
+  IRegisterPayTransactionResponse,
+  IStructure,
+} from '../../services/TransactionService';
+import {IAccountBallance} from '../../services/UserService';
+import TemplatesService, {
+  IPayTemplateAddRequest,
+} from '../../services/TemplatesService';
+import {getNumber} from '../../utils/Converter';
 
 export enum gridStyle {
   verticallScroll = 'verticallScroll',
@@ -55,30 +60,27 @@ export enum gridStyle {
   list = 'list',
 }
 
-enum EPaymentStep {
+export enum EPaymentStep {
   start = 1,
   InsertAbonent = 2,
   InsertAmount = 3,
-  PaymentLastViews = 4,
-  PaymentSucces = 5,
-}
-
-enum EPaymentCurrentView {
-  otp = 1,
-  succes = 2,
-  setTemplate = 3,
+  PaymentSucces = 4,
+  PaymentLastViews = 5,
 }
 
 interface IPageProps {
   title?: string;
   gridVariant?: gridStyle;
   refresh?: boolean;
+  createPayTemplate?: boolean;
+  isTemplate?: boolean;
   onCategoriesDidLoad?: () => void;
 }
 
-interface IPaymentStates {
+export interface IPaymentStates {
   refreshing: boolean;
   categoriesLoading?: boolean;
+  fetchingSomethingData?: boolean;
   categoriesStep: number;
   paymentStep: number;
   categories: Array<ICategory[] | IService[]>;
@@ -87,7 +89,17 @@ interface IPaymentStates {
   service?: IService;
   services?: IService[];
   paymentDetails?: IGetPaymentDetailsResponseData;
-  paymentCurrentView: EPaymentCurrentView;
+  abonentCode?: string;
+  debtData?: IStructure[];
+  carPlate?: string;
+  amount?: string;
+  account?: IAccountBallance;
+  otp?: string;
+  otpVisible?: boolean;
+  unicardOtpGuid?: string;
+  transactionData?: IRegisterPayTransactionResponse;
+  templateName?: string;
+  saveTemplateResponse?: boolean;
 }
 
 const CategoryContainer: React.FC<IPageProps> = ({
@@ -95,6 +107,8 @@ const CategoryContainer: React.FC<IPageProps> = ({
   onCategoriesDidLoad,
   gridVariant,
   title,
+  createPayTemplate,
+  isTemplate,
 }) => {
   const translate = useSelector<Itranslate>(
     state => state.TranslateReduser,
@@ -109,7 +123,6 @@ const CategoryContainer: React.FC<IPageProps> = ({
   const isUserVerified =
     documentVerificationStatusCode === userStatuses.Enum_Verified &&
     customerVerificationStatusCode === userStatuses.Enum_Verified;
-  const redux_dispatch = useDispatch();
   const [pageIndex, setPageIndes] = useState(0);
   const [state, setState] = useReducer(
     (state: IPaymentStates, newState: Partial<IPaymentStates>) => ({
@@ -122,7 +135,6 @@ const CategoryContainer: React.FC<IPageProps> = ({
       categoriesStep: 0,
       paymentStep: 0,
       isService: false,
-      paymentCurrentView: EPaymentCurrentView.succes,
     },
   );
   const {
@@ -134,22 +146,47 @@ const CategoryContainer: React.FC<IPageProps> = ({
     paymentStep,
     merchants,
     paymentDetails,
-    paymentCurrentView,
     service,
+    abonentCode,
+    carPlate,
+    debtData,
+    amount,
+    account,
+    otp,
+    otpVisible,
+    unicardOtpGuid,
+    fetchingSomethingData,
+    transactionData,
+    templateName,
+    saveTemplateResponse,
   } = state;
   const onCategoriesComplate = () => {
     onCategoriesDidLoad?.();
   };
+  const resetState = (cleanCats?: boolean) => {
+    setState({
+      categoriesStep: cleanCats ? 0 : 1,
+      paymentStep: 0,
+      categories: cleanCats ? [] : [...categories.splice(0, 1)],
+      merchants: undefined,
+      refreshing: cleanCats,
+      debtData: undefined,
+      abonentCode: undefined,
+      account: undefined,
+      amount: undefined,
+      otp: undefined,
+      otpVisible: false,
+      unicardOtpGuid: undefined,
+      fetchingSomethingData: false,
+      transactionData: undefined,
+      templateName: undefined,
+      saveTemplateResponse: undefined,
+    });
+  };
   useEffect(() => {
     NetworkService.CheckConnection(() => {
       if (refresh) {
-        setState({
-          categoriesStep: 0,
-          paymentStep: 0,
-          categories: [],
-          merchants: undefined,
-          refreshing: true,
-        });
+        resetState(true);
       }
     });
   }, [refresh]);
@@ -157,21 +194,36 @@ const CategoryContainer: React.FC<IPageProps> = ({
     NetworkService.CheckConnection(() => {
       if (refreshing) {
         getCategories();
-        redux_dispatch(FetchUserAccounts());
       }
     });
   }, [refreshing]);
   useEffect(() => {
     NetworkService.CheckConnection(() => {
       getCategories();
-      redux_dispatch(FetchUserAccounts());
     });
   }, []);
   const goBack = () => {
     if (categories?.length <= 1 && categoriesStep <= 0) return;
 
-    if (paymentStep === EPaymentStep.InsertAbonent) {
+    if (paymentStep >= EPaymentStep.InsertAbonent) {
+      let conditionalState = {};
+      if (paymentStep === EPaymentStep.InsertAbonent) {
+        conditionalState = {
+          debtData: undefined,
+          paymentDetails: undefined,
+          account: undefined,
+          amount: undefined,
+          carPlate: undefined,
+          otp: undefined,
+          unicardOtpGuid: undefined,
+          service: undefined,
+          transactionData: undefined,
+          abonentCode: undefined,
+          saveTemplateResponse: undefined,
+        };
+      }
       setState({
+        ...conditionalState,
         paymentStep: paymentStep - (merchants && merchants?.length > 0 ? 1 : 2),
       });
       return;
@@ -183,7 +235,11 @@ const CategoryContainer: React.FC<IPageProps> = ({
     const _categories = categories.splice(0, categories.length - 1);
     setState({categories: _categories, categoriesStep: categoriesStep - 1});
   };
-  const GetPaymentDetails = (data: IGetPaymentDetailsRequest) => {
+  const GetPaymentDetails = (
+    data: IGetPaymentDetailsRequest,
+    step?: EPaymentStep,
+  ) => {
+    setState({fetchingSomethingData: true});
     NetworkService.CheckConnection(() => {
       PresentationService.GetPaymentDetails(data).subscribe({
         next: Response => {
@@ -194,15 +250,18 @@ const CategoryContainer: React.FC<IPageProps> = ({
             } else {
               refreshObject = {categories: [...categoriesCopy()]};
             }
+
             setState({
               paymentDetails: Response.data.data,
               categoriesLoading: false,
-              paymentStep: EPaymentStep.InsertAbonent,
+              fetchingSomethingData: false,
+              paymentStep: step || EPaymentStep.InsertAbonent,
               ...refreshObject,
             });
           }
         },
-        error: () => setState({categoriesLoading: false}),
+        error: () =>
+          setState({categoriesLoading: false, fetchingSomethingData: false}),
       });
     });
   };
@@ -298,83 +357,141 @@ const CategoryContainer: React.FC<IPageProps> = ({
       });
     });
   };
-  const getCategories = (item?: ICategory | IService) => {
-    if (categoriesLoading) {
-      return;
-    }
+  const getCategories = async (item?: ICategory | IService) => {
+    const process1 = merchants?.filter(m => m.isLoading === true);
+    const process2 = categories?.[categoriesStep - 1]?.filter(
+      cat => cat.isLoading === true,
+    );
 
-    const parentID = item?.categoryID;
-    const isService = item?.isService;
-    const hasService = item?.hasServices;
-    const hasChildren = item?.hasChildren;
-    const categoryTitle = item?.name;
+    const doThis = () => {
+      const parentID = item?.categoryID;
+      const isService = item?.isService;
+      const hasService = item?.hasServices;
+      const hasChildren = item?.hasChildren;
+      const categoryTitle = item?.name;
 
-    let catIndex: number | undefined = 0;
+      let catIndex: number | undefined = 0;
 
-    if (merchants && merchants?.length > 0) {
-      catIndex = merchants?.findIndex(c => c.name === item?.name);
-      if (catIndex >= 0 && merchants !== undefined) {
-        merchants[catIndex].isLoading = true;
-        setState({categoriesLoading: true, merchants: [...merchants]});
-      }
-    } else {
-      catIndex = categories?.[categoriesStep - 1]?.findIndex(
-        c => c.name === item?.name,
-      );
-      if (catIndex >= 0) {
-        categories[categoriesStep - 1][catIndex].isLoading = true;
-        setState({categoriesLoading: true, categories: [...categories]});
+      if (merchants && merchants?.length > 0) {
+        catIndex = merchants?.findIndex(c => c.name === item?.name);
+        if (catIndex >= 0 && merchants !== undefined) {
+          merchants[catIndex].isLoading = true;
+          setState({categoriesLoading: true, merchants: [...merchants]});
+        }
       } else {
-        setState({categoriesLoading: true});
+        catIndex = categories?.[categoriesStep - 1]?.findIndex(
+          c => c.name === item?.name,
+        );
+
+        if (catIndex >= 0) {
+          categories[categoriesStep - 1][catIndex].isLoading = true;
+          setState({categoriesLoading: true, categories: [...categories]});
+        } else {
+          setState({categoriesLoading: true});
+        }
       }
-    }
 
-    if (isService && hasService && !hasChildren) {
-      let currentService: ICategory[] | IService[] | undefined,
-        merchantCode,
-        merchantServiceCode;
+      if (isService && hasService && !hasChildren) {
+        let currentService: ICategory[] | IService[] | undefined,
+          merchantCode,
+          merchantServiceCode;
 
-      currentService = categories[categoriesStep - 1].filter(
-        c => c.name === categoryTitle,
-      );
+        currentService = categories[categoriesStep - 1].filter(
+          c => c.name === categoryTitle,
+        );
 
-      if (!currentService || !currentService.length) {
-        //from the search
-        //currentService = services?.filter(s => s.categoryID === parentID);
-        currentService = merchants?.filter(s => s.name === categoryTitle);
-        merchantCode = services?.[0]?.merchantCode;
-        merchantServiceCode = services?.[0]?.merchantServiceCode;
-      } else {
-        merchantCode = currentService[0].merchantCode;
-        merchantServiceCode = currentService[0].merchantServiceCode;
+        if (!currentService || !currentService.length) {
+          //from the search
+          //currentService = services?.filter(s => s.categoryID === parentID);
+          currentService = merchants?.filter(s => s.name === categoryTitle);
+          merchantCode = currentService?.[0]?.merchantCode;
+          merchantServiceCode = currentService?.[0]?.merchantServiceCode;
+        } else {
+          merchantCode = currentService[0].merchantCode;
+          merchantServiceCode = currentService[0].merchantServiceCode;
+        }
+
+        setState({service: currentService?.[0], isService: true});
+
+        GetPaymentDetails({
+          ForMerchantCode: merchantCode,
+          ForMerchantServiceCode: merchantServiceCode,
+          ForOpClassCode: 'B2B.F',
+        });
+
+        return;
       }
-      console.log('***', currentService);
-      setState({service: currentService?.[0], isService: true});
 
-      GetPaymentDetails({
-        ForMerchantCode: merchantCode,
-        ForMerchantServiceCode: merchantServiceCode,
-        ForOpClassCode: 'B2B.F',
+      /* categories contains merchant and also service */
+      if (!isService && hasService && !hasChildren) {
+        GetMerchantServices({CategoryID: parentID});
+      } /* categories contains merchants */ else if (
+        !isService &&
+        hasService &&
+        hasChildren
+      ) {
+        getPayCategoriesServices(parentID);
+      } /* categories contains only services */ else if (
+        !isService &&
+        !hasService
+      ) {
+        getPayCategoriesServices(parentID);
+      }
+    };
+
+    Promise.all([process2, process1])
+      .then(results => {
+        if (
+          categoriesLoading ||
+          results[0].length > 0 ||
+          (results !== undefined &&
+            results[1] !== undefined &&
+            results[1]?.length > 0)
+        ) {
+          return;
+        }
+        doThis();
+      })
+      .catch(() => {
+        doThis();
       });
+  };
 
-      return;
-    }
-
-    /* categories contains merchant and also service */
-    if (!isService && hasService && !hasChildren) {
-      GetMerchantServices({CategoryID: parentID});
-    } /* categories contains merchants */ else if (
-      !isService &&
-      hasService &&
-      hasChildren
-    ) {
-      getPayCategoriesServices(parentID);
-    } /* categories contains only services */ else if (
-      !isService &&
-      !hasService
-    ) {
-      getPayCategoriesServices(parentID);
-    }
+  const addPayTemplate = () => {
+    if (fetchingSomethingData) return;
+    setState({fetchingSomethingData: true});
+    let data: IPayTemplateAddRequest = {
+      templName: templateName,
+    };
+    if (createPayTemplate) {
+      data = {
+        ...data,
+        abonentCode,
+        amount: getNumber(amount),
+        forOpClassCode: 'P2B',
+        externalAccountId: account?.accountId,
+        merchantServiceID: paymentDetails?.merchantId,
+      };
+    } else {
+      data = {...data, longOpID: transactionData?.op_id};
+    };
+    NetworkService.CheckConnection(
+      () => {
+        TemplatesService.addTemplate(data).subscribe({
+          next: Response => {
+            if (Response.data.ok) {
+              setState({
+                fetchingSomethingData: false
+              });
+            }
+          },
+          error: () => {
+            setState({fetchingSomethingData: false});
+          },
+        });
+      },
+      () => setState({fetchingSomethingData: false}),
+    );
   };
 
   const modalVisible = categoriesStep > 1 || paymentStep > 0;
@@ -385,15 +502,6 @@ const CategoryContainer: React.FC<IPageProps> = ({
     Math.ceil(categories?.[0]?.length % 3),
     categories?.[0]?.length / 3,
   );
-
-  const closeModal = () => {
-    setState({
-      categoriesStep: 1,
-      paymentStep: 0,
-      categories: [...categories.splice(0, 1)],
-      merchants: [],
-    });
-  };
 
   const handleOnScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -410,19 +518,44 @@ const CategoryContainer: React.FC<IPageProps> = ({
 
   let paymentFlowView: JSX.Element | null = null;
 
-  if (paymentStep === EPaymentStep.InsertAbonent) {
-    paymentFlowView = <InsertAbonent details={service} />;
-  } else if (paymentStep === EPaymentStep.InsertAmount) {
-    paymentFlowView = <InsertAmount />;
-  } else if (paymentStep === EPaymentStep.PaymentLastViews) {
-    if (paymentCurrentView === EPaymentCurrentView.otp)
-      paymentFlowView = <PaymentOtp />;
-    else if (paymentCurrentView === EPaymentCurrentView.succes)
-      paymentFlowView = <PaymentSucces />;
-    else if (paymentCurrentView === EPaymentCurrentView.setTemplate)
-      paymentFlowView = <SaveAsTemplate />;
+  if (
+    paymentStep === EPaymentStep.InsertAbonent ||
+    paymentStep === EPaymentStep.InsertAmount
+  ) {
+    const paymentData: IPayemntCDetails = {
+      getState: setState,
+      OnGetPaymentDetails: GetPaymentDetails,
+      step: paymentStep,
+      serviceName: service?.name,
+      abonentCode,
+      carPlate,
+      debtData,
+      amount,
+      account,
+      paymentDetail: paymentDetails,
+      categoryID: service?.categoryID,
+      serviceLogoUrl: service?.merchantServiceURL,
+      imageUrl: service?.imageUrl,
+      otp,
+      otpVisible,
+      unicardOtpGuid,
+      fetchingSomethingData,
+      transactionData,
+      createPayTemplate,
+    };
+    paymentFlowView = <InsertAbonent {...paymentData} />;
   } else if (paymentStep === EPaymentStep.PaymentSucces) {
-    paymentFlowView = <PaymentSucces />;
+    const succesData: IPaySuccesPageProps = {
+      getState: setState,
+      onSaveTemplate: addPayTemplate,
+      onResetState: resetState,
+      isTemplateCreated: saveTemplateResponse,
+      createPayTemplate,
+      isTemplate,
+      templateName,
+      isLoading: fetchingSomethingData,
+    };
+    paymentFlowView = <PaymentSucces {...succesData} />;
   }
 
   const generalCategories = useMemo(() => {
@@ -566,7 +699,7 @@ const CategoryContainer: React.FC<IPageProps> = ({
           </Text>
           <TouchableOpacity
             style={styles.modalHeaderItemClose}
-            onPress={closeModal}>
+            onPress={() => resetState(false)}>
             <Image
               source={require('./../../assets/images/close40x40.png')}
               style={styles.modalHeaderClose}
