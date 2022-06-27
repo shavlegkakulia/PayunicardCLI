@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   StyleProp,
   ViewStyle,
+  ScrollView,
 } from 'react-native';
 import {
   ITranslateState,
@@ -32,7 +33,7 @@ import PresentationServive, {
 import AppSelect, {
   SelectItem,
 } from '../../../components/UI/AppSelect/AppSelect';
-import { EN, KA, ka_ge } from '../../../lang';
+import {EN, KA, ka_ge} from '../../../lang';
 
 const geId = 79;
 
@@ -79,12 +80,14 @@ const SignupStepTwo: React.FC = () => {
     PresentationServive.GetCitizenshipCountries().subscribe({
       next: Response => {
         try {
-        const res = [...(Response.data.data?.countries || [])];
-        const gIndex = res.findIndex(c => c.countryID === geId);
-        const filteredCountries = gIndex >= 0 ? [res[gIndex], ...res.filter(c => c.countryID !== geId)] : res;
-        setCountries(filteredCountries);
-        }
-        catch(_){}
+          const res = [...(Response.data.data?.countries || [])];
+          const gIndex = res.findIndex(c => c.countryID === geId);
+          const filteredCountries =
+            gIndex >= 0
+              ? [res[gIndex], ...res.filter(c => c.countryID !== geId)]
+              : res;
+          setCountries(filteredCountries);
+        } catch (_) {}
       },
       complete: () => {
         setIsLoading(false);
@@ -100,11 +103,11 @@ const SignupStepTwo: React.FC = () => {
   }, []);
 
   const nextStep = () => {
-    if(birthDate === null) {
+    if (birthDate === null) {
       setDateErrorStyle({
         borderColor: colors.danger,
-        borderWidth: 1
-      })
+        borderWidth: 1,
+      });
     } else {
       setDateErrorStyle({});
     }
@@ -130,119 +133,138 @@ const SignupStepTwo: React.FC = () => {
       birthDate: birthDate.toISOString(),
       personalId,
       userName,
-      country: selectedCountry?.countryID
+      country: selectedCountry?.countryID,
     });
   };
 
   const isKeyboardOpen = keyboard.height > 0;
 
-  const dtp = useMemo(() => <DatePicker
-  modal
-  mode="date"
-  title={translate.t('common.setDate')}
-  cancelText={translate.t('common.cancel')}
-  confirmText={translate.t('common.confirm')}
-  locale={translate.key === ka_ge ? KA : EN}
-  maximumDate={new Date()}
-  open={chooseDate}
-  date={birthDate || new Date()}
-  onDateChange={() => {}}
-  onConfirm={date => {
-    setChooseDate(false);
-    setBirtDate(date);
-  }}
-  onCancel={() => {
-    setChooseDate(false);
-  }}
-/>, [chooseDate])
+  const dtp = useMemo(
+    () => (
+      <DatePicker
+        modal
+        mode="date"
+        title={translate.t('common.setDate')}
+        cancelText={translate.t('common.cancel')}
+        confirmText={translate.t('common.confirm')}
+        locale={translate.key === ka_ge ? KA : EN}
+        maximumDate={new Date()}
+        open={chooseDate}
+        date={birthDate || new Date()}
+        onDateChange={() => {}}
+        onConfirm={date => {
+          setChooseDate(false);
+          setBirtDate(date);
+        }}
+        onCancel={() => {
+          setChooseDate(false);
+        }}
+      />
+    ),
+    [chooseDate],
+  );
 
   return (
     <KeyboardAvoidingView
       behavior="padding"
       keyboardVerticalOffset={200}
       style={styles.avoid}>
-      <View style={styles.content}>
-        <View>
-          <Text
-            style={[
-              styles.signupSignuptext,
-              isKeyboardOpen && {marginTop: 0, fontSize: 18},
-            ]}>
-            {translate.t('signup.startRegister')}
-          </Text>
-          <TouchableOpacity onPress={() => setChooseDate(true)}>
-            <View style={[styles.InputBox, dateErrorStyle]}>
-              <Text style={styles.InputBoxTitle}>
-                {translate.t('common.birthDate')}
-              </Text>
-
-              <Text style={styles.birthDateValue}>
-                {birthDate ? formatDate(birthDate?.toString()).split('.').join('/') : <>{translate.t('common.month') + '/' + translate.t('common.day') + '/' + translate.t('common.year')}</>}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <Appinput
-            requireds={[required]}
-            customKey="personalnumber"
-            context={VALIDATION_CONTEXT}
-            style={styles.signupInput}
-            value={personalId}
-            onChange={setPerosnalId}
-            keyboardType={'numeric'}
-            maxLength={11}
-            placeholder={translate.t('common.personalNumber')}
-          />
-
-          <Appinput
-            requireds={[_email]}
-            customKey="email"
-            context={VALIDATION_CONTEXT}
-            style={styles.signupInput}
-            value={userName}
-            onChange={setUserName}
-            keyboardType={'email-address'}
-            autoCapitalize={autoCapitalize.none}
-            placeholder={translate.t('common.email')}
-          />
-          <View style={[styles.countryBox]}>
-            {selectedCountry?.countryName ? (
-              <SelectItem
-                itemKey="countryName"
-                defaultTitle={translate.t('verification.selectCitizenship')}
-                item={selectedCountry}
-                onItemSelect={() => setCountrySelectVisible(true)}
-                style={styles.countryItem}
-              />
-            ) : (
-              <TouchableOpacity
-                onPress={() => setCountrySelectVisible(true)}
-                style={[styles.countrySelectHandler, codeErrorStyle]}>
-                <Text style={styles.countryPlaceholder}>
-                  {translate.t('verification.selectCitizenship')}
+      <ScrollView
+      contentContainerStyle={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps={'handled'}>
+        <View style={styles.content}>
+          <View>
+            <Text
+              style={[
+                styles.signupSignuptext,
+                isKeyboardOpen && {marginTop: 0, fontSize: 18},
+              ]}>
+              {translate.t('signup.startRegister')}
+            </Text>
+            <TouchableOpacity onPress={() => setChooseDate(true)}>
+              <View style={[styles.InputBox, dateErrorStyle]}>
+                <Text style={styles.InputBoxTitle}>
+                  {translate.t('common.birthDate')}
                 </Text>
-              </TouchableOpacity>
-            )}
-            <AppSelect
-              itemKey="countryName"
-              elements={countryes}
-              selectedItem={selectedCountry}
-              itemVisible={countrySelectVisible}
-              onSelect={item => {
-                setSelectedCountry(item);
-                setCountrySelectVisible(false);
-              }}
-              onToggle={() => setCountrySelectVisible(!countrySelectVisible)}
-            />
-          </View>
-        </View>
-        <AppButton
-          isLoading={isLoading}
-          title={translate.t('common.next')}
-          onPress={nextStep}
-        />
-      </View>
 
+                <Text style={styles.birthDateValue}>
+                  {birthDate ? (
+                    formatDate(birthDate?.toString()).split('.').join('/')
+                  ) : (
+                    <>
+                      {translate.t('common.month') +
+                        '/' +
+                        translate.t('common.day') +
+                        '/' +
+                        translate.t('common.year')}
+                    </>
+                  )}
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <Appinput
+              requireds={[required]}
+              customKey="personalnumber"
+              context={VALIDATION_CONTEXT}
+              style={styles.signupInput}
+              value={personalId}
+              onChange={setPerosnalId}
+              keyboardType={'numeric'}
+              maxLength={11}
+              placeholder={translate.t('common.personalNumber')}
+            />
+
+            <Appinput
+              requireds={[_email]}
+              customKey="email"
+              context={VALIDATION_CONTEXT}
+              style={styles.signupInput}
+              value={userName}
+              onChange={setUserName}
+              keyboardType={'email-address'}
+              autoCapitalize={autoCapitalize.none}
+              placeholder={translate.t('common.email')}
+            />
+            <View style={[styles.countryBox]}>
+              {selectedCountry?.countryName ? (
+                <SelectItem
+                  itemKey="countryName"
+                  defaultTitle={translate.t('verification.selectCitizenship')}
+                  item={selectedCountry}
+                  onItemSelect={() => setCountrySelectVisible(true)}
+                  style={styles.countryItem}
+                />
+              ) : (
+                <TouchableOpacity
+                  onPress={() => setCountrySelectVisible(true)}
+                  style={[styles.countrySelectHandler, codeErrorStyle]}>
+                  <Text style={styles.countryPlaceholder}>
+                    {translate.t('verification.selectCitizenship')}
+                  </Text>
+                </TouchableOpacity>
+              )}
+              <AppSelect
+                itemKey="countryName"
+                elements={countryes}
+                selectedItem={selectedCountry}
+                itemVisible={countrySelectVisible}
+                onSelect={item => {
+                  setSelectedCountry(item);
+                  setCountrySelectVisible(false);
+                }}
+                onToggle={() => setCountrySelectVisible(!countrySelectVisible)}
+              />
+            </View>
+          </View>
+          <AppButton
+            isLoading={isLoading}
+            title={translate.t('common.next')}
+            onPress={nextStep}
+          />
+        </View>
+      </ScrollView>
       {dtp}
     </KeyboardAvoidingView>
   );
@@ -253,6 +275,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 24,
     backgroundColor: colors.white,
+  },
+  scrollView: {
+
   },
   content: {
     justifyContent: 'space-between',
@@ -293,7 +318,7 @@ const styles = StyleSheet.create({
   },
   countryBox: {
     borderRadius: 7,
-    marginBottom: 30
+    marginBottom: 30,
   },
   countryItem: {
     backgroundColor: '#F6F6F4',
