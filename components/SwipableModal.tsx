@@ -22,6 +22,7 @@ interface IPageProps {
   transparent?: boolean;
   gestureConfig?: IGestureRecognizerConfig;
   children?: React.ReactNode;
+  disableSwipe?: boolean;
 }
 
 const SwipableModal: React.FC<IPageProps> = ({
@@ -31,6 +32,7 @@ const SwipableModal: React.FC<IPageProps> = ({
   gestureConfig,
   gestureStyle,
   modalStyle,
+  disableSwipe,
   children,
 }) => {
   let gConfig = config;
@@ -40,7 +42,7 @@ const SwipableModal: React.FC<IPageProps> = ({
   return (
 
     <GestureRecognizer
-      onSwipeRight={closeAction}
+      onSwipeRight={() => !disableSwipe && closeAction()}
       style={[styles.gestureView, gestureStyle]}
       config={gConfig}>
       <Modal

@@ -573,7 +573,7 @@ const CategoryContainer: React.FC<IPageProps> = ({
 
       return (
         <>
-          <View style={styles.generalCategoriesHeader}>
+          <View style={[styles.generalCategoriesHeader, styles.atherHeader]}>
             <Text style={styles.generalcategoriesTitle}>{title}</Text>
             {pageNumer !== undefined && pageNumer > 0 && (
               <PaginationDots step={pageIndex} length={pageNumer} />
@@ -683,7 +683,7 @@ const CategoryContainer: React.FC<IPageProps> = ({
   return (
     <>
       {generalCategories}
-      <SwipableModal closeAction={goBack} visible={modalVisible}>
+      <SwipableModal closeAction={goBack} visible={modalVisible} disableSwipe={gridVariant === gridStyle.verticallScroll}>
         <View style={styles.modalHeader}>
           <TouchableOpacity style={styles.modalHeaderItemBack} onPress={goBack}>
             <View style={styles.modalHeaderBackView}>
@@ -758,9 +758,13 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   generalcategoriesTitle: {
-    fontFamily: 'FiraGO-Regular',
-    fontSize: 16,
-    lineHeight: 25,
+    fontFamily: 'FiraGO-Medium',
+    fontSize: 14,
+    lineHeight: 17,
+    color: colors.black,
+  },
+  atherHeader: {
+    paddingHorizontal: 17
   },
   modalHeader: {
     flexDirection: 'row',
