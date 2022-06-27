@@ -26,6 +26,7 @@ const Payment: React.FC = () => {
     <DashboardLayout>
       <ScrollView
         style={screenStyles.screenContainer}
+        keyboardShouldPersistTaps={'handled'}
         refreshControl={
           <RefreshControl
             progressBackgroundColor={colors.white}

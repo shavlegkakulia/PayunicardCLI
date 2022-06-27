@@ -363,7 +363,7 @@ const InsertAbonent: React.FC<IPageProps> = props => {
         <ScrollView
           contentContainerStyle={styles.scrollView}
           showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps={'always'}>
+          keyboardShouldPersistTaps={'handled'}>
           <View style={styles.content}>
             <View>
               <PaymentInfo {...paymentInfoDetil} />

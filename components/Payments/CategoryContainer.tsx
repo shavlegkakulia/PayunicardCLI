@@ -220,6 +220,7 @@ const CategoryContainer: React.FC<IPageProps> = ({
           transactionData: undefined,
           abonentCode: undefined,
           saveTemplateResponse: undefined,
+          templateName: undefined
         };
       }
       setState({
