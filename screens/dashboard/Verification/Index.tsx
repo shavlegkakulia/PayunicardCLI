@@ -471,6 +471,10 @@ const Verification: React.FC = () => {
   };
 
   const onFinishCostumerRegistration = () => {
+    if(isLoading){
+      return;
+    }
+    setIsLoading(true);
     let data: IFinishCustomerRegistrationRequest = {
       customerSelfContent: VerficationStore.userKYCData?.customerSelfContent,
       customerSelfName: VerficationStore.userKYCData?.customerSelfName,
@@ -515,7 +519,10 @@ const Verification: React.FC = () => {
           );
         }
       },
-      error: () => {},
+      complete:() => {
+        setIsLoading(false);
+      },
+      error: () => {setIsLoading(false);},
     });
   };
 
