@@ -167,7 +167,6 @@ const SignupStepTwo: React.FC = () => {
   return (
     <KeyboardAvoidingView
       behavior="padding"
-      keyboardVerticalOffset={200}
       style={styles.avoid}>
       <ScrollView
       contentContainerStyle={styles.scrollView}
@@ -277,7 +276,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   scrollView: {
-
+    flexGrow: 1,
   },
   content: {
     justifyContent: 'space-between',
