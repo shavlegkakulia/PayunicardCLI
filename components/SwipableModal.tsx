@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, StyleProp, StyleSheet, ViewStyle} from 'react-native';
+import { Modal, SafeAreaView, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import colors from '../constants/colors';
 
@@ -35,9 +35,10 @@ const SwipableModal: React.FC<IPageProps> = ({
 }) => {
   let gConfig = config;
   if (gestureConfig !== undefined) {
-    gConfig = {...gConfig, ...gestureConfig};
+    gConfig = { ...gConfig, ...gestureConfig };
   }
   return (
+
     <GestureRecognizer
       onSwipeRight={closeAction}
       style={[styles.gestureView, gestureStyle]}
@@ -47,16 +48,22 @@ const SwipableModal: React.FC<IPageProps> = ({
         visible={visible}
         onRequestClose={closeAction}
         style={[styles.modalView, modalStyle]}>
-        {children}
+        <SafeAreaView style={styles.safeArea}>
+          {children}
+        </SafeAreaView>
       </Modal>
     </GestureRecognizer>
+
   );
 };
 
 export default React.memo(SwipableModal);
 
 const styles = StyleSheet.create({
-  gestureView: {flex: 1},
+  safeArea: {
+    flex: 1
+  },
+  gestureView: { flex: 1 },
   modalView: {
     flex: 1,
     backgroundColor: colors.white
