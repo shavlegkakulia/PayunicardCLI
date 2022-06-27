@@ -31,7 +31,7 @@ class CommonService {
       config.headers['langcode'] = LANG_KEYS[langKey];
       config.headers['User-Agent'] = this.DeviceData;
       config.headers['appVersion'] = DeviceInfro.getVersion();
-
+      config.timeout = 20 * 1000;
       return config;
     });
 

@@ -16,11 +16,10 @@ const Categories: React.FC<IPageProps> = ({categories, getCategories}) => {
 
   return (
     <FlatList
+      keyboardShouldPersistTaps={'handled'}
       keyExtractor={item => item.name}
       data={categories}
-      renderItem={item => (
-        <Item {...item.item} onPress={getCategories} />
-      )}
+      renderItem={item => <Item {...item.item} onPress={getCategories} />}
       style={styles.content}
     />
   );
@@ -28,4 +27,9 @@ const Categories: React.FC<IPageProps> = ({categories, getCategories}) => {
 
 export default Categories;
 
-const styles = StyleSheet.create({content: {flex: 1, paddingHorizontal: 17}});
+const styles = StyleSheet.create({
+  content: {
+    flex: 1,
+    paddingHorizontal: 17,
+  },
+});

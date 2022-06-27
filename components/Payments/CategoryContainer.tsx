@@ -53,6 +53,7 @@ import TemplatesService, {
   IPayTemplateAddRequest,
 } from '../../services/TemplatesService';
 import {getNumber} from '../../utils/Converter';
+import SearchServices from './index/SearchServices';
 
 export enum gridStyle {
   verticallScroll = 'verticallScroll',
@@ -100,6 +101,7 @@ export interface IPaymentStates {
   transactionData?: IRegisterPayTransactionResponse;
   templateName?: string;
   saveTemplateResponse?: boolean;
+  doSearchServices?: boolean;
 }
 
 const CategoryContainer: React.FC<IPageProps> = ({
@@ -159,6 +161,7 @@ const CategoryContainer: React.FC<IPageProps> = ({
     transactionData,
     templateName,
     saveTemplateResponse,
+    doSearchServices,
   } = state;
   const onCategoriesComplate = () => {
     onCategoriesDidLoad?.();
@@ -181,6 +184,8 @@ const CategoryContainer: React.FC<IPageProps> = ({
       transactionData: undefined,
       templateName: undefined,
       saveTemplateResponse: undefined,
+      doSearchServices: false,
+      services: undefined,
     });
   };
   useEffect(() => {
@@ -203,7 +208,14 @@ const CategoryContainer: React.FC<IPageProps> = ({
     });
   }, []);
   const goBack = () => {
-    if (categories?.length <= 1 && categoriesStep <= 0) return;
+    if (categories?.length <= 1 && categoriesStep <= 0) {
+      return;
+    }
+
+    if (paymentStep === 0 && doSearchServices === true) {
+      setState({doSearchServices: false, services: undefined});
+      return;
+    }
 
     if (paymentStep >= EPaymentStep.InsertAbonent) {
       let conditionalState = {};
@@ -220,7 +232,7 @@ const CategoryContainer: React.FC<IPageProps> = ({
           transactionData: undefined,
           abonentCode: undefined,
           saveTemplateResponse: undefined,
-          templateName: undefined
+          templateName: undefined,
         };
       }
       setState({
@@ -248,6 +260,8 @@ const CategoryContainer: React.FC<IPageProps> = ({
             let refreshObject = {};
             if (merchants && merchants.length > 0) {
               refreshObject = {merchants: [...merchantsCopy()]};
+            } else if(services && services.length > 0) {
+              refreshObject = {services: [...servicesCopy()]};
             } else {
               refreshObject = {categories: [...categoriesCopy()]};
             }
@@ -281,6 +295,14 @@ const CategoryContainer: React.FC<IPageProps> = ({
       ...(merchants || []).map(merchant => {
         merchant.isLoading = false;
         return merchant;
+      }),
+    ];
+  };
+  const servicesCopy = function () {
+    return [
+      ...(services || []).map(service => {
+        service.isLoading = false;
+        return service;
       }),
     ];
   };
@@ -363,6 +385,7 @@ const CategoryContainer: React.FC<IPageProps> = ({
     const process2 = categories?.[categoriesStep - 1]?.filter(
       cat => cat.isLoading === true,
     );
+    const process3 = services?.filter(s => s.isLoading === true);
 
     const doThis = () => {
       const parentID = item?.categoryID;
@@ -374,14 +397,20 @@ const CategoryContainer: React.FC<IPageProps> = ({
       let catIndex: number | undefined = 0;
 
       if (merchants && merchants?.length > 0) {
-        catIndex = merchants?.findIndex(c => c.name === item?.name);
+        catIndex = merchants?.findIndex(c => c.name === categoryTitle);
         if (catIndex >= 0 && merchants !== undefined) {
           merchants[catIndex].isLoading = true;
           setState({categoriesLoading: true, merchants: [...merchants]});
         }
+      } else if (services && services?.length > 0) {
+        catIndex = services?.findIndex(c => c.resourceValue === categoryTitle);
+        if (catIndex >= 0 && services !== undefined) {
+          services[catIndex].isLoading = true;
+          setState({categoriesLoading: true, services: [...services]});
+        }
       } else {
         catIndex = categories?.[categoriesStep - 1]?.findIndex(
-          c => c.name === item?.name,
+          c => c.name === categoryTitle,
         );
 
         if (catIndex >= 0) {
@@ -401,9 +430,13 @@ const CategoryContainer: React.FC<IPageProps> = ({
           c => c.name === categoryTitle,
         );
 
-        if (!currentService || !currentService.length) {
-          //from the search
-          //currentService = services?.filter(s => s.categoryID === parentID);
+        if (services !== undefined && services?.length > 0) {
+          currentService = services?.filter(
+            s => s.resourceValue === categoryTitle,
+          );
+          merchantCode = currentService?.[0]?.merchantCode;
+          merchantServiceCode = currentService?.[0]?.merchantServiceCode;
+        } else if (!currentService || !currentService.length) {
           currentService = merchants?.filter(s => s.name === categoryTitle);
           merchantCode = currentService?.[0]?.merchantCode;
           merchantServiceCode = currentService?.[0]?.merchantServiceCode;
@@ -440,14 +473,11 @@ const CategoryContainer: React.FC<IPageProps> = ({
       }
     };
 
-    Promise.all([process2, process1])
+    Promise.all([process3, process2, process1])
       .then(results => {
         if (
           categoriesLoading ||
-          results[0].length > 0 ||
-          (results !== undefined &&
-            results[1] !== undefined &&
-            results[1]?.length > 0)
+          !results.every(i => i === undefined || i?.length === 0)
         ) {
           return;
         }
@@ -482,7 +512,7 @@ const CategoryContainer: React.FC<IPageProps> = ({
           next: Response => {
             if (Response.data.ok) {
               setState({
-                fetchingSomethingData: false
+                fetchingSomethingData: false,
               });
             }
           },
@@ -495,13 +525,12 @@ const CategoryContainer: React.FC<IPageProps> = ({
     );
   };
 
-  const modalVisible = categoriesStep > 1 || paymentStep > 0;
+  const modalVisible =
+    categoriesStep > 1 || paymentStep > 0 || doSearchServices === true;
   console.log(
     paymentStep,
-    categories.length,
-    merchants?.length,
-    Math.ceil(categories?.[0]?.length % 3),
-    categories?.[0]?.length / 3,
+    categoriesStep,
+    categories?.length
   );
 
   const handleOnScroll = useCallback(
@@ -518,7 +547,6 @@ const CategoryContainer: React.FC<IPageProps> = ({
   );
 
   let paymentFlowView: JSX.Element | null = null;
-
   if (
     paymentStep === EPaymentStep.InsertAbonent ||
     paymentStep === EPaymentStep.InsertAmount
@@ -632,7 +660,9 @@ const CategoryContainer: React.FC<IPageProps> = ({
         <>
           <View style={styles.generalCategoriesHeader}>
             <Text style={styles.generalcategoriesTitle}>{title}</Text>
-            <TouchableOpacity style={styles.searchBox}>
+            <TouchableOpacity
+              style={styles.searchBox}
+              onPress={() => setState({doSearchServices: true})}>
               <Image
                 source={require('./../../assets/images/search-18x18.png')}
                 style={styles.searchIcon}
@@ -683,7 +713,10 @@ const CategoryContainer: React.FC<IPageProps> = ({
   return (
     <>
       {generalCategories}
-      <SwipableModal closeAction={goBack} visible={modalVisible} disableSwipe={gridVariant === gridStyle.verticallScroll}>
+      <SwipableModal
+        closeAction={goBack}
+        visible={modalVisible}
+        disableSwipe={gridVariant === gridStyle.verticallScroll}>
         <View style={styles.modalHeader}>
           <TouchableOpacity style={styles.modalHeaderItemBack} onPress={goBack}>
             <View style={styles.modalHeaderBackView}>
@@ -707,15 +740,23 @@ const CategoryContainer: React.FC<IPageProps> = ({
             />
           </TouchableOpacity>
         </View>
-        {paymentStep >= EPaymentStep.InsertAbonent
-          ? paymentFlowView
-          : categoryMerchantsTree}
+        {(doSearchServices && paymentStep < EPaymentStep.InsertAbonent) ? (
+          <SearchServices
+            getState={setState}
+            onGetCategories={getCategories}
+            services={services}
+          />
+        ) : paymentStep >= EPaymentStep.InsertAbonent ? (
+          paymentFlowView
+        ) : (
+          categoryMerchantsTree
+        )}
       </SwipableModal>
     </>
   );
 };
 
-export default CategoryContainer;
+export default React.memo(CategoryContainer);
 
 const styles = StyleSheet.create({
   categoriesView: {
@@ -764,7 +805,7 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   atherHeader: {
-    paddingHorizontal: 17
+    paddingHorizontal: 17,
   },
   modalHeader: {
     flexDirection: 'row',

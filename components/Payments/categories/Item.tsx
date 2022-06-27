@@ -28,6 +28,7 @@ const Item: React.FC<IPageProps> = props => {
     imageUrl,
     merchantServiceURL,
     name,
+    resourceValue,
     cannotPay,
     numberOfLines,
     onPress,
@@ -67,7 +68,7 @@ const Item: React.FC<IPageProps> = props => {
         </View>
       )}
       <Text numberOfLines={numberOfLines || 1} style={[styles.text, textStyle]}>
-        {name}
+        {name || resourceValue}
       </Text>
     </TouchableOpacity>
   );
