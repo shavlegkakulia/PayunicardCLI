@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
   },
   img: {
     width: '100%',
+    minWidth: 250,
     minHeight: 150,
     marginTop: 10,
   },
