@@ -3,7 +3,7 @@ import {FetchUserDetail} from './../redux/actions/user_actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   IAuthState,
-  IGlobalState,
+  IGlobalState, 
 } from '../redux/action_types/auth_action_types';
 import NetworkService from '../services/NetworkService';
 import DashboardLayoutRightDarwer from '../navigation/DashboardLayoutRightDarwer';

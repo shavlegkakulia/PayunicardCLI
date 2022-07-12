@@ -9,6 +9,7 @@ import AppInput from '../../../components/UI/AppInput';
 import Validation, {required} from '../../../components/UI/Validation';
 import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
 import {IKCData} from '../../../services/KvalificaServices';
+import { documentTypes } from './Index';
 
 interface IProps {
   kycData: IKCData | undefined;
@@ -37,6 +38,12 @@ const StepSeven: React.FC<IProps> = props => {
     props.onUpdateData(data);
   };
 
+  const setDocumentNumber = (value: string) => {
+    let data = {...props.kycData};
+    data.documentNumber = value;
+    props.onUpdateData(data);
+  };
+
   const setFirstName = (value: string) => {
     let data = {...props.kycData};
     data.firstName = value;
@@ -59,6 +66,17 @@ const StepSeven: React.FC<IProps> = props => {
     <View style={styles.container}>
       <View style={styles.addressContainer}>
         <AppInput
+          placeholder={translate.t('common.documentNumber')}
+          onChange={documentNumber => !props.notEditable && setDocumentNumber(documentNumber)}
+          value={props.kycData?.documentNumber}
+          customKey="documentNumber"
+          requireds={[required]}
+          style={styles.input}
+          editable={!props.notEditable}
+          context={ValidationContext}
+        /> 
+        
+         {props.kycData?.personalNumber !== undefined && <AppInput
           placeholder={translate.t('common.personalNumber')}
           onChange={personalNumber => !props.notEditable && setPersonalNumber(personalNumber)}
           value={props.kycData?.personalNumber}
@@ -67,7 +85,8 @@ const StepSeven: React.FC<IProps> = props => {
           style={styles.input}
           editable={!props.notEditable}
           context={ValidationContext}
-        />
+        /> }
+        
 
         <AppInput
           placeholder={translate.t('common.name')}

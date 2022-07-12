@@ -46,9 +46,12 @@ import {
 } from '../../../redux/action_types/user_action_types';
 import {tabHeight} from '../../../navigation/TabNav';
 import NavigationService from '../../../services/NavigationService';
-import { subscriptionService } from '../../../services/subscriptionService';
+import {subscriptionService} from '../../../services/subscriptionService';
 import SUBSCRIBTION_KEYS from '../../../constants/subscribtionKeys';
-import { ITranslateState, IGlobalState as ITranslateGlobalState }  from '../../../redux/action_types/translate_action_types';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 
 const ValidationContext = 'transfer';
 
@@ -62,7 +65,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
   const translate = useSelector<ITranslateGlobalState>(
     state => state.TranslateReduser,
   ) as ITranslateState;
-  
+
   const [fromAccountVisible, setFromAccountVisible] = useState(false);
   const [toAccountVisible, setToAccountVisible] = useState(false);
   const [accounts, setAccounts] = useState<IAccountBallance[] | undefined>();
@@ -133,9 +136,23 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
   };
 
   useEffect(() => {
-    let _acount = {...TransfersStore.selectedFromAccount};
-    setCurrenciesFrom(_acount.currencies);
-  }, [TransfersStore.selectedFromAccount]);
+    let _acountFrom = {...TransfersStore.selectedFromAccount};
+    let _acountTo = {...TransfersStore.selectedToAccount};
+
+    let tagdataexist: ICurrency[] = [];
+    if (_acountFrom?.currencies && _acountTo?.currencies)
+      for (let i = 0; i < _acountFrom?.currencies?.length; i++) {
+        for (let j = 0; j < _acountTo?.currencies?.length; j++) {
+          if (
+            _acountFrom?.currencies?.[i].key == _acountTo?.currencies?.[j].key
+          ) {
+            tagdataexist.push(...[_acountFrom?.currencies[i]]);
+          }
+        }
+      }
+
+    setCurrenciesFrom(tagdataexist);
+  }, [TransfersStore.selectedFromAccount, TransfersStore.selectedToAccount]);
 
   const onToAccountSelect = (account: IAccountBallance) => {
     dispatch({
@@ -145,7 +162,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
     setToAccountVisible(!toAccountVisible);
   };
 
-  const onToCurrencySelect = (currency: ICurrency) => {
+  const onToCurrencySelect = (currency?: ICurrency) => {
     dispatch({
       type: TRANSFERS_ACTION_TYPES.SET_SELECTED_TO_CURRENCY,
       selectedToCurrency: currency,
@@ -167,12 +184,12 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
     dispatch(MakeTransaction(toBank, data));
   };
 
-    //cleare state on succes
-    useEffect(() => {
-      if (route.params.transferStep === Routes.TransferBetweenAcctounts_SUCCES) {
-        dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
-      }
-    }, [route.params.transferStep]);
+  //cleare state on succes
+  useEffect(() => {
+    if (route.params.transferStep === Routes.TransferBetweenAcctounts_SUCCES) {
+      dispatch({type: TRANSFERS_ACTION_TYPES.RESET_TRANSFER_STATES});
+    }
+  }, [route.params.transferStep]);
 
   const setTransferType = (type: string | undefined) => {
     dispatch({
@@ -267,7 +284,9 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
       if (getNumber(TransfersStore.amount) < 0.1) {
         dispatch(
           PUSH(
-            `${translate.t('common.minTransfAmount')} 0.1 ${CurrencySimbolConverter(GEL, translate.key)}`,
+            `${translate.t(
+              'common.minTransfAmount',
+            )} 0.1 ${CurrencySimbolConverter(GEL, translate.key)}`,
           ),
         );
         setIsLoading(false);
@@ -303,7 +322,9 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                 Routes.TransferBetweenAcctounts_SET_CURRENCY) && (
               <>
                 <View style={styles.accountBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.from')}</Text>
+                  <Text style={styles.accountBoxTitle}>
+                    {translate.t('transfer.from')}
+                  </Text>
 
                   {TransfersStore.selectedFromAccount ? (
                     <AccountItem
@@ -318,7 +339,9 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                         styles.accountSelectHandler,
                         fromAccountErrorStyle,
                       ]}>
-                        <Text style={styles.accountPlaceholder}>{translate.t('common.selectAccount')}</Text>
+                      <Text style={styles.accountPlaceholder}>
+                        {translate.t('common.selectAccount')}
+                      </Text>
                       <Image
                         style={styles.dropImg}
                         source={require('./../../../assets/images/down-arrow.png')}
@@ -337,7 +360,9 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                 </View>
 
                 <View style={styles.accountBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.to')}</Text>
+                  <Text style={styles.accountBoxTitle}>
+                    {translate.t('transfer.to')}
+                  </Text>
 
                   {TransfersStore.selectedToAccount ? (
                     <AccountItem
@@ -352,7 +377,9 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                         styles.accountSelectHandler,
                         toAccountErrorStyle,
                       ]}>
-                         <Text style={styles.accountPlaceholder}>{translate.t('common.selectAccount')}</Text>
+                      <Text style={styles.accountPlaceholder}>
+                        {translate.t('common.selectAccount')}
+                      </Text>
                       <Image
                         style={styles.dropImg}
                         source={require('./../../../assets/images/down-arrow.png')}
@@ -384,7 +411,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                   <View style={[styles.currencyBox, toCurrencyErrorStyle]}>
                     {TransfersStore.selectedToCurrency ? (
                       <CurrencyItem
-                        defaultTitle={ translate.t("transfer.currency")}
+                        defaultTitle={translate.t('transfer.currency')}
                         currency={TransfersStore.selectedToCurrency}
                         onCurrencySelect={() => setToCurrencyVisible(true)}
                         style={styles.currencyItem}
@@ -393,7 +420,9 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                       <TouchableOpacity
                         onPress={() => setToCurrencyVisible(true)}
                         style={[styles.currencySelectHandler]}>
-                        <Text style={styles.currencyPlaceholder}>{ translate.t("transfer.currency")}</Text>
+                        <Text style={styles.currencyPlaceholder}>
+                          {translate.t('transfer.currency')}
+                        </Text>
                         <Image
                           style={styles.dropImg}
                           source={require('./../../../assets/images/down-arrow.png')}
@@ -412,7 +441,9 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
                 </View>
 
                 <View style={styles.nominationBox}>
-                  <Text style={styles.accountBoxTitle}>{translate.t('transfer.nomination')}</Text>
+                  <Text style={styles.accountBoxTitle}>
+                    {translate.t('transfer.nomination')}
+                  </Text>
                   <AppInput
                     customKey="transfer"
                     context={ValidationContext}
@@ -428,7 +459,7 @@ const TransferBetweenAccounts: React.FC<INavigationProps> = props => {
               Routes.TransferBetweenAcctounts_SUCCES && (
               <View style={styles.succesInner}>
                 <Text style={styles.succesText}>
-                {translate.t('transfer.transactionSuccessfull')}
+                  {translate.t('transfer.transactionSuccessfull')}
                 </Text>
                 <Image
                   source={require('./../../../assets/images/succes_icon.png')}
@@ -497,7 +528,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingLeft: 15
+    paddingLeft: 15,
   },
   accountPlaceholder: {
     fontFamily: 'FiraGO-Regular',

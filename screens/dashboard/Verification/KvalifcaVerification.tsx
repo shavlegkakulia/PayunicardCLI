@@ -17,7 +17,7 @@ import { getString } from '../../../utils/Converter';
 
 const kIds = {
   prod: 'lUJvOmqrZC2dLYz5hjJ',
-  dev: '912189fb-92c4-4f59-8fcb-204237e010f7'
+  dev: 'HllonxO4bHRsu5xZf3ZZFEFxGjGUpAi'
 }
 
 const KvalifcaVerification: React.FC = () => {

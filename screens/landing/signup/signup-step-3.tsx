@@ -5,6 +5,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {
   ITranslateState,
@@ -87,6 +88,10 @@ const SignupStepThree: React.FC = () => {
       behavior="padding"
       keyboardVerticalOffset={0}
       style={styles.avoid}>
+         <ScrollView
+      contentContainerStyle={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps={'handled'}>
       <View style={styles.content}>
         <View>
           <Text
@@ -142,6 +147,7 @@ const SignupStepThree: React.FC = () => {
         </View>
         <AppButton title={translate.t('common.next')} onPress={nextStep} />
       </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
@@ -151,6 +157,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 24,
     backgroundColor: colors.white,
+  },
+  scrollView: {
+    flexGrow: 1,
   },
   content: {
     justifyContent: 'space-between',

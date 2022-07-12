@@ -18,6 +18,7 @@ export default {
         mobile: 'Mobile Number',
         user: 'Subscriber',
         personalNumber: 'Personal Number',
+        documentNumber: 'Document Number',
         country: 'Country',
         commission: 'Commission',
         agreeTerms: 'Agree to the Terms and Conditions',
@@ -55,7 +56,9 @@ export default {
         day: 'day',
         year: 'year',
         setBirthDate: 'Fill the date field',
-        seeMore: 'See More'
+        seeMore: 'See More',
+        male: 'Male',
+        female: 'Female'
     },
     generalErrors: {
         errorOccurred: 'An Error Occurred',
@@ -335,6 +338,7 @@ export default {
         comAndUtils: 'Utilities and Communications',
         intertransactions: 'International transactions',
         gamblings: 'Casino, Bookmakers, Lottery (7995MCC) - Restriction/Access',
+        driverLicense: 'Driver License'
     },
 
     orderCard: {

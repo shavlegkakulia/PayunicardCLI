@@ -82,17 +82,17 @@ const Actions: React.FC<IProps> = props => {
       <View style={styles.body}>
         <View style={styles.actions}>
           <TouchableOpacity style={styles.action} onPress={TopUp.bind(this)}>
-            <Cover localImage={require('./../assets/images/topup.png')} />
+            <Cover isOverflowVisible={true} circleBg={'#94DD3410'} localImage={require('./../assets/images/topup.png')} />
             <Text style={styles.actionTitle}>{translate.t('plusSign.topUp')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.action}
             onPress={AddBankCard.bind(this)}>
-            <Cover localImage={require('./../assets/images/add_card.png')} />
+            <Cover isOverflowVisible={true} circleBg={'#F9BD1510'} localImage={require('./../assets/images/add_card.png')} />
             <Text style={styles.actionTitle}>{translate.t('plusSign.addCard')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.action} onPress={openCardsStore}>
-            <Cover localImage={require('./../assets/images/order_card.png')} />
+            <Cover isOverflowVisible={true} circleBg={'#94DD3410'} localImage={require('./../assets/images/order_card.png')} />
             <Text style={styles.actionTitle}>{translate.t('plusSign.orderCard')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.action} onPress={openCreateTransfer}>

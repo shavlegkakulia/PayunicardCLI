@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleProp,
   ViewStyle,
+  ScrollView,
 } from 'react-native';
 import {
   ITranslateState,
@@ -98,6 +99,10 @@ const SignupForm: React.FC = () => {
       keyboardVerticalOffset={0}
       style={styles.avoid}>
         <SafeAreaView style={{flex: 1}}>
+        <ScrollView
+      contentContainerStyle={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps={'handled'}>
       <View style={styles.content}>
         <View>
           <Text
@@ -179,6 +184,7 @@ const SignupForm: React.FC = () => {
           style={styles.button}
         />
       </View>
+      </ScrollView>
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
@@ -189,6 +195,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 24,
     backgroundColor: colors.white,
+  },
+  scrollView: {
+    flexGrow: 1,
   },
   content: {
     justifyContent: 'space-between',

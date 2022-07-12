@@ -454,11 +454,12 @@ export interface IFinishCustomerRegistrationRequest {
   personalID?: string | undefined;
   surname?: string | undefined;
   citizenshipCountryID?: number;
-  sex?: number;
+  sex?: number | undefined;
   birthDate?: string | undefined;
   birthCity?: string | undefined;
   secondaryCitizenshipCountryID?: number | undefined;
   passportNumber?: string | undefined;
+  documentNumber?: string | undefined;
 }
 
 export interface IFinishCustomerRegistrationResponseData {
