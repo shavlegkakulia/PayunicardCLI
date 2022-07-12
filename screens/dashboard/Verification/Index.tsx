@@ -63,7 +63,7 @@ import UserService, {
 } from '../../../services/UserService';
 import {getString} from '../../../utils/Converter';
 import Finish from './Finish';
-import StepEight from './StepEight';
+import StepEight, { ESex } from './StepEight';
 import StepFour from './StepFour';
 import StepNine from './StepNine';
 import StepOne from './StepOne';
@@ -75,7 +75,8 @@ import Welcome from './Welcome';
 
 export enum documentTypes {
   PASSPORT = 'PASSPORT',
-  ID = 'ID'
+  ID = 'ID',
+  Enum_Driver_License = 'Enum_Driver_License'
 }
 
 const VERIFICATION_STEPS = {
@@ -482,7 +483,7 @@ const Verification: React.FC = () => {
       documentType:
         VerficationStore.userKYCData?.documetType === 'ID'
           ? 'Enum_IDCard'
-          : 'Enum_Passport',
+          : VerficationStore.userKYCData?.documetType === 'DRIVER LICENSE' ? documentTypes.Enum_Driver_License : 'Enum_Passport',
       documentBackSideContent:
         VerficationStore.userKYCData?.documentBackSideContent,
       documentBackSide: VerficationStore.userKYCData?.documentBackSide,
@@ -499,15 +500,12 @@ const Verification: React.FC = () => {
       citizenshipCountryID: VerficationStore.country?.countryID,
       secondaryCitizenshipCountryID:
         VerficationStore.country2?.countryID || undefined,
+        documentNumber: VerficationStore.userKYCData?.documentNumber,
+        sex: VerficationStore.userKYCData?.sex === ESex.male ? 1 : VerficationStore.userKYCData?.sex === ESex.female ? 0 : undefined
     };
 
-    if (VerficationStore.userKYCData?.documetType === 'ID') {
-      data = {...data, personalID: VerficationStore.userKYCData.personalNumber};
-    } else {
-      data = {
-        ...data,
-        passportNumber: VerficationStore.userKYCData?.documentNumber,
-      };
+    if(VerficationStore.userKYCData?.personalNumber !== null) {
+      data = {...data, personalID: VerficationStore?.userKYCData?.personalNumber};
     }
 
     UserService.FinishCostumerRegistration(data).subscribe({

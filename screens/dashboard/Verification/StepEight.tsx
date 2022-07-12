@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useMemo} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,7 +9,7 @@ import {
   Text,
   Image,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../../components/UI/AppButton';
 import AppCheckbox from '../../../components/UI/AppCheckbox';
 import AppInput from '../../../components/UI/AppInput';
@@ -17,9 +18,18 @@ import AppSelect, {
 } from '../../../components/UI/AppSelect/AppSelect';
 import Validation, {required} from '../../../components/UI/Validation';
 import colors from '../../../constants/colors';
-import { ITranslateState, IGlobalState as ITranslateGlobalState } from '../../../redux/action_types/translate_action_types';
+import { PUSH } from '../../../redux/actions/error_action';
+import {
+  ITranslateState,
+  IGlobalState as ITranslateGlobalState,
+} from '../../../redux/action_types/translate_action_types';
 import {IKCData} from '../../../services/KvalificaServices';
 import {ICitizenshipCountry} from '../../../services/PresentationServive';
+
+export enum ESex {
+  male = 'male',
+  female = 'female',
+}
 
 interface IProps {
   notEditable: boolean | undefined;
@@ -48,8 +58,13 @@ const StepEight: React.FC<IProps> = props => {
   const [countryVisible, setCountryVisible] = useState(false);
   const [countryVisible2, setCountryVisible2] = useState(false);
   const [hasDualSitizenship, setHasDualSitizenship] = useState(false);
+  const disapatch = useDispatch();
 
   const nextHandler = () => {
+    if(!props.kycData?.sex) {
+        disapatch(PUSH(translate.t('generalErrors.fillOutField')));
+        return;
+    }
     if (!props.selectedCountry) {
       setCountryErrorStyle({borderColor: colors.danger, borderWidth: 1});
       return;
@@ -69,7 +84,7 @@ const StepEight: React.FC<IProps> = props => {
     }
 
     props.onComplate();
-  }; 
+  };
 
   const setBirthDate = (value: string) => {
     let data = {...props.kycData};
@@ -78,13 +93,16 @@ const StepEight: React.FC<IProps> = props => {
   };
 
   const setSex = (value: string) => {
+    if(props.notEditable) {
+      return;
+    }
     let data = {...props.kycData};
     data.sex = value;
     props.onUpdateData(data);
   };
 
   useEffect(() => {
-    if (!hasDualSitizenship) props.onSetCountry2(undefined);
+    if (!hasDualSitizenship) props.onSetCountry2?.(undefined);
   }, [hasDualSitizenship]);
 
   return (
@@ -100,16 +118,35 @@ const StepEight: React.FC<IProps> = props => {
           context={ValidationContext}
         />
 
-        <AppInput
-          placeholder={translate.t('verification.sex')}
-          onChange={sex => !props.notEditable && setSex(sex)}
-          value={props.kycData?.sex}
-          customKey="sex"
-          requireds={[required]}
-          style={styles.input}
-          editable={!props.notEditable}
-          context={ValidationContext}
-        />
+        <View style={styles.sexCont}>
+          <Text style={styles.sexTitle}>{translate.t('verification.sex')}</Text>
+          <AppCheckbox
+          activeColor={colors.primary}
+            clicked={function (value: boolean): void {
+              if(value) {
+                setSex(ESex.male)
+              }
+            }}
+            label={translate.t('common.male')}
+            customKey={'male'}
+            context={''}
+            value={props.kycData?.sex === ESex.male}
+          />
+
+          <AppCheckbox
+          activeColor={colors.primary}
+          style={styles.female}
+            clicked={function (value: boolean): void {
+              if(value) {
+                setSex(ESex.female)
+              }
+            }}
+            label={translate.t('common.female')}
+            customKey={'female'}
+            context={''}
+            value={props.kycData?.sex === ESex.female}
+          />
+        </View>
 
         <View style={[styles.countryBox, countryErrorStyle]}>
           {props.selectedCountry ? (
@@ -124,7 +161,9 @@ const StepEight: React.FC<IProps> = props => {
             <TouchableOpacity
               onPress={() => setCountryVisible(true)}
               style={[styles.countrySelectHandler]}>
-              <Text style={styles.countryPlaceholder}>{translate.t('verification.chooseCountry')}</Text>
+              <Text style={styles.countryPlaceholder}>
+                {translate.t('verification.chooseCountry')}
+              </Text>
               <Image
                 style={styles.dropImg}
                 source={require('./../../../assets/images/down-arrow.png')}
@@ -138,10 +177,12 @@ const StepEight: React.FC<IProps> = props => {
             selectedItem={props.selectedCountry}
             itemVisible={countryVisible}
             onSelect={item => {
-              props.onSetCountry(item);
+              props?.onSetCountry?.(item);
               setCountryVisible(false);
             }}
-            onToggle={() => !props.notEditable && setCountryVisible(!countryVisible)}
+            onToggle={() =>
+              !props.notEditable && setCountryVisible(!countryVisible)
+            }
           />
         </View>
 
@@ -149,7 +190,9 @@ const StepEight: React.FC<IProps> = props => {
           style={styles.checkbox}
           activeColor={colors.primary}
           label={translate.t('verification.dualSitizenship')}
-          clicked={() => !props.notEditable && setHasDualSitizenship(!hasDualSitizenship)}
+          clicked={() =>
+            !props.notEditable && setHasDualSitizenship(!hasDualSitizenship)
+          }
           value={hasDualSitizenship}
           key={'hasDualSitizenship'}
           customKey="hasDualSitizenship"
@@ -170,7 +213,9 @@ const StepEight: React.FC<IProps> = props => {
               <TouchableOpacity
                 onPress={() => setCountryVisible2(true)}
                 style={[styles.countrySelectHandler]}>
-                <Text style={styles.countryPlaceholder}>{translate.t('verification.chooseCountry')}</Text>
+                <Text style={styles.countryPlaceholder}>
+                  {translate.t('verification.chooseCountry')}
+                </Text>
                 <Image
                   style={styles.dropImg}
                   source={require('./../../../assets/images/down-arrow.png')}
@@ -184,7 +229,7 @@ const StepEight: React.FC<IProps> = props => {
               selectedItem={props.selectedCountry2}
               itemVisible={countryVisible2}
               onSelect={item => {
-                props.onSetCountry2(item);
+                props?.onSetCountry2?.(item);
                 setCountryVisible2(false);
               }}
               onToggle={() => setCountryVisible2(!countryVisible2)}
@@ -247,6 +292,20 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignSelf: 'flex-start',
   },
+  sexCont: {
+    alignItems: 'flex-start', 
+    marginTop: 20
+  },
+  sexTitle: {
+    fontFamily: 'FiraGO-Regular',
+    fontSize: 14,
+    lineHeight: 17,
+    color: colors.placeholderColor,
+    marginBottom: 10
+  },
+  female: {
+    marginTop: 15
+  }
 });
 
 export default StepEight;

@@ -57,7 +57,9 @@ export default {
         day: 'დღე',
         year: 'წელი',
         setBirthDate: 'შეავსეთ დაბადების თარიღი',
-        seeMore: 'იხილეთ მეტი'
+        seeMore: 'იხილეთ მეტი',
+        male: 'კაცი',
+        female: 'ქალი'
     },
 
     generalErrors: {
@@ -328,7 +330,7 @@ export default {
         selectCitizenship: 'აირჩიეთ მოქალაქეობა',
         dualSitizenship: 'ორმაგი მოქალაქეობა',
         checkPersonalInfo: 'გადაამოწმეთ პირადი ინფორმაცია',
-        docType: 'დოსუმენტის ტიპი',
+        docType: 'დოკუმენტის ტიპი',
         idCard: 'პირადობის მოწმობა',
         passport: 'პასპორტი',
         idNumber: 'პირადი ნომერი',
@@ -343,7 +345,7 @@ export default {
         comAndUtils: 'კომუნალური და კომუნიკაციები',
         intertransactions: 'საერთაშორისო ტრანზაქციები',
         gamblings: 'ტოტალიზატორი, აზარტული ონლაინ თამაშები',
-
+        driverLicense: 'მართვის მოწმობა'
     },
     orderCard: {
         tariff: 'ტარიფი',

@@ -65,7 +65,7 @@ const StepSeven: React.FC<IProps> = props => {
   return (
     <View style={styles.container}>
       <View style={styles.addressContainer}>
-        {props.kycData?.documetType === documentTypes.PASSPORT ? <AppInput
+        <AppInput
           placeholder={translate.t('common.documentNumber')}
           onChange={documentNumber => !props.notEditable && setDocumentNumber(documentNumber)}
           value={props.kycData?.documentNumber}
@@ -74,8 +74,9 @@ const StepSeven: React.FC<IProps> = props => {
           style={styles.input}
           editable={!props.notEditable}
           context={ValidationContext}
-        /> :
-         <AppInput
+        /> 
+        
+         {props.kycData?.personalNumber !== undefined && <AppInput
           placeholder={translate.t('common.personalNumber')}
           onChange={personalNumber => !props.notEditable && setPersonalNumber(personalNumber)}
           value={props.kycData?.personalNumber}
@@ -84,8 +85,8 @@ const StepSeven: React.FC<IProps> = props => {
           style={styles.input}
           editable={!props.notEditable}
           context={ValidationContext}
-        /> 
-        }
+        /> }
+        
 
         <AppInput
           placeholder={translate.t('common.name')}
