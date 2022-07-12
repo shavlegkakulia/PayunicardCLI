@@ -15,6 +15,8 @@ const DashboardLayout: React.FC = props => {
     state => state.AuthReducer,
   ) as IAuthState;
 
+  
+
   useEffect(() => {
     NetworkService.CheckConnection(() => {
       dispatch(FetchUserDetail(state.remember));
