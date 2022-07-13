@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -10,11 +10,11 @@ import {
   ViewStyle,
   StyleSheet,
 } from 'react-native';
-import {IAccountBallance} from '../../../services/UserService';
-import {debounce} from '../../../utils/utils';
+import { IAccountBallance } from '../../../services/UserService';
+import { debounce } from '../../../utils/utils';
 import Clipboard from '@react-native-community/clipboard';
-import {TYPE_UNICARD} from '../../../constants/accountTypes';
-import {PACKET_TYPE_IDS} from '.';
+import { TYPE_UNICARD } from '../../../constants/accountTypes';
+import { PACKET_TYPE_IDS } from '.';
 import {
   CurrencyConverter,
   CurrencySimbolConverter,
@@ -64,7 +64,7 @@ const AccountCard: React.FC<OProps> = props => {
   };
 
   const getAvailableBalanceByPrioritiCCY = () => {
-    const accounts = {...props.account};
+    const accounts = { ...props.account };
     const priorityBalance = accounts.currencies?.filter(
       currency => currency.key === props.account.ccyPriority,
     );
@@ -80,28 +80,28 @@ const AccountCard: React.FC<OProps> = props => {
     <View
       style={[
         styles.accountCardWallet,
-        props.account.type === PACKET_TYPE_IDS.unicard &&
-          styles.accountCardUnicard,
-        props.account.type === PACKET_TYPE_IDS.uniUltra &&
-          styles.accountUnicard,
         props.inGroup && styles.accountInGroup,
         props.goLayerUp && styles.accountInGroupUpper,
-        props.account.type === PACKET_TYPE_IDS.uniPlus && {
-          ...styles.accountUnicard,
-        },
-        props.account.type === PACKET_TYPE_IDS.upera && styles.accountCardUpera,
+        props.account.customerPaketId === PACKET_TYPE_IDS.upera && styles.accountCardUpera,
+        props.account.customerPaketId === PACKET_TYPE_IDS.uniPlus && styles.accountCardUniPlus,
+        props.account.customerPaketId === PACKET_TYPE_IDS.uniUltra && styles.accountCardUniUltra,
         props.cardContainerStyle,
       ]}>
       {props.account.type !== PACKET_TYPE_IDS.unicard && (
         <Image
           source={
-            props.account.type === PACKET_TYPE_IDS.wallet
-              ? require('./../../../assets/images/cardCornerGray.png')
-              : props.account.type === PACKET_TYPE_IDS.uniUltra
-              ? require('./../../../assets/images/cardCornerPrimary.png')
-              : props.account.type === PACKET_TYPE_IDS.upera
-              ? require('./../../../assets/images/cardCornerPrimary.png')
-              : require('./../../../assets/images/cardCornerOrange.png')
+            props.account.customerPaketId === PACKET_TYPE_IDS.wallet ?
+              require('./../../../assets/images/cardCornerGray.png')
+              :
+              props.account.customerPaketId === PACKET_TYPE_IDS.uniUltra ?
+                require('./../../../assets/images/cardCornerOrange.png')
+                :
+                props.account.customerPaketId === PACKET_TYPE_IDS.uniPlus ?
+                  require('./../../../assets/images/cardCornerUniPlus.png')
+                  :
+                  props.account.customerPaketId === PACKET_TYPE_IDS.upera ?
+                    require('./../../../assets/images/cardCornerPrimary.png')
+                    : require('./../../../assets/images/cardCornerGray.png')
           }
           style={styles.cardCorner}
         />
@@ -109,18 +109,15 @@ const AccountCard: React.FC<OProps> = props => {
       <TouchableOpacity onPress={goDetail} activeOpacity={0.8}>
         <View>
           <Text style={styles.cardTitle}>
-            {props.account.type === PACKET_TYPE_IDS.wallet
-              ? 'wallet'
-              : props.account.accountTypeName}
+            {props.account.accountTypeName}
             {' ' + (props.cardMask || '')}
-            {/* {props.account?.cards ? props.account.cards[0].status:'0'} */}
           </Text>
         </View>
         <View
           style={[
             styles.cardCurrencies,
             props.account.type === PACKET_TYPE_IDS.unicard &&
-              styles.cardCurrenciesUnicard,
+            styles.cardCurrenciesUnicard,
           ]}>
           <View>
             <View style={styles.cardBalanceContainer}>
@@ -154,8 +151,9 @@ const AccountCard: React.FC<OProps> = props => {
                 <Text
                   style={[
                     styles.cardAccountCount,
-                    props.account.type === PACKET_TYPE_IDS.upera &&
-                      styles.colorPrimary,
+                    props.account.customerPaketId === PACKET_TYPE_IDS.upera && styles.colorPrimary,
+                    props.account.customerPaketId === PACKET_TYPE_IDS.uniPlus && styles.colorUniPlus,
+                    props.account.customerPaketId === PACKET_TYPE_IDS.uniUltra && styles.colorUniUltra,
                   ]}>
                   {props.account.cards?.length}
                 </Text>
@@ -176,9 +174,9 @@ const AccountCard: React.FC<OProps> = props => {
                 <Text style={styles.cardAccount}>
                   {props.account.type === TYPE_UNICARD
                     ? props.account.accountNumber?.replace(
-                        /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
-                        '$1  $2  $3  $4',
-                      )
+                      /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
+                      '$1  $2  $3  $4',
+                    )
                     : props.account.accountNumber}
                 </Text>
                 {props.account.type !== PACKET_TYPE_IDS.unicard && (
@@ -205,7 +203,7 @@ const AccountCard: React.FC<OProps> = props => {
               <Image source={require('./../../../assets/images/uniLogo.png')} />
             ) : (
               <Image
-                source={{uri: props.account.imageUrl}}
+                source={{ uri: props.account.imageUrl }}
                 resizeMode="contain"
                 style={styles.packetLogo}
               />
@@ -227,12 +225,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: colors.white,
   },
-  accountCardUnicard: {
-    borderColor: colors.uniColor,
-  },
-  accountUnicard: {
-    borderColor: colors.uniColor,
-  },
+
+
   accountInGroup: {
     position: 'absolute',
     top: -5,
@@ -246,6 +240,12 @@ const styles = StyleSheet.create({
   },
   accountCardUpera: {
     borderColor: colors.primary,
+  },
+  accountCardUniPlus: {
+    borderColor: colors.uniPlus
+  },
+  accountCardUniUltra: {
+    borderColor: colors.uniUltra
   },
   cardCorner: {
     position: 'absolute',
@@ -304,6 +304,12 @@ const styles = StyleSheet.create({
   },
   colorPrimary: {
     color: colors.primary,
+  },
+  colorUniPlus: {
+    color: colors.uniPlus,
+  },
+  colorUniUltra: {
+    color: colors.uniUltra,
   },
   cardAccountContainer: {
     flexDirection: 'row',

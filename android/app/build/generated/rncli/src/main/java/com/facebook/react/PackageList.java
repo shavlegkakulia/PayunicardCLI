@@ -21,6 +21,10 @@ import com.reactnativecommunity.clipboard.ClipboardPackage;
 import org.reactnative.maskedview.RNCMaskedViewPackage;
 // @react-native-community/netinfo
 import com.reactnativecommunity.netinfo.NetInfoPackage;
+// @react-native-firebase/analytics
+import io.invertase.firebase.analytics.ReactNativeFirebaseAnalyticsPackage;
+// @react-native-firebase/app
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 // react-native-background-timer
 import com.ocetnik.timer.BackgroundTimerPackage;
 // react-native-date-picker
@@ -43,6 +47,8 @@ import com.swmansion.rnscreens.RNScreensPackage;
 import me.furtado.smsretriever.RNSmsRetrieverPackage;
 // react-native-splash-screen
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+// react-native-svg
+import com.horcrux.svg.SvgPackage;
 // react-native-webview
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 // rn-fetch-blob
@@ -97,6 +103,8 @@ public class PackageList {
       new ClipboardPackage(),
       new RNCMaskedViewPackage(),
       new NetInfoPackage(),
+      new ReactNativeFirebaseAnalyticsPackage(),
+      new ReactNativeFirebaseAppPackage(),
       new BackgroundTimerPackage(),
       new DatePickerPackage(),
       new RNDeviceInfo(),
@@ -108,6 +116,7 @@ public class PackageList {
       new RNScreensPackage(),
       new RNSmsRetrieverPackage(),
       new SplashScreenReactPackage(),
+      new SvgPackage(),
       new RNCWebViewPackage(),
       new RNFetchBlobPackage()
     ));

@@ -1,66 +1,74 @@
 [
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_launch_screen.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-hdpi\\launch_screen.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable_logo.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\drawable\\logo.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher_round.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_launch_screen.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\launch_screen.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_launch_screen.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-mdpi\\launch_screen.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher_round.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_launch_screen.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-mdpi\\launch_screen.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_launch_screen.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xhdpi\\launch_screen.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable_document_icon.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\drawable\\document_icon.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\layout_launch_screen.xml.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\layout\\launch_screen.xml"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_launch_screen.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\launch_screen.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_launch_screen.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xhdpi\\launch_screen.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_launch_screen.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\launch_screen.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher_round.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher_round.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\layout_launch_screen.xml.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\layout\\launch_screen.xml"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher_round.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_launch_screen.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\launch_screen.png"
     },
     {
-        "merged": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher.png.flat",
-        "source": "D:\\Work(Mobile-Projects)\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi_launch_screen.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-hdpi\\launch_screen.png"
+    },
+    {
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "D:\\PayunicardCLI\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "D:\\PayunicardCLI\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
     }
 ]

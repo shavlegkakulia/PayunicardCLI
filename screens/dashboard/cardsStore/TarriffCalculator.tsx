@@ -333,7 +333,6 @@ const TarriffCalculator: React.FC = props => {
         const ctypes = [...(Response.data.data?.cardTypes || [])];
         let vc = ctypes.filter(ct => ct.typeId === cardTypeIds.typeVisa)[0];
         let mc = ctypes.filter(ct => ct.typeId === cardTypeIds.typeMc)[0];
-        console.log(ctypes, getNumber(vc.count), getNumber(mc.count));
         setMcVisaCount({
           visaCount: getNumber(vc.count),
           mcCount: getNumber(mc.count),

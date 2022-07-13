@@ -223,7 +223,8 @@ export default {
         topupWallet: 'WALLET TOP UP',
         bankDetails: 'Bank Details',
         widthCard: 'With Card',
-        withPayBox: 'With Pay Box'
+        withPayBox: 'With Pay Box',
+        walletTitle: "UNIwallet"
     },
     payments: {
         categories: 'Categories',

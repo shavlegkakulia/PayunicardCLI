@@ -19,5 +19,7 @@ export default {
     baseBackgroundColor: '#FAFAFA',
     disabledprimary: '#94dd346b',
     cardBorderColor: '#C1C2C2',
-    uniColor: '#FF8D00'
+    uniColor: '#FF8D00',
+    uniPlus: '#F9BD15',
+    uniUltra: '#F49121'
 }

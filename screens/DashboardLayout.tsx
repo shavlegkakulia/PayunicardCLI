@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import {FetchUserDetail} from './../redux/actions/user_actions';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect } from 'react';
+import { FetchUserDetail } from './../redux/actions/user_actions';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   IAuthState,
   IGlobalState,
@@ -8,6 +8,7 @@ import {
 import NetworkService from '../services/NetworkService';
 import DashboardLayoutRightDarwer from '../navigation/DashboardLayoutRightDarwer';
 import IdleHook from './idleHook';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 
 const DashboardLayout: React.FC = props => {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const DashboardLayout: React.FC = props => {
     state => state.AuthReducer,
   ) as IAuthState;
 
-  
+
 
   useEffect(() => {
     NetworkService.CheckConnection(() => {
@@ -24,9 +25,14 @@ const DashboardLayout: React.FC = props => {
   }, []);
 
   return (
-    <DashboardLayoutRightDarwer>
-      <IdleHook>{props.children}</IdleHook>
-    </DashboardLayoutRightDarwer>
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <DashboardLayoutRightDarwer>
+        <IdleHook>{props.children}</IdleHook>
+      </DashboardLayoutRightDarwer>
+    </KeyboardAvoidingView>
   );
 };
 

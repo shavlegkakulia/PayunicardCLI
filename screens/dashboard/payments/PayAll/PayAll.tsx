@@ -262,7 +262,7 @@ const PayAll: React.FC<INavigationProps> = props => {
           forOpClassCode: template.forOpClassCode,
           forMerchantCode: template.merchantCode,
           forMerchantServiceCode: template.merchantServiceCode,
-          forFundsSPCode: template.forPaySpCode,
+          forFundsSPCode: PaymentStore.selectedAccount?.type == 7? "UNICARD":"UniWallet",
           accountNumber:
             PaymentStore.selectedAccount?.accountNumber ||
             PaymentStore.selectedAccount?.accountId?.toString(),

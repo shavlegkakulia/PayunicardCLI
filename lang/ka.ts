@@ -59,7 +59,8 @@ export default {
         setBirthDate: 'შეავსეთ დაბადების თარიღი',
         seeMore: 'იხილეთ მეტი',
         male: 'კაცი',
-        female: 'ქალი'
+        female: 'ქალი',
+        walletTitle: "უნისაფულე"
     },
 
     generalErrors: {

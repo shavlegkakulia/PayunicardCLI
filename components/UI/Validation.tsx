@@ -59,7 +59,7 @@ const Validation: IParams = {
             el.types.map((r: string) => { 
                 switch (r) {
                     case required:
-                        if (!el.value) {
+                        if (!el.value.trim()) {
                             hasError = true; 
                             errors.push(true)
                         }
