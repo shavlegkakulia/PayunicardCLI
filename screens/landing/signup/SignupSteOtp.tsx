@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, KeyboardAvoidingView, Keyboard} from 'react-native';
+import {View, Text, StyleSheet, KeyboardAvoidingView, Keyboard, Platform} from 'react-native';
 import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
@@ -135,7 +135,7 @@ const SignupSteOtp: React.FC = () => {
 
   return (
     <KeyboardAvoidingView
-      behavior="padding"
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={0}
       style={styles.avoid}>
       <View style={styles.content}>

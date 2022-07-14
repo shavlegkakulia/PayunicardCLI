@@ -8,6 +8,7 @@ import {
   StyleProp,
   ViewStyle,
   ScrollView,
+  Platform,
 } from 'react-native';
 import {
   ITranslateState,
@@ -166,7 +167,7 @@ const SignupStepTwo: React.FC = () => {
 
   return (
     <KeyboardAvoidingView
-      behavior="padding"
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.avoid}>
       <ScrollView
       contentContainerStyle={styles.scrollView}

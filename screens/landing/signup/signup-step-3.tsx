@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from 'react-native';
 import {
   ITranslateState,
@@ -85,7 +86,7 @@ const SignupStepThree: React.FC = () => {
 
   return (
     <KeyboardAvoidingView
-      behavior="padding"
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={0}
       style={styles.avoid}>
          <ScrollView

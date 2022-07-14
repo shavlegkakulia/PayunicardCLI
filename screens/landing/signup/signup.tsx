@@ -8,6 +8,7 @@ import {
   StyleProp,
   ViewStyle,
   ScrollView,
+  Platform,
 } from 'react-native';
 import {
   ITranslateState,
@@ -95,7 +96,7 @@ const SignupForm: React.FC = () => {
 
   return (
     <KeyboardAvoidingView
-      behavior="padding"
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={0}
       style={styles.avoid}>
         <SafeAreaView style={{flex: 1}}>
