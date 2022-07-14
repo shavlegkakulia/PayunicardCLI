@@ -1,4 +1,4 @@
-import React, {createRef, useEffect, useState} from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -15,7 +15,7 @@ import {
   Modal,
   Keyboard
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import colors from '../../../constants/colors';
 import {
   IUserState,
@@ -29,7 +29,7 @@ import {
   useNavigationState,
   useRoute,
 } from '@react-navigation/native';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import UserService, {
   IAccountBallance,
   IChangeConditionRisklevelUFCRequest,
@@ -37,8 +37,8 @@ import UserService, {
   IGetUserBlockedBlockedFundslistRequest,
 } from '../../../services/UserService';
 import PaginationDots from '../../../components/PaginationDots';
-import {getNumber, getString} from '../../../utils/Converter';
-import {TYPE_UNICARD} from '../../../constants/accountTypes';
+import { getNumber, getString } from '../../../utils/Converter';
+import { TYPE_UNICARD } from '../../../constants/accountTypes';
 import NetworkService from '../../../services/NetworkService';
 import {
   FetchUserAccounts,
@@ -53,9 +53,9 @@ import FloatingLabelInput from '../../../containers/otp/Otp';
 import OTPService, {
   GeneratePhoneOtpByUserRequest,
 } from '../../../services/OTPService';
-import {NAVIGATION_ACTIONS} from '../../../redux/action_types/navigation_action_types';
+import { NAVIGATION_ACTIONS } from '../../../redux/action_types/navigation_action_types';
 import Routes from '../../../navigation/routes';
-import {TRANSFERS_ACTION_TYPES} from '../../../redux/action_types/transfers_action_types';
+import { TRANSFERS_ACTION_TYPES } from '../../../redux/action_types/transfers_action_types';
 import {
   IGlobalPaymentState,
   IPaymentState,
@@ -71,7 +71,7 @@ import {
   GetPaymentDetails,
 } from '../../../redux/actions/payments_actions';
 import PresentationService from './../../../services/PresentationServive';
-import CardService, {IGetBarcodeRequest} from '../../../services/CardService';
+import CardService, { IGetBarcodeRequest } from '../../../services/CardService';
 import NavigationService from '../../../services/NavigationService';
 import {
   ITranslateState,
@@ -79,7 +79,7 @@ import {
 } from '../../../redux/action_types/translate_action_types';
 import AccountCard from './AccountCard';
 import userStatuses from '../../../constants/userStatuses';
-import {tabHeight} from '../../../navigation/TabNav';
+import { tabHeight } from '../../../navigation/TabNav';
 import SmsRetriever from 'react-native-sms-retriever';
 import { EUR, USD } from '../../../constants/currencies';
 
@@ -137,10 +137,7 @@ const ProductDetail: React.FC = props => {
   const [otp, setOtp] = useState<string>();
   const [maskedPhoneNumber, setMaskedNumber] = useState<string>();
   const [categories, setCategories] = useState<ICategory[]>();
-  const [
-    {actionSheetTitle, actionSheetStatus, actionSheetType},
-    setActionSheetStep,
-  ] = useState<IActionSheetTypes>({
+  const [{ actionSheetTitle, actionSheetStatus, actionSheetType }, setActionSheetStep] = useState<IActionSheetTypes>({
     actionSheetTitle: '',
     actionSheetStatus: ACTION_SHEET_STATUSES.start,
     actionSheetType: undefined,
@@ -154,49 +151,48 @@ const ProductDetail: React.FC = props => {
   const [selectedFromAccount, setSelectedFromAccount] = useState<
     IAccountBallance | undefined
   >(undefined);
-  const [isEnabled, setIsEnabled] = useState(false);
-  const [isEnabled2, setIsEnabled2] = useState(false);
+  const [hrmRiskLevels, setHrmRiskLevels] = useState<{ a1: boolean, a2: boolean }>({ a1: false, a2: false });
   const [hrmLoading, setHrmLoading] = useState<boolean>(false);
   const [isHrmProcessing, setIsHrmProcessing] = useState<boolean>(false);
-  const {documentVerificationStatusCode, customerVerificationStatusCode} =
+  const { documentVerificationStatusCode, customerVerificationStatusCode } =
     userData.userDetails || {};
-    const [currentHRMAction, setCurrentHRMAction] = useState<number>(0);
-    const [hasAccountUsdOrEur, setHasAccountUsdOrEur] = useState<boolean>(false);
+  const [currentHRMAction, setCurrentHRMAction] = useState<number>(0);
+  const [hasAccountUsdOrEur, setHasAccountUsdOrEur] = useState<boolean>(false);
   const isUserVerified =
     documentVerificationStatusCode === userStatuses.Enum_Verified &&
     customerVerificationStatusCode === userStatuses.Enum_Verified;
-    const [userAccount, setUserAccount] = useState<IAccountBallance>(route.params.account);
+  const [userAccount, setUserAccount] = useState<IAccountBallance>(route.params.account);
 
-    useEffect(() => {
-      if(selectedFromAccount) {
+  useEffect(() => {
+    if (selectedFromAccount) {
       let uac = selectedFromAccount?.currencies?.filter(s => s.key === USD || s.key === EUR);
-        if(uac?.length) {
-          setHasAccountUsdOrEur(true);
-        }
-    }
-    }, [selectedFromAccount])
-
-    useEffect(() => {
-      if(route.params?.account) {
-       // console.log(route.params?.account)
-        setUserAccount(route.params?.account);
+      if (uac?.length) {
+        setHasAccountUsdOrEur(true);
       }
-    }, [route.params.account])
+    }
+  }, [selectedFromAccount])
 
-  const toggleHrmSwitch = () => {
-    if (hrmLoading || actionLoading) return;
-    setCurrentHRMAction(1);
-    //setIsEnabled(previousState => !previousState);
-    setIsHrmProcessing(true);
-    SendPhoneOTP();
-  };
-  const toggleHrmSwitch2 = () => {
-    if (hrmLoading || actionLoading) return;
-    setCurrentHRMAction(2);
-    //setIsEnabled2(previousState2 => !previousState2);
-    setIsHrmProcessing(true);
-    SendPhoneOTP();
-  };
+  useEffect(() => {
+    if (route.params?.account) {
+      // console.log(route.params?.account)
+      setUserAccount(route.params?.account);
+    }
+  }, [route.params.account])
+
+  // const toggleHrmSwitch = () => {
+  //   if (hrmLoading || actionLoading) return;
+  //   setCurrentHRMAction(1);
+  //   //setIsEnabled(previousState => !previousState);
+  //   setIsHrmProcessing(true);
+  //   SendPhoneOTP();
+  // };
+  // const toggleHrmSwitch2 = () => {
+  //   if (hrmLoading || actionLoading) return;
+  //   setCurrentHRMAction(2);
+  //   //setIsEnabled2(previousState2 => !previousState2);
+  //   setIsHrmProcessing(true);
+  //   SendPhoneOTP();
+  // };
 
   const PaymentStore = useSelector<IGlobalPaymentState>(
     state => state.PaymentsReducer,
@@ -228,7 +224,7 @@ const ProductDetail: React.FC = props => {
   const fetchAccountStatements = () => {
     NetworkService.CheckConnection(() => {
       dispatch(
-        FetchUserAccountStatements({accountID: userAccount?.accountId}),
+        FetchUserAccountStatements({ accountID: userAccount?.accountId }),
       );
     });
   };
@@ -416,8 +412,8 @@ const ProductDetail: React.FC = props => {
         let cardId: number = getNumber(
           userAccount?.cards?.[currentCardIndex]?.cardID,
         );
-        const req =  userAccount?.cards?.[currentCardIndex].status === blockTypes.active ? AccountService.Block : AccountService.UnBlock
-        req({cardId: cardId}).subscribe({
+        const req = userAccount?.cards?.[currentCardIndex].status === blockTypes.active ? AccountService.Block : AccountService.UnBlock
+        req({ cardId: cardId }).subscribe({
           next: Response => {
             if (Response.data.ok) {
               setActionSheetStep({
@@ -427,9 +423,9 @@ const ProductDetail: React.FC = props => {
               });
               dispatch(FetchUserAccounts());
               const ucc = [...(userAccount?.cards || [])];
-              if(ucc?.length) {
+              if (ucc?.length) {
                 ucc[currentCardIndex].status = (ucc?.[currentCardIndex]?.status === blockTypes.active ? blockTypes.blocked : blockTypes.active);
-                setUserAccount({...userAccount, cards: ucc});
+                setUserAccount({ ...userAccount, cards: ucc });
               }
 
             }
@@ -496,7 +492,7 @@ const ProductDetail: React.FC = props => {
       let OTP: GeneratePhoneOtpByUserRequest = {
         userName: userData.userDetails?.username,
       };
-      OTPService.GeneratePhoneOtpByUser({OTP}).subscribe({
+      OTPService.GeneratePhoneOtpByUser({ OTP }).subscribe({
         next: Response => {
           if (Response.data.ok) {
             setMaskedNumber(Response.data.data?.phoneMask);
@@ -504,11 +500,7 @@ const ProductDetail: React.FC = props => {
         },
         error: () => {
           setActionLoading(false);
-          if(currentHRMAction === 1) {
-            setIsEnabled(false)
-          } else if(currentHRMAction === 2) {
-            setIsEnabled2(false)
-          }
+          handleSetCurrentHrmRiskLevels();
         },
         complete: () => {
           setActionLoading(false)
@@ -524,7 +516,7 @@ const ProductDetail: React.FC = props => {
         cardid: userAccount?.cards?.[currentCardIndex]?.cardID,
         otp: otp,
       }).subscribe({
-        next: Response => { 
+        next: Response => {
           if (Response.data.ok) {
             setOtp(undefined);
             setActionSheetStep({
@@ -661,7 +653,7 @@ const ProductDetail: React.FC = props => {
         type: PAYMENTS_ACTIONS.SET_CURRENT_PAYMENT_SERVICE,
         currentService: currentService[0],
       });
-  
+
       dispatch({
         type: PAYMENTS_ACTIONS.SET_IS_PAYMENT_SERVICE,
         isService: true,
@@ -684,20 +676,20 @@ const ProductDetail: React.FC = props => {
 
     /* categories contains merchant and also service */
     if (!isService && hasService && !hasChildren) {
-     
-      GetMerchantServices({CategoryID: parentID}, onComplate, onError);
+
+      GetMerchantServices({ CategoryID: parentID }, onComplate, onError);
     } /* categories contains merchants */ else if (
       !isService &&
       hasService &&
       hasChildren
     ) {
-     
+
       dispatch(getPayCategoriesServices(parentID, onComplate, onError));
     } /* categories contains only services */ else if (
       !isService &&
       !hasService
     ) {
-  
+
       dispatch(
         getPayCategoriesServices(
           parentID,
@@ -717,17 +709,43 @@ const ProductDetail: React.FC = props => {
     setActionSheetStep({});
   };
 
-  const changeConditionRisklevelUFC = () => {
+  const handleSetCurrentHrmRiskLevels = () => {
+    if (userAccount?.cards) {
+      const curCardHrm = userAccount?.cards?.[currentCardIndex]?.hrm;
+      if (curCardHrm === 1) {
+        setHrmRiskLevels({ a1: true, a2: true });
+      } else if (curCardHrm === 0) {
+        setHrmRiskLevels({ a1: false, a2: false });
+      } else if (curCardHrm === 2) {
+        setHrmRiskLevels({ a1: true, a2: false });
+      } else if (curCardHrm === 3) {
+        setHrmRiskLevels({ a1: false, a2: true });
+      }
+    }
+  }
+
+  const toggleHrmRiskLevels = (data: { a1?: boolean, a2?: boolean }) => {
+    if (hrmLoading) return;
+    setHrmRiskLevels(prevState => {
+      return {
+        ...prevState,
+        ...data
+      };
+    });
+    setIsHrmProcessing(true);
+  };
+
+  const changeConditionRiskLevelUFC = () => {
     if (hrmLoading) return;
     let cardHrm = 0;
-    if (isEnabled === true && isEnabled2 === true) {
+    if (hrmRiskLevels.a1 === true && hrmRiskLevels.a2 === true) {
       cardHrm = 1;
-    } else if (isEnabled === false && isEnabled2 === false) {
+    } else if (hrmRiskLevels.a1 === false && hrmRiskLevels.a2 === false) {
       cardHrm = 0;
-    } else if (isEnabled === true && isEnabled2 === false) {
-      cardHrm = 3;
-    } else if (isEnabled === false && isEnabled2 === true) {
+    } else if (hrmRiskLevels.a1 === true && hrmRiskLevels.a2 === false) {
       cardHrm = 2;
+    } else if (hrmRiskLevels.a1 === false && hrmRiskLevels.a2 === true) {
+      cardHrm = 3;
     }
 
     let cardId = 0;
@@ -741,13 +759,13 @@ const ProductDetail: React.FC = props => {
       cardID: cardId,
       otp: getString(otp),
     };
-    
+
     setHrmLoading(true);
 
     UserService.changeConditionRisklevelUFC(data).subscribe({
       next: Response => {
         if (Response.data.ok) {
-          dispatch(FetchUserAccountStatements({}));
+          dispatch(FetchUserAccounts()); //vkitxo rato staitments da ara accounts
         }
       },
       complete: () => {
@@ -755,22 +773,9 @@ const ProductDetail: React.FC = props => {
         setOtp(undefined);
         setHrmLoading(false);
         setIsHrmProcessing(false);
-        setCurrentHRMAction(0);
-
-        if(currentHRMAction === 1) {
-          setIsEnabled(previousState => !previousState);
-        } else if(currentHRMAction === 2) {
-          setIsEnabled2(previousState2 => !previousState2);
-        }
       },
       error: err => {
-     
-        if(currentHRMAction === 1) {
-          setIsEnabled(false)
-        } else if(currentHRMAction === 2) {
-          setIsEnabled2(false)
-        }
-        setCurrentHRMAction(0);
+        handleSetCurrentHrmRiskLevels();
         setHrmLoading(false);
         setOtp(undefined);
         setHrmLoading(false);
@@ -778,6 +783,15 @@ const ProductDetail: React.FC = props => {
       },
     });
   };
+
+
+  useEffect(() => {
+    if (isHrmProcessing) {
+      SendPhoneOTP();
+    }
+
+  }, [hrmRiskLevels.a1, hrmRiskLevels.a2])
+
 
   useEffect(() => {
     if (userAccount?.type !== TYPE_UNICARD) {
@@ -797,24 +811,9 @@ const ProductDetail: React.FC = props => {
 
   useEffect(() => {
     fetchAccountStatements();
-
-    if (userAccount?.cards) {
-      const curCardHrm = userAccount?.cards?.[currentCardIndex]?.hrm;
-      if (curCardHrm === 1) {
-        setIsEnabled(true);
-        setIsEnabled2(true);
-      } else if (curCardHrm === 0) {
-        setIsEnabled(false);
-        setIsEnabled2(false);
-      } else if (curCardHrm === 2) {
-        setIsEnabled(false);
-        setIsEnabled2(true);
-      } else if (curCardHrm === 3) {
-        setIsEnabled(true);
-        setIsEnabled2(false);
-      }
-    }
+    handleSetCurrentHrmRiskLevels();
   }, [userAccount]);
+
 
   useEffect(() => {
     setSelectedFromAccount(userAccount);
@@ -828,14 +827,14 @@ const ProductDetail: React.FC = props => {
       if (registered) {
         SmsRetriever.addSmsListener(event => {
           if (event) {
-          const otp = /(\d{4})/g.exec(getString(event.message))![1];
-          setOtp(otp);
-          Keyboard.dismiss();
+            const otp = /(\d{4})/g.exec(getString(event.message))![1];
+            setOtp(otp);
+            Keyboard.dismiss();
           }
-        }); 
+        });
       }
     } catch (error) {
-      
+
     }
   };
 
@@ -851,7 +850,7 @@ const ProductDetail: React.FC = props => {
 
   const actionSheetHeight = 410;
 
-  const isDisabled = isUserVerified ? {} : {opacity: 0.5};
+  const isDisabled = isUserVerified ? {} : { opacity: 0.5 };
 
   return (
     <DashboardLayout>
@@ -870,11 +869,11 @@ const ProductDetail: React.FC = props => {
               />
             )}
           {userAccount?.type !== PACKET_TYPE_IDS.wallet &&
-          userAccount?.type !== PACKET_TYPE_IDS.unicard ? (
+            userAccount?.type !== PACKET_TYPE_IDS.unicard ? (
             <ScrollView
               style={styles.cards}
               ref={carouselRef}
-              onScroll={({nativeEvent}) => onChangeCardIndex(nativeEvent)}
+              onScroll={({ nativeEvent }) => onChangeCardIndex(nativeEvent)}
               showsHorizontalScrollIndicator={false}
               pagingEnabled={true}
               horizontal>
@@ -886,7 +885,7 @@ const ProductDetail: React.FC = props => {
                     <AccountCard
                       account={userAccount}
                       cardMask={card.maskedCardNumber}
-                      cardContainerStyle={{width: cardWidth}}
+                      cardContainerStyle={{ width: cardWidth }}
                       logo={getCardLogo(getNumber(card.cardTypeID))}
                     />
                   </View>
@@ -895,7 +894,7 @@ const ProductDetail: React.FC = props => {
                 <View style={[screenStyles.wraper, styles.container]}>
                   <AccountCard
                     account={userAccount}
-                    cardContainerStyle={{width: cardWidth}}
+                    cardContainerStyle={{ width: cardWidth }}
                   />
                 </View>
               )}
@@ -904,7 +903,7 @@ const ProductDetail: React.FC = props => {
             <View style={[screenStyles.wraper, styles.container]}>
               <AccountCard
                 account={userAccount}
-                cardContainerStyle={{width: cardWidth}}
+                cardContainerStyle={{ width: cardWidth }}
               />
               {userAccount?.type === PACKET_TYPE_IDS.unicard &&
                 (isBarCodeLoading ? (
@@ -935,7 +934,7 @@ const ProductDetail: React.FC = props => {
 
           <ScrollView
             ref={carouselRef}
-            onScroll={({nativeEvent}) =>
+            onScroll={({ nativeEvent }) =>
               onChangePaymentSectionStep(nativeEvent)
             }
             showsHorizontalScrollIndicator={false}
@@ -946,7 +945,7 @@ const ProductDetail: React.FC = props => {
             horizontal>
             {/* <Payments exclude={true} selectdeAccount={selectedFromAccount} /> */}
             <View style={[screenStyles.wraper, styles.toolItemsWraper]}>
-              <View style={[styles.sectionContainerColumn, {width: cardWidth}]}>
+              <View style={[styles.sectionContainerColumn, { width: cardWidth }]}>
                 <TouchableOpacity
                   style={styles.sectionContainerItem}
                   onPress={() => {
@@ -962,7 +961,7 @@ const ProductDetail: React.FC = props => {
                   }}>
                   <View style={styles.sectionContainerItemImageContainer}>
                     <Image
-                      source={{uri: `${envs.CDN_PATH}utility/home.png`}}
+                      source={{ uri: `${envs.CDN_PATH}utility/home.png` }}
                       style={styles.toolsIcon}
                       resizeMode="contain"
                     />
@@ -989,7 +988,7 @@ const ProductDetail: React.FC = props => {
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
-                          source={{uri: `${envs.CDN_PATH}utility/internet.png`}}
+                          source={{ uri: `${envs.CDN_PATH}utility/internet.png` }}
                           style={[styles.toolsIcon, isDisabled]}
                           resizeMode="contain"
                         />
@@ -1018,7 +1017,7 @@ const ProductDetail: React.FC = props => {
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
-                          source={{uri: `${envs.CDN_PATH}utility/phone.png`}}
+                          source={{ uri: `${envs.CDN_PATH}utility/phone.png` }}
                           style={[styles.toolsIcon, isDisabled]}
                           resizeMode="contain"
                         />
@@ -1035,7 +1034,7 @@ const ProductDetail: React.FC = props => {
                 )}
               </View>
 
-              <View style={[styles.sectionContainerColumn, {width: cardWidth}]}>
+              <View style={[styles.sectionContainerColumn, { width: cardWidth }]}>
                 {userAccount?.type !== PACKET_TYPE_IDS.unicard && (
                   <>
                     <TouchableOpacity
@@ -1053,7 +1052,7 @@ const ProductDetail: React.FC = props => {
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
-                          source={{uri: `${envs.CDN_PATH}utility/mobile.png`}}
+                          source={{ uri: `${envs.CDN_PATH}utility/mobile.png` }}
                           style={styles.toolsIcon}
                           resizeMode="contain"
                         />
@@ -1078,7 +1077,7 @@ const ProductDetail: React.FC = props => {
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
-                          source={{uri: `${envs.CDN_PATH}utility/parking.png`}}
+                          source={{ uri: `${envs.CDN_PATH}utility/parking.png` }}
                           style={[styles.toolsIcon, isDisabled]}
                           resizeMode="contain"
                         />
@@ -1107,7 +1106,7 @@ const ProductDetail: React.FC = props => {
                       }}>
                       <View style={styles.sectionContainerItemImageContainer}>
                         <Image
-                          source={{uri: `${envs.CDN_PATH}utility/game.png`}}
+                          source={{ uri: `${envs.CDN_PATH}utility/game.png` }}
                           style={[styles.toolsIcon, isDisabled]}
                           resizeMode="contain"
                         />
@@ -1141,7 +1140,7 @@ const ProductDetail: React.FC = props => {
           {userAccount?.type !== PACKET_TYPE_IDS.unicard && (
             <ScrollView
               ref={carouselRef}
-              onScroll={({nativeEvent}) =>
+              onScroll={({ nativeEvent }) =>
                 onChangeTransferSectionStep(nativeEvent)
               }
               showsHorizontalScrollIndicator={false}
@@ -1151,7 +1150,7 @@ const ProductDetail: React.FC = props => {
                 <View
                   style={[
                     styles.transfersSectionContainerColumn,
-                    {width: cardWidth},
+                    { width: cardWidth },
                   ]}>
                   <TouchableOpacity
                     style={styles.transfersSectionContainerItemScroller}
@@ -1229,7 +1228,7 @@ const ProductDetail: React.FC = props => {
                 <View
                   style={[
                     styles.transfersSectionContainerColumn,
-                    {width: cardWidth},
+                    { width: cardWidth },
                   ]}>
                   <TouchableOpacity
                     style={styles.transfersSectionContainerItemScroller}
@@ -1267,7 +1266,7 @@ const ProductDetail: React.FC = props => {
                         style={[
                           styles.transfersSectionContainerItemImage,
                           isDisabled,
-                          !hasAccountUsdOrEur && {opacity: 0.5}
+                          !hasAccountUsdOrEur && { opacity: 0.5 }
                         ]}
                       />
                     </View>
@@ -1275,7 +1274,7 @@ const ProductDetail: React.FC = props => {
                       style={[
                         styles.transfersSectionContainerItemDetails,
                         isDisabled,
-                        !hasAccountUsdOrEur && {opacity: 0.5}
+                        !hasAccountUsdOrEur && { opacity: 0.5 }
                       ]}>
                       {breackWords(translate.t('transfer.internationalTransfer'))}
                     </View>
@@ -1283,11 +1282,11 @@ const ProductDetail: React.FC = props => {
                   <TouchableOpacity
                     style={styles.transfersSectionContainerItemScroller}
                     activeOpacity={1}>
-                    
+
                   </TouchableOpacity>
                 </View>
 
-              
+
               </View>
             </ScrollView>
           )}
@@ -1305,7 +1304,7 @@ const ProductDetail: React.FC = props => {
 
           {userAccount?.type !== PACKET_TYPE_IDS.unicard && (
             <View style={[screenStyles.wraper, styles.toolItemsWraper]}>
-              <View style={[styles.sectionContainerColumn, {width: cardWidth}]}>
+              <View style={[styles.sectionContainerColumn, { width: cardWidth }]}>
                 {userAccount?.type !== PACKET_TYPE_IDS.wallet && (
                   <TouchableOpacity
                     style={styles.sectionContainerItem}
@@ -1375,13 +1374,13 @@ const ProductDetail: React.FC = props => {
                       false: colors.inputBackGround,
                       true: colors.primary,
                     }}
-                    thumbColor={isEnabled ? colors.white : colors.white}
+                    thumbColor={hrmRiskLevels.a2 ? colors.white : colors.white}
                     ios_backgroundColor={colors.inputBackGround}
-                    onValueChange={toggleHrmSwitch}
-                    value={isEnabled}
+                    onValueChange={() => toggleHrmRiskLevels({ a2: !hrmRiskLevels.a2 })}
+                    value={hrmRiskLevels.a2}
                   />
                   <Text style={styles.checkLabel}>
-                    {translate.t('orderCard.riskLevel_a1')}
+                    {translate.t('orderCard.riskLevel_a2')}
                   </Text>
                 </View>
 
@@ -1392,13 +1391,13 @@ const ProductDetail: React.FC = props => {
                       false: colors.inputBackGround,
                       true: colors.primary,
                     }}
-                    thumbColor={isEnabled2 ? colors.white : colors.white}
+                    thumbColor={hrmRiskLevels.a1 ? colors.white : colors.white}
                     ios_backgroundColor={colors.inputBackGround}
-                    onValueChange={toggleHrmSwitch2}
-                    value={isEnabled2}
+                    onValueChange={() => toggleHrmRiskLevels({ a1: !hrmRiskLevels.a1 })}
+                    value={hrmRiskLevels.a1}
                   />
                   <Text style={styles.checkLabel}>
-                    {translate.t('orderCard.riskLevel_a2')}
+                    {translate.t('orderCard.riskLevel_a1')}
                   </Text>
                 </View>
               </View>
@@ -1424,8 +1423,8 @@ const ProductDetail: React.FC = props => {
               actionSheetStatus === ACTION_SHEET_STATUSES.start
                 ? require('./../../../assets/images/info_orange.png')
                 : actionSheetStatus === ACTION_SHEET_STATUSES.succes
-                ? require('./../../../assets/images/info_green.png')
-                : require('./../../../assets/images/info_red.png')
+                  ? require('./../../../assets/images/info_green.png')
+                  : require('./../../../assets/images/info_red.png')
             }
             style={styles.actionLogo}
           />
@@ -1441,11 +1440,10 @@ const ProductDetail: React.FC = props => {
               />
             )}
             <AppButton
-              title={`${
-                actionSheetStatus === ACTION_SHEET_STATUSES.start
-                  ? translate.t('common.no')
-                  : translate.t('common.close')
-              }`}
+              title={`${actionSheetStatus === ACTION_SHEET_STATUSES.start
+                ? translate.t('common.no')
+                : translate.t('common.close')
+                }`}
               onPress={closeActionSheet}
               style={styles.actionButton}
               isLoading={actionLoading}
@@ -1515,13 +1513,12 @@ const ProductDetail: React.FC = props => {
 
           <View style={styles.actionButtons}>
             <AppButton
-              title={`${
-                actionSheetStatus === ACTION_SHEET_STATUSES.start
-                  ? translate.t('common.confirm')
-                  : actionSheetStatus === ACTION_SHEET_STATUSES.otp
+              title={`${actionSheetStatus === ACTION_SHEET_STATUSES.start
+                ? translate.t('common.confirm')
+                : actionSheetStatus === ACTION_SHEET_STATUSES.otp
                   ? translate.t('common.next')
                   : translate.t('common.close')
-              }`}
+                }`}
               isLoading={actionLoading}
               onPress={pinChangeActions}
               style={styles.actionButton}
@@ -1546,7 +1543,7 @@ const ProductDetail: React.FC = props => {
 
           <AppButton
             title={translate.t('common.next')}
-            onPress={changeConditionRisklevelUFC}
+            onPress={changeConditionRiskLevelUFC}
             style={styles.otpButton}
             isLoading={hrmLoading}
           />
@@ -1557,7 +1554,7 @@ const ProductDetail: React.FC = props => {
 };
 
 const styles = StyleSheet.create({
-  container: {backgroundColor: colors.white},
+  container: { backgroundColor: colors.white },
   cards: {
     marginTop: 32,
   },
