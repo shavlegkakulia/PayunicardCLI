@@ -34,15 +34,21 @@ const BankDetail: React.FC<IBankDetailProp> = props => {
     }, 1000);
   };
   const curLangKey = Store.getState().TranslateReduser.key;
+  console.log(curLangKey)
   return (
     <View style={style.bankItem}>
       <View
         style={{flexDirection: 'row', alignItems: 'center', marginBottom: 5}}>
         <Image
-          source={props.data.logoUrl}
+          source={
+            props.data.id === 3?
+            props.data.logoUrl[curLangKey]
+            :
+            props.data.logoUrl
+          }
           style={{
             width: props.data.id === 3 ? 40 : 30,
-            height: 30,
+            height: props.data.id === 3 ?21 : 30,
             marginRight: 10,
           }}
         />

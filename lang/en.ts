@@ -284,7 +284,8 @@ export default {
         whichAccount: 'Which Account Would You Like to Top Up',
         descriptionMandatory: 'Entering the description properly is mandatory',
         gelAccount:'Georgian Lari Account',
-        multyAccount: 'Multi Currency Account',
+        usdAccount: 'US Dollar Currency Account',
+        euroAccount: 'EURO  Currency Account',  
         withBankDescription: 'Plsease, chose the Currency and Bank of your preference. In Description field please enter your ID Number or an Account Number you would like to TopUp'
         
     },

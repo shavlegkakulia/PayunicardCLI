@@ -15,11 +15,15 @@ import {IAccountBallance, ICurrency} from '../../../services/UserService';
 import screenStyles from '../../../styles/screens';
 import {CurrencySimbolConverter, getString} from '../../../utils/Converter';
 import envs from './../../../config/env';
+import Store from '../../../redux/store';
+
+const curLangKey = Store.getState().TranslateReduser.key;
 
 interface IBankName {
   ka: string,
   en: string,
-  getName: (key: string) => string
+  getName: (key: string) => string,
+  
 }
 
 export interface IBankTransferDetails {
@@ -27,7 +31,7 @@ export interface IBankTransferDetails {
   bankName: IBankName,
   accountNumber: string,
   swiftCode: string,
-  logoUrl: ImageSourcePropType,
+  logoUrl: ImageSourcePropType | any,
 }
 
 
@@ -58,22 +62,25 @@ const GelAccountDetails: IBankTransferDetails[] = [
     swiftCode: 'TBCBGE22',
     logoUrl: require('../../../assets/images/TBC-logo.png')
   },
-  // {
-  //   id: 3,
-  //   bankName: {
-  //     ka: 'ს.ს "ვითიბი ბანკი ჯორჯია"',
-  //     en: 'JSC "VTB Bank Georgia"',
-  //     getName(key: string) {
-  //       return this[key]
-  //     }
-  //   },
-  //   accountNumber: 'GE23VT6600000000343609',
-  //   swiftCode: 'UGEBGE22',
-  //   logoUrl: require('../../../assets/images/VTB-logo.png')
-  // }
+  {
+    id: 3,
+    bankName: {
+      ka: 'ს.ს "ლიბერთი ბანკი"',
+      en: 'JSC "Liberty Bank"',
+      getName(key: string) {
+        return this[key]
+      }
+    },
+    accountNumber: 'GE70LB0113162834673006',
+    swiftCode: 'LBRTGE22',
+    logoUrl: {
+      ka: require('../../../assets/images/LB-logo-ka_ge.png'),
+      en: require('../../../assets/images/LB-logo-en_us.png')
+    } 
+  }
 ]
 
-const MultiAccountDetails: IBankTransferDetails[] = [
+const USDAccountDetails: IBankTransferDetails[] = [
   {
     id: 1,
     bankName: {
@@ -100,19 +107,67 @@ const MultiAccountDetails: IBankTransferDetails[] = [
     swiftCode: 'TBCBGE22',
     logoUrl: require('../../../assets/images/TBC-logo.png')
   },
-  // {
-  //   id: 3,
-  //   bankName: {
-  //     ka: 'ს.ს "ვითიბი ბანკი ჯორჯია"',
-  //     en: 'JSC "VTB Bank Georgia"',
-  //     getName(key: string) {
-  //       return this[key]
-  //     }
-  //   },
-  //   accountNumber: 'GE23VT6600000000343609',
-  //   swiftCode: 'UGEBGE22',
-  //   logoUrl: require('../../../assets/images/VTB-logo.png')
-  // }
+  {
+    id: 3,
+    bankName: {
+      ka: 'ს.ს "ლიბერთი ბანკი"',
+      en: 'JSC "Liberty Bank"',
+      getName(key: string) {
+        return this[key]
+      }
+    },
+    accountNumber: 'GE43LB0113162834673007',
+    swiftCode: 'LBRTGE22',
+    logoUrl: {
+      ka: require('../../../assets/images/LB-logo-ka_ge.png'),
+      en: require('../../../assets/images/LB-logo-en_us.png')
+    } 
+  }
+];
+
+const EuroAccountDetails: IBankTransferDetails[] = [
+  {
+    id: 1,
+    bankName: {
+      ka: 'ს.ს "საქართველოს ბანკი"',
+      en: 'JSC "Bank Of Georgia"',
+      getName(key: string) {
+        return this[key]
+      }
+    },
+    accountNumber: 'GE74BG0000000162455757',
+    swiftCode: 'BAGAGE22',
+    logoUrl: require('../../../assets/images/BOG-logo.png')
+  },
+  {
+    id: 2,
+    bankName: {
+      ka: 'ს.ს "საქართველოს ბანკი"',
+      en: 'JSC "TBC Bank"',
+      getName(key: string) {
+        return this[key]
+      }
+    },
+    accountNumber: 'GE57TB7251636190000001',
+    swiftCode: 'TBCBGE22',
+    logoUrl: require('../../../assets/images/TBC-logo.png')
+  },
+  {
+    id: 3,
+    bankName: {
+      ka: 'ს.ს "ლიბერთი ბანკი"',
+      en: 'JSC "Liberty Bank"',
+      getName(key: string) {
+        return this[key]
+      }
+    },
+    accountNumber: 'GE86LB0113162834673009',
+    swiftCode: 'LBRTGE22',
+    logoUrl: {
+      ka: require('../../../assets/images/LB-logo-ka_ge.png'),
+      en: require('../../../assets/images/LB-logo-en_us.png')
+    }
+  }
 ]
 
 const PaymentMethods: React.FC = () => {
@@ -169,7 +224,8 @@ const PaymentMethods: React.FC = () => {
             <Text  style={[styles.sectionTitle, {marginTop: 0}]}>{translate.t('topUp.descriptionMandatory')}</Text>
           </View>
           <BankAcountDetails title = {translate.t('topUp.gelAccount')} data ={GelAccountDetails}/>
-          <BankAcountDetails title = {translate.t('topUp.multyAccount')} data ={MultiAccountDetails}/>
+          <BankAcountDetails title = {translate.t('topUp.usdAccount')} data ={USDAccountDetails }/>
+          <BankAcountDetails title = {translate.t('topUp.euroAccount')} data ={EuroAccountDetails}/>
 
           <View style={styles.bankDetails}>
             {detailCurrencies?.map(currency => (

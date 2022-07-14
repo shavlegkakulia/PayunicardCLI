@@ -156,7 +156,7 @@ const ProductDetail: React.FC = props => {
   const [isHrmProcessing, setIsHrmProcessing] = useState<boolean>(false);
   const { documentVerificationStatusCode, customerVerificationStatusCode } =
     userData.userDetails || {};
-  const [currentHRMAction, setCurrentHRMAction] = useState<number>(0);
+ 
   const [hasAccountUsdOrEur, setHasAccountUsdOrEur] = useState<boolean>(false);
   const isUserVerified =
     documentVerificationStatusCode === userStatuses.Enum_Verified &&
