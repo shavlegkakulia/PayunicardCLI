@@ -155,7 +155,9 @@ const SignupStepTwo: React.FC = () => {
         onDateChange={() => {}}
         onConfirm={date => {
           setChooseDate(false);
-          setBirtDate(date);
+          const dt = new Date();
+          dt.setDate(date.getDate() + 1);
+          setBirtDate(Platform.OS === 'android' ? date : dt);
         }}
         onCancel={() => {
           setChooseDate(false);
