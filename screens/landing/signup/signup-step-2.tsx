@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   View,
   Text,
@@ -14,27 +14,27 @@ import {
   ITranslateState,
   IGlobalState as ITranslateGlobalState,
 } from '../../../redux/action_types/translate_action_types';
-import Appinput, {autoCapitalize} from '../../../components/UI/AppInput';
+import Appinput, { autoCapitalize } from '../../../components/UI/AppInput';
 import AppButton from '../../../components/UI/AppButton';
 import colors from '../../../constants/colors';
 import Validation, {
   email as _email,
   required,
 } from '../../../components/UI/Validation';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DatePicker from 'react-native-date-picker';
-import {formatDate} from '../../../utils/utils';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/core';
-import {tabHeight} from '../../../navigation/TabNav';
+import { formatDate } from '../../../utils/utils';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/core';
+import { tabHeight } from '../../../navigation/TabNav';
 import Routes from '../../../navigation/routes';
-import {useKeyboard} from '../../../hooks/useKeyboard';
+import { useKeyboard } from '../../../hooks/useKeyboard';
 import PresentationServive, {
   ICitizenshipCountry,
 } from '../../../services/PresentationServive';
 import AppSelect, {
   SelectItem,
 } from '../../../components/UI/AppSelect/AppSelect';
-import {EN, KA, ka_ge} from '../../../lang';
+import { EN, KA, ka_ge } from '../../../lang';
 
 const geId = 79;
 
@@ -88,7 +88,7 @@ const SignupStepTwo: React.FC = () => {
               ? [res[gIndex], ...res.filter(c => c.countryID !== geId)]
               : res;
           setCountries(filteredCountries);
-        } catch (_) {}
+        } catch (_) { }
       },
       complete: () => {
         setIsLoading(false);
@@ -98,6 +98,16 @@ const SignupStepTwo: React.FC = () => {
       },
     });
   };
+
+  const calcDateByPlatform = () => {
+    const dt = new Date(birthDate || Date.now.toString());
+    let cdt = birthDate;
+    if (Platform.OS === 'ios' && birthDate) {
+      dt.setDate(birthDate?.getDate() + 1);
+      cdt = dt;
+    }
+    return cdt || new Date();
+  }
 
   useEffect(() => {
     getCitizenshipCountries();
@@ -126,12 +136,12 @@ const SignupStepTwo: React.FC = () => {
     } else {
       setCodeErrorStyle({});
     }
-
+    const dt = calcDateByPlatform();
     navigation.navigate(Routes.SignupStepThree, {
       phone: route.params.phone,
       name: route.params.name,
       surname: route.params.surname,
-      birthDate: birthDate.toISOString(),
+      birthDate: dt?.toISOString(),
       personalId,
       userName,
       country: selectedCountry?.countryID,
@@ -152,12 +162,10 @@ const SignupStepTwo: React.FC = () => {
         maximumDate={new Date()}
         open={chooseDate}
         date={birthDate || new Date()}
-        onDateChange={() => {}}
+        onDateChange={() => { }}
         onConfirm={date => {
           setChooseDate(false);
-          const dt = new Date();
-          dt.setDate(date.getDate() + 1);
-          setBirtDate(Platform.OS === 'android' ? date : dt);
+          setBirtDate(date);
         }}
         onCancel={() => {
           setChooseDate(false);
@@ -167,12 +175,16 @@ const SignupStepTwo: React.FC = () => {
     [chooseDate],
   );
 
+  const dt = calcDateByPlatform();
+
+
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.avoid}>
       <ScrollView
-      contentContainerStyle={styles.scrollView}
+        contentContainerStyle={styles.scrollView}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps={'handled'}>
         <View style={styles.content}>
@@ -180,7 +192,7 @@ const SignupStepTwo: React.FC = () => {
             <Text
               style={[
                 styles.signupSignuptext,
-                isKeyboardOpen && {marginTop: 0, fontSize: 18},
+                isKeyboardOpen && { marginTop: 0, fontSize: 18 },
               ]}>
               {translate.t('signup.startRegister')}
             </Text>
@@ -191,8 +203,8 @@ const SignupStepTwo: React.FC = () => {
                 </Text>
 
                 <Text style={styles.birthDateValue}>
-                  {birthDate ? (
-                    formatDate(birthDate?.toString()).split('.').join('/')
+                  {dt ? (
+                    formatDate(dt?.toString()).split('.').join('/')
                   ) : (
                     <>
                       {translate.t('common.month') +
