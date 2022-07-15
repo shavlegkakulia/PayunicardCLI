@@ -82,6 +82,7 @@ import userStatuses from '../../../constants/userStatuses';
 import { tabHeight } from '../../../navigation/TabNav';
 import SmsRetriever from 'react-native-sms-retriever';
 import { EUR, USD } from '../../../constants/currencies';
+import OtpModal from '../../../components/OtpModal';
 
 type RouteParamList = {
   Account: {
@@ -1483,7 +1484,6 @@ const ProductDetail: React.FC = props => {
               </Text>
             </>
           )}
-
           {actionSheetStatus === ACTION_SHEET_STATUSES.otp && (
             <View>
               <FloatingLabelInput
@@ -1496,21 +1496,18 @@ const ProductDetail: React.FC = props => {
               />
             </View>
           )}
-
           {actionSheetStatus === ACTION_SHEET_STATUSES.succes && (
             <Image
               source={require('./../../../assets/images/info_green.png')}
               style={styles.actionLogo}
             />
           )}
-
           {actionSheetStatus === ACTION_SHEET_STATUSES.error && (
             <Image
               source={require('./../../../assets/images/info_red.png')}
               style={styles.actionLogo}
             />
           )}
-
           <View style={styles.actionButtons}>
             <AppButton
               title={`${actionSheetStatus === ACTION_SHEET_STATUSES.start
@@ -1526,29 +1523,21 @@ const ProductDetail: React.FC = props => {
           </View>
         </View>
       </ActionSheetCustom>
-      <Modal
-        visible={isHrmProcessing}
-        onRequestClose={setIsHrmProcessing.bind(this, false)}
-        animationType="slide">
-        <View style={styles.otpContent}>
-          <FloatingLabelInput
-            Style={styles.otpBox2}
-            label={translate.t('otp.smsCode')}
-            resendTitle={translate.t('otp.resend')}
-            title=""
-            value={otp}
-            onChangeText={setOtp}
-            onRetry={SendPhoneOTP}
-          />
-
-          <AppButton
-            title={translate.t('common.next')}
-            onPress={changeConditionRiskLevelUFC}
-            style={styles.otpButton}
-            isLoading={hrmLoading}
-          />
-        </View>
-      </Modal>
+      <OtpModal
+        modalVisible={isHrmProcessing}
+        otp={otp}
+        onSetOtp={setOtp}
+        onSendOTP={SendPhoneOTP}
+        onComplate={changeConditionRiskLevelUFC}
+        isLoading={hrmLoading}
+        resendTitle={translate.t('otp.resend')}
+        label={translate.t('otp.smsCode')}
+        buttonText={translate.t('common.next')}
+        onClose={() => {
+          setIsHrmProcessing.bind(this, false);
+          setOtp(undefined);
+        }}
+      />
     </DashboardLayout>
   );
 };

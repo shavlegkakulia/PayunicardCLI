@@ -26,8 +26,10 @@ import {
   UNICARD_PLUS,
   UNICARD_ULTRA,
   UPERA,
+  WALLET,
 } from '../../constants/accountTypes';
 import currencies, { GEL } from '../../constants/currencies';
+import Store from '../store';
 
 export const FetchUserDetail =
   (remember?: boolean, refetch?: boolean) => async (dispatch: any) => {
@@ -122,6 +124,7 @@ export const FetchUserAccountStatements =
   };
 
 export const FetchUserTotalBalance = () => (dispatch: any) => {
+ 
   dispatch({type: TOTAL_BALANCE_LOADING, isTotalBalanceLoading: true});
   UserService.GetUserTotalBalance().subscribe({
     next: Response => {
@@ -138,13 +141,16 @@ export const FetchUserTotalBalance = () => (dispatch: any) => {
 };
 
 export const FetchUserAccounts = () => async (dispatch: any) => {
+  const curLangKey = Store.getState().TranslateReduser.key;
   await dispatch({type: ACCOUNTS_LOADING, isAccountsLoading: true});
   let UserAccounts: IAccountBallances | {accountBallances: []};
   UserService.GetUserAccounts().subscribe({
     next: Response => {
       UserAccounts = Response?.data?.data || {accountBallances: []};
       UserAccounts?.accountBallances?.map(account => {
-        if (account.customerPaketId === 2) {
+        if(account.type === 1) {
+          account.accountTypeName = WALLET[curLangKey];
+        }else if (account.customerPaketId === 2) {
           account.accountTypeName = UPERA;
         } else if (account.customerPaketId === 3) {
           account.accountTypeName = UNICARD_PLUS;
