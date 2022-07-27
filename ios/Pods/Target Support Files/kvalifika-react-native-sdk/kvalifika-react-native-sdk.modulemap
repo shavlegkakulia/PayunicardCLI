@@ -1,6 +1,0 @@
-module kvalifika_react_native_sdk {
-  umbrella header "kvalifika-react-native-sdk-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -1,1 +1,0 @@
-../../../Target Support Files/kvalifika-react-native-sdk/kvalifika-react-native-sdk-umbrella.h

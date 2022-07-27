@@ -1,6 +1,0 @@
-module Pods_Payunicard {
-  umbrella header "Pods-Payunicard-umbrella.h"
-
-  export *
-  module * { export * }
-}
